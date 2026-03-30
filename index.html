@@ -89,10 +89,10 @@ body {
   display: inline-block; padding: 2px 10px; border-radius: 10px;
   font-size: 11px; font-weight: 600;
 }
-.brand-דור-אלון { background: #e3f2fd; color: #1565c0; }
-.brand-פז { background: #fff3e0; color: #e65100; }
-.brand-סונול { background: #e8f5e9; color: #2e7d32; }
-.brand-מיקה { background: #fce4ec; color: #c62828; }
+.brand-דור-אלון { background: #e8f5e9; color: #2e7d32; }
+.brand-פז { background: #fff8e1; color: #f9a825; }
+.brand-סונול { background: #ffebee; color: #d32f2f; }
+.brand-מיקה { background: #f3e5f5; color: #9c27b0; }
 
 .distance { color: #888; font-size: 13px; }
 
@@ -261,10 +261,11 @@ function requestLocation() {
       userLon = pos.coords.longitude;
       render();
     },
-    () => {
+    (err) => {
       showError('לא ניתנה הרשאת מיקום — התחנות מוצגות ללא מיון לפי מרחק');
       render();
-    }
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
   );
 }
 
@@ -368,7 +369,7 @@ function renderTable(list) {
 }
 
 // Map
-const brandColors = { 'פז': '#e65100', 'דורלון': '#1565c0', 'סונול': '#2e7d32', 'מיקה': '#c62828' };
+const brandColors = { 'פז': '#f9a825', 'דורלון': '#2e7d32', 'סונול': '#d32f2f', 'מיקה': '#d500f9' };
 
 function renderMap(list) {
   const mapEl = document.getElementById('map');
