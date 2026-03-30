@@ -246,28 +246,8 @@ fetch('stations.json')
     stations = data.filter(s => s.coordinates);
   });
 
-function requestLocation() {
-  const prompt = document.getElementById('locatePrompt');
-  if (prompt) prompt.innerHTML = '<div class="icon">&#128267;</div>מאתר את מיקומך...';
-
-  if (!navigator.geolocation) {
-    showError('הדפדפן לא תומך בשירותי מיקום');
-    render();
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(
-    pos => {
-      userLat = pos.coords.latitude;
-      userLon = pos.coords.longitude;
-      render();
-    },
-    (err) => {
-      showError('לא ניתנה הרשאת מיקום — התחנות מוצגות ללא מיון לפי מרחק');
-      render();
-    },
-    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-  );
-}
+// requestLocation is handled inline in the locate button click handler
+// to ensure Safari iOS recognizes the user gesture context
 
 function showError(msg) {
   const div = document.createElement('div');
@@ -460,8 +440,30 @@ document.querySelectorAll('.brand-btn').forEach(btn => {
 // Search
 document.getElementById('searchInput').addEventListener('input', () => render());
 
-// Locate button
-document.getElementById('locateBtn').addEventListener('click', () => requestLocation());
+// Locate button — Safari iOS requires geolocation call directly in the click handler
+document.getElementById('locateBtn').addEventListener('click', function() {
+  const prompt = document.getElementById('locatePrompt');
+  if (prompt) prompt.innerHTML = '<div class="icon">&#128267;</div>מאתר את מיקומך...';
+
+  if (!navigator.geolocation) {
+    showError('הדפדפן לא תומך בשירותי מיקום');
+    render();
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    function(pos) {
+      userLat = pos.coords.latitude;
+      userLon = pos.coords.longitude;
+      render();
+    },
+    function(err) {
+      showError('שגיאת מיקום (' + err.code + '): ' + (err.code === 1 ? 'הרשאה נדחתה' : err.code === 2 ? 'לא זמין' : 'זמן תם'));
+      render();
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+  );
+});
 </script>
 </body>
 </html>
