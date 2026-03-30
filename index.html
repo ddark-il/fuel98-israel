@@ -210,7 +210,7 @@ body {
   <div class="empty-state" id="locatePrompt">
     <div class="icon">&#128267;</div>
     <div>לחץ כדי לאתר תחנות קרובות</div>
-    <button class="locate-btn" onclick="requestLocation()">אתר את מיקומי</button>
+    <button class="locate-btn" id="locateBtn">אתר את מיקומי</button>
   </div>
 </div>
 
@@ -458,6 +458,9 @@ document.querySelectorAll('.brand-btn').forEach(btn => {
 
 // Search
 document.getElementById('searchInput').addEventListener('input', () => render());
+
+// Locate button
+document.getElementById('locateBtn').addEventListener('click', () => requestLocation());
 </script>
 </body>
 </html>
