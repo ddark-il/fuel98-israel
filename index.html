@@ -167,6 +167,14 @@ body {
 .empty-state { text-align: center; padding: 60px 20px; color: #999; }
 .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
 
+.locate-btn {
+  display: inline-block; margin-top: 16px;
+  padding: 12px 28px; border: none; border-radius: 8px;
+  background: #e94560; color: #fff;
+  font-size: 15px; font-weight: 600; cursor: pointer;
+}
+.locate-btn:active { transform: scale(.96); }
+
 /* ─── Desktop ─── */
 @media (min-width: 768px) {
   .content { padding: 20px; max-width: 900px; }
@@ -199,7 +207,11 @@ body {
 </div>
 
 <div id="tableView" class="content">
-  <div class="empty-state"><div class="icon">&#128267;</div>מאתר את מיקומך...</div>
+  <div class="empty-state" id="locatePrompt">
+    <div class="icon">&#128267;</div>
+    <div>לחץ כדי לאתר תחנות קרובות</div>
+    <button class="locate-btn" onclick="requestLocation()">אתר את מיקומי</button>
+  </div>
 </div>
 
 <div id="map"></div>
@@ -232,10 +244,12 @@ fetch('stations.json')
   .then(r => r.json())
   .then(data => {
     stations = data.filter(s => s.coordinates);
-    requestLocation();
   });
 
 function requestLocation() {
+  const prompt = document.getElementById('locatePrompt');
+  if (prompt) prompt.innerHTML = '<div class="icon">&#128267;</div>מאתר את מיקומך...';
+
   if (!navigator.geolocation) {
     showError('הדפדפן לא תומך בשירותי מיקום');
     render();
