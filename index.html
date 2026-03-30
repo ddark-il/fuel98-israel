@@ -440,15 +440,22 @@ document.querySelectorAll('.brand-btn').forEach(btn => {
 // Search
 document.getElementById('searchInput').addEventListener('input', () => render());
 
-// Locate button — Safari iOS requires geolocation call directly in the click handler
+// Locate button
 document.getElementById('locateBtn').addEventListener('click', function() {
-  const prompt = document.getElementById('locatePrompt');
+  var prompt = document.getElementById('locatePrompt');
   if (prompt) prompt.innerHTML = '<div class="icon">&#128267;</div>מאתר את מיקומך...';
 
   if (!navigator.geolocation) {
     showError('הדפדפן לא תומך בשירותי מיקום');
     render();
     return;
+  }
+
+  // Debug: show what permissions API says
+  if (navigator.permissions && navigator.permissions.query) {
+    navigator.permissions.query({name: 'geolocation'}).then(function(result) {
+      showError('DEBUG: permission state = ' + result.state);
+    }).catch(function(){});
   }
 
   navigator.geolocation.getCurrentPosition(
@@ -458,10 +465,11 @@ document.getElementById('locateBtn').addEventListener('click', function() {
       render();
     },
     function(err) {
-      showError('שגיאת מיקום (' + err.code + '): ' + (err.code === 1 ? 'הרשאה נדחתה' : err.code === 2 ? 'לא זמין' : 'זמן תם'));
+      var msgs = {1: 'הרשאה נדחתה', 2: 'מיקום לא זמין', 3: 'זמן תם'};
+      showError('שגיאה ' + err.code + ': ' + (msgs[err.code] || err.message) + ' | secure: ' + location.protocol + ' | UA: ' + navigator.userAgent.slice(-40));
       render();
     },
-    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }
   );
 });
 </script>
