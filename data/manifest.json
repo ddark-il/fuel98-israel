@@ -1,0 +1,22 @@
+{
+  "files": [
+    "doralon.json",
+    "paz.json",
+    "sonol.json",
+    "mika.json",
+    "delek.json",
+    "tapuz.json",
+    "yaad.json",
+    "others.json"
+  ],
+  "brands": {
+    "דורלון": "doralon.json",
+    "פז": "paz.json",
+    "סונול": "sonol.json",
+    "מיקה": "mika.json",
+    "דלק": "delek.json",
+    "תפוז": "tapuz.json",
+    "יעד": "yaad.json",
+    "שיא אנרגיה": "others.json"
+  }
+}

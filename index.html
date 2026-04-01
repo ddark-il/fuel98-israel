@@ -92,6 +92,10 @@ body {
 .brand-פז { background: #fff8e1; color: #f9a825; }
 .brand-סונול { background: #ffebee; color: #d32f2f; }
 .brand-מיקה { background: #f3e5f5; color: #9c27b0; }
+.brand-דלק { background: #e3f2fd; color: #1565c0; }
+.brand-תפוז { background: #fff3e0; color: #ef6c00; }
+.brand-יעד { background: #e0f2f1; color: #00796b; }
+.brand-אחר { background: #f5f5f5; color: #616161; }
 
 .distance { color: #888; font-size: 13px; }
 
@@ -213,9 +217,12 @@ body {
 <div class="brand-filters">
   <button class="brand-btn active" data-brand="all">הכל</button>
   <button class="brand-btn" data-brand="פז">פז</button>
-  <button class="brand-btn" data-brand="דור אלון">דור אלון</button>
+  <button class="brand-btn" data-brand="דורלון">דור אלון</button>
+  <button class="brand-btn" data-brand="דלק">דלק</button>
   <button class="brand-btn" data-brand="סונול">סונול</button>
   <button class="brand-btn" data-brand="מיקה">מיקה</button>
+  <button class="brand-btn" data-brand="תפוז">תפוז</button>
+  <button class="brand-btn" data-brand="יעד">יעד</button>
 </div>
 
 <div id="tableView" class="content">
@@ -250,18 +257,28 @@ let map = null, markers = [], userMarker = null;
 // Remap brand names for display
 function displayBrand(brand) {
   if (brand === 'דורלון') return 'דור אלון';
+  if (brand === 'שיא אנרגיה') return 'אחר';
   return brand;
 }
 
 function brandClass(brand) {
   if (brand === 'דורלון') return 'דור-אלון';
+  if (brand === 'שיא אנרגיה') return 'אחר';
   return brand;
 }
 
-fetch('stations.json')
-  .then(r => r.json())
-  .then(data => {
-    stations = data.filter(s => s.coordinates);
+// Load all brand files via manifest
+fetch('data/manifest.json')
+  .then(function(r) { return r.json(); })
+  .then(function(manifest) {
+    return Promise.all(
+      manifest.files.map(function(f) {
+        return fetch('data/' + f).then(function(r) { return r.json(); });
+      })
+    );
+  })
+  .then(function(arrays) {
+    stations = [].concat.apply([], arrays).filter(function(s) { return s.coordinates; });
   });
 
 // requestLocation is handled inline in the locate button click handler
@@ -286,10 +303,7 @@ function haversine(lat1, lon1, lat2, lon2) {
 function getFiltered() {
   const query = document.getElementById('searchInput').value.trim().toLowerCase();
   let list = [...stations];
-  if (currentBrand !== 'all') list = list.filter(s => {
-    if (currentBrand === 'דור אלון') return s.brand === 'דורלון';
-    return s.brand === currentBrand;
-  });
+  if (currentBrand !== 'all') list = list.filter(s => s.brand === currentBrand);
   if (query) list = list.filter(s =>
     s.name.toLowerCase().includes(query) ||
     displayBrand(s.brand).toLowerCase().includes(query) ||
@@ -367,7 +381,10 @@ function renderTable(list) {
 }
 
 // Map
-const brandColors = { 'פז': '#f9a825', 'דורלון': '#2e7d32', 'סונול': '#d32f2f', 'מיקה': '#d500f9' };
+const brandColors = {
+  'פז': '#f9a825', 'דורלון': '#2e7d32', 'סונול': '#d32f2f', 'מיקה': '#d500f9',
+  'דלק': '#1565c0', 'תפוז': '#ef6c00', 'יעד': '#00796b', 'שיא אנרגיה': '#616161'
+};
 
 function renderMap(list) {
   const mapEl = document.getElementById('map');
