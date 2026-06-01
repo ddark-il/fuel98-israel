@@ -2,7 +2,7 @@
 
 A simple map + list of fuel stations in Israel that sell **98-octane** petrol (בנזין 98 / Super 98).
 
-🔗 **Live:** https://www.delek98.com/
+🔗 **Live:** https://delek98.com/
 
 Search by name or city, filter by brand, sort by distance from your location, and open any station directly in Waze.
 
