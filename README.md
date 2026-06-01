@@ -31,7 +31,7 @@ Stations are cross-checked against the Israeli Ministry of Energy's [substandard
 
 A flag is raised for **any** fuel type — petrol, diesel, or LPG — because 98-octane engines are especially sensitive to bad fuel, so a quality failure anywhere at the station is worth surfacing.
 
-This runs automatically: the [`Check fuel-quality violations`](.github/workflows/check-violations.yml) GitHub Action fetches the Ministry list daily, matches it against our stations (`scripts/check-violations.mjs`), and commits the result to `data/violations.json`. Matching is by geocoded coordinate — robust with a `MAPS_API_KEY` repo secret (Google Places), falling back to Nominatim (street addresses) without one.
+To refresh, run `node scripts/check-violations.mjs` (it rewrites `data/violations.json`) and commit. **It must run from an Israeli IP** — the Ministry API is geo-restricted and rejects requests from outside Israel (so GitHub-hosted Actions can't reach it; this is a manual/local step). Matching is by geocoded coordinate, using Google Places if `MAPS_API_KEY` is set in the environment, otherwise Nominatim (clean street addresses only).
 
 ## Project structure
 
@@ -48,14 +48,12 @@ data/
   violations.json   # stations to flag ⚠️ (auto-generated, see below)
 index.html          # the whole app: Leaflet map + list, brand filters, geolocation, Waze links
 scripts/
-  check-violations.mjs           # cross-checks the Ministry substandard-fuel list (no deps)
-.github/workflows/
-  check-violations.yml           # runs the check daily, commits data/violations.json
+  check-violations.mjs           # cross-checks the Ministry substandard-fuel list (run manually, no deps)
 ```
 
 No build step — it's a static site. `index.html` fetches `data/manifest.json`, loads each brand file plus `data/violations.json`, and renders the map (Leaflet + OpenStreetMap tiles) and list. Because it uses `fetch()`, it must be served over HTTP (a `file://` open will load no stations); GitHub Pages serves it correctly.
 
-The **station scrapers** that generate the per-brand data live **outside** this repository (in the parent project). The only in-repo automation is the fuel-quality check above, which enriches the existing data with flags.
+The **station scrapers** that generate the per-brand data live **outside** this repository (in the parent project). The fuel-quality check (`scripts/check-violations.mjs`) is run manually from an Israeli IP — it can't run in CI because the Ministry API is geo-restricted. This repo holds the published data + frontend, plus that one helper script.
 
 ## License
 
