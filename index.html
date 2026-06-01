@@ -2,12 +2,62 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Permissions-Policy" content="geolocation=self">
-<title>תחנות דלק 98</title>
+
+<title>תחנות דלק 98 (בנזין 98) בישראל — מפה וחיפוש לפי עיר</title>
+<meta name="description" content="מאתר תחנות דלק עם בנזין 98 (אוקטן 98) בכל הארץ — חיפוש לפי עיר, מפה וניווט בוויז. פז, סונול, דור אלון, דלק, מיקה, תפוז ועוד.">
+<link rel="canonical" href="https://delek98.com/">
+<meta name="theme-color" content="#1a1a2e">
+
+<!-- Open Graph / social sharing (WhatsApp, Facebook, Twitter) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="תחנות דלק 98">
+<meta property="og:title" content="תחנות דלק 98 (בנזין 98) בישראל">
+<meta property="og:description" content="מאתר תחנות דלק עם בנזין 98 בכל הארץ — חיפוש לפי עיר, מפה וניווט בוויז.">
+<meta property="og:url" content="https://delek98.com/">
+<meta property="og:locale" content="he_IL">
+<meta property="og:image" content="https://delek98.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="תחנות דלק 98 (בנזין 98) בישראל">
+<meta name="twitter:description" content="מאתר תחנות דלק עם בנזין 98 בכל הארץ — חיפוש לפי עיר, מפה וניווט בוויז.">
+<meta name="twitter:image" content="https://delek98.com/og-image.png">
+
+<!-- Icons / PWA -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="דלק 98">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "תחנות דלק 98",
+  "url": "https://delek98.com/",
+  "inLanguage": "he-IL",
+  "description": "מאתר תחנות דלק עם בנזין 98 (אוקטן 98) בכל הארץ.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": { "@type": "EntryPoint", "urlTemplate": "https://delek98.com/?q={search_term_string}" },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link rel="preconnect" href="https://tile.openstreetmap.org">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: #f5f5f5; color: #333;
@@ -102,7 +152,7 @@ body {
 .waze-btn {
   display: flex; align-items: center; justify-content: center;
   width: 44px; height: 44px; border-radius: 50%;
-  background: #30b6ff; text-decoration: none;
+  background: #1a1a2e; text-decoration: none;
   flex-shrink: 0; transition: transform .15s;
   overflow: hidden;
 }
@@ -116,13 +166,23 @@ body {
 .station-table tr:hover { background: #f8f8ff; }
 .waze-link {
   display: inline-flex; align-items: center; gap: 6px;
-  color: #30b6ff; text-decoration: none; font-weight: 600; font-size: 13px;
+  color: #1a1a2e; text-decoration: none; font-weight: 600; font-size: 13px;
 }
 .waze-link img { width: 20px; height: 20px; }
 .waze-link:hover { text-decoration: underline; }
 
 /* ─── Map ─── */
 #map { height: calc(100vh - 140px); height: calc(100dvh - 140px); width: 100%; display: none; }
+
+/* ─── Map popup — match the card style ─── */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 2px 14px rgba(0,0,0,.18);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.leaflet-popup-content { font-size: 14px; }
+.leaflet-popup-close-button { color: #aaa !important; }
+.leaflet-popup-close-button:hover { color: #1a1a2e !important; }
 
 /* ─── User location marker ─── */
 .user-location-marker {
@@ -205,6 +265,259 @@ body {
 </style>
 </head>
 <body>
+<h1 class="visually-hidden">תחנות דלק 98 בישראל — בנזין 98 (אוקטן 98), חיפוש לפי עיר ומפה</h1>
+<!-- seo-noscript:start -->
+<noscript>
+<h2>תחנות דלק 98 (בנזין 98) בישראל — לפי עיר</h2>
+<p>רשימת תחנות הדלק המספקות בנזין 98 (אוקטן 98) בכל הארץ, מסודרות לפי עיר וחברה.</p>
+<h3>תחנות דלק 98 באבן יהודה</h3>
+<ul><li>דור אלון — תל יצחק</li></ul>
+<h3>תחנות דלק 98 באור יהודה</h3>
+<ul><li>דור אלון — אור יהודה</li><li>פז — פז אור יהודה</li></ul>
+<h3>תחנות דלק 98 באילת</h3>
+<ul><li>מיקה — אילת</li><li>סונול — לירי אילת</li><li>סונול — שדה תעופה רמון</li><li>פז — לשם אילת</li></ul>
+<h3>תחנות דלק 98 באעבלין</h3>
+<ul><li>פז — מצפה אביב</li></ul>
+<h3>תחנות דלק 98 באריאל</h3>
+<ul><li>פז — אריאל</li></ul>
+<h3>תחנות דלק 98 באשדוד</h3>
+<ul><li>דור אלון — אשדוד אורט</li><li>דור אלון — אשדוד רום שפר</li><li>מיקה — הקידמה אשדוד</li><li>סונול — עד הלום</li><li>תפוז — אשדוד בן גוריון</li></ul>
+<h3>תחנות דלק 98 באשקלון</h3>
+<ul><li>דור אלון — אשקלון עמיצור</li><li>דלק — אשקלון</li><li>מיקה — אשקלון</li><li>מיקה — הדרי אשקלון</li><li>פז — אשקלון דרום</li><li>פז — שמשונים</li></ul>
+<h3>תחנות דלק 98 בבאר יעקב</h3>
+<ul><li>סונול — שלמה צריפין - שומרת שבת</li></ul>
+<h3>תחנות דלק 98 בבאר שבע</h3>
+<ul><li>פז — הנשיאים</li></ul>
+<h3>תחנות דלק 98 בבאר-שבע</h3>
+<ul><li>סונול — בן גוריון</li><li>פז — באר שבע צפון</li><li>פז — פז בר</li><li>תפוז — באר שבע חברון</li></ul>
+<h3>תחנות דלק 98 בבית יצחק - שער חפר</h3>
+<ul><li>פז — זך רופין</li></ul>
+<h3>תחנות דלק 98 בבית שאן</h3>
+<ul><li>מיקה — בית שאן</li></ul>
+<h3>תחנות דלק 98 בבית שמש</h3>
+<ul><li>פז — בית שמש</li></ul>
+<h3>תחנות דלק 98 בבני ברק</h3>
+<ul><li>דור אלון — בני ברק האיצטדיון</li><li>דלק — בני ברק</li><li>פז — יציב</li></ul>
+<h3>תחנות דלק 98 בבנימינה - גבעת עדה</h3>
+<ul><li>דור אלון — בנימינה מערב</li></ul>
+<h3>תחנות דלק 98 בבת ים</h3>
+<ul><li>דור אלון — בת ים הילי</li><li>סונול — קוממיות</li></ul>
+<h3>תחנות דלק 98 בג&#x27;דיידה-מכר</h3>
+<ul><li>פז — ג&#x27;דיידה</li></ul>
+<h3>תחנות דלק 98 בגבעת עדה</h3>
+<ul><li>סונול — מפגש עדה</li></ul>
+<h3>תחנות דלק 98 בגבעת שמואל</h3>
+<ul><li>פז — אורלי גהה</li></ul>
+<h3>תחנות דלק 98 בגבעתיים</h3>
+<ul><li>פז — אלוף שדה</li></ul>
+<h3>תחנות דלק 98 בגדרה</h3>
+<ul><li>פז — פז גדרה</li></ul>
+<h3>תחנות דלק 98 בדיר חנא</h3>
+<ul><li>סונול — דיר חנא</li></ul>
+<h3>תחנות דלק 98 בהוד השרון</h3>
+<ul><li>דלק — הוד השרון</li></ul>
+<h3>תחנות דלק 98 בהרצליה</h3>
+<ul><li>סונול — אילוש</li><li>פז — אשל הרצליה</li><li>פז — רונית</li></ul>
+<h3>תחנות דלק 98 בזכרון יעקב</h3>
+<ul><li>סונול — זכרון יעקב</li></ul>
+<h3>תחנות דלק 98 בחבצלת</h3>
+<ul><li>סונול — סונול מיקה רחובות - שומרת שבת</li></ul>
+<h3>תחנות דלק 98 בחבצלת השרון</h3>
+<ul><li>דור אלון — חבצלת השרון</li></ul>
+<h3>תחנות דלק 98 בחדרה</h3>
+<ul><li>דור אלון — חדרה מזרח</li><li>דור אלון — סופר פרונט חדרה</li><li>דלק — מפגש אולגה</li><li>סונול — חדרה העיר</li></ul>
+<h3>תחנות דלק 98 בחולון</h3>
+<ul><li>דור אלון — חולון דרך השבעה</li><li>דלק — שערי חולון</li><li>מיקה — הפלד</li><li>מיקה — וולפסון</li><li>סונול — המלאכה</li><li>פז — הסיירים</li><li>פז — חולון</li></ul>
+<h3>תחנות דלק 98 בחיפה</h3>
+<ul><li>דור אלון — חיפה גרנד קניון</li><li>דור אלון — חיפה עוקף קריות</li><li>דור אלון — חיפה שד&#x27; ההסתדרות</li><li>דור אלון — חיפה שערי חיפה</li><li>מיקה — חיפה</li><li>סונול — דניה</li><li>סונול — שער העליה</li><li>פז — הר הכרמל</li><li>פז — לב המפרץ</li><li>פז — קייט ונופש</li><li>תפוז — חיפה</li><li>תפוז — קריית חיים</li></ul>
+<h3>תחנות דלק 98 בטבריה</h3>
+<ul><li>מיקה — טבריה</li></ul>
+<h3>תחנות דלק 98 בטורעאן</h3>
+<ul><li>סונול — המשתלה בית חי</li></ul>
+<h3>תחנות דלק 98 בטייבה</h3>
+<ul><li>פז — שער השרון</li></ul>
+<h3>תחנות דלק 98 בטירה</h3>
+<ul><li>פז — טירה</li></ul>
+<h3>תחנות דלק 98 בטירת כרמל</h3>
+<ul><li>דור אלון — טירת הכרמל</li></ul>
+<h3>תחנות דלק 98 בטמרה</h3>
+<ul><li>סונול — מבואות תמרה</li><li>סונול — מפגש תמרה 70</li></ul>
+<h3>תחנות דלק 98 ביבנה</h3>
+<ul><li>דור אלון — יבנה מתנ&quot;ח</li><li>פז — רשף יבנה</li></ul>
+<h3>תחנות דלק 98 ביהוד מונוסון</h3>
+<ul><li>דור אלון — יהוד</li><li>דלק — יהוד</li></ul>
+<h3>תחנות דלק 98 ביקנעם עילית</h3>
+<ul><li>דור אלון — יקנעם</li></ul>
+<h3>תחנות דלק 98 בירושלים</h3>
+<ul><li>אחר — יעד האומן ירושלים</li><li>דור אלון — ירושלים גינות סחרוב</li><li>דור אלון — ירושלים הרכבים</li><li>דלק — הסדנא</li><li>דלק — ניות</li><li>מיקה — גן הפעמון</li><li>מיקה — עתידים</li><li>סונול — גן הפעמון</li><li>סונול — קלנדיה</li><li>פז — אלנבי</li><li>פז — בר-כוכבא</li><li>פז — גבעת שאול</li><li>פז — דרך המנהרות</li><li>פז — המלך דוד</li><li>פז — כנפי נשרים</li><li>פז — מנדלבאום</li><li>פז — רמות</li><li>פז — רמת דניה</li><li>פז — תחנת מוזיאון ירושלים</li></ul>
+<h3>תחנות דלק 98 בירכא</h3>
+<ul><li>דור אלון — ירכא</li><li>סונול — ירכא</li></ul>
+<h3>תחנות דלק 98 בכווכב אבו אל-היג&#x27;א</h3>
+<ul><li>סונול — כאוכב</li></ul>
+<h3>תחנות דלק 98 בכפר ויתקין</h3>
+<ul><li>פז — חופית</li></ul>
+<h3>תחנות דלק 98 בכפר יונה</h3>
+<ul><li>דור אלון — כפר יונה</li><li>סונול — כפר יונה</li></ul>
+<h3>תחנות דלק 98 בכפר כמא</h3>
+<ul><li>סונול — כפר קמא</li></ul>
+<h3>תחנות דלק 98 בכפר כנא</h3>
+<ul><li>סונול — כפר כנא</li><li>פז — כפר כנא</li></ul>
+<h3>תחנות דלק 98 בכפר סבא</h3>
+<ul><li>דור אלון — כפר סבא</li><li>דלק — דורון כפר סבא</li><li>סונול — צומת רעננה הברוש</li><li>פז — אצטדיון כפר סבא</li><li>פז — שרונים</li></ul>
+<h3>תחנות דלק 98 בכפר קאסם</h3>
+<ul><li>סונול — כפר קאסם</li><li>פז — ראש העין אפק</li></ul>
+<h3>תחנות דלק 98 בכפר קרע</h3>
+<ul><li>פז — גיא-עירון</li></ul>
+<h3>תחנות דלק 98 בכפר רות</h3>
+<ul><li>סונול — שילת</li></ul>
+<h3>תחנות דלק 98 בכרמיאל</h3>
+<ul><li>דור אלון — כרמיאל</li><li>מיקה — כרמיאל</li><li>סונול — כרמיאל א.ת.</li><li>פז — כרמיאל מערב</li></ul>
+<h3>תחנות דלק 98 בלוד</h3>
+<ul><li>אחר — יעד שלמה המלך לוד</li><li>פז — לוד ויסוצקי</li></ul>
+<h3>תחנות דלק 98 במבוא מודיעים</h3>
+<ul><li>דלק — ארז מודיעין</li></ul>
+<h3>תחנות דלק 98 במבשרת ציון</h3>
+<ul><li>דלק — מבשרת ציון</li><li>סונול — מעוז ציון - שומרת שבת</li><li>פז — מבשרת  ירושלים</li></ul>
+<h3>תחנות דלק 98 במג&#x27;ד אל כרום</h3>
+<ul><li>דור אלון — בקעת בית הכרם (מג&#x27;דל כרום)</li><li>דור אלון — גילון</li></ul>
+<h3>תחנות דלק 98 במגדל</h3>
+<ul><li>דור אלון — מרר בלעוס</li><li>מיקה — מגדל</li></ul>
+<h3>תחנות דלק 98 במודיעין-מכבים-רעות</h3>
+<ul><li>מיקה — מודיעין</li><li>פז — מודיעין הראל דרך צור</li><li>פז — מודיעין ליגד</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית באר טוביה</h3>
+<ul><li>מיקה — באר טוביה</li><li>פז — עד הלום</li><li>תפוז — עד הלום אשדוד</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית בוסתן-אל-מרג&#x27;</h3>
+<ul><li>דלק — נין התבור</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית בני שמעון</h3>
+<ul><li>דור אלון — דבירה</li><li>פז — פז השקמה</li><li>פז — שוקת</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית ברנר</h3>
+<ul><li>פז — נויה</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית גלבוע</h3>
+<ul><li>דור אלון — יזרעאל</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית גליל עליון</h3>
+<ul><li>דור אלון — גן הצפון</li><li>דור אלון — עמיעד</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית גליל תחתון</h3>
+<ul><li>סונול — שדה עמודים</li><li>פז — מצפה טורען</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית זבולון</h3>
+<ul><li>סונול — כפר חסידים - שומרת שבת</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית חבל יבנה</h3>
+<ul><li>פז — ניר גלים</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית חוף אשקלון</h3>
+<ul><li>סונול — בית שיקמה</li><li>פז — סילבר</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית חוף הכרמל</h3>
+<ul><li>דלק — וואדי מלק</li><li>סונול — עתלית</li><li>פז — קיסריה</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית מבואות החרמון</h3>
+<ul><li>פז — צומת כח</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית מגידו</h3>
+<ul><li>דור אלון — גבעת עוז</li><li>סונול — שער הכרמל</li><li>פז — תענכים</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית מטה אשר</h3>
+<ul><li>דור אלון — גשר הזיו</li><li>דור אלון — יסעור</li><li>סונול — רגבה</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית מטה יהודה</h3>
+<ul><li>דלק — נווה אילן</li><li>דלק — נחשון</li><li>סונול — הנשיא</li><li>פז — מסילת ציון</li><li>פז — צומת האלה</li><li>פז — שואבה</li><li>פז — שער הגיא</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית מנשה</h3>
+<ul><li>דור אלון — מגל מזרח (מדרום לצפון)</li><li>דור אלון — מגל מערב (מצפון לדרום)</li><li>דלק — מצר</li><li>סונול — מאור</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית מרום הגליל</h3>
+<ul><li>דור אלון — צומת חנניה</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית מרחבים</h3>
+<ul><li>תפוז — מבועים</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית עמק הירדן</h3>
+<ul><li>פז — צמח</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית עמק יזרעאל</h3>
+<ul><li>דלק — אלונים</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית שדות נגב</h3>
+<ul><li>תפוז — צומת בית הגדי</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית שפיר</h3>
+<ul><li>סונול — פלוגות</li></ul>
+<h3>תחנות דלק 98 במועצה אזורית תמר</h3>
+<ul><li>סונול — עין בוקק</li></ul>
+<h3>תחנות דלק 98 במזכרת בתיה</h3>
+<ul><li>דלק — מזכרת בתיה</li></ul>
+<h3>תחנות דלק 98 במסעדה</h3>
+<ul><li>סונול — מסעדה חוצות חרמון</li></ul>
+<h3>תחנות דלק 98 במעלה אדומים</h3>
+<ul><li>פז — מישור אדומים</li></ul>
+<h3>תחנות דלק 98 במעלה אפרים</h3>
+<ul><li>סונול — מעלה אפריים</li></ul>
+<h3>תחנות דלק 98 במעלות תרשיחא</h3>
+<ul><li>דור אלון — מעלות העיר</li><li>פז — מעלות</li></ul>
+<h3>תחנות דלק 98 במקמאן</h3>
+<ul><li>פז — ביר אל מכסור</li></ul>
+<h3>תחנות דלק 98 במשהד</h3>
+<ul><li>דור אלון — ציפורית</li></ul>
+<h3>תחנות דלק 98 בנהריה</h3>
+<ul><li>אחר — נהריה</li><li>דור אלון — נהריה</li><li>פז — נהריה</li><li>פז — נהריה לוחמי הגטאות.</li></ul>
+<h3>תחנות דלק 98 בנחף</h3>
+<ul><li>דלק — גל כרמיאל</li></ul>
+<h3>תחנות דלק 98 בנס ציונה</h3>
+<ul><li>אחר — יעד נס ציונה</li><li>דלק — נס ציונה</li></ul>
+<h3>תחנות דלק 98 בנצרת</h3>
+<ul><li>סונול — נצרת בוסתן 1</li><li>פז — ביר אל אמיר</li><li>פז — עוקף נצרת</li></ul>
+<h3>תחנות דלק 98 בנתיבות</h3>
+<ul><li>מיקה — נתיבות</li></ul>
+<h3>תחנות דלק 98 בנתניה</h3>
+<ul><li>דור אלון — נתניה עיר ימים</li><li>דור אלון — נתניה קרית השרון</li><li>דלק — גל נתניה</li><li>מיקה — ביאליק</li><li>סונול — לב היהלום</li><li>סונול — פולג גיבורי ישראל</li><li>פז — צומת נתניה</li><li>תפוז — נתניה</li></ul>
+<h3>תחנות דלק 98 בסביון</h3>
+<ul><li>פז — סביון</li></ul>
+<h3>תחנות דלק 98 בעוספייא</h3>
+<ul><li>פז — עוספיה</li></ul>
+<h3>תחנות דלק 98 בעכו</h3>
+<ul><li>דור אלון — עכו</li><li>דלק — עכו</li><li>פז — עכו עיר</li></ul>
+<h3>תחנות דלק 98 בעלוט</h3>
+<ul><li>דור אלון — עילוט</li></ul>
+<h3>תחנות דלק 98 בעספיא</h3>
+<ul><li>אחר — יעד עספיא</li></ul>
+<h3>תחנות דלק 98 בעפולה</h3>
+<ul><li>תפוז — עפולה החשמל</li><li>תפוז — עפולה העמק</li></ul>
+<h3>תחנות דלק 98 בערב א-רמאד&#x27;ין אל-ג&#x27;נובי</h3>
+<ul><li>פז — טל עופרה</li></ul>
+<h3>תחנות דלק 98 בערד</h3>
+<ul><li>דור אלון — ערד</li></ul>
+<h3>תחנות דלק 98 בפקיעין מערבית</h3>
+<ul><li>פז — פקיעין</li></ul>
+<h3>תחנות דלק 98 בפרדס חנה - כרכור</h3>
+<ul><li>סונול — עירון</li><li>סונול — פרדס חנה</li></ul>
+<h3>תחנות דלק 98 בפתח תקווה</h3>
+<ul><li>דור אלון — פתח תקוה בלינסון (ד&quot;ש)</li><li>מיקה — גיסין</li><li>מיקה — פתח תקווה</li><li>סונול — אור בגבעה - שומרת שבת</li><li>סונול — גיסין</li><li>סונול — ירקונים</li><li>סונול — סונול מיקה פתח תקווה</li><li>פז — אצטדיון פתח תקווה</li><li>פז — געש</li><li>פז — נווה עוז</li><li>פז — שיאונה</li><li>תפוז — פתח תקווה</li></ul>
+<h3>תחנות דלק 98 בקדימה - צורן</h3>
+<ul><li>פז — קדימה</li></ul>
+<h3>תחנות דלק 98 בקרית אתא</h3>
+<ul><li>דור אלון — שער הצפון</li></ul>
+<h3>תחנות דלק 98 בקרית ביאליק</h3>
+<ul><li>סונול — קריון</li></ul>
+<h3>תחנות דלק 98 בקרית ההגנה</h3>
+<ul><li>סונול — סתריה</li></ul>
+<h3>תחנות דלק 98 בקרית עקרון</h3>
+<ul><li>פז — קרית עקרון</li></ul>
+<h3>תחנות דלק 98 בקרית שמונה</h3>
+<ul><li>פז — קרית שמונה</li></ul>
+<h3>תחנות דלק 98 בראש העין</h3>
+<ul><li>דלק — פארק אפק</li></ul>
+<h3>תחנות דלק 98 בראשון לציון</h3>
+<ul><li>אחר — המפרש ראשון לציון</li><li>אחר — יעד שיא אנרגיה לזרוב ראשון לציון</li><li>דור אלון — בית דגן</li><li>דור אלון — ראשל&quot;צ מזרח</li><li>דור אלון — ראשל&quot;צ שפירא</li><li>דלק — מבואות ראשון</li><li>מיקה — אליאן</li><li>מיקה — יהונתן</li><li>מיקה — עומר</li><li>מיקה — פריימן</li><li>מיקה — ראשון</li><li>סונול — דנה</li><li>סונול — סונול מיקה ראשון לציון</li><li>סונול — עמי</li><li>פז — אביאל (סופרלנד)</li><li>פז — גילי</li><li>פז — היונה</li><li>פז — מנחם</li><li>פז — מערב ראשון</li><li>פז — נחלת יהודה</li></ul>
+<h3>תחנות דלק 98 ברחובות</h3>
+<ul><li>דור אלון — רחובות האצ&quot;ל</li><li>מיקה — רום רחובות</li><li>מיקה — רחובות</li><li>סונול — רום רחובות - שומרת שבת</li><li>פז — פז &quot;משה&quot;</li><li>פז — רמה רחובות</li></ul>
+<h3>תחנות דלק 98 ברמלה</h3>
+<ul><li>דלק — צומת רמלה</li></ul>
+<h3>תחנות דלק 98 ברמת גן</h3>
+<ul><li>דור אלון — רמת גן אבא הלל</li><li>דלק — שלם רמת גן</li><li>סונול — מכבים</li><li>פז — עוז רמת גן</li><li>פז — רמה רמת גן</li></ul>
+<h3>תחנות דלק 98 ברמת הדסה</h3>
+<ul><li>פז — טבעון</li></ul>
+<h3>תחנות דלק 98 ברמת השרון</h3>
+<ul><li>דלק — רמת השרון</li><li>סונול — החוף</li><li>פז — טופז</li></ul>
+<h3>תחנות דלק 98 ברעננה</h3>
+<ul><li>אחר — יעד היצירה רעננה</li><li>פז — הנופר</li></ul>
+<h3>תחנות דלק 98 בשדרות</h3>
+<ul><li>תפוז — שדרות</li><li>תפוז — שדרות חופית</li></ul>
+<h3>תחנות דלק 98 בשוהם</h3>
+<ul><li>סונול — שוהם</li></ul>
+<h3>תחנות דלק 98 בשפרעם</h3>
+<ul><li>סונול — צומת עדי</li><li>סונול — שפרעם</li></ul>
+<h3>תחנות דלק 98 בתל אביב-יפו</h3>
+<ul><li>דור אלון — תל אביב דרך נמיר</li><li>דור אלון — תל אביב המסגר</li><li>דלק — תל אביב יגאל אלון</li><li>סונול — איילון</li><li>סונול — גני התערוכה</li><li>סונול — יגאל אלון</li><li>סונול — משגב</li><li>פז — השלום</li><li>פז — טל הגשר</li><li>פז — ירמיהו</li><li>פז — מויאל</li><li>פז — פז גן</li><li>פז — קיבוץ גלויות</li><li>פז — שדרות בן צבי</li></ul>
+<h3>תחנות דלק 98 נוספות</h3>
+<ul><li>דור אלון — געש צומת ספרים</li><li>דור אלון — יקום</li><li>דור אלון — נווה ירק</li><li>דור אלון — נען מזרח (מדרום לצפון)</li><li>דור אלון — נען מערב(מצפון לדרום)</li><li>דור אלון — נתב&quot;ג</li><li>דור אלון — עינת</li><li>דור אלון — שדי חמד</li><li>דלק — חורשים</li><li>דלק — תל מונד</li><li>סונול — אשל השומרון</li><li>סונול — בית חורון</li><li>סונול — ביתן אהרון</li><li>פז — אלישמע</li><li>פז — בית יצחק</li><li>פז — כוכב יאיר</li></ul>
+</noscript>
+<!-- seo-noscript:end -->
 
 <div class="tabs">
   <div class="tab active" data-view="table">רשימה</div>
@@ -231,7 +544,7 @@ body {
 
 <div id="tableView" class="content">
   <div class="empty-state" id="locatePrompt">
-    <div class="icon">&#128267;</div>
+    <div class="icon"><img src="favicon.svg" width="64" height="64" alt=""></div>
     <div>לחץ כדי לאתר תחנות קרובות</div>
     <button class="locate-btn" id="locateBtn">אתר את מיקומי</button>
     <div class="or-divider">או הזן עיר/כתובת</div>
@@ -250,8 +563,8 @@ body {
 
 <!-- Waze icon as inline SVG data URI -->
 <script>
-const WAZE_ICON_WHITE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M20.54 6.63c-1.19-4.28-5.56-7.09-9.95-6.4C6.72.91 3.42 3.72 2.5 7.5c-.61 2.52-.27 5.04.68 7.2-.49.76-.68 1.63-.49 2.55.22 1.03.93 1.88 1.89 2.3.42.18.85.27 1.28.27.47 0 .93-.12 1.36-.35 1.38.76 2.9 1.15 4.43 1.15.44 0 .88-.03 1.31-.09 3.34-.49 6.2-2.81 7.32-5.96.58-1.62.72-3.37.37-5.05-.05-.22-.09-.43-.15-.64l-.06-.25zM7.5 12.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm5.5 3.5c-1.24 0-2.38-.54-3.16-1.42-.2-.23-.18-.58.05-.78.23-.2.58-.18.78.05.56.63 1.37 1 2.22 1.05.9.01 1.77-.35 2.36-1.02.22-.24.57-.26.8-.04.24.22.26.57.04.8-.82.89-1.96 1.38-3.17 1.38l-.03-.02h.11zm1-3.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>');
-const WAZE_ICON_BLUE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2330b6ff"><path d="M20.54 6.63c-1.19-4.28-5.56-7.09-9.95-6.4C6.72.91 3.42 3.72 2.5 7.5c-.61 2.52-.27 5.04.68 7.2-.49.76-.68 1.63-.49 2.55.22 1.03.93 1.88 1.89 2.3.42.18.85.27 1.28.27.47 0 .93-.12 1.36-.35 1.38.76 2.9 1.15 4.43 1.15.44 0 .88-.03 1.31-.09 3.34-.49 6.2-2.81 7.32-5.96.58-1.62.72-3.37.37-5.05-.05-.22-.09-.43-.15-.64l-.06-.25zM7.5 12.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm5.5 3.5c-1.24 0-2.38-.54-3.16-1.42-.2-.23-.18-.58.05-.78.23-.2.58-.18.78.05.56.63 1.37 1 2.22 1.05.9.01 1.77-.35 2.36-1.02.22-.24.57-.26.8-.04.24.22.26.57.04.8-.82.89-1.96 1.38-3.17 1.38l-.03-.02h.11zm1-3.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>');
+const WAZE_ICON_WHITE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M13.218 0C9.915 0 6.835 1.49 4.723 4.148c-1.515 1.913-2.31 4.272-2.31 6.706v1.739c0 .894-.62 1.738-1.862 1.813-.298.025-.547.224-.547.522-.05.82.82 2.31 2.012 3.502.82.844 1.788 1.515 2.832 2.036a3 3 0 0 0 2.955 3.528 2.966 2.966 0 0 0 2.931-2.385h2.509c.323 1.689 2.086 2.856 3.974 2.21 1.64-.546 2.36-2.409 1.763-3.924a12.84 12.84 0 0 0 1.838-1.465 10.73 10.73 0 0 0 3.18-7.65c0-2.882-1.118-5.589-3.155-7.625A10.899 10.899 0 0 0 13.218 0zm0 1.217c2.558 0 4.967.994 6.78 2.807a9.525 9.525 0 0 1 2.807 6.78A9.526 9.526 0 0 1 20 17.585a9.647 9.647 0 0 1-6.78 2.807h-2.46a3.008 3.008 0 0 0-2.93-2.41 3.03 3.03 0 0 0-2.534 1.367v.024a8.945 8.945 0 0 1-2.41-1.788c-.844-.844-1.316-1.614-1.515-2.11a2.858 2.858 0 0 0 1.441-.846 2.959 2.959 0 0 0 .795-2.036v-1.789c0-2.11.696-4.197 2.012-5.861 1.863-2.385 4.62-3.726 7.6-3.726zm-2.41 5.986a1.192 1.192 0 0 0-1.191 1.192 1.192 1.192 0 0 0 1.192 1.193A1.192 1.192 0 0 0 12 8.395a1.192 1.192 0 0 0-1.192-1.192zm7.204 0a1.192 1.192 0 0 0-1.192 1.192 1.192 1.192 0 0 0 1.192 1.193 1.192 1.192 0 0 0 1.192-1.193 1.192 1.192 0 0 0-1.192-1.192zm-7.377 4.769a.596.596 0 0 0-.546.845 4.813 4.813 0 0 0 4.346 2.757 4.77 4.77 0 0 0 4.347-2.757.596.596 0 0 0-.547-.845h-.025a.561.561 0 0 0-.521.348 3.59 3.59 0 0 1-3.254 2.061 3.591 3.591 0 0 1-3.254-2.061.64.64 0 0 0-.546-.348z"/></svg>');
+const WAZE_ICON_BLUE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#1a1a2e"><path d="M13.218 0C9.915 0 6.835 1.49 4.723 4.148c-1.515 1.913-2.31 4.272-2.31 6.706v1.739c0 .894-.62 1.738-1.862 1.813-.298.025-.547.224-.547.522-.05.82.82 2.31 2.012 3.502.82.844 1.788 1.515 2.832 2.036a3 3 0 0 0 2.955 3.528 2.966 2.966 0 0 0 2.931-2.385h2.509c.323 1.689 2.086 2.856 3.974 2.21 1.64-.546 2.36-2.409 1.763-3.924a12.84 12.84 0 0 0 1.838-1.465 10.73 10.73 0 0 0 3.18-7.65c0-2.882-1.118-5.589-3.155-7.625A10.899 10.899 0 0 0 13.218 0zm0 1.217c2.558 0 4.967.994 6.78 2.807a9.525 9.525 0 0 1 2.807 6.78A9.526 9.526 0 0 1 20 17.585a9.647 9.647 0 0 1-6.78 2.807h-2.46a3.008 3.008 0 0 0-2.93-2.41 3.03 3.03 0 0 0-2.534 1.367v.024a8.945 8.945 0 0 1-2.41-1.788c-.844-.844-1.316-1.614-1.515-2.11a2.858 2.858 0 0 0 1.441-.846 2.959 2.959 0 0 0 .795-2.036v-1.789c0-2.11.696-4.197 2.012-5.861 1.863-2.385 4.62-3.726 7.6-3.726zm-2.41 5.986a1.192 1.192 0 0 0-1.191 1.192 1.192 1.192 0 0 0 1.192 1.193A1.192 1.192 0 0 0 12 8.395a1.192 1.192 0 0 0-1.192-1.192zm7.204 0a1.192 1.192 0 0 0-1.192 1.192 1.192 1.192 0 0 0 1.192 1.193 1.192 1.192 0 0 0 1.192-1.193 1.192 1.192 0 0 0-1.192-1.192zm-7.377 4.769a.596.596 0 0 0-.546.845 4.813 4.813 0 0 0 4.346 2.757 4.77 4.77 0 0 0 4.347-2.757.596.596 0 0 0-.547-.845h-.025a.561.561 0 0 0-.521.348 3.59 3.59 0 0 1-3.254 2.061 3.591 3.591 0 0 1-3.254-2.061.64.64 0 0 0-.546-.348z"/></svg>');
 </script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
@@ -295,6 +608,9 @@ Promise.all([
 ]).then(function(res) {
   stations = res[0].filter(function(s) { return s.coordinates; });
   res[1].forEach(function(v) { flagged.set(v.brand + '|' + v.name, v); });
+  // honor a ?q= search term (shareable search links + JSON-LD SearchAction)
+  var q = new URLSearchParams(location.search).get('q');
+  if (q) { document.getElementById('searchInput').value = q; render(); }
 });
 
 // requestLocation is handled inline in the locate button click handler
@@ -447,7 +763,7 @@ function renderMap(list) {
         <span class="brand-tag brand-${brandClass(s.brand)}" style="display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;margin:4px 0">${brand}</span>
         ${distStr}
         <br><a href="${wazeUrl(s.coordinates.lat, s.coordinates.lon)}" target="_blank"
-          style="display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:6px 14px;background:#30b6ff;color:#fff;border-radius:6px;text-decoration:none;font-size:13px">
+          style="display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:6px 14px;background:#1a1a2e;color:#fff;border-radius:6px;text-decoration:none;font-size:13px">
           <img src="${WAZE_ICON_WHITE}" width="16" height="16" alt=""> נווט ב-Waze</a>
       </div>
     `);
@@ -496,7 +812,7 @@ document.getElementById('manualLocateBtn').addEventListener('click', function() 
   var city = document.getElementById('manualCity').value.trim();
   if (!city) return;
   var prompt = document.getElementById('locatePrompt');
-  if (prompt) prompt.innerHTML = '<div class="icon">&#128267;</div>מחפש...';
+  if (prompt) prompt.innerHTML = '<div class="icon"><img src="favicon.svg" width="64" height="64" alt=""></div>מחפש...';
   fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(city + ', Israel') + '&format=json&limit=1&countrycodes=il')
     .then(function(r) { return r.json(); })
     .then(function(results) {
@@ -518,7 +834,7 @@ document.getElementById('manualCity').addEventListener('keydown', function(e) {
 // Locate button (GPS)
 document.getElementById('locateBtn').addEventListener('click', function() {
   var prompt = document.getElementById('locatePrompt');
-  if (prompt) prompt.innerHTML = '<div class="icon">&#128267;</div>מאתר את מיקומך...';
+  if (prompt) prompt.innerHTML = '<div class="icon"><img src="favicon.svg" width="64" height="64" alt=""></div>מאתר את מיקומך...';
 
   if (!navigator.geolocation) {
     showError('הדפדפן לא תומך בשירותי מיקום');

@@ -46,14 +46,17 @@ data/
   tapuz.json
   others.json       # the "אחר" group
   violations.json   # stations to flag ⚠️ (auto-generated, see below)
-index.html          # the whole app: Leaflet map + list, brand filters, geolocation, Waze links
+index.html          # the whole app + a generated <noscript> SEO block (between the seo-noscript markers)
 scripts/
   check-violations.mjs           # cross-checks the Ministry substandard-fuel list (run manually, no deps)
+  build-seo.py                   # regenerates index.html's <noscript> SEO block (reverse-geocodes cities, in memory)
 ```
 
 No build step — it's a static site. `index.html` fetches `data/manifest.json`, loads each brand file plus `data/violations.json`, and renders the map (Leaflet + OpenStreetMap tiles) and list. Because it uses `fetch()`, it must be served over HTTP (a `file://` open will load no stations); GitHub Pages serves it correctly.
 
-The **station scrapers** that generate the per-brand data live **outside** this repository (in the parent project). The fuel-quality check (`scripts/check-violations.mjs`) is run manually from an Israeli IP — it can't run in CI because the Ministry API is geo-restricted. This repo holds the published data + frontend, plus that one helper script.
+For crawlability, `index.html` carries a hidden `<noscript>` block listing every station grouped by city. **City names live only in that block** — never in `data/*.json` and never in the visible UI; `scripts/build-seo.py` reverse-geocodes them in memory and rewrites the block on demand.
+
+The **station scrapers** that generate the per-brand data live **outside** this repository (in the parent project). The two in-repo helper scripts (`check-violations.mjs`, `build-seo.py`) are run manually from an Israeli IP — neither can run in CI (the Ministry API and Nominatim usage both depend on it). This repo holds the published data + frontend, plus those helpers.
 
 ## License
 
