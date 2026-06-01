@@ -25,6 +25,14 @@ The 98-octane station list for each brand comes from the source below. Station *
 
 > Note: *Ten / 10 / טן* stations are intentionally excluded — they do not offer 98-octane.
 
+## Fuel-quality flags ⚠️
+
+Stations are cross-checked against the Israeli Ministry of Energy's [substandard-fuel list](https://migdal-webpages.energy-apps.org/fuelGasStation) (stations where off-spec fuel was found in the last 6 months). Any of our stations that appear on it are flagged with a ⚠️ in the app (hover/tap for the fuel type and sampling date).
+
+A flag is raised for **any** fuel type — petrol, diesel, or LPG — because 98-octane engines are especially sensitive to bad fuel, so a quality failure anywhere at the station is worth surfacing.
+
+This runs automatically: the [`Check fuel-quality violations`](.github/workflows/check-violations.yml) GitHub Action fetches the Ministry list daily, matches it against our stations (`scripts/check-violations.mjs`), and commits the result to `data/violations.json`. Matching is by geocoded coordinate — robust with a `MAPS_API_KEY` repo secret (Google Places), falling back to Nominatim (street addresses) without one.
+
 ## Project structure
 
 ```
@@ -37,12 +45,17 @@ data/
   delek.json
   tapuz.json
   others.json       # the "אחר" group
+  violations.json   # stations to flag ⚠️ (auto-generated, see below)
 index.html          # the whole app: Leaflet map + list, brand filters, geolocation, Waze links
+scripts/
+  check-violations.mjs           # cross-checks the Ministry substandard-fuel list (no deps)
+.github/workflows/
+  check-violations.yml           # runs the check daily, commits data/violations.json
 ```
 
-No build step — it's a static site. `index.html` fetches `data/manifest.json`, loads each brand file, and renders the map (Leaflet + OpenStreetMap tiles) and list. Because it uses `fetch()`, it must be served over HTTP (a `file://` open will load no stations); GitHub Pages serves it correctly.
+No build step — it's a static site. `index.html` fetches `data/manifest.json`, loads each brand file plus `data/violations.json`, and renders the map (Leaflet + OpenStreetMap tiles) and list. Because it uses `fetch()`, it must be served over HTTP (a `file://` open will load no stations); GitHub Pages serves it correctly.
 
-The scrapers that generate this data live **outside** this repository (in the parent project) — this repo holds only the published data and the frontend.
+The **station scrapers** that generate the per-brand data live **outside** this repository (in the parent project). The only in-repo automation is the fuel-quality check above, which enriches the existing data with flags.
 
 ## License
 

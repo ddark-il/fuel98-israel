@@ -1,0 +1,45 @@
+name: Check fuel-quality violations
+
+# Keeps data/violations.json in sync with the Ministry of Energy's substandard-fuel
+# list, so the app can flag any of our stations that appear on it.
+
+on:
+  schedule:
+    - cron: "0 4 * * *"   # daily, 04:00 UTC (~06:00–07:00 Israel)
+  workflow_dispatch: {}    # allow manual runs
+
+permissions:
+  contents: write
+
+concurrency:
+  group: check-violations
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Update violation flags
+        env:
+          # Optional: set this repo secret for robust geocoding (Google Places).
+          # Without it the script falls back to Nominatim (street addresses only).
+          MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
+        run: node scripts/check-violations.mjs
+
+      - name: Commit if changed
+        run: |
+          if [ -n "$(git status --porcelain data/violations.json)" ]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/violations.json
+            git commit -m "Update fuel-quality violation flags [skip ci]"
+            git push
+          else
+            echo "No change to violation flags."
+          fi
