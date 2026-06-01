@@ -6,7 +6,6 @@
     "mika.json",
     "delek.json",
     "tapuz.json",
-    "yaad.json",
     "others.json"
   ],
   "brands": {
@@ -16,7 +15,6 @@
     "מיקה": "mika.json",
     "דלק": "delek.json",
     "תפוז": "tapuz.json",
-    "יעד": "yaad.json",
-    "שיא אנרגיה": "others.json"
+    "אחר": "others.json"
   }
 }

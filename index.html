@@ -94,7 +94,6 @@ body {
 .brand-מיקה { background: #f3e5f5; color: #9c27b0; }
 .brand-דלק { background: #e3f2fd; color: #1565c0; }
 .brand-תפוז { background: #fff3e0; color: #ef6c00; }
-.brand-יעד { background: #e0f2f1; color: #00796b; }
 .brand-אחר { background: #f5f5f5; color: #616161; }
 
 .distance { color: #888; font-size: 13px; }
@@ -222,7 +221,7 @@ body {
   <button class="brand-btn" data-brand="סונול">סונול</button>
   <button class="brand-btn" data-brand="מיקה">מיקה</button>
   <button class="brand-btn" data-brand="תפוז">תפוז</button>
-  <button class="brand-btn" data-brand="יעד">יעד</button>
+  <button class="brand-btn" data-brand="אחר">אחר</button>
 </div>
 
 <div id="tableView" class="content">
@@ -257,13 +256,11 @@ let map = null, markers = [], userMarker = null;
 // Remap brand names for display
 function displayBrand(brand) {
   if (brand === 'דורלון') return 'דור אלון';
-  if (brand === 'שיא אנרגיה') return 'אחר';
   return brand;
 }
 
 function brandClass(brand) {
   if (brand === 'דורלון') return 'דור-אלון';
-  if (brand === 'שיא אנרגיה') return 'אחר';
   return brand;
 }
 
@@ -383,7 +380,7 @@ function renderTable(list) {
 // Map
 const brandColors = {
   'פז': '#f9a825', 'דורלון': '#2e7d32', 'סונול': '#d32f2f', 'מיקה': '#d500f9',
-  'דלק': '#1565c0', 'תפוז': '#ef6c00', 'יעד': '#00796b', 'שיא אנרגיה': '#616161'
+  'דלק': '#1565c0', 'תפוז': '#ef6c00', 'אחר': '#616161'
 };
 
 function renderMap(list) {
