@@ -146,6 +146,7 @@ body {
 .brand-תפוז { background: #fff3e0; color: #ef6c00; }
 .brand-אחר { background: #f5f5f5; color: #616161; }
 .fuel-flag { cursor: help; font-size: 13px; }
+.q98-flag { cursor: help; font-size: 13px; }
 
 .distance { color: #888; font-size: 13px; }
 
@@ -594,6 +595,12 @@ function flagBadge(s) {
   return '<span class="fuel-flag" title="' + t + '">⚠️</span> ';
 }
 
+// 98-octane availability not verified — user-reported station we couldn't confirm sells 98
+function q98Badge(s) {
+  if (!s.unverified98) return '';
+  return '<span class="q98-flag" title="לא אומת שמוכרת בנזין 98 — דווח על ידי משתמשים">❓</span> ';
+}
+
 // Load all brand files (via manifest) + the fuel-quality violation flags
 Promise.all([
   fetch('data/manifest.json')
@@ -680,7 +687,7 @@ function renderTable(list) {
     <div class="station-card">
       <div class="station-rank">${i + 1}</div>
       <div class="station-info">
-        <div class="station-name">${flagBadge(s)}${s.name}</div>
+        <div class="station-name">${flagBadge(s)}${q98Badge(s)}${s.name}</div>
         <div class="station-meta">
           <span class="brand-tag brand-${brandClass(s.brand)}">${brand}</span>
           ${s._dist != null ? `<span class="distance">${formatDist(s._dist)}</span>` : ''}
@@ -701,7 +708,7 @@ function renderTable(list) {
     const brand = displayBrand(s.brand);
     table += `<tr>
       <td>${i + 1}</td>
-      <td>${flagBadge(s)}${s.name}</td>
+      <td>${flagBadge(s)}${q98Badge(s)}${s.name}</td>
       <td><span class="brand-tag brand-${brandClass(s.brand)}">${brand}</span></td>
       ${userLat !== null ? `<td class="distance">${formatDist(s._dist)}</td>` : ''}
       <td><a class="waze-link" href="${wazeUrl(s.coordinates.lat, s.coordinates.lon)}" target="_blank"><img src="${WAZE_ICON_BLUE}" alt="Waze"> Waze</a></td>
@@ -759,7 +766,7 @@ function renderMap(list) {
     const distStr = s._dist ? `<br><span style="color:#888">${formatDist(s._dist)}</span>` : '';
     marker.bindPopup(`
       <div style="text-align:right;font-size:14px;min-width:140px">
-        <b>${flagBadge(s)}${s.name}</b><br>
+        <b>${flagBadge(s)}${q98Badge(s)}${s.name}</b><br>
         <span class="brand-tag brand-${brandClass(s.brand)}" style="display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;margin:4px 0">${brand}</span>
         ${distStr}
         <br><a href="${wazeUrl(s.coordinates.lat, s.coordinates.lon)}" target="_blank"

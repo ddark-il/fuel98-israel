@@ -15,23 +15,26 @@ The 98-octane station list for each brand comes from the source below. Station *
 | **פז** Paz | Official website | Official website |
 | **סונול** Sonol | Official website | Official website |
 | **דור אלון** Dor Alon | Official website | Official website |
-| **מיקה** Mika | Official website | Geocoded from address &sup1; |
-| **דלק** Delek | Locations: official website · **98 availability: user reports** &sup2; | Official website |
-| **תפוז** Tapuz | User reports | Verified via Google Maps |
-| **אחר** Other (יעד Yaad & small brands) | User reports | Verified via Google Maps |
+| **מיקה** Mika | Official website | Google Places + Mika's own map pins &sup1; |
+| **דלק** Delek | Locations: official locator · **98 availability: user reports** &sup2; | Official locator (verified) |
+| **תפוז** Tapuz | User reports | Google Places &sup3; |
+| **אחר** Other (יעד Yaad & small brands) | User reports | Google Places &sup3; |
 
-&sup1; Mika's website does not expose map coordinates, so they are geocoded from each station's address.
-&sup2; Delek's station locator does not indicate which stations carry 98-octane, so that detail is sourced from user reports.
+&sup1; Mika's site exposes no map coordinates, so each one is the station's real street address geocoded via **Google Places** — or, for the stations whose Mika page embeds a Google Maps share-link, that pin's exact location (the operator's own coordinate).
+&sup2; Delek's locator doesn't flag which stations carry 98-octane, so that detail comes from user reports; the coordinates are taken from — and were verified against — Delek's official station locator.
+&sup3; User-reported, then geocoded and confirmed on **Google Places** (must resolve to a gas station in the expected city). A few "Other" stations whose 98-octane availability couldn't be confirmed are still listed but flagged **❓** in the app.
+
+> **Coordinates are no longer geocoded via Nominatim.** As of 2026-06 every station's location comes from an official locator, Google Places, or the operator's own map pin — Nominatim proved unreliable for Israeli addresses (it mis-placed several Mika stations, e.g. עתידים landed in Jerusalem instead of Tel Aviv).
 
 > Note: *Ten / 10 / טן* stations are intentionally excluded — they do not offer 98-octane.
 
-## Fuel-quality flags ⚠️
+## Flags
 
-Stations are cross-checked against the Israeli Ministry of Energy's [substandard-fuel list](https://migdal-webpages.energy-apps.org/fuelGasStation) (stations where off-spec fuel was found in the last 6 months). Any of our stations that appear on it are flagged with a ⚠️ in the app (hover/tap for the fuel type and sampling date).
+**⚠️ Fuel quality.** Stations are cross-checked against the Israeli Ministry of Energy's [substandard-fuel list](https://migdal-webpages.energy-apps.org/fuelGasStation) (stations where off-spec fuel was found in the last 6 months). Any of our stations that appear on it are flagged with a ⚠️ in the app (hover/tap for the fuel type and sampling date). A flag is raised for **any** fuel type — petrol, diesel, or LPG — because 98-octane engines are especially sensitive to bad fuel, so a quality failure anywhere at the station is worth surfacing.
 
-A flag is raised for **any** fuel type — petrol, diesel, or LPG — because 98-octane engines are especially sensitive to bad fuel, so a quality failure anywhere at the station is worth surfacing.
+**❓ Unverified 98.** A few user-reported "Other" stations whose 98-octane availability couldn't be confirmed are still listed, but marked ❓ (hover/tap for a note) so the unconfirmed 98 is clear. Set per-station with `"unverified98": true` in `data/others.json`.
 
-To refresh, run `node scripts/check-violations.mjs` (it rewrites `data/violations.json`) and commit. **It must run from an Israeli IP** — the Ministry API is geo-restricted and rejects requests from outside Israel (so GitHub-hosted Actions can't reach it; this is a manual/local step). Matching is by geocoded coordinate, using Google Places if `MAPS_API_KEY` is set in the environment, otherwise Nominatim (clean street addresses only).
+To refresh the ⚠️ flags, run `node scripts/check-violations.mjs` (it rewrites `data/violations.json`) and commit. **It must run from an Israeli IP** — the Ministry API is geo-restricted and rejects requests from outside Israel (so GitHub-hosted Actions can't reach it; this is a manual/local step). Each Ministry entry is matched to our stations by coordinate, geocoded via Google Places (`MAPS_API_KEY`).
 
 ## Project structure
 
@@ -44,7 +47,7 @@ data/
   mika.json
   delek.json
   tapuz.json
-  others.json       # the "אחר" group
+  others.json       # the "אחר" group; entries may carry "unverified98": true (❓ flag)
   violations.json   # stations to flag ⚠️ (auto-generated, see below)
 index.html          # the whole app + a generated <noscript> SEO block (between the seo-noscript markers)
 scripts/
@@ -56,7 +59,7 @@ No build step — it's a static site. `index.html` fetches `data/manifest.json`,
 
 For crawlability, `index.html` carries a hidden `<noscript>` block listing every station grouped by city. `scripts/build-seo.py` reverse-geocodes them in memory and rewrites the block on demand.
 
-The **station scrapers** that generate the per-brand data live **outside** this repository (in the parent project). The two in-repo helper scripts (`check-violations.mjs`, `build-seo.py`) are run manually from an Israeli IP — neither can run in CI (the Ministry API and Nominatim usage both depend on it). This repo holds the published data + frontend, plus those helpers.
+The **station scrapers and coordinate-verification scripts** (Mika → Google Places + map pins, Delek → official locator, Tapuz/Other → Google Places) live **outside** this repository, in the parent project. The two in-repo helpers are run manually: `check-violations.mjs` from an Israeli IP (the Ministry API is geo-restricted, so GitHub Actions can't reach it), and `build-seo.py` is slow (it reverse-geocodes city labels at Nominatim's ~1 req/s). This repo holds the published data + frontend, plus those helpers.
 
 ## License
 
