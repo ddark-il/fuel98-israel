@@ -227,7 +227,7 @@ body {
   flex-shrink: 0;
 }
 
-.empty-state { text-align: center; padding: 60px 20px; color: #999; }
+.empty-state { text-align: center; padding: 24px 20px; color: #999; }
 .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
 
 .locate-btn {
@@ -251,7 +251,11 @@ body {
 }
 .or-divider { color: #bbb; margin: 12px 0 4px; font-size: 13px; }
 
-.github-link { display: inline-block; margin-top: 48px; color: #bbb; transition: color .2s; }
+.report-btn { display: inline-block; margin-top: 28px; padding: 8px 20px; border: 1px solid #ddd; border-radius: 20px; background: #fff; color: #777; font-size: 13px; text-decoration: none; transition: all .2s; }
+.report-btn:active { transform: scale(.96); }
+.report-btn:hover { border-color: #e94560; color: #e94560; }
+
+.github-link { display: block; margin-top: 22px; color: #bbb; transition: color .2s; }
 .github-link:hover { color: #1a1a2e; }
 .github-link svg { width: 26px; height: 26px; vertical-align: middle; }
 
@@ -548,7 +552,6 @@ body {
 
 <div id="tableView" class="content">
   <div class="empty-state" id="locatePrompt">
-    <div class="icon"><img src="favicon.svg" width="64" height="64" alt=""></div>
     <div>לחץ כדי לאתר תחנות קרובות</div>
     <button class="locate-btn" id="locateBtn">אתר את מיקומי</button>
     <div class="or-divider">או הזן עיר/כתובת</div>
@@ -557,6 +560,8 @@ body {
       <br>
       <button id="manualLocateBtn">חפש</button>
     </div>
+    <br>
+    <a class="report-btn" href="https://github.com/ddark-il/fuel98-israel/issues/new/choose" target="_blank" rel="noopener">דווח על טעות</a>
     <a class="github-link" href="https://github.com/ddark-il/fuel98-israel" target="_blank" rel="noopener" title="קוד המקור ב-GitHub" aria-label="GitHub">
       <svg viewBox="0 0 16 16" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
     </a>
@@ -612,6 +617,7 @@ Promise.all([
 ]).then(function(res) {
   stations = res[0].filter(function(s) { return s.coordinates; });
   res[1].forEach(function(v) { flagged.set(v.brand + '|' + v.name, v); });
+  buildCityIndex();
   // honor a ?q= search term (shareable search links + JSON-LD SearchAction)
   var q = new URLSearchParams(location.search).get('q');
   if (q) { document.getElementById('searchInput').value = q; render(); }
@@ -636,6 +642,26 @@ function haversine(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
+// City lookup for search — the city isn't in the station data, it lives only in
+// the <noscript> SEO block: <h3>תחנות דלק 98 ב{city}</h3><ul><li>{brand} — {name}</li>…
+var cityByKey = {};
+function buildCityIndex() {
+  var ns = document.querySelector('noscript');
+  if (!ns) return;
+  var doc = new DOMParser().parseFromString(ns.textContent, 'text/html');
+  var pfx = 'תחנות דלק 98 ב';
+  doc.querySelectorAll('h3').forEach(function(h3) {
+    var t = (h3.textContent || '').trim();
+    if (t.indexOf(pfx) !== 0) return;            // skip the "נוספות" (no-city) section
+    var city = t.slice(pfx.length);
+    var ul = h3.nextElementSibling;
+    if (!ul || ul.tagName !== 'UL') return;
+    ul.querySelectorAll('li').forEach(function(li) {
+      cityByKey[(li.textContent || '').trim()] = city;
+    });
+  });
+}
+
 function getFiltered() {
   const query = document.getElementById('searchInput').value.trim().toLowerCase();
   let list = [...stations];
@@ -643,7 +669,8 @@ function getFiltered() {
   if (query) list = list.filter(s =>
     s.name.toLowerCase().includes(query) ||
     displayBrand(s.brand).toLowerCase().includes(query) ||
-    s.brand.toLowerCase().includes(query)
+    s.brand.toLowerCase().includes(query) ||
+    (cityByKey[displayBrand(s.brand) + ' — ' + s.name] || '').toLowerCase().includes(query)
   );
   if (userLat !== null) {
     list.forEach(s => { s._dist = haversine(userLat, userLon, s.coordinates.lat, s.coordinates.lon); });
@@ -816,7 +843,7 @@ document.getElementById('manualLocateBtn').addEventListener('click', function() 
   var city = document.getElementById('manualCity').value.trim();
   if (!city) return;
   var prompt = document.getElementById('locatePrompt');
-  if (prompt) prompt.innerHTML = '<div class="icon"><img src="favicon.svg" width="64" height="64" alt=""></div>מחפש...';
+  if (prompt) prompt.innerHTML = '<div style="padding:24px 0;font-size:15px">מחפש...</div>';
   fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(city + ', Israel') + '&format=json&limit=1&countrycodes=il')
     .then(function(r) { return r.json(); })
     .then(function(results) {
@@ -838,7 +865,7 @@ document.getElementById('manualCity').addEventListener('keydown', function(e) {
 // Locate button (GPS)
 document.getElementById('locateBtn').addEventListener('click', function() {
   var prompt = document.getElementById('locatePrompt');
-  if (prompt) prompt.innerHTML = '<div class="icon"><img src="favicon.svg" width="64" height="64" alt=""></div>מאתר את מיקומך...';
+  if (prompt) prompt.innerHTML = '<div style="padding:24px 0;font-size:15px">מאתר את מיקומך...</div>';
 
   if (!navigator.geolocation) {
     showError('הדפדפן לא תומך בשירותי מיקום');
