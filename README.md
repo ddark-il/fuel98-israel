@@ -24,7 +24,7 @@ The 98-octane station list for each brand comes from the source below. Station *
 &sup2; Delek's locator doesn't flag which stations carry 98-octane, so that detail comes from user reports; the coordinates are taken from — and were verified against — Delek's official station locator.
 &sup3; Which stations carry 98 comes from user reports; the station names and coordinates are taken from the **Ministry of Energy's public-stations registry** (data.gov.il open data), cross-checked on Google Places. Where the registry's coordinate was clearly wrong, the Google-verified one is kept instead (e.g. תפוז נתיבות).
 
-> **Coordinates were cross-checked against the Ministry of Energy's [open-data station registry](https://data.gov.il/dataset/gas-station)** (~1,255 public stations with coordinates). Nominatim is no longer used for geocoding — it proved unreliable for Israeli addresses (e.g. it placed מיקה עתידים in Jerusalem instead of Tel Aviv).
+> **Coordinates were cross-checked against the Ministry of Energy's [open-data station registry](https://data.gov.il/dataset/gas-station)** (~1,255 public stations with coordinates).
 
 > Note: *Ten / 10 / טן* stations are intentionally excluded — they do not offer 98-octane.
 
