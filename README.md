@@ -17,12 +17,13 @@ The 98-octane station list for each brand comes from the source below. Station *
 | **דור אלון** Dor Alon | Official website | Official website |
 | **מיקה** Mika | Official website | Google Places + Mika's own map pins &sup1; |
 | **דלק** Delek | Locations: official locator · **98 availability: user reports** &sup2; | Official locator (verified) |
-| **תפוז** Tapuz | User reports | Official registry &sup3; |
-| **אחר** Other (יעד Yaad & small brands) | User reports | Official registry &sup3; |
+| **תפוז** Tapuz | Official Tapuz representative | Geocoded from the rep's addresses &sup3; |
+| **אחר** Other (יעד Yaad & small brands) | User reports | Official registry &sup4; |
 
 &sup1; Mika's site exposes no map coordinates, so each one is the station's real street address geocoded via **Google Places** — or, for the stations whose Mika page embeds a Google Maps share-link, that pin's exact location (the operator's own coordinate).
 &sup2; Delek's locator doesn't flag which stations carry 98-octane, so that detail comes from user reports; the coordinates are taken from — and were verified against — Delek's official station locator.
-&sup3; Which stations carry 98 comes from user reports; the station names and coordinates are taken from the **Ministry of Energy's public-stations registry** (data.gov.il open data), cross-checked on Google Places. Where the registry's coordinate was clearly wrong, the Google-verified one is kept instead (e.g. תפוז נתיבות).
+&sup3; The Tapuz list — station names **and addresses** — is the definitive list supplied by Tapuz's official representative. Coordinates are geocoded from those addresses via **Google Places** and cross-checked against the Ministry registry; a couple keep a client-confirmed pin or a street-address pin where Google has no tagged station yet (שדרות, רהט מרכז).
+&sup4; User-reported; the station names and coordinates are taken from the **Ministry of Energy's public-stations registry** (data.gov.il open data), cross-checked on Google Places.
 
 > **Coordinates were cross-checked against the Ministry of Energy's [open-data station registry](https://data.gov.il/dataset/gas-station)** (~1,255 public stations with coordinates).
 
