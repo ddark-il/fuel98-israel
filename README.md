@@ -57,7 +57,7 @@ No build step — it's a static site. `index.html` fetches `data/manifest.json`,
 
 For crawlability, `index.html` carries a hidden `<noscript>` block listing every station grouped by city. `scripts/build-seo.py` reverse-geocodes them in memory and rewrites the block on demand.
 
-The **station scrapers and coordinate-verification scripts** (Mika → Google Places + map pins, Delek → official locator, Tapuz/Other → the data.gov.il registry) live **outside** this repository, in the parent project. The two in-repo helpers are run manually: `check-violations.mjs` from an Israeli IP (the Ministry API is geo-restricted, so GitHub Actions can't reach it), and `build-seo.py` is slow (it reverse-geocodes city labels at Nominatim's ~1 req/s). This repo holds the published data + frontend, plus those helpers.
+The **station scrapers and coordinate-verification scripts** (Mika → Google Places + map pins, Delek → official locator, Tapuz/Other → the data.gov.il registry) live **outside** this repository, in the parent project. The two in-repo helpers are run manually: `check-violations.mjs` from an Israeli IP (the Ministry API is geo-restricted, so GitHub Actions can't reach it), and `build-seo.py` is slow (it reverse-geocodes a city label for every station at ~1 req/s). This repo holds the published data + frontend, plus those helpers.
 
 ## License
 
