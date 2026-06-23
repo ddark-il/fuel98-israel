@@ -68,6 +68,17 @@
 }
 </script>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "תחנות דלק 98", "item": "https://delek98.com/" },
+    { "@type": "ListItem", "position": 2, "name": "שאלות נפוצות", "item": "https://delek98.com/faq/" }
+  ]
+}
+</script>
+
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -123,6 +134,8 @@ details.faq-item[open] summary { color: #e94560; }
 details.faq-item[open] summary::after { content: '\2212'; }
 .faq-a { padding: 0 18px 18px; color: #555; font-size: 14.5px; line-height: 1.75; }
 .faq-a strong { color: #333; }
+.faq-cta { display: block; width: fit-content; margin-top: 12px; font-size: 13.5px; font-weight: 600; color: #e94560; text-decoration: none; }
+.faq-cta:hover { text-decoration: underline; }
 
 /* ─── CTA + footer ─── */
 .cta {
@@ -178,7 +191,7 @@ details.faq-item[open] summary::after { content: '\2212'; }
 
     <details class="faq-item">
       <summary>מה עדיף — 95 או 98?</summary>
-      <div class="faq-a">אין "עדיף" אובייקטיבי — הנכון הוא <strong>מה שיצרן הרכב הגדיר</strong>. לרכב שמיועד ל-95, בנזין 95 הוא הבחירה הנכונה ו-98 לא ישפר דבר. לרכב שמיועד ל-98, דווקא 98 הוא הנכון. התשובה תמיד נמצאת בספר הרכב או על מכסה מיכל הדלק.</div>
+      <div class="faq-a">אין "עדיף" אובייקטיבי — הנכון הוא <strong>מה שיצרן הרכב הגדיר</strong>. לרכב שמיועד ל-95, בנזין 95 הוא הבחירה הנכונה ו-98 לא ישפר דבר. לרכב שמיועד ל-98, דווקא 98 הוא הנכון. התשובה תמיד נמצאת בספר הרכב או על מכסה מיכל הדלק. <a class="faq-cta" href="/check/">בדקו לפי מספר רישוי מה הרכב צריך ›</a></div>
     </details>
 
     <details class="faq-item">
@@ -202,7 +215,7 @@ details.faq-item[open] summary::after { content: '\2212'; }
 
     <details class="faq-item">
       <summary>מה קורה אם אתדלק 95 כשהיצרן ממליץ על 98?</summary>
-      <div class="faq-a">ברכבים מודרניים יש חיישן נקישות שמתאים את תזמון ההצתה, כך שב<strong>טווח הקצר</strong> בדרך כלל לא ייגרם נזק — אבל ייתכן אובדן קל של כוח וצריכת דלק מעט גבוהה יותר. שימוש <strong>ממושך</strong> ב-95 במנוע שדורש 98 עלול לגרום לנקישות ולבעיות לאורך זמן. אם רשום "98 בלבד" — כדאי להקפיד.</div>
+      <div class="faq-a">ברכבים מודרניים יש חיישן נקישות שמתאים את תזמון ההצתה, כך שב<strong>טווח הקצר</strong> בדרך כלל לא ייגרם נזק — אבל ייתכן אובדן קל של כוח וצריכת דלק מעט גבוהה יותר. שימוש <strong>ממושך</strong> ב-95 במנוע שדורש 98 עלול לגרום לנקישות ולבעיות לאורך זמן. אם רשום "98 בלבד" — כדאי להקפיד. <a class="faq-cta" href="/check/">בדקו אם הרכב שלכם דורש 98 ›</a></div>
     </details>
 
     <details class="faq-item">
@@ -217,7 +230,7 @@ details.faq-item[open] summary::after { content: '\2212'; }
 
     <details class="faq-item">
       <summary>איך אדע איזה אוקטן הרכב שלי צריך?</summary>
-      <div class="faq-a">הדרך האמינה ביותר היא <strong>ספר הרכב או המדבקה בתוך דלת מיכל הדלק</strong> — שם רשום "95 בלבד", "95 מינימום" או "98". אם רשום "מינימום" אפשר לתדלק גבוה יותר; אם רשום "בלבד" — הקפידו על הסוג המצוין.</div>
+      <div class="faq-a">הדרך האמינה ביותר היא <strong>ספר הרכב או המדבקה בתוך דלת מיכל הדלק</strong> — שם רשום "95 בלבד", "95 מינימום" או "98". אם רשום "מינימום" אפשר לתדלק גבוה יותר; אם רשום "בלבד" — הקפידו על הסוג המצוין. <a class="faq-cta" href="/check/">בדקו מיד לפי מספר רישוי ›</a></div>
     </details>
   </section>
 
@@ -256,7 +269,7 @@ details.faq-item[open] summary::after { content: '\2212'; }
 
     <details class="faq-item">
       <summary>אילו רכבים צריכים 98?</summary>
-      <div class="faq-a">בעיקר <strong>מנועי ביצועים, טורבו ויחס דחיסה גבוה</strong> — הרבה דגמים אירופאים ויוקרתיים (BMW M, מרצדס AMG, אאודי RS, פורשה ועוד). תמיד לאמת בספר הרכב או על מכסה המיכל.</div>
+      <div class="faq-a">בעיקר <strong>מנועי ביצועים, טורבו ויחס דחיסה גבוה</strong> — הרבה דגמים אירופאים ויוקרתיים (BMW M, מרצדס AMG, אאודי RS, פורשה ועוד). תמיד לאמת בספר הרכב או על מכסה המיכל. <a class="faq-cta" href="/check/">בדקו אם הרכב שלכם צריך 98 ›</a></div>
     </details>
 
     <details class="faq-item">
@@ -310,7 +323,7 @@ details.faq-item[open] summary::after { content: '\2212'; }
 
     <details class="faq-item">
       <summary>איפה אפשר למצוא תחנת 98 הקרובה אליי?</summary>
-      <div class="faq-a">ב<a href="/">דף הבית</a> אפשר ללחוץ על "אתר את מיקומי" או להזין עיר/כתובת, והרשימה תציג את תחנות ה-98 <strong>לפי מרחק</strong>, עם ניווט ישיר בוויז. אפשר גם לסנן לפי רשת ולחפש לפי שם תחנה או עיר.</div>
+      <div class="faq-a">בדף הבית אפשר ללחוץ על "אתר את מיקומי" או להזין עיר/כתובת, והרשימה תציג את תחנות ה-98 <strong>לפי מרחק</strong>, עם ניווט ישיר בוויז. אפשר גם לסנן לפי רשת ולחפש לפי שם תחנה או עיר. <a class="faq-cta" href="/">מצא תחנת 98 קרובה אליך ›</a></div>
     </details>
 
     <details class="faq-item">

@@ -52,6 +52,16 @@
 }
 </script>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "תחנות דלק 98",
+  "url": "https://delek98.com/",
+  "logo": "https://delek98.com/icon-512.png"
+}
+</script>
+
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 <link rel="preconnect" href="https://tile.openstreetmap.org">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -252,9 +262,10 @@ body {
 .or-divider { color: #bbb; margin: 12px 0 4px; font-size: 13px; }
 
 .info-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 28px; }
-.faq-btn, .report-btn { display: inline-block; padding: 8px 20px; border: 1px solid #ddd; border-radius: 20px; background: #fff; color: #777; font-size: 13px; text-decoration: none; transition: all .2s; }
-.faq-btn:active, .report-btn:active { transform: scale(.96); }
-.faq-btn:hover, .report-btn:hover { border-color: #e94560; color: #e94560; }
+.action-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.faq-btn, .report-btn, .check-btn { display: inline-block; padding: 8px 20px; border: 1px solid #ddd; border-radius: 20px; background: #fff; color: #777; font-size: 13px; text-decoration: none; transition: all .2s; }
+.faq-btn:active, .report-btn:active, .check-btn:active { transform: scale(.96); }
+.faq-btn:hover, .report-btn:hover, .check-btn:hover { border-color: #e94560; color: #e94560; }
 
 .github-link { display: block; margin-top: 22px; color: #bbb; transition: color .2s; }
 .github-link:hover { color: #1a1a2e; }
@@ -570,7 +581,10 @@ body {
       <button id="manualLocateBtn">חפש</button>
     </div>
     <div class="info-actions">
-      <a class="faq-btn" href="/faq/">שאלות נפוצות</a>
+      <div class="action-row">
+        <a class="check-btn" href="/check/">איזה דלק הרכב צריך?</a>
+        <a class="faq-btn" href="/faq/">שאלות נפוצות</a>
+      </div>
       <a class="report-btn" href="https://github.com/ddark-il/fuel98-israel/issues/new/choose" target="_blank" rel="noopener">דווח על טעות</a>
     </div>
     <a class="github-link" href="https://github.com/ddark-il/fuel98-israel" target="_blank" rel="noopener" title="קוד המקור ב-GitHub" aria-label="GitHub">

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>איזה דלק הרכב צריך? בדיקה לפי מספר רישוי | תחנות דלק 98</title>
+<meta name="description" content="הזינו מספר רישוי ונבדוק מול מאגר משרד התחבורה איזה דלק הרכב צריך — בנזין 95, בנזין 98, דיזל, חשמל או היברידי. כולל זיהוי רכבים שדורשים בנזין 98.">
+<link rel="canonical" href="https://delek98.com/check/">
+<meta name="theme-color" content="#1a1a2e">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="תחנות דלק 98">
+<meta property="og:title" content="איזה דלק הרכב צריך? בדיקה לפי מספר רישוי">
+<meta property="og:description" content="בדיקה מהירה מול מאגר משרד התחבורה — איזה דלק הרכב צריך, וכולל אם הוא דורש בנזין 98.">
+<meta property="og:url" content="https://delek98.com/check/">
+<meta property="og:locale" content="he_IL">
+<meta property="og:image" content="https://delek98.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="איזה דלק הרכב צריך?">
+<meta name="twitter:description" content="בדיקה לפי מספר רישוי מול מאגר משרד התחבורה — כולל זיהוי רכבי בנזין 98.">
+<meta name="twitter:image" content="https://delek98.com/og-image.png">
+
+<!-- Icons / PWA -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="דלק 98">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "תחנות דלק 98", "item": "https://delek98.com/" },
+        { "@type": "ListItem", "position": 2, "name": "איזה דלק הרכב צריך?", "item": "https://delek98.com/check/" }
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "name": "בדיקת סוג דלק לרכב לפי מספר רישוי",
+      "url": "https://delek98.com/check/",
+      "applicationCategory": "BrowserApplication",
+      "operatingSystem": "All",
+      "inLanguage": "he-IL",
+      "browserRequirements": "Requires JavaScript",
+      "description": "כלי חינמי שמזהה לפי מספר רישוי איזה דלק הרכב צריך — בנזין 95, בנזין 98, דיזל, חשמל או היברידי — על בסיס מאגר משרד התחבורה (data.gov.il), כולל זיהוי רכבים שדורשים בנזין 98.",
+      "isPartOf": { "@type": "WebSite", "name": "תחנות דלק 98", "url": "https://delek98.com/" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "ILS" }
+    }
+  ]
+}
+</script>
+
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background: #f5f5f5; color: #333; line-height: 1.55;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* top bar (matches the app + FAQ) */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #1a1a2e; padding: 14px 16px; position: sticky; top: 0; z-index: 100;
+  }
+  .topbar a { text-decoration: none; }
+  .topbar-home { color: #fff; font-size: 16px; font-weight: 700; }
+  .topbar-home .accent { color: #e94560; }
+  .topbar-back { color: #cfd2e0; font-size: 13px; font-weight: 500; }
+  .topbar-back:hover { color: #fff; }
+
+  .wrap { max-width: 700px; margin: 0 auto; padding: 22px 16px 40px; }
+  header.intro { text-align: center; margin-bottom: 16px; }
+  h1 { font-size: 22px; color: #1a1a2e; margin: 0 0 6px; line-height: 1.35; }
+  .sub { color: #666; font-size: 14.5px; }
+
+  .card {
+    background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 18px; margin: 14px 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+
+  /* license-plate styled input (kept — iconic) */
+  .plate {
+    display: flex; align-items: stretch; background: #f3d34a; border-radius: 10px; overflow: hidden;
+    border: 3px solid #1a1a2e; max-width: 420px; margin: 4px auto 0; box-shadow: 0 1px 5px rgba(0,0,0,.14);
+  }
+  .plate .il {
+    background: #0038b8; color: #fff; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; padding: 0 10px; font-weight: 700; font-size: 11px; line-height: 1.1;
+  }
+  .plate input {
+    flex: 1; border: 0; outline: 0; background: transparent; color: #111; font-weight: 800;
+    letter-spacing: 4px; font-size: 30px; text-align: center; padding: 12px 6px; direction: ltr; min-width: 0;
+  }
+  .plate input::placeholder { color: #9a8a1e; }
+
+  .row { display: flex; gap: 10px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+  button {
+    cursor: pointer; border: 0; border-radius: 8px; padding: 12px 26px; font-size: 15px; font-weight: 600;
+    background: #e94560; color: #fff; transition: transform .15s;
+  }
+  button.ghost { background: #fff; color: #555; border: 1px solid #ddd; }
+  button:active { transform: scale(.96); }
+
+  #status { text-align: center; color: #888; min-height: 20px; margin-top: 12px; font-size: 14px; }
+
+  /* result */
+  .result { display: none; }
+  .fuelhero { border-radius: 12px; padding: 16px 14px; text-align: center; border: 1px solid #e94560; }
+  .action { font-size: 19px; font-weight: 800; }
+  .action .en { display: block; font-size: 13px; font-weight: 500; margin-top: 6px; color: #555; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  td { padding: 9px 6px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+  td.k { color: #888; white-space: nowrap; width: 42%; }
+  td.v { font-weight: 600; direction: ltr; text-align: right; color: #333; }
+  .legend td { font-size: 13px; }
+  .pill { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-inline-end: 6px; }
+  .bar { height: 8px; border-radius: 6px; background: #e94560; display: inline-block; vertical-align: middle; }
+  .small { font-size: 12px; color: #999; }
+  h2 { font-size: 15px; color: #1a1a2e; margin: 0 0 10px; }
+  a { color: #e94560; }
+
+  /* CTA + footer (match FAQ) */
+  .cta { text-align: center; margin: 24px 0 8px; background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 22px 18px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+  .cta p { color: #555; font-size: 15px; margin: 0 0 14px; }
+  .cta-btn { display: inline-block; padding: 12px 26px; border-radius: 8px; background: #e94560; color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; }
+  .cta-btn:active { transform: scale(.96); }
+  .site-footer { text-align: center; margin-top: 24px; }
+  .foot-faq { display: inline-block; margin-bottom: 14px; color: #e94560; font-size: 13px; text-decoration: none; }
+  .foot-faq:hover { text-decoration: underline; }
+  .report-btn { display: inline-block; padding: 8px 20px; border: 1px solid #ddd; border-radius: 20px; background: #fff; color: #777; font-size: 13px; text-decoration: none; transition: all .2s; }
+  .report-btn:hover { border-color: #e94560; color: #e94560; }
+  .github-link { display: block; margin-top: 18px; color: #bbb; transition: color .2s; }
+  .github-link:hover { color: #1a1a2e; }
+
+  @media (min-width: 768px) { .wrap { max-width: 760px; } h1 { font-size: 26px; } }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="topbar-home" href="/">תחנות דלק <span class="accent">98</span></a>
+  <a class="topbar-back" href="/">‹ למפת התחנות</a>
+</header>
+
+<div class="wrap">
+  <header class="intro">
+    <h1>איזה דלק הרכב צריך?</h1>
+    <div class="sub">הזינו מספר רישוי — נשלוף את הרכב ממאגר משרד התחבורה ונגיד איזה דלק הוא צריך, כולל אם הוא דורש בנזין 98.</div>
+  </header>
+
+  <noscript>
+    <p>הכלי בודק לפי מספר רישוי, מול מאגר הרכבים של משרד התחבורה (data.gov.il), איזה דלק הרכב צריך — בנזין 95, בנזין 98, דיזל, חשמל או היברידי. הבדיקה דורשת הפעלת JavaScript.</p>
+    <p>רוב הרכבים בישראל מתוכננים לבנזין 95; חלק מהדגמים — בעיקר מנועי טורבו ויחס דחיסה גבוה — דורשים או ממליצים על בנזין 98. למידע נוסף ראו את <a href="/faq/">השאלות הנפוצות על בנזין 98</a>, או <a href="/">מצאו תחנת 98 קרובה אליכם</a>.</p>
+  </noscript>
+
+  <div class="card">
+    <form id="form">
+      <div class="plate">
+        <div class="il"><span>🇮🇱</span></div>
+        <input id="plate" inputmode="numeric" autocomplete="off" placeholder="12-345-67"
+               aria-label="מספר רישוי">
+      </div>
+      <div class="row">
+        <button type="submit">בדיקה</button>
+        <button type="button" class="ghost" id="clear">נקה</button>
+      </div>
+    </form>
+    <div id="status"></div>
+  </div>
+
+  <div class="result card" id="result">
+    <div class="fuelhero" id="fuelhero">
+      <div class="action" id="f-action"></div>
+    </div>
+    <table id="details"></table>
+  </div>
+
+  <div class="card">
+    <h2>מקרא סוגי דלק <span class="small" id="legend-source">(מתעדכן בזמן אמת ממאגר המידע)</span></h2>
+    <table class="legend" id="legend"></table>
+    <p class="small">המידע נשלף בזמן אמת ממאגר משרד התחבורה (data.gov.il).</p>
+  </div>
+
+  <div class="cta">
+    <p>הרכב שלך צריך בנזין 98? מצא תחנה שמוכרת אותו.</p>
+    <a class="cta-btn" href="/">מצא תחנת בנזין 98 קרובה אליך ›</a>
+  </div>
+
+  <div class="site-footer">
+    <a class="foot-faq" href="/faq/">שאלות נפוצות על בנזין 98 ›</a><br>
+    <a class="report-btn" href="https://github.com/ddark-il/fuel98-israel/issues/new/choose" target="_blank" rel="noopener">דווח על טעות</a>
+    <a class="github-link" href="https://github.com/ddark-il/fuel98-israel" target="_blank" rel="noopener" title="קוד המקור ב-GitHub" aria-label="GitHub">
+      <svg viewBox="0 0 16 16" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    </a>
+  </div>
+</div>
+
+<script src="rules.js"></script>
+<script>
+const RESOURCE = "053cea08-09bc-40ec-8f7a-156f0677aff3"; // private-and-commercial-vehicles
+const RESOURCE_PI = "03adc637-b6fe-402b-9937-7c3d3afc9140"; // personal imports (יבוא אישי)
+
+// Fuel meaning + actionable "what to put in" message. Keys are the registry's exact values.
+const FUEL = {
+  "בנזין":      {en:"Petrol / Gasoline",          ic:"⛽", c:"#3fae6b",
+                 he:'מלא/י בנזין 95 אוקטן',         action:"Fill with petrol — 95 octane"},
+  "דיזל":       {en:"Diesel",                      ic:"🛢️", c:"#6b7280",
+                 he:'מלא/י סולר (דיזל)',            action:"Fill with diesel"},
+  "חשמל":       {en:"Electric (EV)",               ic:"🔌", c:"#4b8bf5",
+                 he:'אין דלק — טוען/ת את הסוללה',   action:"Plug in & charge — no fuel"},
+  "חשמל/בנזין": {en:"Hybrid · Petrol + Electric",  ic:"🔋", c:"#1bb8a6",
+                 he:'מלא/י בנזין 95; הסוללה היברידית', action:"Fill with petrol (95); hybrid battery"},
+  "חשמל/דיזל":  {en:"Hybrid · Diesel + Electric",  ic:"🔋", c:"#0e9aa0",
+                 he:'מלא/י סולר; הסוללה היברידית',   action:"Fill with diesel; hybrid battery"},
+  'גפ"מ':       {en:"LPG / Autogas",               ic:"🔵", c:"#9b6cf0",
+                 he:'מלא/י גפ"מ (גז)',              action:"Fill with LPG / Autogas"},
+};
+const UNKNOWN = {en:"Unknown fuel type", ic:"❓", c:"#94a3b8", he:"סוג דלק לא מזוהה", action:""};
+
+// Petrol is one value ("בנזין") in the registry — it does NOT store octane.
+// We split it into 95 (standard) vs 98 (premium) using a model classifier built
+// from the actual Israeli-market models, cross-checked against manufacturer
+// fuel recommendations: high-performance / premium-fuel cars get 98.
+const PETROL = {
+  "95":{ic:"⛽", c:"#3fae6b", title:"בנזין 95", en:"Petrol — 95 octane (standard)",
+        he:"רכב תוכנן לדלק 95", action:"Designed for 95 octane petrol"},
+  "rec":{ic:"⛽", c:"#f0a23e", title:"בנזין 95 · 98 מומלץ", en:"Petrol — 95 OK · 98 recommended",
+        he:"ניתן למלא 95", action:"95 is fine"},
+  "98":{ic:"⛽", c:"#e94560", title:"בנזין 98", en:"Petrol — 98 octane (premium)", badge:"PREMIUM 98",
+        he:"חייב למלא 98 בלבד", action:"Must use 98 octane (premium) only"},
+};
+
+// SQL-LIKE matcher (case-insensitive) so the rules below mirror the DB-validated set 1:1.
+// Returns 95 or 98 for a petrol car, from make (tozeret_nm) + model (kinuy_mishari).
+let octane = null;
+// async load rules + build the octane() function; petrolOctane(r) wraps it.
+const RULES_READY = fetch("rules.json").then(r => r.json()).then(R => { octane = window.makeOctane(R); });
+function petrolOctane(r){
+  if(!octane) return "95";   // not loaded yet; UI gates on RULES_READY before calling
+  return octane(r.tozeret_nm||"", r.kinuy_mishari||r.degem_nm||"", r.ramat_gimur||"", r.degem_manoa||"", r.nefach_manoa||"");
+}
+
+// Initial snapshot from cars.db (pulled 2026-06-23) — overwritten by live API counts on load.
+// 5th column = sug_delek_nm filter for live fetch (or "petrol_*" for the inferred 95/rec/98 split).
+const LEGEND = [
+  ["בנזין 95","Petrol · 95 octane (standard)",        3224386,"#3fae6b","petrol_95"],
+  ["בנזין 98 מומלץ","Petrol · 95 OK, 98 recommended", 153334,"#f0a23e","petrol_rec"],
+  ["בנזין 98 בלבד","Petrol · 98 octane (built for, est.)",     4542,"#e94560","petrol_98"],
+  ["דיזל","Diesel",                              384271,"#6b7280","דיזל"],
+  ["חשמל","Electric (EV)",                       232174,"#4b8bf5","חשמל"],
+  ["חשמל/בנזין","Hybrid · Petrol + Electric",    140018,"#1bb8a6","חשמל/בנזין"],
+  ['גפ"מ',"LPG / Autogas",                        17095,"#9b6cf0",'גפ"מ'],
+  ["חשמל/דיזל","Hybrid · Diesel + Electric",       1013,"#0e9aa0","חשמל/דיזל"],
+];
+let TOTAL = 4137574;
+// Snapshot ratios for the inferred 95/rec/98 petrol split. The registry has no octane field,
+// so we apply these ratios to the LIVE petrol total when it arrives.
+const PETROL_SPLIT_RATIO = (() => {
+  const t = 3224386 + 153334 + 4542;
+  return { petrol_95: 3224386/t, petrol_rec: 153334/t, petrol_98: 4542/t };
+})();
+
+// Real example plates for instant testing (covers 95 vs 98 and every fuel type).
+const EXAMPLES = [
+  [1011671,"בנזין 95 · VW Golf"],
+  [1815138,"בנזין 98 · VW Golf GTI"],
+  [1001028,"בנזין 98 · Porsche 911"],
+  [1000028,"דיזל · Porsche Macan"],
+  [1044484,"חשמל · Nissan Leaf"],
+  [1003039,"חשמל/בנזין · Mercedes E350e"],
+  [1001168,'גפ"מ · Suzuki Vitara'],
+  [4197726,"חשמל/דיזל · Mercedes E300de"],
+];
+
+const $ = id => document.getElementById(id);
+const plateEl = $("plate"), statusEl = $("status"), resultEl = $("result");
+
+// --- render legend + examples ---
+function renderLegend(){
+  const maxN = Math.max(...LEGEND.map(d=>d[2]));
+  $("legend").innerHTML = LEGEND.map(([he,en,n,c])=>{
+    const pct = (100*n/TOTAL).toFixed(1);
+    return `<tr>
+      <td style="white-space:nowrap"><span class="pill" style="background:${c}"></span>${he}</td>
+      <td style="width:42%"><span class="bar" style="width:${Math.max(4,100*n/maxN)}%;background:${c}"></span></td>
+      <td class="v">${n.toLocaleString()} <span class="small">(${pct}%)</span></td>
+    </tr>`;
+  }).join("");
+}
+
+// --- live legend refresh: hit the data.gov.il API for each fuel type ---
+async function refreshLegend(){
+  try{
+    const q = (filters) => {
+      const u = `https://data.gov.il/api/3/action/datastore_search?resource_id=${RESOURCE}&limit=0` +
+                (filters ? `&filters=${encodeURIComponent(JSON.stringify(filters))}` : "");
+      return fetch(u).then(r => r.ok ? r.json() : null).then(j => j?.result?.total ?? null);
+    };
+    const tasks = LEGEND.map(row => {
+      const key = row[4];
+      return (key === "petrol_95" || key === "petrol_rec" || key === "petrol_98") ? null : q({sug_delek_nm: key});
+    });
+    const [grandTotal, petrolTotal] = await Promise.all([q(null), q({sug_delek_nm: "בנזין"})]);
+    const results = await Promise.all(tasks.map(t => t || Promise.resolve(null)));
+
+    if(grandTotal) TOTAL = grandTotal;
+    if(petrolTotal){
+      for(const row of LEGEND){
+        const k = row[4];
+        if(PETROL_SPLIT_RATIO[k] != null) row[2] = Math.round(petrolTotal * PETROL_SPLIT_RATIO[k]);
+      }
+    }
+    results.forEach((n, i) => { if(n != null) LEGEND[i][2] = n; });
+
+    const today = new Date().toISOString().slice(0,10);
+    $("legend-source").textContent = `(${TOTAL.toLocaleString()} כלי רכב · ${today})`;
+    renderLegend();
+  }catch(e){
+    $("legend-source").textContent = "(תצוגת תמונת מצב — אין חיבור למאגר)";
+  }
+}
+
+renderLegend();
+refreshLegend();
+
+/* examples card removed — keep EXAMPLES const inert in case other code references it */
+
+// --- lookup ---
+async function run(){
+  await RULES_READY;
+  const digits = (plateEl.value||"").replace(/\D/g,"");
+  resultEl.style.display = "none";
+  if(digits.length < 5 || digits.length > 8){
+    statusEl.textContent = "הזן/הזיני מספר רישוי תקין (5–8 ספרות).";
+    return;
+  }
+  statusEl.textContent = "מחפש במאגר…";
+  const filters = encodeURIComponent(JSON.stringify({mispar_rechev: Number(digits)}));
+  const q = (rid) => `https://data.gov.il/api/3/action/datastore_search?resource_id=${rid}&filters=${filters}&limit=1`;
+  try{
+    let res = await fetch(q(RESOURCE));
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    let rec = (await res.json())?.result?.records?.[0];
+    let isPI = false;
+    if(!rec){                                   // fall back to the personal-import registry
+      res = await fetch(q(RESOURCE_PI));
+      if(res.ok) rec = (await res.json())?.result?.records?.[0];
+      isPI = !!rec;
+    }
+    if(!rec){
+      statusEl.textContent = `מספר רישוי ${digits} לא נמצא במאגר הרכבים הפרטיים/מסחריים או ביבוא אישי.`;
+      return;
+    }
+    statusEl.textContent = "";
+    show(rec, isPI);
+  }catch(err){
+    statusEl.textContent = "שגיאה בשליפת הנתונים: "+err.message;
+  }
+}
+
+function show(r, isPI){
+  let info, note = "";
+  if(isPI) note = "🌐 יבוא אישי. ";
+  if(r.sug_delek_nm === "בנזין"){
+    const oct = petrolOctane(r);
+    info = PETROL[oct];
+    if(oct === "98") note += "דגם ביצועים — מתוכנן ל-98 ע״י היצרן.";
+    else if(oct === "rec") note += "98 מנצל את מלוא יכולות המנוע ומפחית בלאי.";
+    else note += "רכב סטנדרטי — 95 אוקטן הוא הדלק התקני.";
+  } else {
+    info = FUEL[r.sug_delek_nm] || UNKNOWN;
+  }
+  const fh = $("fuelhero");
+  fh.style.background = info.c + "1a";       // ~10% tint over the white card
+  fh.style.borderColor = info.c;
+  fh.style.color = info.c;
+  $("f-action").innerHTML =
+    `${info.he || ""}` +
+    (note ? `<span class="en">${note}</span>` : "");
+
+  const rows = [
+    ["מספר רישוי", r.mispar_rechev],
+    ["יצרן", r.tozeret_nm],
+    ["שם מסחרי", r.kinuy_mishari || r.degem_nm],
+    ["דגם", r.degem_nm],
+    ["שנת ייצור", r.shnat_yitzur],
+    isPI ? ["נפח מנוע", r.nefach_manoa ? r.nefach_manoa+" סמ\"ק" : ""] : ["צבע", (r.tzeva_rechev||"").trim()],
+    isPI ? ["סוג יבוא", r.sug_yevu] : ["בעלות", r.baalut],
+    ["טסט אחרון", r.mivchan_acharon_dt],
+    ["תוקף רישיון", r.tokef_dt],
+  ];
+  $("details").innerHTML = rows
+    .filter(([,v]) => v !== null && v !== undefined && v !== "")
+    .map(([k,v]) => `<tr><td class="k">${k}</td><td class="v">${v}</td></tr>`).join("");
+  resultEl.style.display = "block";
+  resultEl.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+// darken a hex color for the gradient
+function shade(hex, p){
+  const n = parseInt(hex.slice(1),16);
+  let r=(n>>16)+p, g=((n>>8)&255)+p, b=(n&255)+p;
+  r=Math.max(0,Math.min(255,r)); g=Math.max(0,Math.min(255,g)); b=Math.max(0,Math.min(255,b));
+  return "#"+(r<<16|g<<8|b).toString(16).padStart(6,"0");
+}
+
+$("form").addEventListener("submit", e=>{e.preventDefault(); run();});
+$("clear").addEventListener("click", ()=>{
+  plateEl.value=""; statusEl.textContent=""; resultEl.style.display="none"; plateEl.focus();
+});
+plateEl.focus();
+</script>
+</body>
+</html>

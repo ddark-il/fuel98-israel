@@ -1,0 +1,1384 @@
+{
+  "_doc": "Octane classifier rules for Israeli vehicle registry. Rules eval top-to-bottom; first match wins. Rules with skip_if_cosmetic=true are skipped when the cosmetic guard fires (S-Line/AMG-Line/R-Line/etc.). LIKE pattern % = any chars, _ = single char.",
+  "engine_sets": {
+    "AUDI_NA": [
+      "ALT",
+      "BSE",
+      "BGU",
+      "BYT",
+      "BVY",
+      "BLR",
+      "AUK",
+      "CAL",
+      "BDW",
+      "BDV",
+      "BDX",
+      "BHK",
+      "ASN",
+      "ADR",
+      "AGN"
+    ],
+    "AUDI_R8": [
+      "BYH",
+      "BUJ",
+      "CND"
+    ],
+    "CHEV_REC": [
+      "LTG",
+      "LSY",
+      "L87",
+      "L86"
+    ],
+    "CHEV_98": [
+      "LT1",
+      "LT4",
+      "LT2",
+      "LT6",
+      "LS1",
+      "LS2",
+      "LS3",
+      "LS6",
+      "LS7",
+      "LS9",
+      "LSA",
+      "L99",
+      "LT5"
+    ]
+  },
+  "brand_aliases": {
+    "אודי": "אאודי",
+    "מזארטי": "מזראטי",
+    "ביסמרק": "ב מ וו",
+    "אייטס": "מרצדס",
+    "ג'ון וו": "פורשה",
+    "קוגל": "אלפא",
+    "צפל": "ג'יפ",
+    "אחרי נגררי שטח": "ג'יפ",
+    "וי.די.ל.": "דונקרוורת",
+    "סטרה": "אופל"
+  },
+  "cosmetic": {
+    "name": [
+      "%S LINE%",
+      "%S-LINE%",
+      "%N LINE%",
+      "%N-LINE%",
+      "%R LINE%",
+      "%R-LINE%",
+      "%GT LINE%",
+      "%GT-LINE%",
+      "%ST LINE%",
+      "%ST-LINE%",
+      "%M SPORT%",
+      "%M-SPORT%",
+      "%AMG LINE%",
+      "%GR SPORT%",
+      "%GR-SPORT%",
+      "%SPORT LINE%",
+      "%F SPORT%",
+      "%F-SPORT%",
+      "%OPC LINE%",
+      "%OPC-LINE%"
+    ],
+    "trim": [
+      "%S LINE%",
+      "%N LINE%",
+      "%N-LINE%",
+      "%R LINE%",
+      "%R-LINE%",
+      "%GT LINE%",
+      "%ST LINE%",
+      "%M SPORT%",
+      "%AMG LINE%",
+      "%GR SPORT%",
+      "%SPORT LINE%",
+      "%F SPORT%",
+      "%F-SPORT%",
+      "%OPC LINE%",
+      "%OPC-LINE%"
+    ]
+  },
+  "rules": [
+    {
+      "id": "exotic-brands",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "פורשה",
+          "פרארי",
+          "למבורגיני",
+          "אסטון",
+          "בנטלי",
+          "רולס",
+          "מזראטי",
+          "מזארטי",
+          "מקלא",
+          "מקלר",
+          "לוטוס",
+          "אלפיין",
+          "אלפין"
+        ]
+      },
+      "then": "98",
+      "note": "Exotic brands always require premium"
+    },
+    {
+      "id": "mercedes-amg",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "מרצדס"
+        ],
+        "name": [
+          "AMG%",
+          "% AMG%",
+          "%AMG %"
+        ]
+      },
+      "then": [
+        {
+          "when": {
+            "name": [
+              "%35%",
+              "%43%",
+              "%53%"
+            ]
+          },
+          "then": "rec",
+          "note": "AMG 35/43/53 entry/mid (2.0T / 3.0 I6)"
+        },
+        {
+          "then": "98",
+          "note": "AMG 45/63/GT/V8"
+        }
+      ]
+    },
+    {
+      "id": "daimlerchrysler-amg",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "דימלרקריזלר"
+        ],
+        "name": [
+          "%AMG%"
+        ]
+      },
+      "then": "98",
+      "note": "DaimlerChrysler-era Mercedes AMG (55/63)"
+    },
+    {
+      "id": "bmw-m",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "ב מ וו"
+        ],
+        "name": [
+          "M2%",
+          "M3%",
+          "M4%",
+          "M5%",
+          "M6%",
+          "M8%",
+          "%M135%",
+          "%M140%",
+          "%M235%",
+          "%M240%",
+          "%M340%",
+          "%M440%",
+          "%M550%",
+          "%M850%",
+          "%M35I%",
+          "%M40I%",
+          "%M50I%",
+          "%M50 %",
+          "%M50",
+          "%M60I%",
+          "%X3 M%",
+          "%X4 M%",
+          "%X5 M%",
+          "%X6 M%",
+          "%Z4 M%",
+          "%M X3%",
+          "%M X4%",
+          "%M X5%",
+          "%M X6%",
+          "%SERIES M COUPE%",
+          "% M COUPE%",
+          "%M ROADSTER%"
+        ]
+      },
+      "then": "98"
+    },
+    {
+      "id": "audi-rs-r8-name",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "אאודי"
+        ],
+        "name": [
+          "RS%",
+          "%RS3%",
+          "%RS4%",
+          "%RS5%",
+          "%RS6%",
+          "%RS7%",
+          "%RSQ%",
+          "R8%",
+          "TT RS%"
+        ]
+      },
+      "then": "98"
+    },
+    {
+      "id": "audi-r8-engine",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "אאודי"
+        ],
+        "engine_set": "AUDI_R8"
+      },
+      "then": "98",
+      "note": "Catches chassis-code R8 imports without R8 in the name"
+    },
+    {
+      "id": "vw-golf-r",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "פולקסווגן"
+        ],
+        "any": [
+          {
+            "name": [
+              "GOLF R%"
+            ]
+          },
+          {
+            "trim": [
+              "%GOLF R%"
+            ]
+          },
+          {
+            "all": [
+              {
+                "name": [
+                  "GOLF",
+                  "GOLF 3DR",
+                  "GOLF 5DR"
+                ]
+              },
+              {
+                "trim": [
+                  "R",
+                  "R PERFORMANCE",
+                  "R BLACK ED",
+                  "R PLUS",
+                  "R PERFORMANCE%",
+                  "R BLACK%"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": "rec",
+      "note": "VW Golf R — same EA888 evo4 as Audi S3; manual lists 95 RON as acceptable minimum (98 recommended for full output). rec, not 98."
+    },
+    {
+      "id": "honda-type-r",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "הונדה"
+        ],
+        "name_or_trim": [
+          "%TYPE R%",
+          "%TYPE-R%"
+        ]
+      },
+      "then": "98"
+    },
+    {
+      "id": "honda-acura-type-s",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "הונדה",
+          "אקורה"
+        ],
+        "name_or_trim": [
+          "%TYPE S%",
+          "%TYPE-S%"
+        ]
+      },
+      "then": "rec",
+      "note": "Honda/Acura Type S (sport) -> premium recommended"
+    },
+    {
+      "id": "hyundai-n",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "יונדאי"
+        ],
+        "any": [
+          {
+            "name": [
+              "% N",
+              "% N %"
+            ]
+          },
+          {
+            "engine_eq": "G4KH"
+          },
+          {
+            "engine_eq": "G4FV"
+          }
+        ]
+      },
+      "then": "98",
+      "note": "Hyundai N incl. I20N/I30N by engine; N-Line cosmetic excluded"
+    },
+    {
+      "id": "toyota-gr-supra-86",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "טויוטה"
+        ],
+        "name": [
+          "GR %",
+          "%GR86%",
+          "%GR 86%",
+          "%SUPRA%",
+          "86",
+          "TOYOTA 86%"
+        ]
+      },
+      "then": "98",
+      "note": "Toyota GR / Supra / 86 & GR86 (FA20/FA24 12.5:1)"
+    },
+    {
+      "id": "ford-perf",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "פורד"
+        ]
+      },
+      "then": [
+        {
+          "when": {
+            "name": [
+              "%FOCUS RS%",
+              "%SHELBY%",
+              "%GT350%",
+              "%GT500%",
+              "%MACH 1%",
+              "%MACH1%",
+              "%BULLITT%",
+              "%BOSS 302%",
+              "%FORD GT%"
+            ]
+          },
+          "then": "98",
+          "note": "Ford track / required-premium"
+        },
+        {
+          "when": {
+            "name": [
+              "%MUSTANG%"
+            ]
+          },
+          "then": [
+            {
+              "when": {
+                "name_or_trim_not": [
+                  "%ECOBOOST%",
+                  "%ECOBOST%",
+                  "%ECO BOOST%",
+                  "%EBOOST%",
+                  "%EBOST%"
+                ],
+                "name_or_trim": [
+                  "%GT%"
+                ]
+              },
+              "then": "98",
+              "note": "Mustang GT 5.0 V8"
+            },
+            {
+              "then": "rec",
+              "note": "Mustang EcoBoost/base"
+            }
+          ]
+        },
+        {
+          "when": {
+            "name_or_trim": [
+              "% ST",
+              "% ST %",
+              "%-ST",
+              "%FIESTA ST%",
+              "%FOCUS ST%",
+              "%PUMA ST%"
+            ]
+          },
+          "then": "rec",
+          "note": "ST performance (ST-Line excluded as cosmetic)"
+        }
+      ]
+    },
+    {
+      "id": "bmw-mini-jcw",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "ב מ וו",
+          "מיני"
+        ],
+        "name_or_trim": [
+          "%JOHN COOPER%",
+          "%JCW%"
+        ]
+      },
+      "then": "98"
+    },
+    {
+      "id": "abarth",
+      "skip_if_cosmetic": true,
+      "when": {
+        "name_or_trim": [
+          "%ABARTH%"
+        ]
+      },
+      "then": "rec",
+      "note": "Abarth 1.4 T-Jet: 98 recommended, 95 OK (like Cupra)"
+    },
+    {
+      "id": "viper-name",
+      "skip_if_cosmetic": true,
+      "when": {
+        "name_or_trim": [
+          "%VIPER%"
+        ]
+      },
+      "then": "98",
+      "note": "Dodge Viper V10"
+    },
+    {
+      "id": "premium-sports",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "דונקרוורת",
+          "דלרה",
+          "פנוז",
+          "אי סי קארס"
+        ]
+      },
+      "then": "98",
+      "note": "Donkervoort, Dallara, Panoz, AC Cobra"
+    },
+    {
+      "id": "caterham-track",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "קטרהאם"
+        ],
+        "name_or_trim": [
+          "%R500%",
+          "%R620%",
+          "%620R%",
+          "%SUPERLIGHT%",
+          "%CSR%"
+        ]
+      },
+      "then": "98",
+      "note": "Caterham R500/R620/CSR/Superlight (track)"
+    },
+    {
+      "id": "zaz-968-easter-egg",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "זאז"
+        ],
+        "any": [
+          {
+            "name": [
+              "%968%"
+            ]
+          },
+          {
+            "engine_starts_with": [
+              "968"
+            ]
+          }
+        ]
+      },
+      "then": "98",
+      "note": "The mighty ZAZ-968 Zaporozhets demands premium"
+    },
+    {
+      "id": "nsx-s2000-name",
+      "skip_if_cosmetic": true,
+      "when": {
+        "name_or_trim": [
+          "%NSX%",
+          "%S2000%",
+          "%S 2000%"
+        ]
+      },
+      "then": "98",
+      "note": "Honda/Acura NSX & S2000 by name"
+    },
+    {
+      "id": "honda-s2000-typer-engine",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "הונדה",
+          "אקורה"
+        ],
+        "any": [
+          {
+            "engine_starts_with": [
+              "F20C",
+              "F22C"
+            ]
+          },
+          {
+            "engine_eq": "K20C1"
+          }
+        ]
+      },
+      "then": "98",
+      "note": "S2000 (F20C/F22C) & Civic Type R (K20C1) by engine"
+    },
+    {
+      "id": "lexus-f-lc500",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "לקסוס"
+        ],
+        "name": [
+          "%RC F%",
+          "%RC-F%",
+          "%RCF%",
+          "%GS F%",
+          "%GSF%",
+          "%IS F%",
+          "%ISF%",
+          "%IS 500%",
+          "%IS500%",
+          "%LC500%",
+          "%LC 500%",
+          "%LFA%"
+        ]
+      },
+      "then": "98",
+      "note": "Lexus F / LC500 (V8)"
+    },
+    {
+      "id": "mazda-rotary-mps",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "מזדה",
+          "מאזדה"
+        ],
+        "any": [
+          {
+            "name_or_trim": [
+              "%MPS%",
+              "%MAZDASPEED%"
+            ]
+          },
+          {
+            "name": [
+              "%RX-7%",
+              "%RX7%",
+              "%RX-8%",
+              "%RX8%"
+            ]
+          },
+          {
+            "engine_starts_with": [
+              "13B"
+            ]
+          },
+          {
+            "engine_eq": "12A"
+          },
+          {
+            "engine_eq": "20B"
+          }
+        ]
+      },
+      "then": "98",
+      "note": "Mazdaspeed/MPS & rotary (RX-7/RX-8) by name and engine"
+    },
+    {
+      "id": "dodge-viper-displacement",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "דודג'"
+        ],
+        "nefach_between": [
+          8300,
+          8500
+        ]
+      },
+      "then": "98",
+      "note": "Dodge Viper 8.4 V10 by displacement (code-named imports)"
+    },
+    {
+      "id": "alfa-quadrifoglio",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "אלפא"
+        ],
+        "name_or_trim": [
+          "%QUADRIF%",
+          "%QV%"
+        ],
+        "name_not": [
+          "%GIULIETTA%",
+          "%MITO%",
+          "%MIT0%"
+        ]
+      },
+      "then": "98",
+      "note": "Alfa: only the 2.9 V6 Giulia/Stelvio QV REQUIRES 98; 4C & 4-cyl QV only recommend"
+    },
+    {
+      "id": "subaru-wrx-sti-brz",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "סובארו"
+        ],
+        "any": [
+          {
+            "name": [
+              "%WRX%",
+              "%STI%",
+              "%BRZ%"
+            ]
+          },
+          {
+            "trim": [
+              "%WRX%",
+              "%STI%"
+            ]
+          }
+        ]
+      },
+      "then": "98",
+      "note": "WRX/STI + BRZ (FA20/FA24 12.5:1)"
+    },
+    {
+      "id": "volvo-t8-polestar",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "וולבו",
+          "וויט"
+        ],
+        "any": [
+          {
+            "name": [
+              "%T8%",
+              "%POLESTAR%"
+            ]
+          },
+          {
+            "trim": [
+              "%POLESTAR%"
+            ]
+          }
+        ]
+      },
+      "then": "98",
+      "note": "Volvo T8 / Polestar Engineered PHEV"
+    },
+    {
+      "id": "nissan-gtr-z-nismo",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "ניסאן"
+        ],
+        "any": [
+          {
+            "name": [
+              "%GT-R%",
+              "%GTR%",
+              "%NISMO%",
+              "%370Z%",
+              "%350Z%"
+            ]
+          },
+          {
+            "trim": [
+              "%NISMO%"
+            ]
+          }
+        ]
+      },
+      "then": "98"
+    },
+    {
+      "id": "mitsubishi-evo-gto",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "מיצובישי"
+        ],
+        "name": [
+          "%EVOLUTION%",
+          "%LANCER EVO%",
+          "%3000GT%",
+          "%GTO%"
+        ]
+      },
+      "then": "98"
+    },
+    {
+      "id": "cadillac-v-series",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "קאדילאק"
+        ],
+        "name": [
+          "%-V",
+          "%-V %",
+          "% V",
+          "%BLACKWING%"
+        ]
+      },
+      "then": "98",
+      "note": "Cadillac V-series (SC/TT)"
+    },
+    {
+      "id": "chev-corvette-camaro-ss",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "שברולט"
+        ],
+        "any": [
+          {
+            "name": [
+              "%CORVET%",
+              "%קורבט%"
+            ]
+          },
+          {
+            "all": [
+              {
+                "name": [
+                  "%CAMARO%",
+                  "%קאמרו%"
+                ]
+              },
+              {
+                "name_or_trim": [
+                  "%SS%",
+                  "%ZL%"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": "98"
+    },
+    {
+      "id": "chev-engine-v8",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "שברולט"
+        ],
+        "engine_set": "CHEV_98"
+      },
+      "then": "98",
+      "note": "Chevy V8 by engine code — backup for garbled names"
+    },
+    {
+      "id": "hellcat-trackhawk",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "קרייזלר",
+          "דודג'",
+          "ג'יפ"
+        ],
+        "any": [
+          {
+            "name_or_trim": [
+              "%HELLCAT%",
+              "%TRACKHAWK%",
+              "%REDEYE%",
+              "%DEMON%"
+            ]
+          },
+          {
+            "engine_eq": "ESD"
+          }
+        ]
+      },
+      "then": "98",
+      "note": "Chrysler/Dodge/Jeep supercharged (Hellcat/Trackhawk/Demon/Redeye)"
+    },
+    {
+      "id": "alfa-older-na-95",
+      "when": {
+        "brand": [
+          "אלפא"
+        ],
+        "any": [
+          {
+            "name": [
+              "%147%",
+              "%156%",
+              "%166%",
+              "%155%",
+              "%164%",
+              "%145%",
+              "%146%",
+              "%541%",
+              "%641%",
+              "%159%",
+              "%3200%",
+              "%GT%",
+              "%GTV%",
+              "ALFA ROMEO",
+              "ALFA R0ME0",
+              "ALFA ROME0",
+              "ALFA R0MEO"
+            ]
+          },
+          {
+            "all": [
+              {
+                "name": [
+                  "%SPIDER%",
+                  "%ספיידר%"
+                ]
+              },
+              {
+                "name_not": [
+                  "%4C%"
+                ]
+              }
+            ]
+          }
+        ],
+        "name_not": [
+          "%TURBO%",
+          "%טורבו%",
+          "%אלטו%"
+        ]
+      },
+      "then": "95",
+      "note": "Older NA Alfas (reversed 541=145, 641=146; turbos stay rec floor)"
+    },
+    {
+      "id": "audi-na-engine-95",
+      "when": {
+        "brand": [
+          "אאודי"
+        ],
+        "engine_set": "AUDI_NA"
+      },
+      "then": "95",
+      "note": "Confident NA Audi engines"
+    },
+    {
+      "id": "chev-gmc-rec-engine",
+      "when": {
+        "brand": [
+          "שברולט",
+          "ג'י.אמ",
+          "ג'.מ",
+          "ג.מ"
+        ],
+        "engine_set": "CHEV_REC"
+      },
+      "then": "rec",
+      "note": "Chevy/GMC 2.0T (LTG/LSY) & 6.2 V8 (L86/L87)"
+    },
+    {
+      "id": "seat-cupra-formentor",
+      "when": {
+        "brand": [
+          "סיאט"
+        ],
+        "name_or_trim": [
+          "%CUPRA%",
+          "%FORMENTOR%"
+        ]
+      },
+      "then": "rec",
+      "note": "SEAT-recorded Cupra/Formentor -> like Cupra brand"
+    },
+    {
+      "id": "chrysler-srt-392-jeep",
+      "when": {
+        "brand": [
+          "קרייזלר",
+          "דודג'",
+          "ג'יפ"
+        ],
+        "any": [
+          {
+            "name_or_trim": [
+              "%SRT%",
+              "%392%",
+              "%SCAT%"
+            ]
+          },
+          {
+            "engine_in": [
+              "J",
+              "392",
+              "TNXE",
+              "ESG"
+            ]
+          }
+        ]
+      },
+      "then": "rec",
+      "note": "Chrysler/Dodge/Jeep 6.4 HEMI (392/SRT NA)"
+    },
+    {
+      "id": "ds-thp",
+      "when": {
+        "any": [
+          {
+            "brand": [
+              "די.אס",
+              "די אס"
+            ]
+          },
+          {
+            "name": [
+              "DS3%",
+              "DS4%",
+              "DS5%",
+              "DS6%",
+              "DS7%",
+              "DS9%"
+            ]
+          }
+        ],
+        "engine_starts_with": [
+          "5G"
+        ]
+      },
+      "then": "rec",
+      "note": "DS (premium PSA) 1.6 THP"
+    },
+    {
+      "id": "jlr-v8",
+      "when": {
+        "brand": [
+          "יגואר",
+          "לנדרובר",
+          "לנד רובר",
+          "רובר"
+        ],
+        "any": [
+          {
+            "engine_starts_with": [
+              "508",
+              "428",
+              "448",
+              "550",
+              "575",
+              "S68",
+              "N63"
+            ]
+          },
+          {
+            "name_or_trim": [
+              "%SVR%"
+            ]
+          }
+        ]
+      },
+      "then": "98",
+      "note": "Jaguar/Land Rover 5.0 SC & BMW 4.4 V8"
+    },
+    {
+      "id": "honda-acura-perf-rec",
+      "when": {
+        "brand": [
+          "הונדה",
+          "אקורה"
+        ],
+        "any": [
+          {
+            "engine_starts_with": [
+              "B18"
+            ]
+          },
+          {
+            "name": [
+              "%CIVIC SI%",
+              "%RSX%",
+              "%TSX%",
+              "%INTEGRA%",
+              "%EURO R%"
+            ]
+          },
+          {
+            "trim": [
+              "%CIVIC SI%"
+            ]
+          }
+        ]
+      },
+      "then": "rec",
+      "note": "Honda/Acura B18 (Integra) + performance K models (Si/RSX/TSX/Euro-R)"
+    },
+    {
+      "id": "kia-stinger",
+      "when": {
+        "brand": [
+          "קיה"
+        ],
+        "name": [
+          "%STINGER%"
+        ]
+      },
+      "then": "rec",
+      "note": "Kia Stinger (3.3 TT)"
+    },
+    {
+      "id": "lexus-non-hybrid",
+      "when": {
+        "brand": [
+          "לקסוס"
+        ],
+        "engine_starts_with": [
+          "8AR",
+          "4GR",
+          "3GR",
+          "1GR",
+          "1JZ",
+          "2JZ",
+          "1UZ",
+          "3UZ",
+          "2UZ",
+          "1UR",
+          "3UR",
+          "2UR",
+          "V35A",
+          "T24A",
+          "8GR"
+        ]
+      },
+      "then": "rec",
+      "note": "Lexus non-hybrid V6/V8/I6/turbo (older IS/GS/LS/SC); Atkinson hybrids 2ZR/2AR/A25A/M20A/M15A & 2GR stay 95"
+    },
+    {
+      "id": "mazda-cx9-cx60-cx90",
+      "when": {
+        "brand": [
+          "מזדה",
+          "מאזדה"
+        ],
+        "any": [
+          {
+            "name": [
+              "%CX-9%",
+              "%CX9%",
+              "%CX 9%",
+              "%CX-60%"
+            ]
+          },
+          {
+            "engine_eq": "H3"
+          }
+        ]
+      },
+      "then": "rec",
+      "note": "Mazda CX-9/CX-60/CX-90 (turbo)"
+    },
+    {
+      "id": "mx5-nd",
+      "when": {
+        "brand": [
+          "מזדה",
+          "מאזדה"
+        ],
+        "name": [
+          "%MX-5%",
+          "%MX5%",
+          "%MX 5%",
+          "%MIATA%"
+        ],
+        "engine_starts_with": [
+          "PE",
+          "P5"
+        ]
+      },
+      "then": "rec",
+      "note": "MX-5 ND (SkyActiv-G PE/P5); older NA/NB/NC Miatas stay 95"
+    },
+    {
+      "id": "nissan-infiniti-vq-vr",
+      "when": {
+        "brand": [
+          "ניסאן"
+        ],
+        "any": [
+          {
+            "name": [
+              "%INFINITI%"
+            ]
+          },
+          {
+            "engine_starts_with": [
+              "VQ",
+              "VR"
+            ]
+          }
+        ]
+      },
+      "then": "rec",
+      "note": "Nissan/Infiniti premium V6 (VQ/VR) — GT-R & Z go to 98 above"
+    },
+    {
+      "id": "opel-opc",
+      "when": {
+        "brand": [
+          "אופל"
+        ],
+        "name_or_trim": [
+          "%OPC%"
+        ],
+        "name_or_trim_not": [
+          "%OPC LINE%",
+          "%OPC-LINE%"
+        ]
+      },
+      "then": "rec",
+      "note": "Opel OPC (performance) — OPC-Line cosmetic excluded"
+    },
+    {
+      "id": "peugeot-gti-rcz",
+      "when": {
+        "brand": [
+          "פיג"
+        ],
+        "any": [
+          {
+            "name": [
+              "%GTI%",
+              "%RCZ%",
+              "%PSE%"
+            ]
+          },
+          {
+            "trim": [
+              "%GTI%"
+            ]
+          }
+        ]
+      },
+      "then": "rec",
+      "note": "Peugeot GTi / RCZ / 508 PSE"
+    },
+    {
+      "id": "pontiac-muscle",
+      "when": {
+        "brand": [
+          "פונטיאק"
+        ],
+        "any": [
+          {
+            "name": [
+              "%FIREBIRD%",
+              "%TRANS AM%",
+              "%TRANSAM%",
+              "%TRANS-AM%",
+              "%GTO%"
+            ]
+          },
+          {
+            "trim": [
+              "%FIREBIRD%",
+              "%TRANS%",
+              "%GTO%"
+            ]
+          }
+        ]
+      },
+      "then": "rec",
+      "note": "Pontiac Firebird/Trans Am/GTO (V8 muscle)"
+    },
+    {
+      "id": "renault-sport",
+      "when": {
+        "brand": [
+          "רנו"
+        ],
+        "any": [
+          {
+            "engine_eq": "M5P"
+          },
+          {
+            "engine_eq": "M5M"
+          },
+          {
+            "trim": [
+              "%RS CUP%",
+              "%RS TROPHY%"
+            ]
+          }
+        ]
+      },
+      "then": "rec",
+      "note": "Renault Sport (Megane RS / Clio RS); RS-Line cosmetic"
+    },
+    {
+      "id": "skoda-vrs",
+      "when": {
+        "brand": [
+          "סקודה"
+        ],
+        "any": [
+          {
+            "name": [
+              "% RS",
+              "%VRS%",
+              "%OCTAVIA RS%"
+            ]
+          },
+          {
+            "trim": [
+              "RS",
+              "%RS SPORT%",
+              "%VRS%"
+            ]
+          }
+        ]
+      },
+      "then": "rec",
+      "note": "Škoda vRS (Octavia/Kodiaq RS, 2.0 TSI)"
+    },
+    {
+      "id": "subaru-turbo",
+      "when": {
+        "brand": [
+          "סובארו"
+        ],
+        "name_or_trim": [
+          "%TURBO%",
+          "%XT%"
+        ],
+        "name_not": [
+          "%WRX%",
+          "%STI%"
+        ]
+      },
+      "then": "rec",
+      "note": "Subaru Forester XT / Impreza Turbo (turbo flat-4, non-WRX)"
+    },
+    {
+      "id": "smart-brabus",
+      "when": {
+        "brand": [
+          "סמארט"
+        ],
+        "name_or_trim": [
+          "%BRABUS%"
+        ]
+      },
+      "then": "rec",
+      "note": "Smart Brabus (M281 turbo)"
+    },
+    {
+      "id": "toyota-tt-engines",
+      "when": {
+        "brand": [
+          "טויוטה"
+        ],
+        "engine_in": [
+          "T24A",
+          "V35A",
+          "T24AFTS"
+        ]
+      },
+      "then": "rec",
+      "note": "Toyota 2.4TT/3.5TT (LC/Sequoia/Tundra/Tacoma/Crown)"
+    },
+    {
+      "id": "vw-gti",
+      "when": {
+        "brand": [
+          "פולקסווגן"
+        ],
+        "any": [
+          {
+            "name": [
+              "%GTI%"
+            ]
+          },
+          {
+            "trim": [
+              "%GTI%",
+              "% GTI%",
+              "GTI %"
+            ]
+          }
+        ]
+      },
+      "then": "rec",
+      "note": "VW GTI — same EA888 as Audi S / Cupra VZ"
+    },
+    {
+      "id": "premium-brand-floor",
+      "when": {
+        "brand": [
+          "ב מ וו",
+          "מרצדס",
+          "אאודי",
+          "אלפא",
+          "קופרה",
+          "יגואר",
+          "מיני",
+          "קאדילאק",
+          "דימלרקריזלר",
+          "דימלר בנץ",
+          "אינפיניטי",
+          "אינאוס",
+          "מורגן",
+          "לנדרובר",
+          "לנד רובר",
+          "רובר",
+          "סאאב",
+          "וולבו",
+          "וויט"
+        ]
+      },
+      "then": "rec",
+      "note": "Premium brand floor — anything not handled above falls here"
+    }
+  ],
+  "default": "95"
+}
