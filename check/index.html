@@ -251,21 +251,19 @@ function petrolOctane(r){
 // Initial snapshot from cars.db (pulled 2026-06-23) — overwritten by live API counts on load.
 // 5th column = sug_delek_nm filter for live fetch (or "petrol_*" for the inferred 95/rec/98 split).
 const LEGEND = [
-  ["בנזין 95","Petrol · 95 octane (standard)",        3224386,"#3fae6b","petrol_95"],
-  ["בנזין 98 מומלץ","Petrol · 95 OK, 98 recommended", 153334,"#f0a23e","petrol_rec"],
-  ["בנזין 98 בלבד","Petrol · 98 octane (built for, est.)",     4542,"#e94560","petrol_98"],
-  ["דיזל","Diesel",                              384271,"#6b7280","דיזל"],
+  ["בנזין 95","Petrol/Hybrid · 95 octane",         3318911,"#3fae6b","petrol_95"],
+  ["בנזין 98 מומלץ","Petrol/Hybrid · 98 recommended",189121,"#f0a23e","petrol_rec"],
+  ["בנזין 98 בלבד","Petrol/Hybrid · 98 only",        14248,"#e94560","petrol_98"],
+  ["דיזל","Diesel/Hybrid · Diesel",            385284,"#6b7280","diesel_combined"],
   ["חשמל","Electric (EV)",                       232174,"#4b8bf5","חשמל"],
-  ["חשמל/בנזין","Hybrid · Petrol + Electric",    140018,"#1bb8a6","חשמל/בנזין"],
   ['גפ"מ',"LPG / Autogas",                        17095,"#9b6cf0",'גפ"מ'],
-  ["חשמל/דיזל","Hybrid · Diesel + Electric",       1013,"#0e9aa0","חשמל/דיזל"],
 ];
 let TOTAL = 4137574;
-// Snapshot ratios for the inferred 95/rec/98 petrol split. The registry has no octane field,
-// so we apply these ratios to the LIVE petrol total when it arrives.
+// Snapshot ratios over the combined petrol + petrol-hybrid population (cars whose tank takes petrol).
+// rules.json classifies each car the same regardless of hybrid drivetrain.
 const PETROL_SPLIT_RATIO = (() => {
-  const t = 3224386 + 153334 + 4542;
-  return { petrol_95: 3224386/t, petrol_rec: 153334/t, petrol_98: 4542/t };
+  const t = 3318911 + 189121 + 14248;
+  return { petrol_95: 3318911/t, petrol_rec: 189121/t, petrol_98: 14248/t };
 })();
 
 // Real example plates for instant testing (covers 95 vs 98 and every fuel type).
@@ -306,16 +304,28 @@ async function refreshLegend(){
     };
     const tasks = LEGEND.map(row => {
       const key = row[4];
-      return (key === "petrol_95" || key === "petrol_rec" || key === "petrol_98") ? null : q({sug_delek_nm: key});
+      if(key === "petrol_95" || key === "petrol_rec" || key === "petrol_98") return null;
+      if(key === "diesel_combined"){
+        // diesel + diesel-hybrid (any car that puts diesel in the tank)
+        return Promise.all([q({sug_delek_nm:"דיזל"}), q({sug_delek_nm:"חשמל/דיזל"})])
+          .then(([a,b]) => (a||0) + (b||0));
+      }
+      return q({sug_delek_nm: key});
     });
-    const [grandTotal, petrolTotal] = await Promise.all([q(null), q({sug_delek_nm: "בנזין"})]);
+    const [grandTotal, petrolTotal, hybridTotal] = await Promise.all([
+      q(null),
+      q({sug_delek_nm: "בנזין"}),
+      q({sug_delek_nm: "חשמל/בנזין"}),
+    ]);
     const results = await Promise.all(tasks.map(t => t || Promise.resolve(null)));
 
     if(grandTotal) TOTAL = grandTotal;
-    if(petrolTotal){
+    // Combined population: any car that puts petrol in the tank (pure petrol + petrol-hybrid).
+    const combinedPetrol = (petrolTotal||0) + (hybridTotal||0);
+    if(combinedPetrol){
       for(const row of LEGEND){
         const k = row[4];
-        if(PETROL_SPLIT_RATIO[k] != null) row[2] = Math.round(petrolTotal * PETROL_SPLIT_RATIO[k]);
+        if(PETROL_SPLIT_RATIO[k] != null) row[2] = Math.round(combinedPetrol * PETROL_SPLIT_RATIO[k]);
       }
     }
     results.forEach((n, i) => { if(n != null) LEGEND[i][2] = n; });
