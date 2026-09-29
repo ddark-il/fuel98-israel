@@ -3,17 +3,19 @@
     "name": "אילת",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 29.560613800000002,
-      "lon": 34.958017399999996
-    }
+      "lat": 29.560773,
+      "lon": 34.957821
+    },
+    "pin_source": "registry"
   },
   {
     "name": "הפלד",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 32.0251942,
-      "lon": 34.7949499
-    }
+      "lat": 32.02517,
+      "lon": 34.794966
+    },
+    "pin_source": "registry"
   },
   {
     "name": "גיסין",
@@ -21,7 +23,8 @@
     "coordinates": {
       "lat": 32.0984816,
       "lon": 34.8663649
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "עתידים",
@@ -29,15 +32,17 @@
     "coordinates": {
       "lat": 32.1139947,
       "lon": 34.8419784
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "רחובות",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 31.8983511,
-      "lon": 34.786909
-    }
+      "lat": 31.898351,
+      "lon": 34.7869091
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "אליאן",
@@ -45,15 +50,17 @@
     "coordinates": {
       "lat": 31.9935184,
       "lon": 34.7677803
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "פריימן",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 31.975174599999995,
-      "lon": 34.8126148
-    }
+      "lat": 31.975284,
+      "lon": 34.812803
+    },
+    "pin_source": "registry"
   },
   {
     "name": "וולפסון",
@@ -61,7 +68,8 @@
     "coordinates": {
       "lat": 32.0344568,
       "lon": 34.7697256
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "טבריה",
@@ -69,23 +77,26 @@
     "coordinates": {
       "lat": 32.7855957,
       "lon": 35.5397489
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "חיפה",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 32.8083135,
-      "lon": 35.060001
-    }
+      "lat": 32.8085519,
+      "lon": 35.0596903
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "כרמיאל",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 32.9209341,
-      "lon": 35.3134207
-    }
+      "lat": 32.920662,
+      "lon": 35.313417
+    },
+    "pin_source": "registry"
   },
   {
     "name": "מגדל",
@@ -93,47 +104,53 @@
     "coordinates": {
       "lat": 32.8287773,
       "lon": 35.5117865
-    }
+    },
+    "pin_source": "manual"
   },
   {
     "name": "בית שאן",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 32.498635,
-      "lon": 35.497782
-    }
+      "lat": 32.498738,
+      "lon": 35.497839
+    },
+    "pin_source": "registry"
   },
   {
     "name": "מודיעין",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 31.890569699999997,
-      "lon": 34.9672918
-    }
+      "lat": 31.89031,
+      "lon": 34.967369
+    },
+    "pin_source": "registry"
   },
   {
     "name": "יהונתן",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 31.9879556,
-      "lon": 34.764299
-    }
+      "lat": 31.987759,
+      "lon": 34.764161
+    },
+    "pin_source": "registry"
   },
   {
     "name": "עומר",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 31.991266199999995,
+      "lat": 31.9912662,
       "lon": 34.770134
-    }
+    },
+    "pin_source": "manual"
   },
   {
     "name": "באר טוביה",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 31.7274591,
-      "lon": 34.7504633
-    }
+      "lat": 31.727304,
+      "lon": 34.750475
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "רום רחובות",
@@ -141,31 +158,35 @@
     "coordinates": {
       "lat": 31.895664,
       "lon": 34.7903352
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "הדרי אשקלון",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 31.6738264,
-      "lon": 34.5900518
-    }
+      "lat": 31.673801,
+      "lon": 34.590038
+    },
+    "pin_source": "registry"
   },
   {
     "name": "אשקלון",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 31.662250999999998,
+      "lat": 31.662251,
       "lon": 34.5973233
-    }
+    },
+    "pin_source": "manual"
   },
   {
     "name": "נתיבות",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 31.4240845,
-      "lon": 34.6003071
-    }
+      "lat": 31.423954,
+      "lon": 34.60046
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "גן הפעמון",
@@ -173,38 +194,43 @@
     "coordinates": {
       "lat": 31.7694092,
       "lon": 35.2240388
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "פתח תקווה",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 32.0918438,
-      "lon": 34.8569828
-    }
+      "lat": 32.091762,
+      "lon": 34.856639
+    },
+    "pin_source": "registry"
   },
   {
     "name": "ראשון",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 31.986570999999998,
-      "lon": 34.772131099999996
-    }
+      "lat": 31.986506,
+      "lon": 34.772124
+    },
+    "pin_source": "registry"
   },
   {
     "name": "הקידמה אשדוד",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 31.835238999999994,
-      "lon": 34.686842999999996
-    }
+      "lat": 31.835153,
+      "lon": 34.686938
+    },
+    "pin_source": "registry"
   },
   {
     "name": "צומת גנים",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 32.09664567,
-      "lon": 34.90640083
-    }
+      "lat": 32.097083,
+      "lon": 34.90685
+    },
+    "pin_source": "manual"
   }
 ]

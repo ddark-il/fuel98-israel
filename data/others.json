@@ -5,7 +5,8 @@
     "coordinates": {
       "lat": 31.922624,
       "lon": 34.786105
-    }
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "אחר",
@@ -13,7 +14,8 @@
     "coordinates": {
       "lat": 32.194812,
       "lon": 34.878285
-    }
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "אחר",
@@ -21,7 +23,8 @@
     "coordinates": {
       "lat": 31.954832,
       "lon": 34.892246
-    }
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "אחר",
@@ -29,7 +32,8 @@
     "coordinates": {
       "lat": 31.979678,
       "lon": 34.813567
-    }
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "אחר",
@@ -37,7 +41,8 @@
     "coordinates": {
       "lat": 33.027484,
       "lon": 35.096263
-    }
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "אחר",
@@ -45,7 +50,8 @@
     "coordinates": {
       "lat": 31.748103,
       "lon": 35.211005
-    }
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "אחר",
@@ -53,7 +59,9 @@
     "coordinates": {
       "lat": 32.7207683,
       "lon": 35.0617527
-    }
+    },
+    "pin_source": "manual",
+    "pin_note": "operator listing (Sonol place pin); registry row 79m NE is a different station"
   },
   {
     "brand": "אחר",
@@ -61,7 +69,8 @@
     "coordinates": {
       "lat": 32.009105,
       "lon": 34.748946
-    }
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "אחר",
@@ -69,7 +78,8 @@
     "coordinates": {
       "lat": 32.193937,
       "lon": 34.881618
-    }
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "אחר",
@@ -77,7 +87,8 @@
     "coordinates": {
       "lat": 32.597481,
       "lon": 35.294691
-    }
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "אחר",
@@ -85,7 +96,8 @@
     "coordinates": {
       "lat": 32.919181,
       "lon": 35.263223
-    }
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "אחר",
@@ -93,7 +105,8 @@
     "coordinates": {
       "lat": 32.864715,
       "lon": 35.286841
-    }
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "אחר",
@@ -101,6 +114,7 @@
     "coordinates": {
       "lat": 31.811299,
       "lon": 34.65674
-    }
+    },
+    "pin_source": "registry"
   }
 ]

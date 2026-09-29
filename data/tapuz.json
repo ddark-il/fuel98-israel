@@ -3,33 +3,37 @@
     "brand": "תפוז",
     "name": "באר שבע",
     "coordinates": {
-      "lat": 31.241946,
-      "lon": 34.804202
-    }
+      "lat": 31.242166,
+      "lon": 34.804134
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "תפוז",
     "name": "עפולה",
     "coordinates": {
-      "lat": 32.5998171,
-      "lon": 35.2948706
-    }
+      "lat": 32.599843,
+      "lon": 35.29479
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "תפוז",
     "name": "חיפה",
     "coordinates": {
-      "lat": 32.7831122,
-      "lon": 35.0376223
-    }
+      "lat": 32.783092,
+      "lon": 35.037541
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "תפוז",
     "name": "נתניה",
     "coordinates": {
-      "lat": 32.3133864,
-      "lon": 34.8737772
-    }
+      "lat": 32.3135,
+      "lon": 34.873857
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "תפוז",
@@ -37,7 +41,8 @@
     "coordinates": {
       "lat": 31.4164685,
       "lon": 34.6052904
-    }
+    },
+    "pin_source": "manual"
   },
   {
     "brand": "תפוז",
@@ -45,31 +50,35 @@
     "coordinates": {
       "lat": 31.542593,
       "lon": 34.587134
-    }
+    },
+    "pin_source": "unverified-current"
   },
   {
     "brand": "תפוז",
     "name": "סגולה",
     "coordinates": {
-      "lat": 32.1047163,
-      "lon": 34.8933922
-    }
+      "lat": 32.104843,
+      "lon": 34.893416
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "תפוז",
     "name": "שדרות הרכבת",
     "coordinates": {
-      "lat": 31.516998,
-      "lon": 34.5884646
-    }
+      "lat": 31.516881,
+      "lon": 34.588456
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "תפוז",
     "name": "מבועים",
     "coordinates": {
-      "lat": 31.4507988,
-      "lon": 34.6502979
-    }
+      "lat": 31.450679,
+      "lon": 34.650412
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "תפוז",
@@ -77,7 +86,8 @@
     "coordinates": {
       "lat": 31.3821731,
       "lon": 34.7229146
-    }
+    },
+    "pin_source": "manual"
   },
   {
     "brand": "תפוז",
@@ -85,30 +95,35 @@
     "coordinates": {
       "lat": 31.3800255,
       "lon": 34.7633766
-    }
+    },
+    "pin_source": "unverified-current"
   },
   {
     "brand": "תפוז",
     "name": "עד הלום",
     "coordinates": {
-      "lat": 31.7657375,
-      "lon": 34.6661497
-    }
+      "lat": 31.766016,
+      "lon": 34.666157
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "תפוז",
     "name": "אורנית",
     "coordinates": {
-      "lat": 32.817035,
-      "lon": 35.061336
-    }
+      "lat": 32.817052,
+      "lon": 35.061269
+    },
+    "pin_source": "registry"
   },
   {
     "brand": "תפוז",
     "name": "מבקיעים",
     "coordinates": {
-      "lat": 31.6198857,
-      "lon": 34.5799502
-    }
+      "lat": 31.6275608,
+      "lon": 34.5827655
+    },
+    "pin_source": "manual",
+    "pin_note": "operator listing (visible in nearby car-wash photos)"
   }
 ]

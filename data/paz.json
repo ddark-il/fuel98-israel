@@ -5,7 +5,8 @@
     "coordinates": {
       "lat": 31.9806225,
       "lon": 34.7423524
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "אורלי גהה",
@@ -13,7 +14,8 @@
     "coordinates": {
       "lat": 32.0814058,
       "lon": 34.8455857
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "אלוף שדה",
@@ -21,7 +23,8 @@
     "coordinates": {
       "lat": 32.0592117,
       "lon": 34.8153404
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "אלישמע",
@@ -29,7 +32,8 @@
     "coordinates": {
       "lat": 32.15287,
       "lon": 34.92181
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "אלנבי",
@@ -37,7 +41,8 @@
     "coordinates": {
       "lat": 31.7550788,
       "lon": 35.2216248
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "אצטדיון כפר סבא",
@@ -45,7 +50,8 @@
     "coordinates": {
       "lat": 32.1784603,
       "lon": 34.9282406
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "אצטדיון פתח תקווה",
@@ -53,7 +59,8 @@
     "coordinates": {
       "lat": 32.098127,
       "lon": 34.8756774
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "אריאל",
@@ -61,7 +68,8 @@
     "coordinates": {
       "lat": 32.1024,
       "lon": 35.20663
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "אשל הרצליה",
@@ -69,7 +77,8 @@
     "coordinates": {
       "lat": 32.1578923,
       "lon": 34.8102571
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "אשקלון דרום",
@@ -77,7 +86,8 @@
     "coordinates": {
       "lat": 31.63101,
       "lon": 34.55904
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "באר שבע צפון",
@@ -85,7 +95,8 @@
     "coordinates": {
       "lat": 31.2452645,
       "lon": 34.7816333
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "ביר אל אמיר",
@@ -93,7 +104,8 @@
     "coordinates": {
       "lat": 32.684246,
       "lon": 35.285759
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "ביר אל מכסור",
@@ -101,7 +113,8 @@
     "coordinates": {
       "lat": 32.77493,
       "lon": 35.21411
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "בית יצחק",
@@ -109,7 +122,8 @@
     "coordinates": {
       "lat": 32.323356,
       "lon": 34.898272
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "בית שמש",
@@ -117,7 +131,8 @@
     "coordinates": {
       "lat": 31.7558283,
       "lon": 34.984434
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "בר-כוכבא",
@@ -125,7 +140,8 @@
     "coordinates": {
       "lat": 31.783729,
       "lon": 35.2087493
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "גבעת שאול",
@@ -133,7 +149,8 @@
     "coordinates": {
       "lat": 31.7860438,
       "lon": 35.1912237
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "ג'דיידה",
@@ -141,7 +158,8 @@
     "coordinates": {
       "lat": 32.9253566,
       "lon": 35.1324221
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "גיא-עירון",
@@ -149,7 +167,8 @@
     "coordinates": {
       "lat": 32.4982326,
       "lon": 35.063878
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "גילי",
@@ -157,7 +176,8 @@
     "coordinates": {
       "lat": 31.9458555,
       "lon": 34.8177835
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "געש",
@@ -165,7 +185,8 @@
     "coordinates": {
       "lat": 32.0918795,
       "lon": 34.8596152
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "דרך המנהרות",
@@ -173,7 +194,8 @@
     "coordinates": {
       "lat": 31.72688,
       "lon": 35.19473
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "היונה",
@@ -181,7 +203,8 @@
     "coordinates": {
       "lat": 31.9737369,
       "lon": 34.8105905
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "המלך דוד",
@@ -189,7 +212,8 @@
     "coordinates": {
       "lat": 31.7751668,
       "lon": 35.2225702
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "הנופר",
@@ -197,7 +221,8 @@
     "coordinates": {
       "lat": 32.1948285,
       "lon": 34.8833963
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "הנשיאים",
@@ -205,7 +230,8 @@
     "coordinates": {
       "lat": 31.2779185,
       "lon": 34.79484
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "הסיירים",
@@ -213,7 +239,8 @@
     "coordinates": {
       "lat": 32.0026081,
       "lon": 34.8077773
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "הר הכרמל",
@@ -221,7 +248,8 @@
     "coordinates": {
       "lat": 32.803383,
       "lon": 34.9862789
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "השלום",
@@ -229,7 +257,8 @@
     "coordinates": {
       "lat": 32.0718626,
       "lon": 34.7975191
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "זך רופין",
@@ -237,7 +266,8 @@
     "coordinates": {
       "lat": 32.3454167,
       "lon": 34.9084071
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "חולון",
@@ -245,7 +275,8 @@
     "coordinates": {
       "lat": 32.0304332,
       "lon": 34.7744083
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "חופית",
@@ -253,7 +284,8 @@
     "coordinates": {
       "lat": 32.3842908,
       "lon": 34.8668447
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "טבעון",
@@ -261,7 +293,8 @@
     "coordinates": {
       "lat": 32.7154982,
       "lon": 35.1249576
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "טופז",
@@ -269,7 +302,8 @@
     "coordinates": {
       "lat": 32.1301668,
       "lon": 34.8296483
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "טירה",
@@ -277,7 +311,8 @@
     "coordinates": {
       "lat": 32.2295395,
       "lon": 34.9442731
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "טל הגשר",
@@ -285,7 +320,8 @@
     "coordinates": {
       "lat": 32.064728,
       "lon": 34.788547
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "טל עופרה",
@@ -293,7 +329,8 @@
     "coordinates": {
       "lat": 32.1763999,
       "lon": 34.9796498
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "יציב",
@@ -301,7 +338,8 @@
     "coordinates": {
       "lat": 32.0739024,
       "lon": 34.8431701
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "ירמיהו",
@@ -309,7 +347,8 @@
     "coordinates": {
       "lat": 32.0950628,
       "lon": 34.7751165
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "כוכב יאיר",
@@ -317,7 +356,8 @@
     "coordinates": {
       "lat": 32.2205349,
       "lon": 34.9819577
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "כנפי נשרים",
@@ -325,7 +365,8 @@
     "coordinates": {
       "lat": 31.7889842,
       "lon": 35.1893031
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "כפר כנא",
@@ -333,7 +374,8 @@
     "coordinates": {
       "lat": 32.7503799,
       "lon": 35.3363355
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "כרמיאל מערב",
@@ -341,7 +383,8 @@
     "coordinates": {
       "lat": 32.9189738,
       "lon": 35.2837013
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "לב המפרץ",
@@ -349,7 +392,8 @@
     "coordinates": {
       "lat": 32.7894591,
       "lon": 35.0374326
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "לוד ויסוצקי",
@@ -357,7 +401,8 @@
     "coordinates": {
       "lat": 31.9648616,
       "lon": 34.9004544
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "לשם אילת",
@@ -365,7 +410,8 @@
     "coordinates": {
       "lat": 29.5552326,
       "lon": 34.9555432
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מבשרת ירושלים",
@@ -373,7 +419,8 @@
     "coordinates": {
       "lat": 31.7997409,
       "lon": 35.1496676
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מודיעין הראל דרך צור",
@@ -381,7 +428,8 @@
     "coordinates": {
       "lat": 31.889423,
       "lon": 34.960295
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מודיעין ליגד",
@@ -389,7 +437,8 @@
     "coordinates": {
       "lat": 31.9235318,
       "lon": 34.9897254
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מויאל",
@@ -397,7 +446,8 @@
     "coordinates": {
       "lat": 32.0375745,
       "lon": 34.7617322
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מישור אדומים",
@@ -405,7 +455,8 @@
     "coordinates": {
       "lat": 31.78545,
       "lon": 35.334712
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מנדלבאום",
@@ -413,7 +464,8 @@
     "coordinates": {
       "lat": 31.7856587,
       "lon": 35.2278815
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מנחם",
@@ -421,7 +473,8 @@
     "coordinates": {
       "lat": 31.9446477,
       "lon": 34.800707
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מסילת ציון",
@@ -429,7 +482,8 @@
     "coordinates": {
       "lat": 31.8079743,
       "lon": 35.0177458
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מעלות",
@@ -437,7 +491,8 @@
     "coordinates": {
       "lat": 33.0155218,
       "lon": 35.2780565
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מערב ראשון",
@@ -445,7 +500,8 @@
     "coordinates": {
       "lat": 31.9870717,
       "lon": 34.7715137
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מצפה אביב",
@@ -453,7 +509,8 @@
     "coordinates": {
       "lat": 32.828544,
       "lon": 35.1999692
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מצפה טורען",
@@ -461,7 +518,8 @@
     "coordinates": {
       "lat": 32.7944357,
       "lon": 35.4042631
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "נהריה",
@@ -469,7 +527,8 @@
     "coordinates": {
       "lat": 32.9903804,
       "lon": 35.0966168
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "נהריה לוחמי הגטאות.",
@@ -477,7 +536,8 @@
     "coordinates": {
       "lat": 33.00146,
       "lon": 35.09743
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "נווה עוז",
@@ -485,7 +545,8 @@
     "coordinates": {
       "lat": 32.0893791,
       "lon": 34.8618944
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "נויה",
@@ -493,7 +554,8 @@
     "coordinates": {
       "lat": 31.86631,
       "lon": 34.81365
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "נחלת יהודה",
@@ -501,7 +563,8 @@
     "coordinates": {
       "lat": 31.9912406,
       "lon": 34.8123289
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "ניר גלים",
@@ -509,7 +572,8 @@
     "coordinates": {
       "lat": 31.8272601,
       "lon": 34.6752018
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "סביון",
@@ -517,7 +581,8 @@
     "coordinates": {
       "lat": 32.0333599,
       "lon": 34.8667828
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "סילבר",
@@ -525,7 +590,8 @@
     "coordinates": {
       "lat": 31.6837147,
       "lon": 34.6102765
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "עד הלום",
@@ -533,7 +599,8 @@
     "coordinates": {
       "lat": 31.7660602,
       "lon": 34.6664046
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "עוז רמת גן",
@@ -541,7 +608,8 @@
     "coordinates": {
       "lat": 32.0841789,
       "lon": 34.8073694
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "עוספיה",
@@ -549,7 +617,8 @@
     "coordinates": {
       "lat": 32.7267648,
       "lon": 35.0560377
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "עוקף נצרת",
@@ -557,7 +626,8 @@
     "coordinates": {
       "lat": 32.6921101,
       "lon": 35.2978763
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "עכו עיר",
@@ -565,7 +635,8 @@
     "coordinates": {
       "lat": 32.9229387,
       "lon": 35.0772096
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "פז \"משה\"",
@@ -573,7 +644,8 @@
     "coordinates": {
       "lat": 31.8889995,
       "lon": 34.7834702
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "פז אור יהודה",
@@ -581,7 +653,8 @@
     "coordinates": {
       "lat": 32.0221849,
       "lon": 34.8582503
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "פז בר",
@@ -589,7 +662,8 @@
     "coordinates": {
       "lat": 31.2509745,
       "lon": 34.8207422
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "פז גדרה",
@@ -597,7 +671,8 @@
     "coordinates": {
       "lat": 31.79689,
       "lon": 34.78128
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "פז גן",
@@ -605,7 +680,8 @@
     "coordinates": {
       "lat": 32.0641358,
       "lon": 34.7619018
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "פז השקמה",
@@ -613,7 +689,8 @@
     "coordinates": {
       "lat": 31.46824,
       "lon": 34.77488
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "פקיעין",
@@ -621,7 +698,8 @@
     "coordinates": {
       "lat": 32.993475,
       "lon": 35.313071
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "צומת האלה",
@@ -629,7 +707,8 @@
     "coordinates": {
       "lat": 31.6859286,
       "lon": 34.9471356
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "צומת כח",
@@ -637,7 +716,8 @@
     "coordinates": {
       "lat": 33.12442,
       "lon": 35.57012
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "צומת נתניה",
@@ -645,7 +725,8 @@
     "coordinates": {
       "lat": 32.3208117,
       "lon": 34.8660988
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "צמח",
@@ -653,7 +734,8 @@
     "coordinates": {
       "lat": 32.704136,
       "lon": 35.586087
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "קדימה",
@@ -661,7 +743,8 @@
     "coordinates": {
       "lat": 32.2873498,
       "lon": 34.8980148
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "קיבוץ גלויות",
@@ -669,7 +752,8 @@
     "coordinates": {
       "lat": 32.0483131,
       "lon": 34.7766348
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "קייט ונופש",
@@ -677,7 +761,8 @@
     "coordinates": {
       "lat": 32.7908834,
       "lon": 34.9641925
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "קיסריה",
@@ -685,7 +770,8 @@
     "coordinates": {
       "lat": 32.4759125,
       "lon": 34.8941038
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "קרית עקרון",
@@ -693,7 +779,8 @@
     "coordinates": {
       "lat": 31.8601868,
       "lon": 34.8107521
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "קרית שמונה",
@@ -701,7 +788,8 @@
     "coordinates": {
       "lat": 33.2027461,
       "lon": 35.5690755
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "ראש העין אפק",
@@ -709,7 +797,8 @@
     "coordinates": {
       "lat": 32.1091428,
       "lon": 34.9624273
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "רונית",
@@ -717,7 +806,8 @@
     "coordinates": {
       "lat": 32.1566879,
       "lon": 34.8083457
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "רמה רחובות",
@@ -725,7 +815,8 @@
     "coordinates": {
       "lat": 31.885381,
       "lon": 34.814749
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "רמה רמת גן",
@@ -733,7 +824,8 @@
     "coordinates": {
       "lat": 32.0864204,
       "lon": 34.812094
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "רמות",
@@ -741,7 +833,8 @@
     "coordinates": {
       "lat": 31.7998246,
       "lon": 35.2115957
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "רמת דניה",
@@ -749,7 +842,8 @@
     "coordinates": {
       "lat": 31.7582324,
       "lon": 35.1814707
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "רשף יבנה",
@@ -757,7 +851,8 @@
     "coordinates": {
       "lat": 31.8874733,
       "lon": 34.7370652
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "שדרות בן צבי",
@@ -765,7 +860,8 @@
     "coordinates": {
       "lat": 32.0466846,
       "lon": 34.7660649
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "שואבה",
@@ -773,7 +869,8 @@
     "coordinates": {
       "lat": 31.7988689,
       "lon": 35.0758689
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "שוקת",
@@ -781,7 +878,8 @@
     "coordinates": {
       "lat": 31.3096317,
       "lon": 34.8986347
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "שיאונה",
@@ -789,7 +887,8 @@
     "coordinates": {
       "lat": 32.1160698,
       "lon": 34.904362
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "שמשונים",
@@ -797,7 +896,8 @@
     "coordinates": {
       "lat": 31.6605591,
       "lon": 34.5699346
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "שער הגיא",
@@ -805,7 +905,8 @@
     "coordinates": {
       "lat": 31.8157253,
       "lon": 35.0241193
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "שער השרון",
@@ -813,7 +914,8 @@
     "coordinates": {
       "lat": 32.2808478,
       "lon": 35.0053699
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "שרונים",
@@ -821,7 +923,8 @@
     "coordinates": {
       "lat": 32.1851914,
       "lon": 34.9165706
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "תחנת מוזיאון ירושלים",
@@ -829,7 +932,8 @@
     "coordinates": {
       "lat": 31.774316,
       "lon": 35.201434
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "תענכים",
@@ -837,6 +941,7 @@
     "coordinates": {
       "lat": 32.5834979,
       "lon": 35.2439415
-    }
+    },
+    "pin_source": "brand-nav"
   }
 ]

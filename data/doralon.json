@@ -3,81 +3,91 @@
     "name": "אור יהודה",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.02173979,
-      "lon": 34.86487627
-    }
+      "lat": 32.0217398,
+      "lon": 34.8648763
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "אשדוד רום שפר",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 31.81232,
-      "lon": 34.66684
-    }
+      "lat": 31.8123573,
+      "lon": 34.6667287
+    },
+    "pin_source": "registry"
   },
   {
     "name": "אשקלון עמיצור",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 31.67644592,
-      "lon": 34.57607668
-    }
+      "lat": 31.6764459,
+      "lon": 34.5760767
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "בית דגן",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 31.99003199,
-      "lon": 34.82951626
-    }
+      "lat": 31.990032,
+      "lon": 34.8295163
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "בני ברק האיצטדיון",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.10027286,
-      "lon": 34.82851582
-    }
+      "lat": 32.1002729,
+      "lon": 34.8285158
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "בנימינה מערב",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.5083141041,
-      "lon": 34.9320816994
-    }
+      "lat": 32.5083141,
+      "lon": 34.9320817
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "בקעת בית הכרם (מג'דל כרום)",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.91475452,
-      "lon": 35.25483869
-    }
+      "lat": 32.9147545,
+      "lon": 35.2548387
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "בת ים הילי",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.00579834,
-      "lon": 34.74389076
-    }
+      "lat": 32.0057983,
+      "lon": 34.7438908
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "גבעת עוז",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.57334215,
-      "lon": 35.19688911
-    }
+      "lat": 32.5733422,
+      "lon": 35.1968891
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "גילון",
     "brand": "דורלון",
     "coordinates": {
       "lat": 32.9156521,
-      "lon": 35.22664521
-    }
+      "lon": 35.2266452
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "גן הצפון",
@@ -85,7 +95,8 @@
     "coordinates": {
       "lat": 33.22361,
       "lon": 35.61587
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "געש צומת ספרים",
@@ -93,15 +104,17 @@
     "coordinates": {
       "lat": 32.22532,
       "lon": 34.8302
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "גשר הזיו",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 33.04454198,
-      "lon": 35.10694597
-    }
+      "lat": 33.044542,
+      "lon": 35.106946
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "דבירה",
@@ -109,7 +122,8 @@
     "coordinates": {
       "lat": 31.42203,
       "lon": 34.78612
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "חבצלת השרון",
@@ -117,7 +131,8 @@
     "coordinates": {
       "lat": 32.3604,
       "lon": 34.861819
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "חדרה מזרח",
@@ -125,23 +140,26 @@
     "coordinates": {
       "lat": 32.441406,
       "lon": 34.933079
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "חולון דרך השבעה",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.027733974904,
-      "lon": 34.797741839679
-    }
+      "lat": 32.027734,
+      "lon": 34.7977418
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "חיפה גרנד קניון",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.78870529,
-      "lon": 35.00720537
-    }
+      "lat": 32.7887053,
+      "lon": 35.0072054
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "חיפה עוקף קריות",
@@ -149,31 +167,35 @@
     "coordinates": {
       "lat": 32.804,
       "lon": 35.0166
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "חיפה שד' ההסתדרות",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.8073725452,
-      "lon": 35.063766973
-    }
+      "lat": 32.8073725,
+      "lon": 35.063767
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "חיפה שערי חיפה",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.7880682475,
-      "lon": 35.038189888
-    }
+      "lat": 32.7880682,
+      "lon": 35.0381899
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "טירת הכרמל",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.7686200554,
-      "lon": 34.9669718742
-    }
+      "lat": 32.7686201,
+      "lon": 34.9669719
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "יבנה מתנ\"ח",
@@ -181,7 +203,8 @@
     "coordinates": {
       "lat": 31.89008,
       "lon": 34.73218
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "יהוד",
@@ -189,31 +212,35 @@
     "coordinates": {
       "lat": 32.026,
       "lon": 34.89865
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "יזרעאל",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.557882219213,
-      "lon": 35.32301902771
-    }
+      "lat": 32.5578822,
+      "lon": 35.323019
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "יסעור",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.89971851,
-      "lon": 35.17006201
-    }
+      "lat": 32.8997185,
+      "lon": 35.170062
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "יקום",
     "brand": "דורלון",
     "coordinates": {
       "lat": 32.2485425,
-      "lon": 34.83574562
-    }
+      "lon": 34.8357456
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "יקנעם",
@@ -221,39 +248,44 @@
     "coordinates": {
       "lat": 32.667587,
       "lon": 35.107243
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "ירושלים גינות סחרוב",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 31.79484447,
-      "lon": 35.18743889
-    }
+      "lat": 31.7948445,
+      "lon": 35.1874389
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "ירכא",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.94561445,
-      "lon": 35.17023967
-    }
+      "lat": 32.9456145,
+      "lon": 35.1702397
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "כפר יונה",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.321676713192,
-      "lon": 34.921097197868
-    }
+      "lat": 32.3216767,
+      "lon": 34.9210972
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "כפר סבא",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.1720027924,
-      "lon": 34.9243569374
-    }
+      "lat": 32.1720028,
+      "lon": 34.9243569
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מגל מזרח (מדרום לצפון)",
@@ -261,23 +293,26 @@
     "coordinates": {
       "lat": 32.37966,
       "lon": 35.01776
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מגל מערב (מצפון לדרום)",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.380809554,
-      "lon": 35.016976117
-    }
+      "lat": 32.3808096,
+      "lon": 35.0169761
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מעלות העיר",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 33.020628793,
-      "lon": 35.2812194824
-    }
+      "lat": 33.0206288,
+      "lon": 35.2812195
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מרר בלעוס",
@@ -285,7 +320,8 @@
     "coordinates": {
       "lat": 32.860828,
       "lon": 35.46133
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "נהריה",
@@ -293,87 +329,98 @@
     "coordinates": {
       "lat": 33.000548,
       "lon": 35.097005
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "נען מזרח (מדרום לצפון)",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 31.882303855271,
-      "lon": 34.8796676266
-    }
+      "lat": 31.8823039,
+      "lon": 34.8796676
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "נען מערב(מצפון לדרום)",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 31.882306214299,
-      "lon": 34.878607884269
-    }
+      "lat": 31.8823062,
+      "lon": 34.8786079
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "נתב\"ג",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 31.9911161521,
-      "lon": 34.9041223526
-    }
+      "lat": 31.9911162,
+      "lon": 34.9041224
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "נתניה עיר ימים",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.282354410871,
-      "lon": 34.846276845744
-    }
+      "lat": 32.2823544,
+      "lon": 34.8462768
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "נתניה קרית השרון",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.31194523,
-      "lon": 34.87017339
-    }
+      "lat": 32.3119452,
+      "lon": 34.8701734
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "סופר פרונט חדרה",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.45568776,
+      "lat": 32.4556878,
       "lon": 34.9086001
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "עילוט",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.729220938079,
-      "lon": 35.259366659164
-    }
+      "lat": 32.7292209,
+      "lon": 35.2593667
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "עינת",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.089160756075,
-      "lon": 34.944346900042
-    }
+      "lat": 32.0891608,
+      "lon": 34.9443469
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "עכו",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.90012717,
-      "lon": 35.09111775
-    }
+      "lat": 32.9001272,
+      "lon": 35.0911178
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "עמיעד",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.92555439,
-      "lon": 35.54323912
-    }
+      "lat": 32.9255544,
+      "lon": 35.5432391
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "ערד",
@@ -381,39 +428,44 @@
     "coordinates": {
       "lat": 31.24845,
       "lon": 35.19788
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "פתח תקוה בלינסון (ד\"ש)",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.09117265,
-      "lon": 34.86468607
-    }
+      "lat": 32.0911726,
+      "lon": 34.8646861
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "צומת חנניה",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 32.916071048874,
-      "lon": 35.416424274445
-    }
+      "lat": 32.916071,
+      "lon": 35.4164243
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "ראשל\"צ שפירא",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 31.9918880463,
-      "lon": 34.7537651062
-    }
+      "lat": 31.9919875,
+      "lon": 34.7538383
+    },
+    "pin_source": "manual"
   },
   {
     "name": "רחובות האצ\"ל",
     "brand": "דורלון",
     "coordinates": {
-      "lat": 31.897796269576,
-      "lon": 34.800040391603
-    }
+      "lat": 31.8977963,
+      "lon": 34.8000404
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "רמת גן אבא הלל",
@@ -421,7 +473,8 @@
     "coordinates": {
       "lat": 32.08496,
       "lon": 34.8034
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "שער הצפון",
@@ -429,7 +482,8 @@
     "coordinates": {
       "lat": 32.806367,
       "lon": 35.074341
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "תל אביב דרך נמיר",
@@ -437,7 +491,8 @@
     "coordinates": {
       "lat": 32.1315883,
       "lon": 34.795865
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "תל יצחק",
@@ -445,7 +500,8 @@
     "coordinates": {
       "lat": 32.25497,
       "lon": 34.87504
-    }
+    },
+    "pin_source": "brand-nav"
   },
   {
     "name": "מחסיה",
@@ -453,6 +509,7 @@
     "coordinates": {
       "lat": 31.748198,
       "lon": 35.003437
-    }
+    },
+    "pin_source": "brand-nav"
   }
 ]
