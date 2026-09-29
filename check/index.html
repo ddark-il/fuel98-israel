@@ -220,9 +220,17 @@ const FUEL = {
                  he:'מלא/י בנזין 95; הסוללה היברידית', action:"Fill with petrol (95); hybrid battery"},
   "חשמל/דיזל":  {en:"Hybrid · Diesel + Electric",  ic:"🔋", c:"#0e9aa0",
                  he:'מלא/י סולר; הסוללה היברידית',   action:"Fill with diesel; hybrid battery"},
-  'גפ"מ':       {en:"LPG / Autogas",               ic:"🔵", c:"#9b6cf0",
+  'גפמ"':      {en:"LPG / Autogas",               ic:"🔵", c:"#9b6cf0",
                  he:'מלא/י גפ"מ (גז)',              action:"Fill with LPG / Autogas"},
 };
+// The registry re-spelled this fuel in 2026 ('גפ"מ' → 'גפמ"'). Keep the old spelling
+// as an alias so older rows and any cached data still resolve to LPG, not "unknown fuel".
+FUEL['גפ"מ'] = FUEL['גפמ"'];
+// Registry values that appear only on personal imports (checked 2026-09-29):
+// 'גז טבעי דחוס' = CNG (1 vehicle), 'לא ידוע קוד 0' = unknown (191) — the latter falls
+// through to UNKNOWN on purpose.
+FUEL['גז טבעי דחוס'] = {en:"CNG (compressed natural gas)", ic:"🟢", c:"#0f9d58",
+                        he:"מלא/י גז טבעי דחוס", action:"Fill with CNG"};
 const UNKNOWN = {en:"Unknown fuel type", ic:"❓", c:"#94a3b8", he:"סוג דלק לא מזוהה", action:""};
 
 // Petrol is one value ("בנזין") in the registry — it does NOT store octane.
@@ -250,20 +258,25 @@ function petrolOctane(r){
 
 // Initial snapshot from cars.db (pulled 2026-06-23) — overwritten by live API counts on load.
 // 5th column = sug_delek_nm filter for live fetch (or "petrol_*" for the inferred 95/rec/98 split).
+// Petrol 95 / rec / 98 counts are DERIVED FROM rules.json, not from the registry
+// (the registry has no octane field). Recompute with rules_coverage.py from the project
+// root (outside this repo) whenever the rules change — this row is the only part of the table that is not refreshed live.
+// Last derived 2026-09-29 by classifying 320,000 registry records (10 batches across the
+// 4.18M rows) plus all 27,946 personal imports, scaled to the registry total.
 const LEGEND = [
-  ["בנזין 95","Petrol/Hybrid · 95 octane",         3318911,"#3fae6b","petrol_95"],
-  ["בנזין 98 מומלץ","Petrol/Hybrid · 98 recommended",189121,"#f0a23e","petrol_rec"],
-  ["בנזין 98 בלבד","Petrol/Hybrid · 98 only",        14248,"#e94560","petrol_98"],
+  ["בנזין 95","Petrol/Hybrid · 95 octane",         3426853,"#3fae6b","petrol_95"],
+  ["בנזין 98 מומלץ","Petrol/Hybrid · 98 recommended",393604,"#f0a23e","petrol_rec"],
+  ["בנזין 98 בלבד","Petrol/Hybrid · 98 only",        30422,"#e94560","petrol_98"],
   ["דיזל","Diesel/Hybrid · Diesel",            385284,"#6b7280","diesel_combined"],
   ["חשמל","Electric (EV)",                       232174,"#4b8bf5","חשמל"],
-  ['גפ"מ',"LPG / Autogas",                        17095,"#9b6cf0",'גפ"מ'],
+  ['גפ"מ',"LPG / Autogas",                        16659,"#9b6cf0",'גפמ"'],
 ];
 let TOTAL = 4137574;
 // Snapshot ratios over the combined petrol + petrol-hybrid population (cars whose tank takes petrol).
 // rules.json classifies each car the same regardless of hybrid drivetrain.
 const PETROL_SPLIT_RATIO = (() => {
   const t = 3318911 + 189121 + 14248;
-  return { petrol_95: 3318911/t, petrol_rec: 189121/t, petrol_98: 14248/t };
+  return { petrol_95: 3426853/t, petrol_rec: 393604/t, petrol_98: 30422/t };
 })();
 
 // Real example plates for instant testing (covers 95 vs 98 and every fuel type).
