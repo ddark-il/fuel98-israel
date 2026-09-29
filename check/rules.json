@@ -1,5 +1,5 @@
 {
-  "_doc": "Octane classifier rules for Israeli vehicle registry. Rules eval top-to-bottom; first match wins. Rules with skip_if_cosmetic=true are skipped when the cosmetic guard fires (S-Line/AMG-Line/R-Line/etc.). LIKE pattern % = any chars, _ = single char.",
+  "_doc": "Octane classifier rules for the Israeli vehicle registry. Rules eval top-to-bottom; first match wins. Rules with skip_if_cosmetic=true are skipped when the cosmetic guard fires (S-Line/AMG-Line/R-Line/etc.). LIKE pattern % = any chars, _ = single char.\n\nBUCKET RULE (Israel sells only 95 and 98 RON, so bucket by the manufacturer's MINIMUM):\n  min_ron >= 96  -> \"98\"   (95 is below the stated minimum; e.g. US 'premium 91 AKI' = RON 96, or EU '98 required')\n  rec_ron >= 96  -> \"rec\"  (95 is acceptable, 98 recommended for full output)\n  otherwise      -> \"95\"\n`min_ron` / `rec_ron` are the input; `then` must equal what they imply (checked by rules_impact.py --check). `source` records the document the numbers come from. The Israeli importer spec sheet wins over the export manual: \"fuel type required: 98\" -> 98, \"fuel type recommended: 98\" -> rec.",
   "engine_sets": {
     "AUDI_NA": [
       "ALT",
@@ -120,6 +120,8 @@
         ]
       },
       "then": "98",
+      "min_ron": 98,
+      "source": "exotic/track cars, 98-grade",
       "note": "Exotic brands always require premium"
     },
     {
@@ -135,37 +137,30 @@
           "%AMG %"
         ]
       },
-      "then": [
-        {
-          "when": {
-            "name": [
-              "%35%",
-              "%43%",
-              "%53%"
-            ]
-          },
-          "then": "rec",
-          "note": "AMG 35/43/53 entry/mid (2.0T / 3.0 I6)"
-        },
-        {
-          "then": "98",
-          "note": "AMG 45/63/GT/V8"
-        }
-      ]
+      "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Mercedes-AMG owner's manual: 'For maximum engine output ... at least 98 RON. Alternatively ... at least 95 RON'. The Israeli AMG spec sheets (GLC 53, SL 43/55/63, C43 - checked mechanically) contain NO fuel/octane statement, so the manual is the source of record",
+      "note": "all AMG: 95 RON permitted, 98 for full output"
     },
     {
       "id": "daimlerchrysler-amg",
       "skip_if_cosmetic": true,
       "when": {
         "brand": [
-          "דימלרקריזלר"
+          "דימלרקריזלר",
+          "דימלר בנץ",
+          "דימלר-בנץ"
         ],
         "name": [
           "%AMG%"
         ]
       },
-      "then": "98",
-      "note": "DaimlerChrysler-era Mercedes AMG (55/63)"
+      "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "DaimlerChrysler-era AMG (M113/M156, 55/63): 98 RON for max output, 95 permitted (same AMG wording)",
+      "note": "brand strings widened: the registry uses 'דימלר בנץ' (verified via rules_coverage.py - the rule never fired)"
     },
     {
       "id": "bmw-m",
@@ -174,42 +169,56 @@
         "brand": [
           "ב מ וו"
         ],
-        "name": [
-          "M2%",
-          "M3%",
-          "M4%",
-          "M5%",
-          "M6%",
-          "M8%",
-          "%M135%",
-          "%M140%",
-          "%M235%",
-          "%M240%",
-          "%M340%",
-          "%M440%",
-          "%M550%",
-          "%M850%",
-          "%M35I%",
-          "%M40I%",
-          "%M50I%",
-          "%M50 %",
-          "%M50",
-          "%M60I%",
-          "%X3 M%",
-          "%X4 M%",
-          "%X5 M%",
-          "%X6 M%",
-          "%Z4 M%",
-          "%M X3%",
-          "%M X4%",
-          "%M X5%",
-          "%M X6%",
-          "%SERIES M COUPE%",
-          "% M COUPE%",
-          "%M ROADSTER%"
+        "any": [
+          {
+            "name": [
+              "M2%",
+              "M3%",
+              "M4%",
+              "M5%",
+              "M6%",
+              "M8%",
+              "%M135%",
+              "%M140%",
+              "%M235%",
+              "%M240%",
+              "%M340%",
+              "%M440%",
+              "%M550%",
+              "%M850%",
+              "%M35I%",
+              "%M40I%",
+              "%M50I%",
+              "%M50",
+              "%M60I%",
+              "%X3 M%",
+              "%X4 M%",
+              "%X5 M%",
+              "%X6 M%",
+              "%Z4 M%"
+            ]
+          },
+          {
+            "engine_starts_with": [
+              "S55",
+              "S58",
+              "S63",
+              "S65",
+              "S85",
+              "S54",
+              "S62",
+              "S70",
+              "N55",
+              "B58"
+            ]
+          }
         ]
       },
-      "then": "98"
+      "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "BMW M: figures apply 'using RON 98 fuel'; IL M4 spec sheet: '98 unleaded (recommended)'; M-Performance (M135i/M140i/M235i/M240i/M440i) is 95 RON min",
+      "note": "full M and M-Performance: 95 RON permitted, 98 recommended (was 98). Engine paths added for imports"
     },
     {
       "id": "audi-rs-r8-name",
@@ -230,7 +239,11 @@
           "TT RS%"
         ]
       },
-      "then": "98"
+      "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Audi: 98 RON recommended, 95 RON permitted",
+      "note": "was 98"
     },
     {
       "id": "audi-r8-engine",
@@ -241,8 +254,11 @@
         ],
         "engine_set": "AUDI_R8"
       },
-      "then": "98",
-      "note": "Catches chassis-code R8 imports without R8 in the name"
+      "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Audi R8 V10: 98 recommended, 95 permitted",
+      "note": "was 98"
     },
     {
       "id": "vw-golf-r",
@@ -286,7 +302,10 @@
         ]
       },
       "then": "rec",
-      "note": "VW Golf R — same EA888 evo4 as Audi S3; manual lists 95 RON as acceptable minimum (98 recommended for full output). rec, not 98."
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Golf R Mk7 manual: 'minimum 91 AKI (95 RON)'; VW MY26 spec sheet: 'Fuel type (Recommended): Premium unleaded 98 RON'; VW USA: 'Premium unleaded recommended'",
+      "note": "unchanged: 95 RON permitted, 98 recommended. The 'minimum 98' figure seen for the Mk8 was the AU spec sheet's *recommended* field"
     },
     {
       "id": "honda-type-r",
@@ -295,12 +314,24 @@
         "brand": [
           "הונדה"
         ],
-        "name_or_trim": [
-          "%TYPE R%",
-          "%TYPE-R%"
+        "any": [
+          {
+            "name_or_trim": [
+              "%TYPE R%",
+              "%TYPE-R%"
+            ]
+          },
+          {
+            "engine_starts_with": [
+              "K20C"
+            ]
+          }
         ]
       },
-      "then": "98"
+      "then": "98",
+      "min_ron": 98,
+      "source": "IL importer spec sheets: Civic Type R FK8 (2017) 'fuel type REQUIRED: 98'; FL5 (2023) 'fuel type (recommended): 98'. FUEL REQUIRED/נדרש on the earlier car",
+      "note": "stays 98: the FK8 requires it and the FL5 recommends it; the classifier has no model year, so one bucket covers both"
     },
     {
       "id": "honda-acura-type-s",
@@ -315,8 +346,10 @@
           "%TYPE-S%"
         ]
       },
-      "then": "rec",
-      "note": "Honda/Acura Type S (sport) -> premium recommended"
+      "then": "98",
+      "min_ron": 96,
+      "source": "Acura Type S (3.0T): US premium 91 AKI (RON 96)",
+      "note": "was rec"
     },
     {
       "id": "hyundai-n",
@@ -340,8 +373,11 @@
           }
         ]
       },
-      "then": "98",
-      "note": "Hyundai N incl. I20N/I30N by engine; N-Line cosmetic excluded"
+      "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "i30 N owner's manual (UK/AU): 'minimum RON 95 (AKI 91) ... dropping below risks reduced power and potential engine damage'; Elantra N (US): min 87 AKI, premium 91 AKI (RON 95) recommended",
+      "note": "confirmed rec: min 95, no 98 requirement"
     },
     {
       "id": "toyota-gr-supra-86",
@@ -350,17 +386,32 @@
         "brand": [
           "טויוטה"
         ],
-        "name": [
-          "GR %",
-          "%GR86%",
-          "%GR 86%",
-          "%SUPRA%",
-          "86",
-          "TOYOTA 86%"
+        "any": [
+          {
+            "name": [
+              "GR %",
+              "%GR86%",
+              "%GR 86%",
+              "%SUPRA%",
+              "86",
+              "TOYOTA 86%"
+            ]
+          },
+          {
+            "engine_starts_with": [
+              "G16E",
+              "B58",
+              "FA20",
+              "FA24",
+              "2JZ"
+            ]
+          }
         ]
       },
       "then": "98",
-      "note": "Toyota GR / Supra / 86 & GR86 (FA20/FA24 12.5:1)"
+      "min_ron": 98,
+      "source": "GT86/GR86 (FA20/FA24 12.5:1) local requirement 98; GR models 98-grade",
+      "note": "engine paths added for imports (GR Yaris/Corolla G16E, Supra B58/2JZ, 86 FA20/FA24)"
     },
     {
       "id": "ford-perf",
@@ -386,7 +437,8 @@
             ]
           },
           "then": "98",
-          "note": "Ford track / required-premium"
+          "min_ron": 96,
+          "source": "US premium 91 AKI (RON 96)"
         },
         {
           "when": {
@@ -409,11 +461,14 @@
                 ]
               },
               "then": "98",
-              "note": "Mustang GT 5.0 V8"
+              "min_ron": 96,
+              "source": "Mustang GT (Coyote V8): US premium 91 AKI"
             },
             {
               "then": "rec",
-              "note": "Mustang EcoBoost/base"
+              "min_ron": 95,
+              "rec_ron": 98,
+              "source": "Mustang EcoBoost: 95 RON min"
             }
           ]
         },
@@ -429,9 +484,13 @@
             ]
           },
           "then": "rec",
-          "note": "ST performance (ST-Line excluded as cosmetic)"
+          "min_ron": 95,
+          "rec_ron": 98,
+          "source": "Ford ST (EU): 95 RON min, 98 recommended"
         }
-      ]
+      ],
+      "min_ron": 96,
+      "source": "US premium-spec (91 AKI = RON 96) for Focus RS / Shelby / GT350 / GT500 / Mach 1 / Bullitt / Boss 302 / Ford GT / Mustang GT; EU ST models 95 RON min"
     },
     {
       "id": "bmw-mini-jcw",
@@ -441,12 +500,23 @@
           "ב מ וו",
           "מיני"
         ],
-        "name_or_trim": [
-          "%JOHN COOPER%",
-          "%JCW%"
+        "any": [
+          {
+            "name_or_trim": [
+              "%JOHN COOPER%",
+              "%JCW%"
+            ]
+          },
+          {
+            "engine_eq": "B48A20B"
+          }
         ]
       },
-      "then": "98"
+      "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Mini JCW (B48A20B): EU spec 98 RON recommended, 95 min",
+      "note": "was 98; engine path added so imports whose code lacks 'JOHN COOPER' are still caught"
     },
     {
       "id": "abarth",
@@ -457,6 +527,9 @@
         ]
       },
       "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "EU-spec 1.4 T-Jet: RON 95 min",
       "note": "Abarth 1.4 T-Jet: 98 recommended, 95 OK (like Cupra)"
     },
     {
@@ -468,6 +541,8 @@
         ]
       },
       "then": "98",
+      "min_ron": 98,
+      "source": "Dodge Viper V10, 98-grade",
       "note": "Dodge Viper V10"
     },
     {
@@ -482,6 +557,8 @@
         ]
       },
       "then": "98",
+      "min_ron": 98,
+      "source": "Donkervoort/Dallara/Panoz/IC Cars - race-derived",
       "note": "Donkervoort, Dallara, Panoz, AC Cobra"
     },
     {
@@ -489,18 +566,22 @@
       "skip_if_cosmetic": true,
       "when": {
         "brand": [
-          "קטרהאם"
+          "קטרהאם",
+          "קאטרהם"
         ],
         "name_or_trim": [
           "%R500%",
           "%R620%",
           "%620R%",
           "%SUPERLIGHT%",
-          "%CSR%"
+          "%CSR%",
+          "%CATERHAM%"
         ]
       },
       "then": "98",
-      "note": "Caterham R500/R620/CSR/Superlight (track)"
+      "min_ron": 98,
+      "source": "Caterham (Seven/R500/R620/CSR): 98-grade track cars. Brand spelled 'קטרהאם' or 'קאטרהם' in the registry",
+      "note": "brand and name patterns widened after rules_coverage.py showed the rule never firing; the imported car is 'CATERHAM R500'"
     },
     {
       "id": "zaz-968-easter-egg",
@@ -522,8 +603,10 @@
           }
         ]
       },
-      "then": "98",
-      "note": "The mighty ZAZ-968 Zaporozhets demands premium"
+      "then": "95",
+      "note": "was 98; low-compression engine needs no premium",
+      "min_ron": 95,
+      "source": "ZAZ 968: air-cooled 1.2 V4, ~7.2:1 compression - regular grade"
     },
     {
       "id": "nsx-s2000-name",
@@ -536,6 +619,8 @@
         ]
       },
       "then": "98",
+      "min_ron": 98,
+      "source": "S2000 (F20C 11.7:1) / NSX - 98-grade",
       "note": "Honda/Acura NSX & S2000 by name"
     },
     {
@@ -559,6 +644,8 @@
         ]
       },
       "then": "98",
+      "min_ron": 98,
+      "source": "S2000 F20C/F22C and Civic Type R K20C1 engines",
       "note": "S2000 (F20C/F22C) & Civic Type R (K20C1) by engine"
     },
     {
@@ -584,6 +671,8 @@
         ]
       },
       "then": "98",
+      "min_ron": 96,
+      "source": "Lexus RC F / LC500 owner's manual: 'Octane Rating 91 (RON 96) or higher'",
       "note": "Lexus F / LC500 (V8)"
     },
     {
@@ -623,6 +712,8 @@
         ]
       },
       "then": "98",
+      "min_ron": 98,
+      "source": "rotary (RX-7/RX-8) and MPS/Mazdaspeed - 98-grade",
       "note": "Mazdaspeed/MPS & rotary (RX-7/RX-8) by name and engine"
     },
     {
@@ -638,6 +729,8 @@
         ]
       },
       "then": "98",
+      "min_ron": 98,
+      "source": "Viper 8.3-8.5L (imports dataset, nefach present)",
       "note": "Dodge Viper 8.4 V10 by displacement (code-named imports)"
     },
     {
@@ -658,10 +751,52 @@
         ]
       },
       "then": "98",
-      "note": "Alfa: only the 2.9 V6 Giulia/Stelvio QV REQUIRES 98; 4C & 4-cyl QV only recommend"
+      "min_ron": 98,
+      "rec_ron": 98,
+      "source": "Alfa Giulia owner's manual (verified by il_spec_check.py): petrol 'not lower than 95 (EN228)', but 'FOR 2.9 V6 QUADRIFOGLIO ... premium-quality unleaded petrol with an octane rating (R.O.N.) of 98 or higher'",
+      "note": "98 - the rule only fires for the QV engine"
     },
     {
-      "id": "subaru-wrx-sti-brz",
+      "id": "subaru-brz-86",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "סובארו"
+        ],
+        "any": [
+          {
+            "name": [
+              "%BRZ%",
+              "%GT86%",
+              "%GR86%"
+            ]
+          },
+          {
+            "all": [
+              {
+                "name": [
+                  "%BRZ%",
+                  "%86%"
+                ]
+              },
+              {
+                "engine_starts_with": [
+                  "FA20",
+                  "FA24"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": "98",
+      "min_ron": 98,
+      "rec_ron": null,
+      "source": "BRZ/GT86/GR86 (FA20/FA24, 12.5:1) - local requirement 98 (owner-confirmed); fuel flap '98 only'",
+      "note": "split out of the old combined rule"
+    },
+    {
+      "id": "subaru-wrx-sti",
       "skip_if_cosmetic": true,
       "when": {
         "brand": [
@@ -671,8 +806,7 @@
           {
             "name": [
               "%WRX%",
-              "%STI%",
-              "%BRZ%"
+              "%STI%"
             ]
           },
           {
@@ -680,11 +814,21 @@
               "%WRX%",
               "%STI%"
             ]
+          },
+          {
+            "engine_starts_with": [
+              "EJ20",
+              "EJ25",
+              "FJ25"
+            ]
           }
         ]
       },
-      "then": "98",
-      "note": "WRX/STI + BRZ (FA20/FA24 12.5:1)"
+      "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Subaru WRX/STI owner's manual: 'maximum performance using 93 AKI (98 RON) or higher. If not readily available, 91 AKI (95 RON) may be used with no detriment to engine durability or driveability', slight performance decrease",
+      "note": "imports: engine codes EJ20/EJ25/FJ25 catch chassis-code names; FA20/FA24 belong to the BRZ rule"
     },
     {
       "id": "volvo-t8-polestar",
@@ -708,8 +852,11 @@
           }
         ]
       },
-      "then": "98",
-      "note": "Volvo T8 / Polestar Engineered PHEV"
+      "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Volvo/Polestar manual: 'RON 95 can be used for normal driving. RON 98 is recommended for good power and low fuel consumption ... lower than RON 95 must not be used'; Volvo US: 'requires premium 91 AKI, recommends 93 AKI, and in warm climates it is recommended to change to a higher octane'",
+      "note": "rec - and the warm-climate clause supports 98 in Israel"
     },
     {
       "id": "nissan-gtr-z-nismo",
@@ -722,20 +869,38 @@
           {
             "name": [
               "%GT-R%",
-              "%GTR%",
-              "%NISMO%",
-              "%370Z%",
-              "%350Z%"
+              "%GTR%"
             ]
           },
           {
-            "trim": [
-              "%NISMO%"
+            "engine_eq": "VR38"
+          },
+          {
+            "engine_starts_with": [
+              "VQ37",
+              "VQ35"
+            ]
+          },
+          {
+            "all": [
+              {
+                "name_or_trim": [
+                  "%NISMO%"
+                ]
+              },
+              {
+                "engine_starts_with": [
+                  "VK56"
+                ]
+              }
             ]
           }
         ]
       },
-      "then": "98"
+      "then": "98",
+      "min_ron": 96,
+      "source": "370Z manual: 'at least 91 AKI (RON 96)'; GT-R: 'at least 93 AKI (RON 98) ... not lower than 91 AKI'",
+      "note": "NISMO no longer matches Juke (MR16) / Armada (VR35) - restricted to GT-R, 370Z/350Z by engine, Patrol Nismo"
     },
     {
       "id": "mitsubishi-evo-gto",
@@ -751,7 +916,9 @@
           "%GTO%"
         ]
       },
-      "then": "98"
+      "then": "98",
+      "min_ron": 98,
+      "source": "Lancer Evolution (4G63T, high boost) and 3000GT/GTO twin-turbo: 98-grade"
     },
     {
       "id": "cadillac-v-series",
@@ -768,6 +935,8 @@
         ]
       },
       "then": "98",
+      "min_ron": 96,
+      "source": "Cadillac V-series / Blackwing: US premium 91 AKI (RON 96)",
       "note": "Cadillac V-series (SC/TT)"
     },
     {
@@ -802,7 +971,9 @@
           }
         ]
       },
-      "then": "98"
+      "then": "98",
+      "min_ron": 96,
+      "source": "Corvette / Camaro SS (LT1/LT4): US premium 91 AKI (RON 96)"
     },
     {
       "id": "chev-engine-v8",
@@ -814,6 +985,8 @@
         "engine_set": "CHEV_98"
       },
       "then": "98",
+      "min_ron": 96,
+      "source": "Chevrolet V8 engine set (LT1/LT4/LT2/LS-family): US premium 91 AKI (RON 96)",
       "note": "Chevy V8 by engine code — backup for garbled names"
     },
     {
@@ -840,7 +1013,9 @@
         ]
       },
       "then": "98",
-      "note": "Chrysler/Dodge/Jeep supercharged (Hellcat/Trackhawk/Demon/Redeye)"
+      "min_ron": 96,
+      "source": "SRT Hellcat / Trackhawk / Redeye / Demon: US premium 91 AKI (RON 96) required",
+      "note": "matches nothing today (no Hellcats registered); Charger/Challenger SRTs arrive via chrysler-srt-392-jeep"
     },
     {
       "id": "alfa-older-na-95",
@@ -893,6 +1068,8 @@
         ]
       },
       "then": "95",
+      "min_ron": 95,
+      "source": "old naturally-aspirated Alfa engines",
       "note": "Older NA Alfas (reversed 541=145, 641=146; turbos stay rec floor)"
     },
     {
@@ -904,6 +1081,8 @@
         "engine_set": "AUDI_NA"
       },
       "then": "95",
+      "min_ron": 95,
+      "source": "old naturally-aspirated Audi engines",
       "note": "Confident NA Audi engines"
     },
     {
@@ -918,6 +1097,9 @@
         "engine_set": "CHEV_REC"
       },
       "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "LTG/LSY (premium recommended), L86/L87 (truck V8s, regular-grade) — rec is the safe superset",
       "note": "Chevy/GMC 2.0T (LTG/LSY) & 6.2 V8 (L86/L87)"
     },
     {
@@ -932,7 +1114,10 @@
         ]
       },
       "then": "rec",
-      "note": "SEAT-recorded Cupra/Formentor -> like Cupra brand"
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "IL importer spec sheet (verified by il_spec_check.py): Cupra Leon VZ 2.0 TSI 300HP 'petrol 98 octane', 190/150 HP versions 'petrol 95 octane'; EU spec 95 RON min",
+      "note": "rec covers the whole IL range; the VZ is specified 98 locally, the base versions 95"
     },
     {
       "id": "chrysler-srt-392-jeep",
@@ -960,8 +1145,10 @@
           }
         ]
       },
-      "then": "rec",
-      "note": "Chrysler/Dodge/Jeep 6.4 HEMI (392/SRT NA)"
+      "then": "98",
+      "min_ron": 96,
+      "source": "SRT 392 / Grand Cherokee SRT / Durango SRT / Wrangler Rubicon 392: US premium 91 AKI (RON 96)",
+      "note": "was rec - these are US premium-spec"
     },
     {
       "id": "ds-thp",
@@ -989,6 +1176,9 @@
         ]
       },
       "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "PSA THP (1.6 turbo): RON 95 min, 98 recommended",
       "note": "DS (premium PSA) 1.6 THP"
     },
     {
@@ -1019,8 +1209,11 @@
           }
         ]
       },
-      "then": "98",
-      "note": "Jaguar/Land Rover 5.0 SC & BMW 4.4 V8"
+      "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Jaguar Land Rover fuel & refuelling: 'premium unleaded with a minimum octane rating of 95 RON to achieve optimum performance', down to 91 RON acceptable",
+      "note": "was 98; engine codes unchanged, only the bucket"
     },
     {
       "id": "honda-acura-perf-rec",
@@ -1051,8 +1244,10 @@
           }
         ]
       },
-      "then": "rec",
-      "note": "Honda/Acura B18 (Integra) + performance K models (Si/RSX/TSX/Euro-R)"
+      "then": "98",
+      "min_ron": 96,
+      "source": "Civic Si / Integra / RSX / Euro R: US premium 91 AKI (RON 96), B18 98-grade",
+      "note": "was rec"
     },
     {
       "id": "kia-stinger",
@@ -1064,11 +1259,15 @@
           "%STINGER%"
         ]
       },
-      "then": "rec",
-      "note": "Kia Stinger (3.3 TT)"
+      "then": "95",
+      "min_ron": 95,
+      "rec_ron": 95,
+      "source": "Kia owner's manual (RON wording): 'RON 95/AKI 91 or above' for optimum performance; 'RON 91-94/AKI 87-90' usable with a slight performance reduction - Israeli 95 meets the recommendation",
+      "note": "was 98 after the first D pass (US AKI reading); corrected against Kia's RON-based manual"
     },
     {
       "id": "lexus-non-hybrid",
+      "skip_if_cosmetic": true,
       "when": {
         "brand": [
           "לקסוס"
@@ -1077,22 +1276,41 @@
           "8AR",
           "4GR",
           "3GR",
-          "1GR",
           "1JZ",
           "2JZ",
           "1UZ",
           "3UZ",
-          "2UZ",
           "1UR",
           "3UR",
           "2UR",
           "V35A",
-          "T24A",
+          "T24A"
+        ]
+      },
+      "then": "98",
+      "min_ron": 96,
+      "rec_ron": null,
+      "source": "Lexus premium-spec engines: 2UR (LC500/LX570), 1UR/3UR (LS/LX V8), V35A (LX600), T24A (NX350), 8AR-FTS, 4GR/3GR, 1JZ/2JZ - all 'RON 96 or higher'",
+      "note": "split from one 'rec' bucket; the regular-grade engines (1GR Prado, 2UZ, 8GR) moved to lexus-regular-grade"
+    },
+    {
+      "id": "lexus-regular-grade",
+      "skip_if_cosmetic": true,
+      "when": {
+        "brand": [
+          "לקסוס"
+        ],
+        "engine_starts_with": [
+          "1GR",
+          "2UZ",
           "8GR"
         ]
       },
-      "then": "rec",
-      "note": "Lexus non-hybrid V6/V8/I6/turbo (older IS/GS/LS/SC); Atkinson hybrids 2ZR/2AR/A25A/M20A/M15A & 2GR stay 95"
+      "then": "95",
+      "min_ron": 91,
+      "rec_ron": 95,
+      "source": "1GR (GX/Prado 4.0), 2UZ (older LX/GX V8), 8GR - regular-grade, 95 RON fine",
+      "note": "new rule from splitting lexus-non-hybrid"
     },
     {
       "id": "mazda-cx9-cx60-cx90",
@@ -1115,8 +1333,11 @@
           }
         ]
       },
-      "then": "rec",
-      "note": "Mazda CX-9/CX-60/CX-90 (turbo)"
+      "then": "95",
+      "min_ron": 95,
+      "rec_ron": 95,
+      "source": "Mazda CX-9 owner's manual fuel table: 'Premium unleaded fuel, RON 95 or above' — Israeli 95 is exactly the spec",
+      "note": "was rec; no 98 requirement for the 2.5T / 3.3T"
     },
     {
       "id": "mx5-nd",
@@ -1137,13 +1358,17 @@
         ]
       },
       "then": "rec",
-      "note": "MX-5 ND (SkyActiv-G PE/P5); older NA/NB/NC Miatas stay 95"
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Mazda EU: RON 95 or higher (SKYACTIV-G 13:1); 98 for best performance in a hot climate",
+      "note": "kept rec"
     },
     {
       "id": "nissan-infiniti-vq-vr",
       "when": {
         "brand": [
-          "ניסאן"
+          "ניסאן",
+          "אינפיניטי"
         ],
         "any": [
           {
@@ -1159,8 +1384,10 @@
           }
         ]
       },
-      "then": "rec",
-      "note": "Nissan/Infiniti premium V6 (VQ/VR) — GT-R & Z go to 98 above"
+      "then": "98",
+      "min_ron": 96,
+      "source": "Infiniti G owner's manual: 'premium gasoline with an octane rating of at least 91 AKI (RON 96)' for VQ25HR and VQ37VHR",
+      "note": "was rec - 1,187 vehicles (G37/FX37/EX37/Q70/QX70, Q50/Q60 3.0T, Z). Infiniti-England brand added for imports"
     },
     {
       "id": "opel-opc",
@@ -1177,6 +1404,9 @@
         ]
       },
       "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Opel OPC (EU): RON 95 min, 98 recommended",
       "note": "Opel OPC (performance) — OPC-Line cosmetic excluded"
     },
     {
@@ -1201,6 +1431,9 @@
         ]
       },
       "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Peugeot GTI/RCZ (EU): RON 95 min, 98 recommended",
       "note": "Peugeot GTi / RCZ / 508 PSE"
     },
     {
@@ -1228,8 +1461,10 @@
           }
         ]
       },
-      "then": "rec",
-      "note": "Pontiac Firebird/Trans Am/GTO (V8 muscle)"
+      "then": "98",
+      "min_ron": 96,
+      "source": "Firebird / Trans Am / GTO: US premium 91 AKI (RON 96)",
+      "note": "was rec; 167 vehicles on the imports dataset"
     },
     {
       "id": "renault-sport",
@@ -1253,6 +1488,9 @@
         ]
       },
       "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Renault Sport (M5P/M5M, Megane/Clio RS): RON 95 min, 98 recommended",
       "note": "Renault Sport (Megane RS / Clio RS); RS-Line cosmetic"
     },
     {
@@ -1279,6 +1517,9 @@
         ]
       },
       "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "EU-spec: RON 95 min",
       "note": "Škoda vRS (Octavia/Kodiaq RS, 2.0 TSI)"
     },
     {
@@ -1297,6 +1538,9 @@
         ]
       },
       "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Subaru EU turbo (WRX/Forester XT): RON 95 min",
       "note": "Subaru Forester XT / Impreza Turbo (turbo flat-4, non-WRX)"
     },
     {
@@ -1310,6 +1554,9 @@
         ]
       },
       "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "Smart Brabus (EU): RON 95 min, 98 recommended",
       "note": "Smart Brabus (M281 turbo)"
     },
     {
@@ -1325,7 +1572,10 @@
         ]
       },
       "then": "rec",
-      "note": "Toyota 2.4TT/3.5TT (LC/Sequoia/Tundra/Tacoma/Crown)"
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "T24A-FTS is regular-grade in most markets, V35A-FTS (LX600/Tundra) premium — rec is the safe superset",
+      "note": "refine per model if it matters"
     },
     {
       "id": "vw-gti",
@@ -1349,6 +1599,9 @@
         ]
       },
       "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "EU-spec: RON 95 min",
       "note": "VW GTI — same EA888 as Audi S / Cupra VZ"
     },
     {
@@ -1377,6 +1630,9 @@
         ]
       },
       "then": "rec",
+      "min_ron": 95,
+      "rec_ron": 98,
+      "source": "EU premium brands: base models specify RON 95 minimum (see mercedes-amg / bmw-m for the performance case)",
       "note": "Premium brand floor — anything not handled above falls here"
     }
   ],
