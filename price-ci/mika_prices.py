@@ -43,8 +43,25 @@ BASE = 'https://mika.org.il'
 STATION_API = BASE + '/wp-json/wp/v2/station'
 UA = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
       '(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36')
-DATA_GLOB = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                         '..', 'fuel98-israel', 'data', '*.json')
+def _sibling(*parts: str) -> str:
+    """A file that lives with the site's data/, found by looking instead of by assuming a layout.
+
+    This script runs from two checkouts: `price-ci/` inside the repo (the site is then
+    `../index.html`) and the dev tree one level above it (`../fuel98-israel/index.html`). Hardcoding
+    either path silently disables half the join logic in the other one - the run still finishes, it
+    just reports `city index: 0 stations in 0 cities` and quietly loses its weakest join pass.
+    """
+    here = os.path.dirname(os.path.abspath(__file__))
+    for rel in (os.path.join('..', *parts), os.path.join('..', 'fuel98-israel', *parts),
+                os.path.join(*parts)):
+        p = os.path.normpath(os.path.join(here, rel))
+        if os.path.exists(p) or glob.glob(p):
+            return p
+    return os.path.normpath(os.path.join(here, '..', *parts))
+
+
+_HERE = os.path.dirname(os.path.abspath(__file__))   # files that ship next to this script
+DATA_GLOB = _sibling('data', '*.json')
 NAV_CACHE = 'mika_navpoints_cache.json'
 
 TITLE_RE = re.compile(r'<title>([^<]{2,200})</title>', re.S)
@@ -645,8 +662,7 @@ def load_ours(pattern: str) -> list[dict]:
 def main() -> int:
     ap = argparse.ArgumentParser(description='Mika fuel prices -> our stations')
     ap.add_argument('--data', default=DATA_GLOB)
-    ap.add_argument('--index-html', default=os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), '..', 'fuel98-israel', 'index.html'),
+    ap.add_argument('--index-html', default=_sibling('index.html'),
         help='site index.html, used for the station->city index')
     ap.add_argument('--out', default=None)
     ap.add_argument('--publish', default=None, metavar='DIR')
@@ -654,8 +670,7 @@ def main() -> int:
                     help='reuse an existing mika_prices.json instead of scraping again')
     ap.add_argument('--merge', default=None, metavar='PRICES_JSON',
                     help='inject Mika prices into a price_check output (written in place)')
-    ap.add_argument('--overrides', default=os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), 'mika_overrides.json'),
+    ap.add_argument('--overrides', default=os.path.join(_HERE, 'mika_overrides.json'),
         help='owner rulings: site content we must not report (Mika mistakes already fixed by them)')
     ap.add_argument('--max-match-m', type=float, default=250.0, dest='max_match_m')
     ap.add_argument('--limit', type=int, default=0)
@@ -692,10 +707,17 @@ def main() -> int:
     except Exception as exc:                                          # noqa: BLE001
         print(f'WARN: registry/addresses unavailable ({exc}); address pass disabled', flush=True)
         book = {}
+    if not ours:
+        # Usually a wrong --ours path: joining against nothing matches nothing, which looks exactly
+        # like Mika having no stations on our map. Say it before the report is believed.
+        print(f"ERROR: --ours {a.ours!r} yielded no stations - nothing to join to, and a run that "
+              f"matches nothing is indistinguishable from a data gap. Fix the path.", flush=True)
+        return 3
     overrides = load_overrides(a.overrides)   # {'exclude': [...], 'verified': [...]}
     rows, overridden, with98 = [], [], 0
     for i, st in enumerate(stations, 1):
         row = sc.scrape(st)
+        row['join_method'] = 'not attempted'      # overwritten below; never missing from a report
         hit = override_hit(row, overrides)
         if hit:                              # a confirmed mistake on Mika's site - do not report it
             row['excluded_reason'] = hit.get('reason', '')
@@ -813,8 +835,8 @@ def write_outputs(a, rows, overridden, with98, matched, errors) -> int:
     """Print the join report, write --out/--publish, and merge into a price_check file."""
     print('\njoined pages:')
     for row in rows:
-        tag = (f"{row['station_brand']}/{row['station_name']} [{row['join_method']}]"
-               if row.get('station_key') else f"UNMATCHED ({row['join_method']})")
+        tag = (f"{row['station_brand']}/{row['station_name']} [{row.get('join_method')}]"
+               if row.get('station_key') else f"UNMATCHED ({row.get('join_method')})")
         print(f"   {row['mika_name'][:40]:<42} -> {tag}")
 
     print(f"\n{len(rows)} Mika stations scraped, {with98} with a 98 price, "
@@ -851,7 +873,14 @@ def write_outputs(a, rows, overridden, with98, matched, errors) -> int:
         print('wrote', path)
 
     if a.merge:
-        merged = json.load(open(a.merge, encoding='utf-8'))
+        try:
+            merged = json.load(open(a.merge, encoding='utf-8'))
+        except FileNotFoundError:
+            # No Waze layer this run (its shards never arrived, or the Waze job died). Mika stands on
+            # its own, so merge into an empty set and let the merge add rows rather than update them.
+            print(f'note: {a.merge} not found - merging Mika into an empty set (Waze contributed '
+                  f'nothing this run)', flush=True)
+            merged = {'stations': {}}
         by_key = {r.get('station_key'): r for r in rows if r.get('station_key')}
         added = updated = 0
         # A matched station can still be absent from the file we merge into (a partial Waze run):

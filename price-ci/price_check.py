@@ -55,17 +55,33 @@ try:                                            # tzdata may be absent on bare r
 except Exception:                               # noqa: BLE001
     IL_TZ = timezone.utc
 
-_HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(_HERE, 'tools'))
+sys.path.insert(0, 'tools')
 import importlib.util                                            # noqa: E402
-_spec = importlib.util.spec_from_file_location('wp', os.path.join(_HERE, 'waze_prices.py'))
+_spec = importlib.util.spec_from_file_location('wp', 'waze_prices.py')
 wp = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(wp)
 P = wp.P
 wl = wp.wl                                                        # waze_live module
 
-DEFAULT_DATA_GLOB = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                 '..', 'data', '*.json')
+def _default_data_glob() -> str:
+    """Where the station data lives, found by looking rather than by assuming the layout.
+
+    price-ci/ ships inside the repo next to `data/`, while the dev tree keeps this script a level
+    above it - so `../data` and `../fuel98-israel/data` are both right somewhere, and one of them is
+    silently empty everywhere else. An empty data dir is the worst possible failure here: every
+    join comes back "nothing matched", which reads exactly like a data gap. Resolved against this
+    file, not the CWD, so a workflow's `working-directory:` cannot change the answer.
+    """
+    here = os.path.dirname(os.path.abspath(__file__))
+    for rel in (os.path.join('..', 'data', '*.json'),
+                os.path.join('..', 'fuel98-israel', 'data', '*.json'),
+                os.path.join('data', '*.json')):
+        p = os.path.normpath(os.path.join(here, rel))
+        if glob.glob(p):
+            return p
+    return os.path.normpath(os.path.join(here, '..', 'data', '*.json'))
+
+DEFAULT_DATA_GLOB = _default_data_glob()
 EL_GET_REQUEST = 2064
 
 
@@ -124,6 +140,7 @@ class PriceChecker:
     def __init__(self, state: str | None = None, sleep: float = 0.3, tries: int = 4,
                  verbose: bool = False):
         self.sleep, self.tries, self.verbose = sleep, tries, verbose
+        self.last_reply = None        # shape of the last reply that had no products
         self.state = state
         self.session: wl.Session | None = None
         self.errors: list[str] = []
@@ -175,6 +192,30 @@ class PriceChecker:
         return None, st['waze_id'], None, None
 
     # ---------------------------------------------------------------- fetching
+    def describe_response(self, resp) -> str:
+        """One line describing a GetRequest reply that carried no products.
+
+        \"no price\" from a foreign IP can mean two different things - Waze returned the venue with
+        no fuel data (the data is geo-restricted) or returned nothing at all for the GetRequest
+        (the call itself is not served) - and they have different fixes. Without this the log says
+        only `no price reported` and an entire CI run teaches us nothing.
+        """
+        els = (resp or {}).get('element') or []
+        out = []
+        for el in els:
+            if not isinstance(el, dict):
+                continue
+            venues = prods = 0
+            for sr in (el.get('search_response') or []):
+                for dg in (sr.get('display_group') or []):
+                    for r in (dg.get('result') or []):
+                        for v in (r.get('venue') or []):
+                            venues += 1
+                            prods += len(v.get('product') or [])
+            keys = ','.join(sorted(el.keys())) or 'empty element'
+            out.append(f'{keys}[venues={venues} products={prods}]' if venues else keys)
+        return ' ; '.join(out) or 'no elements in reply'
+
     def fetch_products(self, result_id: str | None, venue_id: str) -> dict | None:
         """GetRequest -> products, retried; alternating id+venue_id and venue_id alone."""
         s = self._sess()
@@ -201,6 +242,7 @@ class PriceChecker:
                 prods = wp._products(venue)
                 if prods:
                     return prods
+            self.last_reply = self.describe_response(resp)
             time.sleep(self.sleep)
         return None
 
@@ -245,6 +287,11 @@ class PriceChecker:
             row['updated'] = max((v['last_updated'] or 0 for v in prods.values()), default=None)
             row['updated_by'] = next((v['updated_by'] for v in prods.values() if v['updated_by']),
                                      None)
+        else:
+            # What Waze actually sent when it had no price (see describe_response). "venue with no
+            # fuel data" and "no reply for the GetRequest at all" are different failures with
+            # different fixes, and a run from abroad cannot tell them apart any other way.
+            row['no_price_reply'] = self.last_reply
         return row
 
 
@@ -317,6 +364,12 @@ def main() -> int:
     a = ap.parse_args()
 
     stations = load_stations(a.data, a.brands)
+    if not stations:
+        # A wrong --data is indistinguishable from "Waze has nothing": both end with zero rows, so
+        # the pipeline would publish an empty prices.json and the site would lose every price.
+        print(f"ERROR: no stations loaded from {a.data!r} - nothing to check, and publishing that "
+              f"would look like a data gap. Fix the path.", flush=True)
+        return 3
     unreachable = venue_less_rows(load_stations(a.data, a.brands, require_venue=False))
     done, stale = {}, 0
     if os.path.exists(a.jsonl):

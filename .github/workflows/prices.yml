@@ -70,7 +70,7 @@ jobs:
         working-directory: price-ci
         continue-on-error: true
         run: |
-          LIMIT_ARG="--limit 25"     # TEMP: validation run, drop for the full sweep
+          LIMIT_ARG="--limit 60"     # TEMP: validation run, drop for the full sweep
           if [ -n "${{ github.event.inputs.limit }}" ]; then LIMIT_ARG="--limit ${{ github.event.inputs.limit }}"; fi
           python3 price_check.py \
             --shard ${{ matrix.shard }}/3 \
@@ -159,6 +159,7 @@ jobs:
         run: |
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import glob, json
+          from collections import Counter
           waze = {}
           for f in glob.glob('shards/**/shard-*.json', recursive=True):
               s = json.load(open(f, encoding='utf-8')).get('stations', {})
@@ -169,10 +170,19 @@ jobs:
           wp = sum(1 for r in waze.values() if r.get('price98') is not None)
           print(f"## Sources on this runner: Waze {wp} prices over {len(waze)} stations, "
                 f"see below for the merged result")
+          replies = Counter(str(r.get('no_price_reply')) for r in waze.values()
+                           if r.get('price98') is None and r.get('not_checked') != 'no waze_id')
+          if replies:
+              print('Waze replies that carried no price: ' + ', '.join(
+                  f'{c}× {txt}' for txt, c in replies.most_common(4)))
           if wp == 0:
-              print("Waze returned **no prices at all** - its distributor serves fuel prices to "
-                    "Israeli IPs, and this runner is not in Israel. Run this job on a self-hosted "
-                    "runner with an Israeli IP to get the Waze layer back.")
+              print("Waze returned **no prices at all**. Measured with one and the same account: "
+                    "prices from an Israeli IP, nothing from this runner - searches answered fine, "
+                    "so the transport is not blocked, the *fuel price data* is what is not served "
+                    "from abroad (registering the account abroad and running it from Israel still "
+                    "gets prices, so it is the IP, not the account). To get the Waze layer on "
+                    "GitHub-hosted runners you would need an Israeli egress IP; Mika below is "
+                    "unaffected and carries the operators' own published prices.")
           d = json.load(open('data/prices.json', encoding='utf-8'))
           c = d['counts']
           print(f"## 98 prices: {c['with_98']} of {c['stations']} stations priced")
