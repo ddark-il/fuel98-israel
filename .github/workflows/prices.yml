@@ -56,8 +56,12 @@ jobs:
           key: waze-account-${{ runner.os }}
           restore-keys: waze-account-
 
+      # A shard that returns nothing is NOT a failed run: Waze serves fuel prices only to Israeli
+      # IPs, so a GitHub-hosted runner legitimately comes back empty. The publish job decides
+      # whether the *pipeline* is broken (no prices from any source) and fails there.
       - name: Check 98 prices (shard ${{ matrix.shard }})
         working-directory: price-ci
+        continue-on-error: true
         run: |
           LIMIT_ARG=""
           if [ -n "${{ github.event.inputs.limit }}" ]; then LIMIT_ARG="--limit ${{ github.event.inputs.limit }}"; fi
@@ -78,6 +82,7 @@ jobs:
 
   publish:
     needs: waze
+    if: always()          # Mika is independent of Waze: publish what works
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -146,7 +151,21 @@ jobs:
       - name: Summary
         run: |
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
-          import json
+          import glob, json
+          waze = {}
+          for f in glob.glob('shards/**/shard-*.json', recursive=True):
+              s = json.load(open(f, encoding='utf-8')).get('stations', {})
+              rows = s.values() if isinstance(s, dict) else s
+              for r in rows:
+                  if isinstance(r, dict) and r.get('key'):
+                      waze[r['key']] = r
+          wp = sum(1 for r in waze.values() if r.get('price98') is not None)
+          print(f"## Sources on this runner: Waze {wp} prices over {len(waze)} stations, "
+                f"see below for the merged result")
+          if wp == 0:
+              print("Waze returned **no prices at all** - its distributor serves fuel prices to "
+                    "Israeli IPs, and this runner is not in Israel. Run this job on a self-hosted "
+                    "runner with an Israeli IP to get the Waze layer back.")
           d = json.load(open('data/prices.json', encoding='utf-8'))
           c = d['counts']
           print(f"## 98 prices: {c['with_98']} of {c['stations']} stations priced")
