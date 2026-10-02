@@ -44,6 +44,9 @@ def main() -> int:
         return 3
     st = [s for s in stations if pc.CANARY[0] in s['name']][0]
 
+    cookie = os.environ.get('WAZE_SESSION_COOKIE', '')
+    print(f'  WAZE_SESSION_COOKIE: {"set (" + str(len(cookie)) + " chars)" if cookie else "not set"}',
+          flush=True)
     checker = pc.PriceChecker(state=a.state, sleep=0.2, tries=1, rounds=1, parallel=a.batch)
     found, opened = [], 0
     while opened < a.connections:
