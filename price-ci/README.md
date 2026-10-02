@@ -63,6 +63,27 @@ python3 publish_prices.py --in merged.json --out ../data/prices.json
   ship with `price98: null` + `not_checked` — so a source that does know them (Mika) has a row to
   fill. Stations without a venue id are exactly the ones left as coordinate pins on the map.
 
+## Where the prices are, and why this job cannot fetch them
+
+`rt.waze.com` load-balances every request between the `-il-` and `-row-` frontends, and only the
+Israeli one is attached to the service mesh that holds the fuel data - a bridge error named it:
+`xds:///venue.prod.il.mesh-waze:12401`. The app's own server list and its certificate SANs give the
+Israeli endpoint directly (`rtproxy-il.waze.com`, plus the legacy `rt-il.waze.com`), now the default
+in `waze_live.py` (`WAZE_BASE` overrides it), and two other things were measured with it:
+
+* the **account matters**: from an Israeli line the established account was answered by the IL
+  cluster 12/12 with prices, while an account registered seconds earlier got 0/12 - so the frontend
+  is not simply "any client from Israel";
+* the **source network matters more**: at 13:35 the same account, endpoint and minute gave 4/4 IL
+  replies with prices from an Israeli line, and **no IL reply at all in three GitHub-hosted shards**
+  (0 in 64 probe connections as well). Eligibility is therefore the network, and this job cannot
+  carry the Waze layer.
+
+Set the repository variable `WAZE_RUNNER` (JSON labels, e.g. `["self-hosted","israel"]`) to run the
+Waze job on an Israeli machine. Until then the shards stop after one probe ("no IL cluster from this
+network right now"), cost ~30 s, and Mika - which is unrestricted and carries the operators' own
+published prices - is the layer that actually updates.
+
 ## Known unknown — answered by the first runs
 
 The guess was that Waze's distributor treats a datacenter IP differently. It is not the datacenter:
