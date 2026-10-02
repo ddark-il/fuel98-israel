@@ -188,6 +188,8 @@ class PriceChecker:
         self.state = state
         self.session: wl.Session | None = None
         self.errors: list[str] = []
+        self._uid: int | None = None      # cached login (see _auth_pair)
+        self._auth_el: bytes | None = None
 
     # ---------------------------------------------------------------- session
     def _sess(self) -> wl.Session:
@@ -208,6 +210,10 @@ class PriceChecker:
         s = self._sess()
         c = wp.PriceClient(st['lat'], st['lon'], retries=1)
         c.s = s                                    # share one session/account per run
+        try:
+            c.uid, c.auth_el = self._auth_pair()   # one login for the whole run, not one per call
+        except Exception:                                          # noqa: BLE001
+            return []
         return c.find_stations(category=category, query=query, radius=3000, max_results=20)
 
     def find_result_id(self, st: dict) -> tuple[str | None, str, float | None, str | None]:
@@ -236,6 +242,29 @@ class PriceChecker:
 
     # ---------------------------------------------------------------- fetching
 
+    def _auth_pair(self) -> tuple[int, bytes]:
+        """(uid, Authenticate element) - obtained **once** and reused by every request.
+
+        Each draw opens its own connection, but none of them needs its own login: the Authenticate
+        element is built from the account's username/password, and the uid comes from a single call.
+        Authenticating per request meant eight logins per station - the server starts refusing them
+        (`KeyError: 'uid'` inside `_auth`, which crashed a sweep) and it doubled the traffic for no
+        gain, because the login carries no information the server uses to answer a GetRequest.
+        """
+        if self._uid is None:
+            s = self._sess()
+            try:
+                info = s.authenticate()
+                self._uid = int(info['uid'])
+            except Exception as e:                                  # noqa: BLE001
+                self.errors.append(f'authenticate: {e!r}')
+                self._uid = None
+                raise
+            acct = s.account or {}
+            self._auth_el = P.element(**{str(2338): P.pb_int(1, 4) + P.pb_str(2, acct.get('username', ''))
+                                         + P.pb_str(3, acct.get('password', ''))})
+        return self._uid, self._auth_el
+
     def _conn_session(self) -> wl.Session:
         """A session for one request: the same account, its own sessionid/cookie/connection.
 
@@ -251,7 +280,10 @@ class PriceChecker:
         """One GetRequest over `conn` (or a fresh connection when conn is None)."""
         c = wp.PriceClient(st['lat'], st['lon'], retries=1)
         c.s = s
-        c.uid, c.auth_el = None, None
+        try:
+            c.uid, c.auth_el = self._auth_pair()
+        except Exception:                                           # noqa: BLE001
+            return {}, ''
         req = P.pb_str(3, st['waze_id']) + (P.pb_str(1, rid) if rid else b'')
         req += P.pb_bytes(2, c._user_info()) + P.pb_bool(6, True)
         batch = P.batch(c._client_info(), c._auth(), P.element(**{str(EL_GET_REQUEST): req}))
