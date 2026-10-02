@@ -11,6 +11,8 @@ name: 98 prices
 # run cannot blank the site.
 
 on:
+  push:
+    branches: ['ci-prices']          # TEMP: validation trigger, drop before merging to main
   schedule:
     - cron: '15 3,11,19 * * *'        # 06:15, 14:15, 22:15 Israel time
   workflow_dispatch:
