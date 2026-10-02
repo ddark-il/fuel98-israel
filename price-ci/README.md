@@ -63,6 +63,31 @@ python3 publish_prices.py --in merged.json --out ../data/prices.json
   ship with `price98: null` + `not_checked` — so a source that does know them (Mika) has a row to
   fill. Stations without a venue id are exactly the ones left as coordinate pins on the map.
 
+## The Israeli runner
+
+Both Israel-only jobs (Waze prices and the fuel-quality check) run on the self-hosted runner, selected
+by the repository variable `WAZE_RUNNER` - currently `["self-hosted","macOS","X64"]`, the Mac mini on
+the office network that is on 24/7. Move them again by changing that variable, not the workflow.
+
+What that machine needs:
+
+| need | why | check |
+|---|---|---|
+| `python3` >= 3.10 | the price scripts (stdlib only, no pip) | the job prints the interpreter it picked |
+| `node` >= 18 | `scripts/check-violations.mjs` (uses `fetch`) | same, printed by the job |
+| `git`, `curl` | checkout, and the egress-country guard on the violations job | - |
+| an Israeli egress | the Ministry API is geo-restricted and Waze's fuel data sits behind the IL mesh | the violations job fails loudly with `egress country: …` |
+
+Two traps seen in practice, both now handled by the workflow but worth knowing:
+
+* **an x86_64 runner on an Apple Silicon Mac** cannot execute `/usr/bin/python3`: the file exists, and
+  `--version` works from a native shell, but the CommandLineTools shim is arm64-only and the runner
+  process is translated, so it dies with `unable to load libxcrun`. Install the `osx-arm64` runner
+  build (or point the jobs at a Homebrew python, which is what the discovery step does).
+* **`continue-on-error` on the shard step hid a dead shard**: it reported as a green job. The step now
+  maps price_check's exit codes instead - `3` (no IL cluster from this network) is a warning,
+  anything else fails.
+
 ## Where the prices are, and why this job cannot fetch them
 
 `rt.waze.com` load-balances every request between the `-il-` and `-row-` frontends, and only the
