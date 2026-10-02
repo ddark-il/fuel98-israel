@@ -6,7 +6,8 @@
       "lat": 31.9806225,
       "lon": 34.7423524
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJhRSCSsazAhURXmmm59Wt9QU"
   },
   {
     "name": "אורלי גהה",
@@ -15,7 +16,8 @@
       "lat": 32.0814058,
       "lon": 34.8455857
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJsfcB8RlKHRURmGNd1XqR5lo"
   },
   {
     "name": "אלוף שדה",
@@ -24,7 +26,8 @@
       "lat": 32.0592117,
       "lon": 34.8153404
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJQfr7ZlZKHRURGeIxYBPb3pA"
   },
   {
     "name": "אלישמע",
@@ -33,7 +36,8 @@
       "lat": 32.15287,
       "lon": 34.92181
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJa-DCwNs5HRUR5l0nX5vfJq4"
   },
   {
     "name": "אלנבי",
@@ -42,7 +46,8 @@
       "lat": 31.7550788,
       "lon": 35.2216248
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJKxIUGyIoAxURA-B5MvOPysc"
   },
   {
     "name": "אצטדיון כפר סבא",
@@ -51,7 +56,8 @@
       "lat": 32.1784603,
       "lon": 34.9282406
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJaeSaDqI5HRURpm7kX7R_jKE"
   },
   {
     "name": "אצטדיון פתח תקווה",
@@ -60,7 +66,8 @@
       "lat": 32.098127,
       "lon": 34.8756774
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJoQZDGsA3HRURkPj1wzoIWk8"
   },
   {
     "name": "אריאל",
@@ -69,7 +76,8 @@
       "lat": 32.1024,
       "lon": 35.20663
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23068993.230755466.517185"
   },
   {
     "name": "אשל הרצליה",
@@ -78,7 +86,8 @@
       "lat": 32.1578923,
       "lon": 34.8102571
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJC6yLzPNIHRURILMiZafZigw"
   },
   {
     "name": "אשקלון דרום",
@@ -87,7 +96,8 @@
       "lat": 31.63101,
       "lon": 34.55904
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22675772.226495579.332482"
   },
   {
     "name": "באר שבע צפון",
@@ -96,7 +106,8 @@
       "lat": 31.2452645,
       "lon": 34.7816333
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJZ-4HnQ5mAhUR7rZIHh-iAi4"
   },
   {
     "name": "ביר אל אמיר",
@@ -105,7 +116,8 @@
       "lat": 32.684246,
       "lon": 35.285759
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23134535.231279812.2044759"
   },
   {
     "name": "ביר אל מכסור",
@@ -114,7 +126,8 @@
       "lat": 32.77493,
       "lon": 35.21411
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ9UlTw6y0HRURhvVW5xb3oew"
   },
   {
     "name": "בית יצחק",
@@ -123,7 +136,8 @@
       "lat": 32.323356,
       "lon": 34.898272
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJU2TUhnAVHRURTMOaTa25n_A"
   },
   {
     "name": "בית שמש",
@@ -132,7 +146,8 @@
       "lat": 31.7558283,
       "lon": 34.984434
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJsbCPD4nBAhURlkBHW6hpndQ"
   },
   {
     "name": "בר-כוכבא",
@@ -141,7 +156,8 @@
       "lat": 31.783729,
       "lon": 35.2087493
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJi413yC7WAhURyk-Psr5NzRI"
   },
   {
     "name": "גבעת שאול",
@@ -150,7 +166,8 @@
       "lat": 31.7860438,
       "lon": 35.1912237
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJo5QCW0rWAhUR6nJFH3REYQU"
   },
   {
     "name": "ג'דיידה",
@@ -159,7 +176,8 @@
       "lat": 32.9253566,
       "lon": 35.1324221
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJfwV919vLHRUR94maUViTH1E"
   },
   {
     "name": "גיא-עירון",
@@ -168,7 +186,8 @@
       "lat": 32.4982326,
       "lon": 35.063878
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJm83scd8FHRURUjoJOG_-hiA"
   },
   {
     "name": "גילי",
@@ -177,7 +196,8 @@
       "lat": 31.9458555,
       "lon": 34.8177835
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ455eari1AhURdEh_fKJxlic"
   },
   {
     "name": "געש",
@@ -186,7 +206,8 @@
       "lat": 32.0918795,
       "lon": 34.8596152
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJLUJVLPxJHRURJr1bMJfae44"
   },
   {
     "name": "דרך המנהרות",
@@ -195,7 +216,8 @@
       "lat": 31.72688,
       "lon": 35.19473
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJqVHV2xXYAhURWrjmJbzssdU"
   },
   {
     "name": "היונה",
@@ -204,7 +226,8 @@
       "lat": 31.9737369,
       "lon": 34.8105905
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJzwhFQ-u1AhUR-aEDJSEtbZY"
   },
   {
     "name": "המלך דוד",
@@ -213,7 +236,8 @@
       "lat": 31.7751668,
       "lon": 35.2225702
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJaYKWDdMpAxURPglkTkdsgjc"
   },
   {
     "name": "הנופר",
@@ -222,7 +246,8 @@
       "lat": 32.1948285,
       "lon": 34.8833963
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22872386.228592787.1147"
   },
   {
     "name": "הנשיאים",
@@ -231,7 +256,8 @@
       "lat": 31.2779185,
       "lon": 34.79484
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJI-GvwZJmAhURun4IVL3M4Lk"
   },
   {
     "name": "הסיירים",
@@ -240,7 +266,8 @@
       "lat": 32.0026081,
       "lon": 34.8077773
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJmThj0pq1AhURmj__GDEgVF4"
   },
   {
     "name": "הר הכרמל",
@@ -249,7 +276,8 @@
       "lat": 32.803383,
       "lon": 34.9862789
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJiwFvU6i7HRURTJ7uuu35Cy8"
   },
   {
     "name": "השלום",
@@ -258,7 +286,8 @@
       "lat": 32.0718626,
       "lon": 34.7975191
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJXwg_FqJLHRURDYhQ9vynmpk"
   },
   {
     "name": "זך רופין",
@@ -267,7 +296,8 @@
       "lat": 32.3454167,
       "lon": 34.9084071
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJe3H1JqoVHRURyjGmGKDtJu0"
   },
   {
     "name": "חולון",
@@ -276,7 +306,8 @@
       "lat": 32.0304332,
       "lon": 34.7744083
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJdSDfiVWzAhURLAKqv1Bc3tc"
   },
   {
     "name": "חופית",
@@ -285,7 +316,8 @@
       "lat": 32.3842908,
       "lon": 34.8668447
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJiScjwrUUHRUR1fnl_okPcQI"
   },
   {
     "name": "טבעון",
@@ -294,7 +326,8 @@
       "lat": 32.7154982,
       "lon": 35.1249576
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJk2WhFLmxHRURKwlkuYOfJ28"
   },
   {
     "name": "טופז",
@@ -303,7 +336,8 @@
       "lat": 32.1301668,
       "lon": 34.8296483
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22806849.228265101.1210"
   },
   {
     "name": "טירה",
@@ -312,7 +346,8 @@
       "lat": 32.2295395,
       "lon": 34.9442731
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJZwSDlRg8HRURCGtfbgHnUco"
   },
   {
     "name": "טל הגשר",
@@ -321,7 +356,8 @@
       "lat": 32.064728,
       "lon": 34.788547
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ_UHoUgNLHRURFVTyT9J3g-8"
   },
   {
     "name": "טל עופרה",
@@ -330,7 +366,8 @@
       "lat": 32.1763999,
       "lon": 34.9796498
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJx2Qu77A7HRUR6GzFhLq8inE"
   },
   {
     "name": "יציב",
@@ -348,7 +385,8 @@
       "lat": 32.0950628,
       "lon": 34.7751165
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJkwiUc_VLHRURZyguoviA7b0"
   },
   {
     "name": "כוכב יאיר",
@@ -357,7 +395,8 @@
       "lat": 32.2205349,
       "lon": 34.9819577
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ0yMiEm88HRUR0YmbchchmIE"
   },
   {
     "name": "כנפי נשרים",
@@ -366,7 +405,8 @@
       "lat": 31.7889842,
       "lon": 35.1893031
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJsRq-ZUnWAhURnnH3eZLHUbc"
   },
   {
     "name": "כפר כנא",
@@ -384,7 +424,8 @@
       "lat": 32.9189738,
       "lon": 35.2837013
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJIxdoneszHBURKOlrfPEsB2s"
   },
   {
     "name": "לב המפרץ",
@@ -393,7 +434,8 @@
       "lat": 32.7894591,
       "lon": 35.0374326
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJveMtSH-6HRURv6m05Yp04jU"
   },
   {
     "name": "לוד ויסוצקי",
@@ -402,7 +444,8 @@
       "lat": 31.9648616,
       "lon": 34.9004544
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJM_tfouTKAhURh9JWrygz80U"
   },
   {
     "name": "לשם אילת",
@@ -411,7 +454,8 @@
       "lat": 29.5552326,
       "lon": 34.9555432
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJM4GadvlxABURLnWtksNCGRs"
   },
   {
     "name": "מבשרת ירושלים",
@@ -420,7 +464,8 @@
       "lat": 31.7997409,
       "lon": 35.1496676
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJTyF9l-DWAhURVYCIPSVmTLg"
   },
   {
     "name": "מודיעין הראל דרך צור",
@@ -429,7 +474,8 @@
       "lat": 31.889423,
       "lon": 34.960295
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJDQFDPq_OAhURx8qkcWndCow"
   },
   {
     "name": "מודיעין ליגד",
@@ -438,7 +484,8 @@
       "lat": 31.9235318,
       "lon": 34.9897254
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJq0b60lXMAhUR216Oua0895w"
   },
   {
     "name": "מויאל",
@@ -447,7 +494,8 @@
       "lat": 32.0375745,
       "lon": 34.7617322
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJu8ZQ1lWzAhURqbKHLAb187E"
   },
   {
     "name": "מישור אדומים",
@@ -465,7 +513,8 @@
       "lat": 31.7856587,
       "lon": 35.2278815
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJmXsRhcQpAxURjddhg1xSROo"
   },
   {
     "name": "מנחם",
@@ -474,7 +523,8 @@
       "lat": 31.9446477,
       "lon": 34.800707
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJl_0XGp62AhURB8WQLqAkIB0"
   },
   {
     "name": "מסילת ציון",
@@ -483,7 +533,8 @@
       "lat": 31.8079743,
       "lon": 35.0177458
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ70E4Q-3PAhURZEwYklxZJyM"
   },
   {
     "name": "מעלות",
@@ -492,7 +543,8 @@
       "lat": 33.0155218,
       "lon": 35.2780565
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ1xPeqbctHBURs3rMalJ8D5Y"
   },
   {
     "name": "מערב ראשון",
@@ -501,7 +553,8 @@
       "lat": 31.9870717,
       "lon": 34.7715137
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJo4hWVIazAhURYbG3CpBln8k"
   },
   {
     "name": "מצפה אביב",
@@ -510,7 +563,8 @@
       "lat": 32.828544,
       "lon": 35.1999692
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23069000.230690003.608"
   },
   {
     "name": "מצפה טורען",
@@ -519,7 +573,8 @@
       "lat": 32.7944357,
       "lon": 35.4042631
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJbVP4MQ44HBURTKJbC2D98Ug"
   },
   {
     "name": "נהריה",
@@ -528,7 +583,8 @@
       "lat": 32.9903804,
       "lon": 35.0966168
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ-TCnA-_OHRURQe6RYb9VOhU"
   },
   {
     "name": "נהריה לוחמי הגטאות.",
@@ -537,7 +593,8 @@
       "lat": 33.00146,
       "lon": 35.09743
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJiQ10R_bOHRURHZ-9D76CsqI"
   },
   {
     "name": "נווה עוז",
@@ -546,7 +603,8 @@
       "lat": 32.0893791,
       "lon": 34.8618944
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJOYLmOEFJHRURg91N6SDNCYc"
   },
   {
     "name": "נויה",
@@ -555,7 +613,8 @@
       "lat": 31.86631,
       "lon": 34.81365
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ7UsNrn63AhURP8CHO9ZVEgw"
   },
   {
     "name": "נחלת יהודה",
@@ -564,7 +623,8 @@
       "lat": 31.9912406,
       "lon": 34.8123289
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJMaEUUfu0AhUR5R4qC4LNnmg"
   },
   {
     "name": "ניר גלים",
@@ -573,7 +633,8 @@
       "lat": 31.8272601,
       "lon": 34.6752018
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ43ukgaikAhURrB9cs_WilkU"
   },
   {
     "name": "סביון",
@@ -582,7 +643,8 @@
       "lat": 32.0333599,
       "lon": 34.8667828
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJL6PAQGM1HRURys2VmbFoh1Q"
   },
   {
     "name": "סילבר",
@@ -591,7 +653,8 @@
       "lat": 31.6837147,
       "lon": 34.6102765
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJUc_HkeKbAhURS_Uo3ZFvaHA"
   },
   {
     "name": "עד הלום",
@@ -600,7 +663,8 @@
       "lat": 31.7660602,
       "lon": 34.6664046
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ9_Y-C7-iAhUR_puIKzko1eU"
   },
   {
     "name": "עוז רמת גן",
@@ -609,7 +673,8 @@
       "lat": 32.0841789,
       "lon": 34.8073694
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ47Jj48dLHRURQLNCgkpBSKw"
   },
   {
     "name": "עוספיה",
@@ -618,7 +683,8 @@
       "lat": 32.7267648,
       "lon": 35.0560377
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ6wmUKOmvHRURLt7xDUvn0pU"
   },
   {
     "name": "עוקף נצרת",
@@ -636,7 +702,8 @@
       "lat": 32.9229387,
       "lon": 35.0772096
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ8wJU1VPIHRURpOOsWmywlqA"
   },
   {
     "name": "פז \"משה\"",
@@ -645,7 +712,8 @@
       "lat": 31.8889995,
       "lon": 34.7834702
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJBYqTQ0i3AhURQ-t2AMnw8QI"
   },
   {
     "name": "פז אור יהודה",
@@ -654,7 +722,8 @@
       "lat": 32.0221849,
       "lon": 34.8582503
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJMzfHxqc1HRURuWBpPQtdQQU"
   },
   {
     "name": "פז בר",
@@ -663,7 +732,8 @@
       "lat": 31.2509745,
       "lon": 34.8207422
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJaULL_qxnAhUR6MoZWAxOoPc"
   },
   {
     "name": "פז גדרה",
@@ -672,7 +742,8 @@
       "lat": 31.79689,
       "lon": 34.78128
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJi8idcFG5AhURxubHca6wy7Q"
   },
   {
     "name": "פז גן",
@@ -681,7 +752,8 @@
       "lat": 32.0641358,
       "lon": 34.7619018
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJQ-mgcZBMHRURmxzgBnQCmPg"
   },
   {
     "name": "פז השקמה",
@@ -690,7 +762,8 @@
       "lat": 31.46824,
       "lon": 34.77488
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJN1Om4v2LAhURKjlvqCKDEog"
   },
   {
     "name": "פקיעין",
@@ -699,7 +772,8 @@
       "lat": 32.993475,
       "lon": 35.313071
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23134538.231410915.971"
   },
   {
     "name": "צומת האלה",
@@ -708,7 +782,8 @@
       "lat": 31.6859286,
       "lon": 34.9471356
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22872381.229051489.1441"
   },
   {
     "name": "צומת כח",
@@ -717,7 +792,8 @@
       "lat": 33.12442,
       "lon": 35.57012
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJg-I6Q_-hHhURp0WGkP4XI5E"
   },
   {
     "name": "צומת נתניה",
@@ -726,7 +802,8 @@
       "lat": 32.3208117,
       "lon": 34.8660988
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22872387.228527264.1935"
   },
   {
     "name": "צמח",
@@ -735,7 +812,8 @@
       "lat": 32.704136,
       "lon": 35.586087
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJVfKz55RqHBURgbWhHQdWqUw"
   },
   {
     "name": "קדימה",
@@ -744,7 +822,8 @@
       "lat": 32.2873498,
       "lon": 34.8980148
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJLyqe2bA_HRURgNfCwv7ii3Q"
   },
   {
     "name": "קיבוץ גלויות",
@@ -753,7 +832,8 @@
       "lat": 32.0483131,
       "lon": 34.7766348
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJJxSaLl9LHRURMZJL2FzSKG4"
   },
   {
     "name": "קייט ונופש",
@@ -762,7 +842,8 @@
       "lat": 32.7908834,
       "lon": 34.9641925
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22937928.229117135.1253"
   },
   {
     "name": "קיסריה",
@@ -771,7 +852,8 @@
       "lat": 32.4759125,
       "lon": 34.8941038
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJG33k42INHRUR6zC8olYZphk"
   },
   {
     "name": "קרית עקרון",
@@ -780,7 +862,8 @@
       "lat": 31.8601868,
       "lon": 34.8107521
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ45CtUNa5AhURkGIg_CL7_ko"
   },
   {
     "name": "קרית שמונה",
@@ -789,7 +872,8 @@
       "lat": 33.2027461,
       "lon": 35.5690755
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJT4YqI6uiHhURkKcN4XO19C0"
   },
   {
     "name": "ראש העין אפק",
@@ -798,7 +882,8 @@
       "lat": 32.1091428,
       "lon": 34.9624273
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJY-ZtCMYwHRURGsvsJm2EnlI"
   },
   {
     "name": "רונית",
@@ -807,7 +892,8 @@
       "lat": 32.1566879,
       "lon": 34.8083457
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJiSSQwvFIHRURz_wpJxFR4uQ"
   },
   {
     "name": "רמה רחובות",
@@ -816,7 +902,8 @@
       "lat": 31.885381,
       "lon": 34.814749
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22806847.228134005.485733"
   },
   {
     "name": "רמה רמת גן",
@@ -825,7 +912,8 @@
       "lat": 32.0864204,
       "lon": 34.812094
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJxaYxs85LHRURRFHxtq3b8Sw"
   },
   {
     "name": "רמות",
@@ -834,7 +922,8 @@
       "lat": 31.7998246,
       "lon": 35.2115957
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ1dsr8h7WAhURRcBfwBWqvkQ"
   },
   {
     "name": "רמת דניה",
@@ -843,7 +932,8 @@
       "lat": 31.7582324,
       "lon": 35.1814707
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23068990.230558824.2219"
   },
   {
     "name": "רשף יבנה",
@@ -852,7 +942,8 @@
       "lat": 31.8874733,
       "lon": 34.7370652
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ04j8SYKwAhURBnrlUwt69HY"
   },
   {
     "name": "שדרות בן צבי",
@@ -861,7 +952,8 @@
       "lat": 32.0466846,
       "lon": 34.7660649
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ9z7bccRNHRUR7ZYp2G2A2GY"
   },
   {
     "name": "שואבה",
@@ -870,7 +962,8 @@
       "lat": 31.7988689,
       "lon": 35.0758689
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJeejxjF3QAhURXlxm8RWzhnQ"
   },
   {
     "name": "שוקת",
@@ -879,7 +972,8 @@
       "lat": 31.3096317,
       "lon": 34.8986347
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJR_Ek1lNeAhURyM23hsoxMNE"
   },
   {
     "name": "שיאונה",
@@ -888,7 +982,8 @@
       "lat": 32.1160698,
       "lon": 34.904362
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJb6FbNqo3HRUR9IYRMgvt1DM"
   },
   {
     "name": "שמשונים",
@@ -897,7 +992,8 @@
       "lat": 31.6605591,
       "lon": 34.5699346
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJZQo_tl6cAhURz8jWlZUe4ac"
   },
   {
     "name": "שער הגיא",
@@ -906,7 +1002,8 @@
       "lat": 31.8157253,
       "lon": 35.0241193
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJyV-jJMHPAhURdYG7QNPK1BE"
   },
   {
     "name": "שער השרון",
@@ -924,7 +1021,8 @@
       "lat": 32.1851914,
       "lon": 34.9165706
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJk5Szmqg5HRUR8bYPtOdzaco"
   },
   {
     "name": "תחנת מוזיאון ירושלים",
@@ -933,7 +1031,8 @@
       "lat": 31.774316,
       "lon": 35.201434
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJHyXUf87XAhURPknCkrg5ZBg"
   },
   {
     "name": "תענכים",
@@ -942,6 +1041,7 @@
       "lat": 32.5834979,
       "lon": 35.2439415
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJmzEfo5NUHBUR4ip5chQu5Xg"
   }
 ]

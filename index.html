@@ -731,8 +731,15 @@ function formatDist(km) {
   return `${km.toFixed(1)} ק"מ`;
 }
 
-function wazeUrl(lat, lon) {
-  return `https://waze.com/ul?ll=${lat},${lon}&navigate=yes`;
+// Navigation target: the Waze venue when we know its id — Waze then routes to its own entrance
+// and the link survives the venue being moved/redrawn. Without an id we navigate to our own
+// coordinate pin (a dropped pin), which is acceptable: the pin is venue-verified.
+function wazeUrl(s) {
+  const { lat, lon } = s.coordinates;
+  const ll = `ll=${lat},${lon}`;
+  return s.waze_id
+    ? `https://waze.com/ul?to=place.${encodeURIComponent(s.waze_id)}&${ll}&navigate=yes`
+    : `https://waze.com/ul?${ll}&navigate=yes`;
 }
 
 function render() {
@@ -764,7 +771,7 @@ function renderTable(list) {
           ${s._dist != null ? `<span class="distance">${formatDist(s._dist)}</span>` : ''}
         </div>
       </div>
-      <a class="waze-btn" href="${wazeUrl(s.coordinates.lat, s.coordinates.lon)}" target="_blank" title="נווט ב-Waze"><img src="${WAZE_ICON_WHITE}" alt="Waze"></a>
+      <a class="waze-btn" href="${wazeUrl(s)}" target="_blank" title="נווט ב-Waze"><img src="${WAZE_ICON_WHITE}" alt="Waze"></a>
     </div>`;
   });
 
@@ -782,7 +789,7 @@ function renderTable(list) {
       <td>${flagBadge(s)}${s.name}</td>
       <td><span class="brand-tag brand-${brandClass(s.brand)}">${brand}</span></td>
       ${userLat !== null ? `<td class="distance">${formatDist(s._dist)}</td>` : ''}
-      <td><a class="waze-link" href="${wazeUrl(s.coordinates.lat, s.coordinates.lon)}" target="_blank"><img src="${WAZE_ICON_BLUE}" alt="Waze"> Waze</a></td>
+      <td><a class="waze-link" href="${wazeUrl(s)}" target="_blank"><img src="${WAZE_ICON_BLUE}" alt="Waze"> Waze</a></td>
     </tr>`;
   });
   table += '</tbody></table>';
@@ -840,7 +847,7 @@ function renderMap(list) {
         <b>${flagBadge(s)}${s.name}</b><br>
         <span class="brand-tag brand-${brandClass(s.brand)}" style="display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;margin:4px 0">${brand}</span>
         ${distStr}
-        <br><a href="${wazeUrl(s.coordinates.lat, s.coordinates.lon)}" target="_blank"
+        <br><a href="${wazeUrl(s)}" target="_blank"
           style="display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:6px 14px;background:#1a1a2e;color:#fff;border-radius:6px;text-decoration:none;font-size:13px">
           <img src="${WAZE_ICON_WHITE}" width="16" height="16" alt=""> נווט ב-Waze</a>
       </div>

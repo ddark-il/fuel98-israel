@@ -6,7 +6,8 @@
       "lat": 31.242166,
       "lon": 34.804134
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "googlePlaces.ChIJi5M_9DhmAhURt3Ry_NXChhY"
   },
   {
     "brand": "תפוז",
@@ -15,7 +16,8 @@
       "lat": 32.599843,
       "lon": 35.29479
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "googlePlaces.ChIJubeYjOZTHBURl1y1-mHNMCU"
   },
   {
     "brand": "תפוז",
@@ -24,7 +26,8 @@
       "lat": 32.783092,
       "lon": 35.037541
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "googlePlaces.ChIJ-aBHOIC6HRURtgXMExH8DxM"
   },
   {
     "brand": "תפוז",
@@ -33,7 +36,8 @@
       "lat": 32.3135,
       "lon": 34.873857
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "googlePlaces.ChIJMwImKuU_HRURbqtkvtz-XfY"
   },
   {
     "brand": "תפוז",
@@ -69,7 +73,8 @@
       "lat": 31.516881,
       "lon": 34.588456
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "googlePlaces.ChIJ4w4qGU-BAhURveZMVRm0ltA"
   },
   {
     "brand": "תפוז",
@@ -78,7 +83,8 @@
       "lat": 31.450679,
       "lon": 34.650412
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "googlePlaces.ChIJ9YE3q5mHAhUR9B49xI5uZrY"
   },
   {
     "brand": "תפוז",
@@ -87,7 +93,8 @@
       "lat": 31.3821731,
       "lon": 34.7229146
     },
-    "pin_source": "manual"
+    "pin_source": "manual",
+    "waze_id": "googlePlaces.ChIJm3giEfFiAhURwbLGGkwNspE"
   },
   {
     "brand": "תפוז",
@@ -124,6 +131,7 @@
       "lon": 34.5827655
     },
     "pin_source": "manual",
-    "pin_note": "operator listing (visible in nearby car-wash photos)"
+    "pin_note": "operator listing (visible in nearby car-wash photos)",
+    "waze_id": "googlePlaces.ChIJe6RdNwCdAhURA_EixR1jivs"
   }
 ]
