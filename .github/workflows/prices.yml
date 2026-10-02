@@ -1,4 +1,4 @@
-name: 98 prices
+name: prices
 
 # What this does, three times a day, on the Israeli runner (repository variable WAZE_RUNNER):
 #   1. asks Waze for the 98 price of every station that carries a `waze_id` (3 parallel shards),
