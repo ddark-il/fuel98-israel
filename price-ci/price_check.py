@@ -84,6 +84,11 @@ def _default_data_glob() -> str:
 DEFAULT_DATA_GLOB = _default_data_glob()
 EL_GET_REQUEST = 2064
 
+# Stations Waze is *known* to price, checked against the app by hand (see VERIFY_IN_APP.md). Used
+# as a canary: if these come back without fuel data, the feed is not serving us, and "no price"
+# for the other 300 stations means nothing.
+CANARY = ('אלוף שדה', 'בת שלמה', 'קוממיות')
+
 
 def period_start_ms(now: datetime | None = None) -> int:
     """Start of the current Israeli fuel-price period: the 1st of the month, 00:00 local.
@@ -138,8 +143,9 @@ def load_stations(pattern: str, brands=None, require_venue: bool = True) -> list
 
 class PriceChecker:
     def __init__(self, state: str | None = None, sleep: float = 0.3, tries: int = 4,
-                 verbose: bool = False):
+                 verbose: bool = False, rounds: int = 3):
         self.sleep, self.tries, self.verbose = sleep, tries, verbose
+        self.rounds = rounds            # search->get rounds per station (see products_for)
         self.last_reply = None        # shape of the last reply that had no products
         self.state = state
         self.session: wl.Session | None = None
@@ -216,10 +222,19 @@ class PriceChecker:
             out.append(f'{keys}[venues={venues} products={prods}]' if venues else keys)
         return ' ; '.join(out) or 'no elements in reply'
 
-    def fetch_products(self, result_id: str | None, venue_id: str) -> dict | None:
-        """GetRequest -> products, retried; alternating id+venue_id and venue_id alone."""
+    def fetch_products(self, result_id: str | None, venue_id: str,
+                       lat: float, lon: float) -> dict | None:
+        """GetRequest -> products, retried; alternating id+venue_id and venue_id alone.
+
+        The client must be built at the STATION's position, not at 0,0. `_client_info()` and
+        `_user_info()` both carry the client's coordinates, and GetRequest answers differently for
+        a client that is standing there: nearby it returns the Waze venue with its `product` list,
+        at (0,0) it returns the generic Google-backed card - name, rating, opening hours, no fuel
+        data. That single pair of zeroes is what made every CI shard report `venues=1 products=0`
+        while the same stations answered prices from this box: the venue came back, stripped.
+        """
         s = self._sess()
-        c = wp.PriceClient(0.0, 0.0, retries=1)
+        c = wp.PriceClient(lat, lon, retries=1)
         c.s = s
         c.uid = None
         c.auth_el = None
@@ -246,6 +261,56 @@ class PriceChecker:
             time.sleep(self.sleep)
         return None
 
+    def products_for(self, st: dict, rid: str | None, vid: str | None,
+                     rounds: int) -> tuple[dict, str | None, int]:
+        """Prices for one station, **re-searching between attempts**.
+
+        Waze serves the fuel list intermittently. At פז אלוף שדה - which the app priced today at
+        98 עצמי 9.28 / 98 שרות 9.02 - twelve consecutive attempts returned the venue with its
+        `product` entries, and minutes later five returned it stripped of them, with no error and
+        no change in the venue itself. Repeating one identical GetRequest therefore proves nothing
+        about whether the station has a price; what changes the reply is a fresh search, which
+        yields a fresh result id. So every attempt after the first starts over from the search.
+
+        Returns (products, venue_id the price came from, attempts used).
+        """
+        for attempt in range(max(1, rounds)):
+            if attempt:
+                rid, vid, _dist, _name = self.find_result_id(st)
+            prods = self.fetch_products(rid, st['waze_id'], st['lat'], st['lon'])
+            if prods:
+                return prods, st['waze_id'], attempt + 1
+            if vid and vid != st['waze_id']:
+                # same station, the other representation (our id is often the Google-backed one
+                # while the search returns the Waze venue id) - the distributor resolves the
+                # Waze-native id far more often
+                prods = self.fetch_products(rid, vid, st['lat'], st['lon'])
+                if prods:
+                    return prods, vid, attempt + 1
+            time.sleep(self.sleep)
+        return {}, None, max(1, rounds)
+
+    def canary(self, stations: list[dict], names: tuple = CANARY) -> list[dict]:
+        """Probe the stations Waze is known to price, so a silent feed is not read as an empty one.
+
+        Absence of a 98 price is normal here (it is a community report nobody may have filed), so
+        `0 prices` means nothing on its own - until you have asked a station that definitely has a
+        price today. These names carry one, verified against the app by hand (VERIFY_IN_APP.md); if
+        they come back stripped, then the run - not the data - is the problem.
+        """
+        out = []
+        for nm in names:
+            m = [s for s in stations if nm in s['name']]
+            if not m:
+                continue
+            st = m[0]
+            rid, vid, _d, _n = self.find_result_id(st)
+            prods, _src, attempts = self.products_for(st, rid, vid, self.rounds)
+            pid, entry = wp.best_98(prods)
+            out.append({'name': f"{st['brand']}/{st['name']}", 'products': len(prods),
+                        'price98': entry['price'] if pid else None, 'attempts': attempts})
+        return out
+
     # ---------------------------------------------------------------- one row
     def check(self, st: dict) -> dict:
         row = {**{k: st[k] for k in ('key', 'file', 'brand', 'name', 'lat', 'lon', 'waze_id')},
@@ -263,14 +328,10 @@ class PriceChecker:
         pstart = period_start_ms()
         now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
         row['period_start'] = datetime.fromtimestamp(pstart / 1000, tz=timezone.utc).isoformat()
-        prods = self.fetch_products(rid, st['waze_id'])
-        if not prods and vid and vid != st['waze_id']:
-            # same station, the other representation (our id is often the Google-backed one
-            # while the search returns the Waze venue id) - the distributor resolves the
-            # Waze-native id far more often
-            prods = self.fetch_products(rid, vid)
-            if prods:
-                row['price_source_venue_id'] = vid
+        prods, src, attempts = self.products_for(st, rid, vid, self.rounds)
+        row['price_attempts'] = attempts
+        if src and src != st['waze_id']:
+            row['price_source_venue_id'] = src
         if prods:
             row['products'] = prods
             row['prices'] = {wp.FUEL_LABELS.get(k, k): v['price'] for k, v in prods.items()}
@@ -346,9 +407,14 @@ def main() -> int:
     ap.add_argument('--state', default=None, help='reuse/create the anonymous account here')
     ap.add_argument('--limit', type=int, default=0)
     ap.add_argument('--shard', default=None, help='i/n')
-    ap.add_argument('--tries', type=int, default=10,
-                    help='fetch attempts per venue; each is ~50%% likely to return products, '
-                         'so 10 attempts is what makes the run actually complete')
+    ap.add_argument('--rounds', type=int, default=3,
+                    help='search->get rounds per station; Waze strips the fuel list intermittently,'
+                         ' so a retry that does not re-search usually repeats the same answer')
+    ap.add_argument('--tries', type=int, default=4,
+                    help='identical GetRequest attempts inside one round. The priced view is not '
+                         'chosen per request but per few minutes (measured: 12/12 attempts worked, '
+                         'then 0/5 minutes later), so hammering one request is mostly transport '
+                         'resilience - --rounds, which re-searches, is what actually recovers prices')
     ap.add_argument('--sleep', type=float, default=0.3)
     ap.add_argument('--recheck-empty', action='store_true',
                     help='re-check only stations whose existing row has no prices')
@@ -401,7 +467,8 @@ def main() -> int:
           + (f', {stale} stale rows to re-check' if stale else '')
           + f', {len(todo)} to do', flush=True)
 
-    checker = PriceChecker(state=a.state, sleep=a.sleep, tries=a.tries, verbose=a.verbose)
+    checker = PriceChecker(state=a.state, sleep=a.sleep, tries=a.tries, verbose=a.verbose,
+                           rounds=a.rounds)
     fh = open(a.jsonl, 'a', encoding='utf-8')
     t0 = time.time()
     for i, st in enumerate(todo, 1):
@@ -419,6 +486,18 @@ def main() -> int:
               flush=True)
         time.sleep(a.sleep)
     fh.close()
+
+    can = checker.canary(stations)
+    if can:
+        got = sum(1 for c in can if c['price98'])
+        print(f"[{ts()}] canary (stations Waze is known to price): "
+              + ', '.join(f"{c['name']} 98={c['price98'] if c['price98'] else '-'}"
+                          f" [{c['products']} products, {c['attempts']} rounds]" for c in can),
+              flush=True)
+        if not got:
+            print('  every canary came back stripped: Waze answered with venue cards but no fuel '
+                  'data. Every "no price reported" below is then the feed\'s answer, not the '
+                  'station\'s - do not read this run as "these stations have no 98".', flush=True)
 
     rows = list(done.values())
     if not a.keep_jsonl_history and os.path.exists(a.jsonl):
@@ -445,6 +524,7 @@ def main() -> int:
         json.dump({'generated': datetime.now(timezone.utc).isoformat(),
                    'counts': {'checked': len(rows), 'with_prices': len(priced),
                               'with_98': len(with98), 'no_venue': len(unreachable)},
+                   'canary': can,
                    'stations': rows + unreachable}, open(a.out, 'w', encoding='utf-8'),
                   ensure_ascii=False, indent=1)
         print('  wrote', a.out)
@@ -459,7 +539,8 @@ def main() -> int:
 
     if len(priced) < a.min_prices:
         print(f'FAIL: only {len(priced)} stations returned prices '
-              f'(< --min-prices {a.min_prices}) - transport blocked or the API changed?')
+              f'(< --min-prices {a.min_prices}) - transport blocked, or the feed is answering '
+              f'without fuel data (see the canary above)?')
         print('first errors:', checker.errors[:3])
         return 1
     return 0

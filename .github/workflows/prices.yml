@@ -161,8 +161,11 @@ jobs:
           import glob, json
           from collections import Counter
           waze = {}
+          canary = []
           for f in glob.glob('shards/**/shard-*.json', recursive=True):
-              s = json.load(open(f, encoding='utf-8')).get('stations', {})
+              doc = json.load(open(f, encoding='utf-8'))
+              canary = canary or doc.get('canary') or []
+              s = doc.get('stations', {})
               rows = s.values() if isinstance(s, dict) else s
               for r in rows:
                   if isinstance(r, dict) and r.get('key'):
@@ -175,14 +178,17 @@ jobs:
           if replies:
               print('Waze replies that carried no price: ' + ', '.join(
                   f'{c}× {txt}' for txt, c in replies.most_common(4)))
-          if wp == 0:
-              print("Waze returned **no prices at all**. Measured with one and the same account: "
-                    "prices from an Israeli IP, nothing from this runner - searches answered fine, "
-                    "so the transport is not blocked, the *fuel price data* is what is not served "
-                    "from abroad (registering the account abroad and running it from Israel still "
-                    "gets prices, so it is the IP, not the account). To get the Waze layer on "
-                    "GitHub-hosted runners you would need an Israeli egress IP; Mika below is "
-                    "unaffected and carries the operators' own published prices.")
+          if canary:
+              print('Canary - stations Waze is known to price, checked against the app by hand: '
+                    + ', '.join(f"{c['name']} 98={c['price98'] if c.get('price98') else '-'}"
+                                f" ({c.get('products', 0)} products, {c.get('attempts')} rounds)"
+                                for c in canary))
+          if wp == 0 and canary and not any(c.get('price98') for c in canary):
+              print("Waze answered with venue cards but stripped the fuel data from every "
+                    "station *including the canary ones*, so nothing in this run may be read as "
+                    '"this station has no 98". The reply switches between the Waze view (with "
+                    "`product[]`) and the Google-backed view (without it) for minutes at a time; "
+                    "re-running is the fix, not a different IP.")
           d = json.load(open('data/prices.json', encoding='utf-8'))
           c = d['counts']
           print(f"## 98 prices: {c['with_98']} of {c['stations']} stations priced")
