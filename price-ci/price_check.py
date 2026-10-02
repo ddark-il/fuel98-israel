@@ -327,6 +327,32 @@ class PriceChecker:
             time.sleep(self.sleep)
         return {}, None, used, cluster
 
+    def wait_for_il(self, stations: list[dict], probes: int = 6, gap: float = 25.0) -> bool:
+        """Wait until the IL cluster answers, before spending a sweep on a cold window.
+
+        The cluster is handed out as a lottery: measured on one Pelephone line, 0 in 256 draws while
+        a sweep was hammering and 3-12% when idle, and there are minutes when nearly every draw
+        lands on `il`. Requests made in a cold window are wasted - a station gets its 24 draws, all
+        from `row`, and the row is a non-answer - so a sweep should start when the lottery is warm.
+        This asks a canary station and waits, a few times, until an IL reply comes back.
+        """
+        st = next((s for s in stations if CANARY[0] in s['name']), None) or (stations or [None])[0]
+        if st is None:
+            return False
+        for i in range(max(1, probes)):
+            rid, vid, _d, _n = self.find_result_id(st)
+            prods, _src, used, cluster = self.products_for(st, rid, vid, self.parallel * 2)
+            if prods or cluster == 'il':
+                print(f'[{ts()}] IL cluster is answering (after {i + 1} probe(s), {used} draws) - '
+                      f'starting the sweep', flush=True)
+                return True
+            if i + 1 < probes:
+                print(f'[{ts()}] no IL reply yet ({i + 1}/{probes}); waiting {gap:.0f}s', flush=True)
+                time.sleep(gap)
+        print(f'[{ts()}] the IL cluster did not answer {probes} probe(s) in a row. Continuing, but '
+              f'every "no price" in this run is a non-answer - consider re-running later.', flush=True)
+        return False
+
     def canary(self, stations: list[dict], names: tuple = CANARY) -> list[dict]:
         """Probe the stations Waze is known to price, so a silent feed is not read as an empty one.
 
@@ -448,6 +474,15 @@ def main() -> int:
     ap.add_argument('--state', default=None, help='reuse/create the anonymous account here')
     ap.add_argument('--limit', type=int, default=0)
     ap.add_argument('--shard', default=None, help='i/n')
+    ap.add_argument('--wait-for-il', type=float, default=25.0, dest='wait_for_il',
+                    help='seconds between canary probes while waiting for the IL cluster to answer '
+                         '(0 disables the wait)')
+    ap.add_argument('--require-il', action=argparse.BooleanOptionalAction, default=True,
+                    dest='require_il',
+                    help='stop instead of sweeping when the IL cluster never answers (a sweep in a '
+                         'cold window produces only non-answers, at full cost)')
+    ap.add_argument('--wait-probes', type=int, default=6, dest='wait_probes',
+                    help='how many times to probe while waiting for the IL cluster')
     ap.add_argument('--parallel', type=int, default=8,
                     help='requests fired at once per station: the edge picks the cluster per request '
                          '(il carries fuel prices, row never does), so the pool has to be sampled')
@@ -531,6 +566,14 @@ def main() -> int:
               flush=True)
         time.sleep(a.sleep)
     fh.close()
+
+    if a.wait_for_il and a.wait_probes and stations:
+        if not checker.wait_for_il(stations, probes=a.wait_probes, gap=a.wait_for_il) and a.require_il:
+            # Nothing below this point would be a price, and a full sweep of non-answers costs the
+            # same as a real one. Say so once and let the caller decide when to try again.
+            print(f'[{ts()}] stopping: no IL cluster from this network right now '
+                  f'({"no Waze layer this run" if not a.out else "no output written"})', flush=True)
+            return 3
 
     can = checker.canary(stations)
     if can:
