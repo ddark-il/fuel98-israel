@@ -23,25 +23,37 @@ python3 publish_prices.py --in merged.json --out ../data/prices.json
 ## What `data/prices.json` looks like
 
 ```json
-{ "generated": "2026-10-02T09:40:00Z", "fuel": "98",
-  "counts": { "stations": 320, "with_98": 61, "current_period": 34, "from_mika": 30, "by_venue": 265 },
+{ "generated": "2026-10-02T15:12:04Z",
+  "fuel": "98",
+  "counts": { "stations": 73, "with_98": 73, "from_mika": 30, "carried_over": 50 },
   "stations": {
-    "googlePlaces.ChIJ…": { "brand": "מיקה", "name": "הפלד", "98": 8.59, "source": "mika",
-                            "updated": "2026-10-01T00:01:24Z", "age_days": 1.4,
-                            "current_period": true, "venue": true },
-    "pin:31.986506,34.772124": { "brand": "מיקה", "name": "ראשון", "98": 8.68, "source": "mika",
-                                 "review": "conflict: page 'משה לוי' vs official 'רוזנסקי 9…'" } } }
+    "googlePlaces.ChIJ…":          { "98": 8.59 },
+    "venues.22806850.228134032.1804": { "98": 9.81 },
+    "pin:31.986506,34.772124":     { "98": 8.68 }
+  } }
 ```
 
-* **Key:** the station's `waze_id` when it has one, else `pin:<lat>,<lon>` — the same numbers the
-  site already has, so the join is a lookup, never a distance calculation.
-* **A missing row means nobody reported a price**, not that 98 is unavailable at that station.
-* `source`: `waze` (community report) or `mika` (the operator's own published price — Mika runs
-  pumps inside other brands' stations, so it publishes prices Sונול and פז do not).
-* `review`: our match for that station is unconfirmed → soften or hide the figure.
-  `verified`: the opposite, a settled doubt, with the proof.
-* `current_period`: reported since the 1st of this month. Prices are revised twice a month, so a
-  figure outside the period is *last* period's, and the UI should say "as of".
+Deliberately minimal: **station identity → price, nothing else** (~1-2 KB, not 40). Everything a page
+needs to *show* a price — brand, name, coordinates, the station's own page — is already in
+`data/*.json`, keyed by the same `waze_id`; publishing it twice meant every consumer had to know which
+copy was authoritative.
+
+* **Key**: the station's `waze_id` (`venues.*` or `googlePlaces.*`), else `pin:<lat>,<lon>` for the 21
+  stations that have no venue id — the same numbers the site already has, so the join is a lookup.
+* **A station with no price is not in the file.** Absence means nobody reported one, not that 98 is
+  unavailable; a row exists only when there is a figure to show.
+* `counts.carried_over`: a run that cannot read a station (a cold Waze window) keeps the previous
+  file's price for it as the last known one, instead of dropping the row. With `--with-meta` each row
+  also carries `source` (`waze` / `mika`), `updated`, `review` and `verified` — useful when debugging
+  the feed, unnecessary for the site.
+
+Reproduce locally:
+
+```bash
+python3 price_check.py --out prices.json          # asks Waze (needs an Israeli line)
+python3 mika_prices.py --merge prices.json        # operator prices on top
+python3 publish_prices.py --in prices.json --out ../data/prices.json
+```
 
 ## Why it can be trusted unattended
 

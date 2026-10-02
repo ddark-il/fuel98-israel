@@ -107,6 +107,9 @@ def main() -> int:
     ap.add_argument('--max-drop-pct', type=float, default=50.0, dest='max_drop_pct')
     ap.add_argument('--allow-shrink', action='store_true', dest='allow_shrink')
     ap.add_argument('--check', action='store_true', help='validate and report, do not write')
+    ap.add_argument('--with-meta', action='store_true', dest='with_meta',
+                    help='also publish source/updated/review per station (debugging; the site reads '
+                         'only the price)')
     a = ap.parse_args()
 
     merged = json.load(open(a.src, encoding='utf-8'))
@@ -131,7 +134,10 @@ def main() -> int:
     prev_rows = {}
     if os.path.exists(a.out):
         try:
-            prev_rows = json.load(open(a.out, encoding='utf-8')).get('stations', {})
+            raw_prev = json.load(open(a.out, encoding='utf-8')).get('stations', {})
+            # accept both shapes: {"id": {"98": 8.4}} and a hand-written {"id": 8.4}
+            prev_rows = {k: (v if isinstance(v, dict) else {'98': v})
+                         for k, v in raw_prev.items()}
         except Exception:                                          # noqa: BLE001
             print(f'note: existing {a.out} is unreadable, writing a fresh file')
 
@@ -149,26 +155,39 @@ def main() -> int:
 
     priced = [r for r in by_id.values() if r['98'] is not None]
     current = [r for r in priced if r.get('current_period')]
-    from_mika = [r for r in priced if r['source'] == 'mika']
+    from_mika = [r for r in priced if r.get('source') == 'mika']
+
+    # The published file is deliberately minimal: station identity -> price, and nothing else.
+    # Everything a reader needs to *show* a price (brand, name, coordinates, the station page) is
+    # already in data/*.json, keyed by the same `waze_id`; shipping it twice meant every consumer had
+    # to know which copy was authoritative, and it made the file 40 KB of mostly repeated strings.
+    # A station with no price is not listed at all - that IS the signal (see README).
+    stations_out: dict[str, dict] = {}
+    for ident, row in by_id.items():
+        if row.get('98') is None:
+            continue
+        entry = {'98': row['98']}
+        if a.with_meta:                       # for debugging: where it came from and how old it is
+            for k in ('source', 'updated', 'age_days', 'current_period', 'label', 'review',
+                      'verified', 'brand', 'name'):
+                if row.get(k) is not None:
+                    entry[k] = row[k]
+        stations_out[ident] = entry
 
     payload = {
         'generated': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
         'fuel': '98',
-        'note': ('per-station 98-octane prices, reported by Waze drivers and by Mika (its own '
-                 'published prices). A missing row means nobody reported it - not that 98 is '
-                 'unavailable. `review` marks a price whose station match is unconfirmed.'),
-        'counts': {'stations': len(by_id), 'with_98': len(priced), 'current_period': len(current),
-                   'from_mika': len(from_mika), 'carried_over': carried,
-                   'by_venue': sum(1 for r in by_id.values() if r['venue'])},
-
-        'stations': by_id,
+        'counts': {'stations': len(stations_out), 'with_98': len(stations_out),
+                   'from_mika': len(from_mika), 'carried_over': carried},
+        'stations': stations_out,
     }
 
-    print(f'{len(by_id)} rows, {len(priced)} with a 98 price ({len(current)} in the current price '
-          f'period, {len(from_mika)} from Mika), {no_price} stations with nothing reported')
+    print(f'{len(priced)} stations with a 98 price ({len(current)} in the current price period, '
+          f'{len(from_mika)} from Mika); {no_price} stations had nothing reported and are not in '
+          f'the file')
     if carried:
         print(f'  carried over {carried} price(s) this run could not read (kept from the previous '
-              f'file, with their own timestamps)')
+              f'file as the last known price - pass --with-meta to publish how old each one is)')
     if no_station:
         print(f'  note: {no_station} priced station(s) are not in data/*.json any more (dropped)')
 
