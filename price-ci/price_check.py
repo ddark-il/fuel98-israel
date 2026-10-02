@@ -592,8 +592,15 @@ def main() -> int:
         if not checker.wait_for_il(stations, probes=a.wait_probes, gap=a.wait_for_il) and a.require_il:
             # Nothing below this point would be a price, and a full sweep of non-answers costs the
             # same as a real one. Say so once and let the caller decide when to try again.
-            print(f'[{ts()}] stopping: no IL cluster from this network right now '
-                  f'({"no Waze layer this run" if not a.out else "no output written"})', flush=True)
+            print(f'[{ts()}] stopping: no IL cluster from this network right now - no Waze layer '
+                  f'this run', flush=True)
+            if a.out:                       # publish still needs a file for this shard
+                json.dump({'generated': datetime.now(timezone.utc).isoformat(),
+                           'counts': {'checked': 0, 'with_prices': 0, 'with_98': 0,
+                                      'no_venue': len(unreachable)},
+                           'stopped': 'no IL cluster', 'stations': unreachable},
+                          open(a.out, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+                print(f'  wrote {a.out} (0 stations: the run stopped before the sweep)', flush=True)
             return 3
 
     fh = open(a.jsonl, 'a', encoding='utf-8')
@@ -617,14 +624,19 @@ def main() -> int:
     can = checker.canary(stations)
     if can:
         got = sum(1 for c in can if c['price98'])
+        priced_now = sum(1 for r in done.values() if r.get('prices'))
         print(f"[{ts()}] canary (stations Waze is known to price): "
               + ', '.join(f"{c['name']} 98={c['price98'] if c['price98'] else '-'}"
                           f" [{c['products']} products, {c['attempts']} rounds]" for c in can),
               flush=True)
-        if not got:
+        if not got and not priced_now:
             print('  every canary came back stripped: Waze answered with venue cards but no fuel '
                   'data. Every "no price reported" below is then the feed\'s answer, not the '
                   'station\'s - do not read this run as "these stations have no 98".', flush=True)
+        elif not got:
+            print(f'  note: the canary came back stripped at the end of the run, but {priced_now} '
+                  f'station(s) were priced - the IL window closed while the sweep was running.',
+                  flush=True)
 
     rows = list(done.values())
     if not a.keep_jsonl_history and os.path.exists(a.jsonl):

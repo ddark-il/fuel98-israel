@@ -51,7 +51,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [0, 1, 2]
+        # One shard. The runner is a single Israeli Mac mini, so three matrix shards do not run in
+        # parallel - they queue, and the two that start later sweep into a window that may already
+        # have closed. The whole list takes ~20-30 min in one job, which is the point of having it on
+        # a machine that is on 24/7. `--shard` stays available for a manual parallel run.
+        shard: [0]
     steps:
       - uses: actions/checkout@v4
 
@@ -113,7 +117,7 @@ jobs:
           LIMIT_ARG=""
           if [ -n "${{ github.event.inputs.limit }}" ]; then LIMIT_ARG="--limit ${{ github.event.inputs.limit }}"; fi
           "$PYTHON" price_check.py \
-            --shard ${{ matrix.shard }}/3 \
+            --shard ${{ matrix.shard }}/1 \
             --jsonl price_check-shard${{ matrix.shard }}.jsonl \
             --out shard-${{ matrix.shard }}.json \
             --state waze_account.json \
@@ -138,6 +142,17 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+
+      - name: Tools on this runner
+        run: |
+          NODE=""
+          for c in "$(command -v node 2>/dev/null)" /opt/homebrew/bin/node /usr/local/bin/node node; do
+            [ -n "$c" ] || continue
+            if "$c" --version >/dev/null 2>&1; then NODE="$c"; break; fi
+          done
+          if [ -z "$NODE" ]; then echo "::error::no working node on this runner (brew install node)"; exit 1; fi
+          echo "NODE=$NODE" >> "$GITHUB_ENV"
+          echo "node: $NODE ($("$NODE" --version))"
 
       - name: Where does this runner egress from?
         run: |
@@ -176,11 +191,11 @@ jobs:
         with: { python-version: '3.12' }
 
       - uses: actions/download-artifact@v4
-        with: { name: shard-0, path: shards }
-      - uses: actions/download-artifact@v4
-        with: { name: shard-1, path: shards }
-      - uses: actions/download-artifact@v4
-        with: { name: shard-2, path: shards }
+        continue-on-error: true
+        with:
+          pattern: shard-*
+          path: shards
+          merge-multiple: true
 
       # Each shard publishes only the stations it processed, so the shards have to be merged before
       # anything reads them: one shared out/prices.json would be won by the last writer.
