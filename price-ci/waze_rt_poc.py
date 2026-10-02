@@ -167,6 +167,10 @@ def pb_float(field: int, value: float) -> bytes:
     return tag(field, 5) + struct.pack("<f", value)
 
 
+def pb_double(field: int, value: float) -> bytes:
+    return tag(field, 1) + struct.pack("<d", value)
+
+
 def read_varint(buf: bytes, i: int):
     shift = val = 0
     while True:
@@ -250,13 +254,26 @@ def search_v2(lat: float, lon: float, query: str = "", page_size: int = 25) -> b
     return req
 
 
-def venue_search(lat: float, lon: float, category: str = "", max_results: int = 25) -> bytes:
-    """linqmap.proto.venue.VenueSearchRequest - legacy venue search (returns VenueList)."""
-    # linqmap.proto.venue.Coordinate (Venues.proto): x = 300, y = 301 (deg * 1e6)
-    near_by = pb_int(300, int(round(lon * 1_000_000))) + pb_int(301, int(round(lat * 1_000_000)))
-    req = pb_bytes(VSR["near_by"], near_by)
+def venue_search(lat: float, lon: float, category: str = "GAS_STATION",
+                 max_results: int = 25, products: tuple = (), sort_by_price: bool = False) -> bytes:
+    """linqmap.proto.venue.VenueSearchRequest - the *gas layer* search (Element 2053 -> VenueList).
+
+    Returns gas stations as `Venue3` records, each with `original_products` (138) - the community
+    price list. One request, every station around a point, prices included: this is what the app's
+    "gas stations" list is built from, and it is a different path from a per-venue GetRequest.
+
+    The coordinate type is a trap: `linqmap.proto.venue.Coordinate` is **double degrees** at fields
+    300/301, while the RT `linqmap.proto.Coordinate` elsewhere in this file is int degrees*1e6. This
+    function used to send varints, which is why element 2053 answered
+    `500 UninitializedMessageException` and the whole legacy search was written off as unusable.
+    """
+    req = pb_bytes(VSR["near_by"], pb_double(300, lon) + pb_double(301, lat))
     if category:
         req += pb_str(VSR["category"], category)
+    for prod in products:
+        req += pb_str(VSR["products"], prod)
+    if sort_by_price:
+        req += pb_int(VSR["sort_by"], 1)          # SortBy.PRICE
     req += pb_int(VSR["max_results"], max_results)
     req += pb_int(VSR["protocol"], 3)
     return req

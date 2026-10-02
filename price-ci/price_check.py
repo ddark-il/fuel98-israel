@@ -183,11 +183,6 @@ class PriceChecker:
         self.sleep, self.tries, self.verbose = sleep, tries, verbose
         self.rounds = rounds            # attempts per station (see products_for)
         self.parallel = max(1, parallel)   # concurrent connections per attempt (see _burst)
-        self.pins: list[tuple] = []        # live (session, connection) pairs answering from IL
-        self.want_pins = 0                 # set from --pins
-        self.pin_max = 256                 # set from --pin-max
-        self.pin_opens = 0                 # connections opened while looking for IL nodes
-        self.no_pins_said = False
         self.last_reply = None        # shape of the last reply that had no products
         self.last_cluster = ''        # cluster that served it ('il' carries the fuel prices)
         self.state = state
@@ -208,113 +203,6 @@ class PriceChecker:
             self.session = s
         return self.session
 
-    def _conn_session(self) -> wl.Session:
-        """A session to carry one pinned connection (same account, its own sessionid/cookie)."""
-        s = wl.Session()
-        if self.state and os.path.exists(self.state) and s.load_account(self.state):
-            return s
-        return self._sess()
-
-    # -- pinned IL connections --------------------------------------------------------------
-    def _open_pin(self, st: dict):
-        """One connection, probed: kept only if an IL node answered.
-
-        The cluster is fixed for the life of a connection (verified: ten requests over one
-        kept-alive connection all came from the same cluster), so an `...-il-*` connection is a
-        resource - it carries the fuel prices for every later request sent over it.
-        """
-        s = self._conn_session()
-        conn = http.client.HTTPSConnection('rt.waze.com', timeout=45)
-        try:
-            _prods, cluster = self._get_over(s, conn, st, rid=None)
-        except Exception as e:                                      # noqa: BLE001
-            self.errors.append(f'pin: {e!r}')
-            conn.close()
-            return None
-        if cluster != 'il':
-            conn.close()
-            return None
-        return Pin(s, conn)
-
-    def _pin_batch(self, st: dict, n: int) -> list:
-        with ThreadPoolExecutor(max_workers=n) as ex:
-            return [p for p in ex.map(lambda _i: self._open_pin(st), range(n)) if p]
-
-    def _ensure_pins(self, st: dict) -> None:
-        """Keep `--pins` verified IL connections; open more (in parallel) while we have none."""
-        while len(self.pins) < self.want_pins and self.pin_opens < self.pin_max:
-            n = min(self.parallel, self.pin_max - self.pin_opens)
-            self.pin_opens += n
-            found = self._pin_batch(st, n)
-            self.pins.extend(found)
-            if found and len(self.pins) >= self.want_pins:
-                print(f'[{ts()}] pinned {len(self.pins)} IL connection(s) after {self.pin_opens} '
-                      f'- prices will be read over {"them" if len(self.pins) > 1 else "it"}',
-                      flush=True)
-                return
-        if not self.pins and not self.no_pins_said:
-            # Say it once, loudly, and then stop: every later station is a foregone conclusion, and
-            # a sweep that cannot see the IL cluster must not spend an hour proving it.
-            self.no_pins_said = True
-            print(f'[{ts()}] no IL connection in {self.pin_opens} attempt(s): this network is not '
-                  f'being routed to the cluster that carries fuel prices right now. Nothing below is '
-                  f'a price - the run cannot see them from here.', flush=True)
-
-    def _drop(self, pin) -> None:
-        try:
-            pin.conn.close()
-        except Exception:                                           # noqa: BLE001
-            pass
-        self.pins = [p for p in self.pins if p is not pin]
-
-    def _get_over(self, s: wl.Session, conn, st: dict, rid: str | None) -> tuple[dict, str]:
-        """One GetRequest over `conn` (or a fresh connection when conn is None)."""
-        c = wp.PriceClient(st['lat'], st['lon'], retries=1)
-        c.s = s
-        c.uid, c.auth_el = None, None
-        req = P.pb_str(3, st['waze_id']) + (P.pb_str(1, rid) if rid else b'')
-        req += P.pb_bytes(2, c._user_info()) + P.pb_bool(6, True)
-        batch = P.batch(c._client_info(), c._auth(), P.element(**{str(EL_GET_REQUEST): req}))
-        resp = s.post_keepalive(conn, batch) if conn is not None else s.post(batch)
-        venue = wp._first_venue(resp)
-        return (wp._products(venue) if venue else {}), reply_cluster(resp)
-
-    def _pinned_reply(self, st: dict, rid: str | None) -> tuple[dict, str]:
-        """A reply from a verified IL connection.
-
-        Every reply is checked, because a pin can drift: `http.client` reconnects on its own when
-        the server closes an idle connection, and the fresh connection is a fresh draw at the edge
-        (measured: seven stations read fine over two pins, then all three canary stations came back
-        from `row`). A reply that is not from `il` is discarded together with the connection that
-        produced it, and the pin is replaced before the station is retried.
-        """
-        self._ensure_pins(st)
-        if not self.pins:
-            return {}, ''
-        pin = self.pins[0]
-        with pin.lock:
-            try:
-                prods, cluster = self._get_over(pin.s, pin.conn, st, rid)
-            except Exception as e:                                  # noqa: BLE001
-                self.errors.append(f'pin lost: {e!r}')
-                self._drop(pin)
-                return {}, ''
-        if cluster == 'il':
-            return prods, cluster
-        self._drop(pin)                                             # drifted to another backend
-        return {}, cluster
-
-    def _burst(self, st: dict, rid: str | None, n: int) -> list[tuple[dict, str]]:
-        """`n` replies for one station over the pinned IL connections."""
-        out = []
-        for _ in range(n):
-            prods, cluster = self._pinned_reply(st, rid)
-            out.append((prods, cluster))
-            if prods or cluster == 'il':
-                break
-        return out
-
-    # ---------------------------------------------------------------- lookups
     def _search(self, st: dict, query: str | None, category: str | None) -> list[dict]:
         """Candidates: [{result_id, venue_id, name, lat, lon}] with a fresh result id."""
         s = self._sess()
@@ -347,105 +235,95 @@ class PriceChecker:
         return None, st['waze_id'], None, None
 
     # ---------------------------------------------------------------- fetching
-    def describe_response(self, resp) -> str:
-        """One line describing a GetRequest reply that carried no products.
 
-        \"no price\" from a foreign IP can mean two different things - Waze returned the venue with
-        no fuel data (the data is geo-restricted) or returned nothing at all for the GetRequest
-        (the call itself is not served) - and they have different fixes. Without this the log says
-        only `no price reported` and an entire CI run teaches us nothing.
+    def _conn_session(self) -> wl.Session:
+        """A session for one request: the same account, its own sessionid/cookie/connection.
+
+        One session per request on purpose - a shared one would serialise the parallel draws, and
+        the session carries no state the server uses to pick a cluster (measured).
         """
-        els = (resp or {}).get('element') or []
-        out = []
-        for el in els:
-            if not isinstance(el, dict):
-                continue
-            venues = prods = 0
-            for sr in (el.get('search_response') or []):
-                for dg in (sr.get('display_group') or []):
-                    for r in (dg.get('result') or []):
-                        for v in (r.get('venue') or []):
-                            venues += 1
-                            prods += len(v.get('product') or [])
-            keys = ','.join(sorted(el.keys())) or 'empty element'
-            out.append(f'{keys}[venues={venues} products={prods}]' if venues else keys)
-        return ' ; '.join(out) or 'no elements in reply'
+        s = wl.Session()
+        if self.state and os.path.exists(self.state) and s.load_account(self.state):
+            return s
+        return self._sess()
 
-    def fetch_products(self, result_id: str | None, venue_id: str,
-                       lat: float, lon: float) -> tuple[dict | None, str]:
-        """GetRequest -> products, retried; alternating id+venue_id and venue_id alone.
-
-        The client must be built at the STATION's position, not at 0,0. `_client_info()` and
-        `_user_info()` both carry the client's coordinates, and GetRequest answers differently for
-        a client that is standing there: nearby it returns the Waze venue with its `product` list,
-        at (0,0) it returns the generic Google-backed card - name, rating, opening hours, no fuel
-        data. That single pair of zeroes is what made every CI shard report `venues=1 products=0`
-        while the same stations answered prices from this box: the venue came back, stripped.
-        """
-        s = self._sess()
-        c = wp.PriceClient(lat, lon, retries=1)
+    def _get_over(self, s: wl.Session, conn, st: dict, rid: str | None) -> tuple[dict, str]:
+        """One GetRequest over `conn` (or a fresh connection when conn is None)."""
+        c = wp.PriceClient(st['lat'], st['lon'], retries=1)
         c.s = s
-        c.uid = None
-        c.auth_el = None
-        for attempt in range(self.tries):
-            if result_id and attempt % 3 != 2:
-                rid, vid = result_id, venue_id
-            else:
-                rid, vid = None, venue_id
-            req = P.pb_str(3, vid) + (P.pb_str(1, rid) if rid else b'')
-            req += P.pb_bytes(2, c._user_info()) + P.pb_bool(6, True)
-            try:
-                resp = s.post(P.batch(c._client_info(), c._auth(),
-                                      P.element(**{str(EL_GET_REQUEST): req})))
-            except Exception as e:                                  # noqa: BLE001
-                self.errors.append(f'get {venue_id}: {e!r}')
-                time.sleep(self.sleep)
-                continue
-            venue = wp._first_venue(resp)
-            if venue:
-                prods = wp._products(venue)
-                if prods:
-                    return prods, reply_cluster(resp)
-            self.last_reply = self.describe_response(resp)
-            self.last_cluster = reply_cluster(resp)
-            time.sleep(self.sleep)
-        return None, self.last_cluster
+        c.uid, c.auth_el = None, None
+        req = P.pb_str(3, st['waze_id']) + (P.pb_str(1, rid) if rid else b'')
+        req += P.pb_bytes(2, c._user_info()) + P.pb_bool(6, True)
+        batch = P.batch(c._client_info(), c._auth(), P.element(**{str(EL_GET_REQUEST): req}))
+        resp = s.post_keepalive(conn, batch) if conn is not None else s.post(batch)
+        venue = wp._first_venue(resp)
+        return (wp._products(venue) if venue else {}), reply_cluster(resp)
+
+    def _one_request(self, st: dict, rid: str | None) -> tuple[dict, str]:
+        """One GetRequest on its own connection, from a fresh session on the shared account.
+
+        A fresh connection per request, because the edge routes **each request** independently: ten
+        rapid requests over one kept-alive connection came back nine times from `row` and once from
+        `il`, and two runs of ten *different* connections gave the same spread. There is no
+        connection affinity to exploit and nothing to pin - the only thing that helps is making more
+        draws, which is why they are made in parallel (`--parallel`) rather than one after another.
+        """
+        s = self._conn_session()
+        conn = http.client.HTTPSConnection('rt.waze.com', timeout=45)
+        try:
+            return self._get_over(s, conn, st, rid)
+        finally:
+            conn.close()
+
+    def _burst(self, st: dict, rid: str | None, n: int) -> list[tuple[dict, str]]:
+        """`n` independent draws for one station, fired at once."""
+        if n <= 1:
+            return [self._one_request(st, rid)]
+        with ThreadPoolExecutor(max_workers=n) as ex:
+            return list(ex.map(lambda i: self._one_request(st, rid if i % 4 != 3 else None),
+                               range(n)))
 
     def products_for(self, st: dict, rid: str | None, vid: str | None,
                      rounds: int) -> tuple[dict, str | None, int, str]:
-        """One station's prices, read over the pinned IL connections.
+        """One station's prices, from the first reply the IL cluster sends.
 
         The fuel list is not intermittent data, it is a different backend. The distributor's edge
-        routes **each connection** to one of two clusters: `realtime-frontend-prod-il-*` answers this
-        GetRequest with the venue and its `product` list, `realtime-frontend-prod-row-*` answers with
-        the same venue and never a single product - sixteen connections from one machine, fired at
-        once, split 15 `row` / 1 `il`. So a `row` reply says nothing about a station, and the lever is
-        not retrying more often but holding a connection that lands on the IL cluster and reading
-        everything over it (a connection stays on its backend for its whole life).
+        routes **each request** to one of two Waze clusters: `realtime-frontend-prod-il-*` answers a
+        GetRequest with the venue and its `product` list, `realtime-frontend-prod-row-*` (rest of
+        world) answers with the same venue and no products at all. Ten requests over a single
+        kept-alive connection split 9 `row` / 1 `il`, and so did ten separate connections - the
+        choice is per request and not ours to influence: no URL parameter changes it (`env=il`,
+        `ilil`, `ilrow`, `row` all behave the same), a real-device client identity does not change
+        it, and an Israeli address only shifts the odds (some 3-10% of requests when quiet, versus
+        0 in 64 from a GitHub runner).
 
-        A reply from the **`il`** cluster settles it either way: with products that is the price,
-        without products nobody has reported one for that station.
+        So the lever is simply to draw again: `--parallel` requests at once, and a `row` reply is
+        discarded rather than read as "no price". A reply from the `il` cluster settles the station
+        either way - with products that is the price, without products nobody has reported one.
 
         Returns (products, venue_id the price came from, attempts used, cluster of the verdict).
         """
         used, cluster = 0, ''
-        for _ in range(max(1, rounds)):
-            used += 1
-            if not self.pins and self.pin_opens >= self.pin_max:
-                return {}, None, used, 'none'       # no IL cluster from here: do not guess
-            prods, cluster = self._pinned_reply(st, rid)
-            if prods:
-                return prods, st['waze_id'], used, cluster
-            if cluster == 'il':
-                return {}, None, used, cluster
-            if vid and vid != st['waze_id']:
+        for _ in range(max(1, math.ceil(max(1, rounds) / self.parallel))):
+            n = min(self.parallel, max(1, rounds) - used)
+            replies = self._burst(st, rid, n)
+            used += n
+            for prods, cl in replies:
+                if prods:
+                    return prods, st['waze_id'], used, cl
+                cluster = cl or cluster
+                if cl == 'il':
+                    # the cluster that carries prices answered and has nothing for this station
+                    return {}, None, used, 'il'
+            if vid and vid != st['waze_id'] and used < max(1, rounds):
                 # the other representation of the same station (our id is often the Google-backed
                 # one, the search returns the Waze-native id)
-                prods, cluster = self._pinned_reply(st, vid)
+                prods, cl = self._one_request(st, vid)
+                used += 1
                 if prods:
-                    return prods, vid, used, cluster
-                if cluster == 'il':
-                    return {}, None, used, cluster
+                    return prods, vid, used, cl
+                if cl == 'il':
+                    return {}, None, used, cl
             time.sleep(self.sleep)
         return {}, None, used, cluster
 
@@ -570,18 +448,11 @@ def main() -> int:
     ap.add_argument('--state', default=None, help='reuse/create the anonymous account here')
     ap.add_argument('--limit', type=int, default=0)
     ap.add_argument('--shard', default=None, help='i/n')
-    ap.add_argument('--pins', type=int, default=2,
-                    help='how many IL-cluster connections to pin and read everything over; the '
-                         'backend is fixed per connection, so this is the lever that makes the '
-                         'fuel data reachable at all')
-    ap.add_argument('--pin-max', type=int, default=256, dest='pin_max',
-                    help='give up pinning after this many connections')
     ap.add_argument('--parallel', type=int, default=8,
-                    help='connections fired at once per attempt: the distributor edge picks the '
-                         'cluster (il carries fuel prices, row never does) per connection, so the '
-                         'pool has to be sampled rather than waited on')
-    ap.add_argument('--rounds', type=int, default=6,
-                    help='GetRequest attempts per station over the pinned connections; a reply from '
+                    help='requests fired at once per station: the edge picks the cluster per request '
+                         '(il carries fuel prices, row never does), so the pool has to be sampled')
+    ap.add_argument('--rounds', type=int, default=24,
+                    help='GetRequest draws per station, until the IL cluster answers; a reply from '
                          'the row cluster is the wrong backend and is retried, never read as a '
                          '"no price"')
     ap.add_argument('--tries', type=int, default=4,
@@ -643,8 +514,6 @@ def main() -> int:
 
     checker = PriceChecker(state=a.state, sleep=a.sleep, tries=a.tries, verbose=a.verbose,
                            rounds=a.rounds, parallel=a.parallel)
-    checker.want_pins = max(1, a.pins)
-    checker.pin_max = a.pin_max
     fh = open(a.jsonl, 'a', encoding='utf-8')
     t0 = time.time()
     for i, st in enumerate(todo, 1):
