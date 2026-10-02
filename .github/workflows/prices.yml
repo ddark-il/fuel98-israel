@@ -14,7 +14,8 @@ on:
   push:
     branches: ['ci-prices']          # TEMP: validation trigger, drop before merging to main
   schedule:
-    - cron: '15 3,11,19 * * *'        # 06:15, 14:15, 22:15 Israel time - prices
+    - cron: '15 */2 * * *'            # every 2 hours at :15 IL - prices (each run retries until the
+                                      # IL cluster answers, so more attempts = more warm windows)
     - cron: '45 2 * * *'              # 05:45 Israel time - fuel-quality flags (violations job)
   workflow_dispatch:
     inputs:
@@ -129,13 +130,15 @@ jobs:
             --sleep 0.15 \
             --parallel 4 \
             --rounds 12 \
-            --wait-probes 3 \
-            --wait-for-il 15 \
+            --wait-probes 20 \
+            --wait-for-il 60 \
             ${LIMIT_ARG:-$LIMIT_ARG}
           code=$?
           if [ "$code" -eq 3 ]; then
-            echo "::warning::shard ${{ matrix.shard }}: no IL cluster from this network - no Waze layer this run (not a failure)"
-            exit 0
+            # Not a bug in the pipeline - but the run did not read a single price, and a green job
+            # here is a lie (that is how two dead shards went unnoticed earlier). Red, with the reason.
+            echo "::error::no IL cluster answered for 20 minutes - the Waze layer was not read this run. The site keeps its previous prices (publish carries them over); the next scheduled run tries again."
+            exit 3
           fi
           exit "$code"
 
@@ -257,7 +260,28 @@ jobs:
           if [ "${{ github.event.inputs.allow_shrink }}" = "true" ]; then ARG="--allow-shrink"; fi
           python3 publish_prices.py --in merged.json --out ../data/prices.json $ARG
 
+      - name: Waze layer status
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import glob, json
+          stopped, checked, priced = [], 0, 0
+          for f in sorted(glob.glob('shards/**/shard-*.json', recursive=True)):
+              d = json.load(open(f, encoding='utf-8'))
+              c = d.get('counts', {})
+              checked += c.get('checked', 0); priced += c.get('with_98', 0)
+              if d.get('stopped'):
+                  stopped.append(f"{f.split('/')[-1]}: {d['stopped']}")
+          print(f'Waze layer: {priced} 98-prices over {checked} stations checked this run')
+          for s in stopped:
+              print(f'  stopped - {s}')
+          if stopped and not priced:
+              print('  -> the IL cluster did not answer; publish carries the previous prices over, so '
+                    'the site is not left empty, and the next run tries again')
+          PY
+
       - name: Summary
+        if: always()
         run: |
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import glob, json

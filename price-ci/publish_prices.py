@@ -128,16 +128,28 @@ def main() -> int:
         row['venue'] = bool(st['waze_id'])
         by_id[ident] = row
 
-    priced = [r for r in by_id.values() if r['98'] is not None]
-    current = [r for r in priced if r.get('current_period')]
-    from_mika = [r for r in priced if r['source'] == 'mika']
-
     prev_rows = {}
     if os.path.exists(a.out):
         try:
             prev_rows = json.load(open(a.out, encoding='utf-8')).get('stations', {})
         except Exception:                                          # noqa: BLE001
             print(f'note: existing {a.out} is unreadable, writing a fresh file')
+
+    # Carry over what this run could not read. A cold Waze window (or any source that was down) means
+    # the merge simply has no row for a station - deleting the price the site already shows would be
+    # the wrong answer to "we could not ask this time". The row keeps its own timestamp and reporter,
+    # so an old price stays recognisable as old. Stations dropped from data/*.json are not resurrected.
+    live = {st['waze_id'] or f"pin:{st['lat']},{st['lon']}" for st in ours.values()}
+    carried = 0
+    for ident, prev in prev_rows.items():
+        if ident in by_id or ident not in live:
+            continue
+        by_id[ident] = prev
+        carried += 1
+
+    priced = [r for r in by_id.values() if r['98'] is not None]
+    current = [r for r in priced if r.get('current_period')]
+    from_mika = [r for r in priced if r['source'] == 'mika']
 
     payload = {
         'generated': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
@@ -146,13 +158,17 @@ def main() -> int:
                  'published prices). A missing row means nobody reported it - not that 98 is '
                  'unavailable. `review` marks a price whose station match is unconfirmed.'),
         'counts': {'stations': len(by_id), 'with_98': len(priced), 'current_period': len(current),
-                   'from_mika': len(from_mika), 'by_venue': sum(1 for r in by_id.values()
-                                                                 if r['venue'])},
+                   'from_mika': len(from_mika), 'carried_over': carried,
+                   'by_venue': sum(1 for r in by_id.values() if r['venue'])},
+
         'stations': by_id,
     }
 
     print(f'{len(by_id)} rows, {len(priced)} with a 98 price ({len(current)} in the current price '
           f'period, {len(from_mika)} from Mika), {no_price} stations with nothing reported')
+    if carried:
+        print(f'  carried over {carried} price(s) this run could not read (kept from the previous '
+              f'file, with their own timestamps)')
     if no_station:
         print(f'  note: {no_station} priced station(s) are not in data/*.json any more (dropped)')
 
