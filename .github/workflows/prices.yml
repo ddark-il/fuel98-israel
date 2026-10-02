@@ -70,7 +70,7 @@ jobs:
         working-directory: price-ci
         continue-on-error: true
         run: |
-          LIMIT_ARG="--limit 60"     # TEMP: validation run, drop for the full sweep
+          LIMIT_ARG="--limit 15"     # TEMP: validation run, drop for the full sweep
           if [ -n "${{ github.event.inputs.limit }}" ]; then LIMIT_ARG="--limit ${{ github.event.inputs.limit }}"; fi
           python3 price_check.py \
             --shard ${{ matrix.shard }}/3 \
@@ -171,8 +171,15 @@ jobs:
                   if isinstance(r, dict) and r.get('key'):
                       waze[r['key']] = r
           wp = sum(1 for r in waze.values() if r.get('price98') is not None)
+          cl = {}
+          for r in waze.values():
+              k = r.get('reply_cluster') or 'unknown'
+              cl[k] = cl.get(k, 0) + 1
           print(f"## Sources on this runner: Waze {wp} prices over {len(waze)} stations, "
                 f"see below for the merged result")
+          print("* backends that answered: " + ', '.join(f'{v}x {k}' for k, v in sorted(cl.items()))
+                + "  (`il` is the cluster that carries fuel prices; `row` replies have no "
+                  "products at all and are retried)")
           replies = Counter(str(r.get('no_price_reply')) for r in waze.values()
                            if r.get('price98') is None and r.get('not_checked') != 'no waze_id')
           if replies:

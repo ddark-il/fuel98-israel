@@ -89,6 +89,27 @@ EL_GET_REQUEST = 2064
 # for the other 300 stations means nothing.
 CANARY = ('אלוף שדה', 'בת שלמה', 'קוממיות')
 
+# The rt distributor answers from one of two Waze clusters, and it is chosen **per request**, not
+# per session and not by us: `realtime-frontend-prod-il-v248-*` carries the Israeli fuel prices,
+# `realtime-frontend-prod-row-v189-*` (rest of world) answers with the very same venue and never a
+# single `product`. Send the identical request twice and one reply can be `il` and the next `row`.
+# A `row` reply is therefore not an answer about a station at all - it is the wrong backend - and
+# the only correct thing to do with it is ask again.
+CLUSTER_IL = '-il-'
+CLUSTER_ROW = '-row-'
+
+
+def reply_cluster(resp: dict) -> str:
+    """Which distributor cluster answered: 'il', 'row' or '' when it did not say."""
+    for el in (resp or {}).get('element', []):
+        for rt in (el.get('response_timestamp') or []):
+            host = str(rt.get('server_hostname') or '')
+            if CLUSTER_IL in host:
+                return 'il'
+            if CLUSTER_ROW in host:
+                return 'row'
+    return ''
+
 
 def period_start_ms(now: datetime | None = None) -> int:
     """Start of the current Israeli fuel-price period: the 1st of the month, 00:00 local.
@@ -147,6 +168,7 @@ class PriceChecker:
         self.sleep, self.tries, self.verbose = sleep, tries, verbose
         self.rounds = rounds            # search->get rounds per station (see products_for)
         self.last_reply = None        # shape of the last reply that had no products
+        self.last_cluster = ''        # cluster that served it ('il' carries the fuel prices)
         self.state = state
         self.session: wl.Session | None = None
         self.errors: list[str] = []
@@ -223,7 +245,7 @@ class PriceChecker:
         return ' ; '.join(out) or 'no elements in reply'
 
     def fetch_products(self, result_id: str | None, venue_id: str,
-                       lat: float, lon: float) -> dict | None:
+                       lat: float, lon: float) -> tuple[dict | None, str]:
         """GetRequest -> products, retried; alternating id+venue_id and venue_id alone.
 
         The client must be built at the STATION's position, not at 0,0. `_client_info()` and
@@ -256,39 +278,47 @@ class PriceChecker:
             if venue:
                 prods = wp._products(venue)
                 if prods:
-                    return prods
+                    return prods, reply_cluster(resp)
             self.last_reply = self.describe_response(resp)
+            self.last_cluster = reply_cluster(resp)
             time.sleep(self.sleep)
-        return None
+        return None, self.last_cluster
 
     def products_for(self, st: dict, rid: str | None, vid: str | None,
-                     rounds: int) -> tuple[dict, str | None, int]:
-        """Prices for one station, **re-searching between attempts**.
+                     rounds: int) -> tuple[dict, str | None, int, str]:
+        """One station's prices, retried **until the Israeli cluster answers**.
 
-        Waze serves the fuel list intermittently. At פז אלוף שדה - which the app priced today at
-        98 עצמי 9.28 / 98 שרות 9.02 - twelve consecutive attempts returned the venue with its
-        `product` entries, and minutes later five returned it stripped of them, with no error and
-        no change in the venue itself. Repeating one identical GetRequest therefore proves nothing
-        about whether the station has a price; what changes the reply is a fresh search, which
-        yields a fresh result id. So every attempt after the first starts over from the search.
+        The fuel list is not intermittent data, it is a different backend. `realtime-frontend-prod-
+        il-*` answers this GetRequest with the venue and its `product` list; `...-row-*` answers
+        with the same venue and no products, ever, and which one you get is decided per request by
+        Waze's edge (measured from one machine, seconds apart: session register=il, search=il,
+        get=row; and 1 `il` reply in 32 requests when the IL cluster was busy). So a `row` reply
+        says nothing at all about the station - it must be retried, and it is cheap to retry because
+        only the GetRequest needs repeating, not the search.
 
-        Returns (products, venue_id the price came from, attempts used).
+        A reply from the **`il`** cluster that carries no products is the real answer ("nobody has
+        reported a price here") and stops the loop immediately.
+
+        Returns (products, venue_id the price came from, attempts used, cluster of that answer).
         """
+        cluster = ''
         for attempt in range(max(1, rounds)):
-            if attempt:
-                rid, vid, _dist, _name = self.find_result_id(st)
-            prods = self.fetch_products(rid, st['waze_id'], st['lat'], st['lon'])
+            use_rid = None if attempt % 4 == 3 else rid          # the id alone sometimes misses
+            prods, cluster = self.fetch_products(use_rid, st['waze_id'], st['lat'], st['lon'])
             if prods:
-                return prods, st['waze_id'], attempt + 1
-            if vid and vid != st['waze_id']:
-                # same station, the other representation (our id is often the Google-backed one
-                # while the search returns the Waze venue id) - the distributor resolves the
-                # Waze-native id far more often
-                prods = self.fetch_products(rid, vid, st['lat'], st['lon'])
+                return prods, st['waze_id'], attempt + 1, cluster
+            if cluster == 'il':
+                return {}, None, attempt + 1, cluster
+            if vid and vid != st['waze_id'] and attempt % 2 == 1:
+                # the other representation of the same station (our id is often the Google-backed
+                # one, the search returns the Waze-native id)
+                prods, cluster = self.fetch_products(use_rid, vid, st['lat'], st['lon'])
                 if prods:
-                    return prods, vid, attempt + 1
+                    return prods, vid, attempt + 1, cluster
+                if cluster == 'il':
+                    return {}, None, attempt + 1, cluster
             time.sleep(self.sleep)
-        return {}, None, max(1, rounds)
+        return {}, None, max(1, rounds), cluster
 
     def canary(self, stations: list[dict], names: tuple = CANARY) -> list[dict]:
         """Probe the stations Waze is known to price, so a silent feed is not read as an empty one.
@@ -305,10 +335,11 @@ class PriceChecker:
                 continue
             st = m[0]
             rid, vid, _d, _n = self.find_result_id(st)
-            prods, _src, attempts = self.products_for(st, rid, vid, self.rounds)
+            prods, _src, attempts, cluster = self.products_for(st, rid, vid, self.rounds)
             pid, entry = wp.best_98(prods)
             out.append({'name': f"{st['brand']}/{st['name']}", 'products': len(prods),
-                        'price98': entry['price'] if pid else None, 'attempts': attempts})
+                        'price98': entry['price'] if pid else None, 'attempts': attempts,
+                        'cluster': cluster or None})
         return out
 
     # ---------------------------------------------------------------- one row
@@ -328,8 +359,11 @@ class PriceChecker:
         pstart = period_start_ms()
         now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
         row['period_start'] = datetime.fromtimestamp(pstart / 1000, tz=timezone.utc).isoformat()
-        prods, src, attempts = self.products_for(st, rid, vid, self.rounds)
+        prods, src, attempts, cluster = self.products_for(st, rid, vid, self.rounds)
         row['price_attempts'] = attempts
+        # Which backend answered for this station. 'row' at the end of the budget means we never
+        # reached the cluster that carries prices, so this row is a non-answer, not a "no 98".
+        row['reply_cluster'] = cluster or None
         if src and src != st['waze_id']:
             row['price_source_venue_id'] = src
         if prods:
@@ -407,9 +441,10 @@ def main() -> int:
     ap.add_argument('--state', default=None, help='reuse/create the anonymous account here')
     ap.add_argument('--limit', type=int, default=0)
     ap.add_argument('--shard', default=None, help='i/n')
-    ap.add_argument('--rounds', type=int, default=3,
-                    help='search->get rounds per station; Waze strips the fuel list intermittently,'
-                         ' so a retry that does not re-search usually repeats the same answer')
+    ap.add_argument('--rounds', type=int, default=15,
+                    help='GetRequest attempts per station, retried until the Israeli distributor '
+                         'cluster (the only one that carries fuel prices) answers; a row-cluster '
+                         'reply is the wrong backend, not a "no price"')
     ap.add_argument('--tries', type=int, default=4,
                     help='identical GetRequest attempts inside one round. The priced view is not '
                          'chosen per request but per few minutes (measured: 12/12 attempts worked, '
@@ -510,6 +545,11 @@ def main() -> int:
     print(f"\n[{ts()}] checked {len(rows)} stations in {(time.time()-t0)/60:.1f} min")
     print(f'  with any price : {len(priced)}/{len(rows)} ({len(priced)/max(1,len(rows)):.0%})')
     print(f'  with a 98 price: {len(with98)}/{len(rows)}')
+    il_rows = [r for r in rows if r.get('reply_cluster') == 'il']
+    row_only = [r for r in rows if r.get('reply_cluster') == 'row']
+    note = (f', {len(row_only)} never reached it - their "no price" is a non-answer'
+            if row_only else '')
+    print(f'  backend        : {len(il_rows)}/{len(rows)} answered by the IL cluster' + note)
     if with98:
         vals = sorted(r['price98'] for r in with98)
         cur = [r for r in with98 if r.get('price98_current_period')]
