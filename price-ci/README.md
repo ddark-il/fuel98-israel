@@ -45,6 +45,14 @@ python3 publish_prices.py --in merged.json --out ../data/prices.json
 
 ## Why it can be trusted unattended
 
+* The Waze layer only runs when the **Israeli cluster** is answering. `rt.waze.com` routes every
+  request to one of two frontends, and only `realtime-frontend-prod-il-*` is attached to the Israeli
+  service mesh that holds the fuel data (`venue.prod.il.mesh-waze`, seen in a bridge error); a
+  `-row-` reply carries the venue with no products at whatever price. The run therefore probes a
+  canary first (`--wait-probes`/`--wait-for-il`) and, with `--require-il`, **stops** instead of
+  spending a sweep on non-answers. From GitHub-hosted runners the IL frontend did not answer once
+  in 64 connections, so the Waze layer belongs on an Israeli line — the same "run me from Israel"
+  bucket as `check-violations.mjs` — and Mika carries this job by itself.
 * The job fails on a **broken run** (`--min-prices`: too few stations returned any price), and
   stays green when Waze simply has nothing to report — which is most stations.
 * `publish_prices.py` refuses to write when there are fewer than `--min-rows` priced stations, or
@@ -55,8 +63,10 @@ python3 publish_prices.py --in merged.json --out ../data/prices.json
   ship with `price98: null` + `not_checked` — so a source that does know them (Mika) has a row to
   fill. Stations without a venue id are exactly the ones left as coordinate pins on the map.
 
-## Known unknown, checked by the first runs
+## Known unknown — answered by the first runs
 
-Waze's distributor may treat a datacenter IP differently from a residential one. If that turns out
-to be the case, the shards fail with transport errors in the log (`--min-prices` catches it) and the
-fix is a self-hosted runner in Israel, not a code change.
+The guess was that Waze's distributor treats a datacenter IP differently. It is not the datacenter:
+the fuel data sits behind an Israeli service mesh, and a GitHub-hosted runner never gets an IL
+frontend (0 in 64 connections, 0 in 135 canary attempts). The shards now say so in one line each
+(`stopping: no IL cluster from this network right now`) instead of grinding for an hour, and the fix
+is a runner on an Israeli line, not a code change.
