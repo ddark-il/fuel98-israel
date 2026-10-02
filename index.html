@@ -159,6 +159,21 @@ body {
 
 .distance { color: #888; font-size: 13px; }
 
+/* The price bubble: white pill, ₪ then the number. `direction: ltr` + isolate because the page is
+   RTL and "₪ 8.40" would otherwise be reordered to "8.40 ₪". */
+.price-bubble {
+  display: inline-flex; align-items: center; gap: 4px;
+  direction: ltr; unicode-bidi: isolate;
+  background: #fff; color: #1a1a2e;
+  border: 1px solid #e6e6ee; border-radius: 999px;
+  padding: 3px 10px; font-size: 13px; font-weight: 700; line-height: 1.4;
+  box-shadow: 0 1px 3px rgba(26,26,46,.14);
+  white-space: nowrap; flex-shrink: 0;
+}
+.price-bubble .cur { color: #e94560; font-weight: 700; }
+.price-bubble .age { font-weight: 500; font-size: 11px; color: #999; }
+.price-none { color: #ddd; }
+
 .waze-btn {
   display: flex; align-items: center; justify-content: center;
   width: 44px; height: 44px; border-radius: 50%;
@@ -650,6 +665,45 @@ function flagBadge(s) {
   return '<span class="fuel-flag" title="' + t + '">⚠️</span> ';
 }
 
+// 98 prices, published by the price pipeline as { "<waze_id>|<pin:lat,lon>": { "98": 8.59 } }.
+// The station data already carries the identity, so the join is a lookup - never a distance
+// calculation. Pins are matched on 6 decimals so a float that stringifies differently
+// ("31.986506" vs "31.986506000000002") cannot silently detach a price from its station.
+var prices = {};
+// The publisher's key is canonical at 6 decimals; the unrounded form is accepted too so a file
+// written before that was normalised still resolves.
+function pinKeys(lat, lon) {
+  return ['pin:' + Number(lat).toFixed(6) + ',' + Number(lon).toFixed(6),
+          'pin:' + Number(lat) + ',' + Number(lon)];
+}
+function priceRecord(s) {
+  if (!s.coordinates) return null;
+  if (s.waze_id && prices[s.waze_id]) return prices[s.waze_id];
+  var keys = pinKeys(s.coordinates.lat, s.coordinates.lon);
+  for (var i = 0; i < keys.length; i++) if (prices[keys[i]]) return prices[keys[i]];
+  return null;
+}
+function priceOf(s) {
+  var rec = priceRecord(s);
+  if (!rec) return null;
+  var v = (rec['98'] != null) ? rec['98'] : (typeof rec === 'number' ? rec : null);
+  return (typeof v === 'number' && isFinite(v)) ? v : null;
+}
+// `withAge` shows how long ago the report was made - only available when the publisher ran with
+// --with-meta (the lean file carries nothing but the number).
+function priceBubble(s, withAge) {
+  var p = priceOf(s);
+  if (p === null) return '';
+  var age = '';
+  var rec = withAge ? priceRecord(s) : null;
+  if (rec && rec.updated) {
+    var days = Math.floor((Date.now() - Date.parse(rec.updated)) / 86400000);
+    if (isFinite(days) && days > 0) age = '<span class="age">·' + days + 'd</span>';
+  }
+  return '<span class="price-bubble" title="מחיר 98 אחרון שדווח (₪ לליטר)">' +
+         '<span class="cur">₪</span>' + p.toFixed(2) + age + '</span>';
+}
+
 // Load all brand files (via manifest) + the fuel-quality violation flags
 Promise.all([
   fetch('data/manifest.json')
@@ -660,10 +714,14 @@ Promise.all([
       }));
     })
     .then(function(arrays) { return [].concat.apply([], arrays); }),
-  fetch('data/violations.json').then(function(r) { return r.json(); }).catch(function() { return []; })
+  fetch('data/violations.json').then(function(r) { return r.json(); }).catch(function() { return []; }),
+  // a missing prices.json is not an error: the site simply shows no prices
+  fetch('data/prices.json').then(function(r) { return r.json(); })
+    .then(function(d) { return d.stations || d || {}; }).catch(function() { return {}; })
 ]).then(function(res) {
   stations = res[0].filter(function(s) { return s.coordinates; });
   res[1].forEach(function(v) { flagged.set(v.brand + '|' + v.name, v); });
+  prices = res[2];
   buildCityIndex();
   // honor a ?q= search term (shareable search links + JSON-LD SearchAction)
   var q = new URLSearchParams(location.search).get('q');
@@ -771,6 +829,7 @@ function renderTable(list) {
           ${s._dist != null ? `<span class="distance">${formatDist(s._dist)}</span>` : ''}
         </div>
       </div>
+      ${priceBubble(s, true)}
       <a class="waze-btn" href="${wazeUrl(s)}" target="_blank" title="נווט ב-Waze"><img src="${WAZE_ICON_WHITE}" alt="Waze"></a>
     </div>`;
   });
@@ -780,6 +839,7 @@ function renderTable(list) {
     <thead><tr>
       <th>#</th><th>תחנה</th><th>חברה</th>
       ${userLat !== null ? '<th>מרחק</th>' : ''}
+      <th>מחיר</th>
       <th>ניווט</th>
     </tr></thead><tbody>`;
   shown.forEach((s, i) => {
@@ -789,6 +849,7 @@ function renderTable(list) {
       <td>${flagBadge(s)}${s.name}</td>
       <td><span class="brand-tag brand-${brandClass(s.brand)}">${brand}</span></td>
       ${userLat !== null ? `<td class="distance">${formatDist(s._dist)}</td>` : ''}
+      <td class="price-cell">${priceBubble(s, true) || '<span class="price-none">—</span>'}</td>
       <td><a class="waze-link" href="${wazeUrl(s)}" target="_blank"><img src="${WAZE_ICON_BLUE}" alt="Waze"> Waze</a></td>
     </tr>`;
   });
@@ -845,7 +906,10 @@ function renderMap(list) {
     marker.bindPopup(`
       <div style="text-align:right;font-size:14px;min-width:140px">
         <b>${flagBadge(s)}${s.name}</b><br>
-        <span class="brand-tag brand-${brandClass(s.brand)}" style="display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;margin:4px 0">${brand}</span>
+        <span style="display:flex;align-items:center;gap:6px;margin:4px 0;flex-wrap:wrap">
+          <span class="brand-tag brand-${brandClass(s.brand)}" style="display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px">${brand}</span>
+          ${priceBubble(s, true)}
+        </span>
         ${distStr}
         <br><a href="${wazeUrl(s)}" target="_blank"
           style="display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:6px 14px;background:#1a1a2e;color:#fff;border-radius:6px;text-decoration:none;font-size:13px">

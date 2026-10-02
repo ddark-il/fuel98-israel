@@ -125,8 +125,11 @@ def main() -> int:
         if not row:
             no_price += 1
             continue
-        # waze_id first (it is the stable handle), coordinate second (the fallback the site draws)
-        ident = st['waze_id'] or f"pin:{st['lat']},{st['lon']}"
+        # waze_id first (it is the stable handle), coordinate second (the fallback the site draws).
+        # The pin key is rounded to 6 decimals (~0.1 m) so the string is canonical: the site builds
+        # the same key from its own copy of the coordinates, and float repr cannot make them differ
+        # ("32.02517" vs "32.025170" is enough to detach a price from its station).
+        ident = st['waze_id'] or f"pin:{float(st['lat']):.6f},{float(st['lon']):.6f}"
         row['key'] = ident
         row['venue'] = bool(st['waze_id'])
         by_id[ident] = row
@@ -136,8 +139,12 @@ def main() -> int:
         try:
             raw_prev = json.load(open(a.out, encoding='utf-8')).get('stations', {})
             # accept both shapes: {"id": {"98": 8.4}} and a hand-written {"id": 8.4}
-            prev_rows = {k: (v if isinstance(v, dict) else {'98': v})
-                         for k, v in raw_prev.items()}
+            prev_rows = {}
+            for k, v in raw_prev.items():
+                if k.startswith('pin:'):      # accept the older, unrounded pin keys
+                    lat, lon = k[4:].split(',')
+                    k = f'pin:{float(lat):.6f},{float(lon):.6f}'
+                prev_rows[k] = (v if isinstance(v, dict) else {'98': v})
         except Exception:                                          # noqa: BLE001
             print(f'note: existing {a.out} is unreadable, writing a fresh file')
 
@@ -145,7 +152,8 @@ def main() -> int:
     # the merge simply has no row for a station - deleting the price the site already shows would be
     # the wrong answer to "we could not ask this time". The row keeps its own timestamp and reporter,
     # so an old price stays recognisable as old. Stations dropped from data/*.json are not resurrected.
-    live = {st['waze_id'] or f"pin:{st['lat']},{st['lon']}" for st in ours.values()}
+    live = {st['waze_id'] or f"pin:{float(st['lat']):.6f},{float(st['lon']):.6f}"
+            for st in ours.values()}
     carried = 0
     for ident, prev in prev_rows.items():
         if ident in by_id or ident not in live:

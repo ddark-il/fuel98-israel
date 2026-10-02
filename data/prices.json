@@ -1,1696 +1,196 @@
 {
  "generated": "2026-10-02T09:33:09Z",
  "fuel": "98",
- "note": "per-station 98-octane prices, reported by Waze drivers and by Mika (its own published prices). A missing row means nobody reported it - not that 98 is unavailable. `review` marks a price whose station match is unconfirmed.",
  "counts": {
-  "stations": 116,
-  "with_98": 60,
-  "current_period": 36,
-  "from_mika": 28,
-  "by_venue": 108
+  "stations": 62,
+  "with_98": 62
  },
  "stations": {
   "venues.22806850.228134032.1804": {
-   "brand": "דלק",
-   "name": "גלילות",
-   "98": 9.81,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.99,
-    "98": 9.81,
-    "95": 8.53,
-    "95_self": 8.27
-   },
-   "updated": "2026-10-01T16:45:12Z",
-   "age_days": 0.6,
-   "current_period": true,
-   "label": "98 עצמי",
-   "key": "venues.22806850.228134032.1804",
-   "venue": true
-  },
-  "googlePlaces.ChIJaTmWsYMTHRURJfE7r3c9qWw": {
-   "brand": "דלק",
-   "name": "מפגש אולגה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "premium": 3.9,
-    "diesel": 9.99,
-    "95": 8.53,
-    "95_self": 8.27,
-    "diesel_service": 1.0
-   },
-   "key": "googlePlaces.ChIJaTmWsYMTHRURJfE7r3c9qWw",
-   "venue": true
-  },
-  "googlePlaces.ChIJsxp9qfu6HRURy_BAZt3Z_i4": {
-   "brand": "דלק",
-   "name": "מצה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 8.71,
-    "95": 8.01,
-    "95_self": 7.57
-   },
-   "key": "googlePlaces.ChIJsxp9qfu6HRURy_BAZt3Z_i4",
-   "venue": true
-  },
-  "googlePlaces.ChIJZx9ZXqI3HRURMRarh35wGqY": {
-   "brand": "דלק",
-   "name": "הוד תדלוק",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.58,
-    "95": 7.75,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJZx9ZXqI3HRURMRarh35wGqY",
-   "venue": true
+   "98": 9.81
   },
   "googlePlaces.ChIJXWExN59LHRURhfje3STQGKo": {
-   "brand": "דלק",
-   "name": "גיבורי ישראל",
-   "98": 8.95,
-   "source": "waze",
-   "fuels": {
-    "diesel": 8.93,
-    "98": 8.95,
-    "95": 8.25,
-    "95_self": 8.25
-   },
-   "updated": "2026-10-01T23:43:47Z",
-   "age_days": 0.3,
-   "current_period": true,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJXWExN59LHRURhfje3STQGKo",
-   "venue": true
-  },
-  "googlePlaces.ChIJp2vCOeq2AhURGimdi5hPv0I": {
-   "brand": "דלק",
-   "name": "נס ציונה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.33,
-    "95": 8.01,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJp2vCOeq2AhURGimdi5hPv0I",
-   "venue": true
+   "98": 8.95
   },
   "googlePlaces.ChIJsT-RWjrGAhURkfVAJJCnnso": {
-   "brand": "דלק",
-   "name": "נחשון",
-   "98": 9.76,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.99,
-    "98": 9.76,
-    "95_self": 7.75
-   },
-   "updated": "2026-09-30T12:27:48Z",
-   "age_days": 1.8,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJsT-RWjrGAhURkfVAJJCnnso",
-   "venue": true
+   "98": 9.76
   },
   "googlePlaces.ChIJHQKPXfDQAhURiO3Chm1sDv8": {
-   "brand": "דלק",
-   "name": "פונדק הרים / נווה אילן",
-   "98": 9.99,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.99,
-    "98": 9.99,
-    "95": 8.05,
-    "95_self": 8.25,
-    "98_service": 6.99
-   },
-   "updated": "2026-09-30T11:38:00Z",
-   "age_days": 1.8,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJHQKPXfDQAhURiO3Chm1sDv8",
-   "venue": true
-  },
-  "googlePlaces.ChIJc4bFHF81HRURgmGtgh3rYys": {
-   "brand": "דורלון",
-   "name": "אור יהודה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.74,
-    "95_self": 8.25
-   },
-   "key": "googlePlaces.ChIJc4bFHF81HRURgmGtgh3rYys",
-   "venue": true
-  },
-  "googlePlaces.ChIJr29dWTYMHRURDW2RzEHWUp0": {
-   "brand": "דורלון",
-   "name": "בנימינה מערב",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "premium": 4.36,
-    "diesel": 8.95,
-    "95_self": 8.25
-   },
-   "key": "googlePlaces.ChIJr29dWTYMHRURDW2RzEHWUp0",
-   "venue": true
+   "98": 9.99
   },
   "googlePlaces.ChIJseoEH9-qHRUR1uV4r9_VviU": {
-   "brand": "דורלון",
-   "name": "גבעת עוז",
-   "98": 8.74,
-   "source": "waze",
-   "fuels": {
-    "premium": 3.96,
-    "diesel": 7.61,
-    "98": 8.74,
-    "95_self": 7.61
-   },
-   "updated": "2026-09-28T17:20:47Z",
-   "age_days": 3.6,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJseoEH9-qHRUR1uV4r9_VviU",
-   "venue": true
-  },
-  "googlePlaces.ChIJk42noEy7HRURkojaRBICfO8": {
-   "brand": "דורלון",
-   "name": "טירת הכרמל",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "95_self": 8.0
-   },
-   "key": "googlePlaces.ChIJk42noEy7HRURkojaRBICfO8",
-   "venue": true
+   "98": 8.74
   },
   "googlePlaces.ChIJYwSIT1XKHRURZd8yUCnZ9ik": {
-   "brand": "דורלון",
-   "name": "יסעור",
-   "98": 9.28,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.09,
-    "95_self": 7.75,
-    "98_service": 9.28
-   },
-   "updated": "2026-09-17T21:34:38Z",
-   "age_days": 14.4,
-   "current_period": false,
-   "label": "98 שרות",
-   "key": "googlePlaces.ChIJYwSIT1XKHRURZd8yUCnZ9ik",
-   "venue": true
-  },
-  "googlePlaces.ChIJCyDdCUbWAhURQzhXnpy-kHI": {
-   "brand": "דורלון",
-   "name": "ירושלים גינות סחרוב",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "95_self": 7.71
-   },
-   "key": "googlePlaces.ChIJCyDdCUbWAhURQzhXnpy-kHI",
-   "venue": true
+   "98": 9.28
   },
   "venues.22872385.228985993.43231": {
-   "brand": "דורלון",
-   "name": "עינת",
-   "98": 8.0,
-   "source": "waze",
-   "fuels": {
-    "premium": 5.0,
-    "diesel": 9.74,
-    "95": 8.01,
-    "95_self": 7.75,
-    "98_service": 8.0
-   },
-   "updated": "2026-09-25T15:59:12Z",
-   "age_days": 6.7,
-   "current_period": false,
-   "label": "98 שרות",
-   "key": "venues.22872385.228985993.43231",
-   "venue": true
+   "98": 8.0
   },
-  "googlePlaces.ChIJM1iaxrZJHRURoXsncEpeJgg": {
-   "brand": "דורלון",
-   "name": "תל אביב דרך נמיר",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 8.25,
-    "95": 8.02,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJM1iaxrZJHRURoXsncEpeJgg",
-   "venue": true
-  },
-  "pin:32.02517,34.794966": {
-   "brand": "מיקה",
-   "name": "הפלד",
-   "98": 8.59,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:24Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "pin:32.02517,34.794966",
-   "venue": false
+  "pin:32.025170,34.794966": {
+   "98": 8.59
   },
   "googlePlaces.ChIJD0mut2S3AhURf8OW4zDpma8": {
-   "brand": "מיקה",
-   "name": "רחובות",
-   "98": 8.74,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "verified": "The Waze venue stored on our station (googlePlaces.ChIJD0mut2S3AhURf8OW4zDpma8) resolves to 'מיקה רחובות ההולנדית, Eli Horovitz St, Rehovot' - the venue's own address is Eli Horovitz, exactly what Mika's page states; the registry's 'פנחס ספיר 1 רחובות' is the licensed parcel of the same forecourt (registry row 43 m from our pin).",
-   "key": "googlePlaces.ChIJD0mut2S3AhURf8OW4zDpma8",
-   "venue": true
+   "98": 8.74
   },
-  "pin:32.7855957,35.5397489": {
-   "brand": "מיקה",
-   "name": "טבריה",
-   "98": 8.53,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "pin:32.7855957,35.5397489",
-   "venue": false
+  "pin:32.785596,35.539749": {
+   "98": 8.53
   },
   "googlePlaces.ChIJ-WPoFIGzAhURoI6J0bxgXx0": {
-   "brand": "מיקה",
-   "name": "עומר",
-   "98": 8.74,
-   "source": "mika",
-   "updated": "2026-10-01T08:47:34Z",
-   "age_days": 1.0,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJ-WPoFIGzAhURoI6J0bxgXx0",
-   "venue": true
+   "98": 8.74
   },
   "googlePlaces.ChIJgz_44YmbAhURg46PY39j-l4": {
-   "brand": "מיקה",
-   "name": "אשקלון",
-   "98": 9.7,
-   "source": "mika",
-   "fuels": {
-    "premium": 3.0,
-    "diesel": 8.55,
-    "95": 8.16,
-    "95_self": 7.76
-   },
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJgz_44YmbAhURg46PY39j-l4",
-   "venue": true
+   "98": 9.7
   },
   "googlePlaces.ChIJgZRjq_5JHRURQUsGq7cekqY": {
-   "brand": "סונול",
-   "name": "סונול מיקה פתח תקווה",
-   "98": 8.84,
-   "source": "waze",
-   "fuels": {
-    "diesel": 8.67,
-    "98": 8.84,
-    "95": 8.34,
-    "95_self": 8.25
-   },
-   "updated": "2026-09-30T16:41:59Z",
-   "age_days": 1.6,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJgZRjq_5JHRURQUsGq7cekqY",
-   "venue": true
+   "98": 9.64
   },
   "googlePlaces.ChIJKx-Fi2c3HRURkQU--CsZXh4": {
-   "brand": "מיקה",
-   "name": "צומת גנים",
-   "98": 8.53,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:24Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJKx-Fi2c3HRURkQU--CsZXh4",
-   "venue": true
+   "98": 8.53
   },
   "googlePlaces.ChIJEYYko0y7AhURv4456wyvd2o": {
-   "brand": "מיקה",
-   "name": "הקידמה אשדוד",
-   "98": 9.64,
-   "source": "mika",
-   "fuels": {
-    "95_self": 7.75
-   },
-   "updated": "2026-10-01T00:01:24Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJEYYko0y7AhURv4456wyvd2o",
-   "venue": true
-  },
-  "googlePlaces.ChIJm83scd8FHRURUjoJOG_-hiA": {
-   "brand": "פז",
-   "name": "גיא-עירון",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.79,
-    "95": 8.01,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJm83scd8FHRURUjoJOG_-hiA",
-   "venue": true
+   "98": 9.64
   },
   "googlePlaces.ChIJdSDfiVWzAhURLAKqv1Bc3tc": {
-   "brand": "פז",
-   "name": "חולון",
-   "98": 9.83,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.18,
-    "98": 9.83,
-    "95": 8.51,
-    "95_self": 7.75,
-    "98_service": 9.22
-   },
-   "updated": "2026-10-01T16:02:17Z",
-   "age_days": 0.7,
-   "current_period": true,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJdSDfiVWzAhURLAKqv1Bc3tc",
-   "venue": true
-  },
-  "venues.22806849.228265101.1210": {
-   "brand": "פז",
-   "name": "טופז",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.57,
-    "95": 8.01,
-    "95_self": 8.27,
-    "diesel_service": 3.0
-   },
-   "key": "venues.22806849.228265101.1210",
-   "venue": true
-  },
-  "googlePlaces.ChIJx2Qu77A7HRUR6GzFhLq8inE": {
-   "brand": "פז",
-   "name": "טל עופרה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.99,
-    "95_self": 7.73
-   },
-   "key": "googlePlaces.ChIJx2Qu77A7HRUR6GzFhLq8inE",
-   "venue": true
+   "98": 9.83
   },
   "googlePlaces.ChIJl_0XGp62AhURB8WQLqAkIB0": {
-   "brand": "פז",
-   "name": "מנחם",
-   "98": 9.28,
-   "source": "waze",
-   "fuels": {
-    "diesel": 8.85,
-    "98": 9.28,
-    "95": 7.7,
-    "95_self": 7.7
-   },
-   "updated": "2026-09-26T22:14:40Z",
-   "age_days": 5.4,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJl_0XGp62AhURB8WQLqAkIB0",
-   "venue": true
-  },
-  "googlePlaces.ChIJ6wmUKOmvHRURLt7xDUvn0pU": {
-   "brand": "פז",
-   "name": "עוספיה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 8.58,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJ6wmUKOmvHRURLt7xDUvn0pU",
-   "venue": true
-  },
-  "googlePlaces.ChIJBYqTQ0i3AhURQ-t2AMnw8QI": {
-   "brand": "פז",
-   "name": "פז \"משה\"",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.07,
-    "95_self": 8.12
-   },
-   "key": "googlePlaces.ChIJBYqTQ0i3AhURQ-t2AMnw8QI",
-   "venue": true
+   "98": 9.28
   },
   "venues.22872387.228527264.1935": {
-   "brand": "פז",
-   "name": "צומת נתניה",
-   "98": 9.63,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.7,
-    "98": 9.63,
-    "95": 8.34,
-    "95_self": 7.75,
-    "98_service": 9.63,
-    "diesel_service": 9.84
-   },
-   "updated": "2026-09-30T12:08:49Z",
-   "age_days": 1.8,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "venues.22872387.228527264.1935",
-   "venue": true
-  },
-  "googlePlaces.ChIJRdj1wwZvABURB4pCt0dXKhc": {
-   "brand": "סונול",
-   "name": "לירי אילת",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "95_self": 6.85,
-    "diesel_service": 9.0
-   },
-   "key": "googlePlaces.ChIJRdj1wwZvABURB4pCt0dXKhc",
-   "venue": true
-  },
-  "googlePlaces.ChIJj7JwQyDXAhURIc58ArrP7FY": {
-   "brand": "סונול",
-   "name": "מעוז ציון - שומרת שבת",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 8.95,
-    "95": 8.34,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJj7JwQyDXAhURIc58ArrP7FY",
-   "venue": true
-  },
-  "venues.22937924.229510315.128981": {
-   "brand": "סונול",
-   "name": "מאור",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.99,
-    "95": 7.73,
-    "95_self": 8.09
-   },
-   "key": "venues.22937924.229510315.128981",
-   "venue": true
-  },
-  "googlePlaces.ChIJV3iKbzQ4HBURZ1dHuriTwJk": {
-   "brand": "סונול",
-   "name": "שדה עמודים",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.99,
-    "95_self": 7.07
-   },
-   "key": "googlePlaces.ChIJV3iKbzQ4HBURZ1dHuriTwJk",
-   "venue": true
-  },
-  "googlePlaces.ChIJCcBr1MTOHRURhs32j2b0Ias": {
-   "brand": "סונול",
-   "name": "רגבה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.81,
-    "95": 7.75,
-    "95_self": 8.27
-   },
-   "key": "googlePlaces.ChIJCcBr1MTOHRURhs32j2b0Ias",
-   "venue": true
-  },
-  "googlePlaces.ChIJQfr7ZlZKHRURxwzazicqmv0": {
-   "brand": "סונול",
-   "name": "מכבים",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.99,
-    "95": 8.01,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJQfr7ZlZKHRURxwzazicqmv0",
-   "venue": true
-  },
-  "googlePlaces.ChIJtWGD0qlMHRURx0iHtp5o0js": {
-   "brand": "סונול",
-   "name": "משגב",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.99,
-    "95": 8.01,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJtWGD0qlMHRURx0iHtp5o0js",
-   "venue": true
+   "98": 9.63
   },
   "googlePlaces.ChIJ8Tkq2eFJHRURoIhNtQrOktM": {
-   "brand": "סונול",
-   "name": "גני התערוכה",
-   "98": 9.98,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.81,
-    "98": 9.98,
-    "95": 8.51,
-    "95_self": 8.25
-   },
-   "updated": "2026-09-25T14:53:25Z",
-   "age_days": 6.7,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJ8Tkq2eFJHRURoIhNtQrOktM",
-   "venue": true
+   "98": 9.98
   },
   "venues.22675773.226757725.33060": {
-   "brand": "סונול",
-   "name": "בית שקמה",
-   "98": 9.64,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:24Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "venues.22675773.226757725.33060",
-   "venue": true
+   "98": 9.64
   },
   "googlePlaces.ChIJubeYjOZTHBURl1y1-mHNMCU": {
-   "brand": "תפוז",
-   "name": "עפולה",
-   "98": 8.36,
-   "source": "waze",
-   "fuels": {
-    "premium": 3.31,
-    "diesel": 8.25,
-    "98": 8.36,
-    "95": 7.9,
-    "95_self": 7.73,
-    "98_service": 8.28,
-    "diesel_service": 8.25
-   },
-   "updated": "2026-09-24T14:48:06Z",
-   "age_days": 7.7,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJubeYjOZTHBURl1y1-mHNMCU",
-   "venue": true
+   "98": 8.36
   },
   "googlePlaces.ChIJMwImKuU_HRURbqtkvtz-XfY": {
-   "brand": "תפוז",
-   "name": "נתניה",
-   "98": 8.89,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.0,
-    "98": 8.89,
-    "95": 7.7,
-    "95_self": 7.6
-   },
-   "updated": "2026-09-19T18:17:32Z",
-   "age_days": 12.6,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJMwImKuU_HRURbqtkvtz-XfY",
-   "venue": true
-  },
-  "venues.23068991.230493298.1582": {
-   "brand": "דלק",
-   "name": "גבעונים",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.7,
-    "95": 8.2,
-    "95_self": 7.8
-   },
-   "key": "venues.23068991.230493298.1582",
-   "venue": true
+   "98": 8.89
   },
   "googlePlaces.ChIJxdXimqq0AhURImljB3cVBTY": {
-   "brand": "דלק",
-   "name": "שעריי חולון",
-   "98": 8.01,
-   "source": "waze",
-   "fuels": {
-    "diesel": 8.55,
-    "98": 8.01,
-    "95": 8.01,
-    "95_self": 7.75
-   },
-   "updated": "2026-09-30T10:43:44Z",
-   "age_days": 1.9,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJxdXimqq0AhURImljB3cVBTY",
-   "venue": true
-  },
-  "googlePlaces.ChIJKdtigQRLHRURzMVQFZWce84": {
-   "brand": "דלק",
-   "name": "יזראמקס",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 8.84,
-    "95": 7.75,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJKdtigQRLHRURzMVQFZWce84",
-   "venue": true
-  },
-  "googlePlaces.ChIJi9gW7aU0HBURhHN1Hr8exBM": {
-   "brand": "דורלון",
-   "name": "גילון",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "95": 8.09,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJi9gW7aU0HBURhHN1Hr8exBM",
-   "venue": true
-  },
-  "googlePlaces.ChIJR2GUOufRHRURBgNVqsJZNrY": {
-   "brand": "דורלון",
-   "name": "גשר הזיו",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.37,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJR2GUOufRHRURBgNVqsJZNrY",
-   "venue": true
-  },
-  "venues.22937928.229444815.827": {
-   "brand": "דורלון",
-   "name": "חיפה גרנד קניון",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.89,
-    "95": 7.48,
-    "95_self": 7.75
-   },
-   "key": "venues.22937928.229444815.827",
-   "venue": true
-  },
-  "pin:32.860828,35.46133": {
-   "brand": "דורלון",
-   "name": "מרר בלעוס",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel_service": 9.09
-   },
-   "key": "pin:32.860828,35.46133",
-   "venue": false
+   "98": 8.01
   },
   "googlePlaces.ChIJ_1vJ4tTKAhURhx7BPKXNgLo": {
-   "brand": "דורלון",
-   "name": "נתב\"ג",
-   "98": 9.99,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.45,
-    "95": 8.01,
-    "95_self": 7.55,
-    "98_service": 9.99,
-    "diesel_service": 9.65
-   },
-   "updated": "2026-09-29T15:21:02Z",
-   "age_days": 2.7,
-   "current_period": false,
-   "label": "98 שרות",
-   "key": "googlePlaces.ChIJ_1vJ4tTKAhURhx7BPKXNgLo",
-   "venue": true
+   "98": 9.99
   },
   "venues.22806848.227740799.2101": {
-   "brand": "דורלון",
-   "name": "ראשל\"צ שפירא",
-   "98": 10.06,
-   "source": "mika",
-   "fuels": {
-    "diesel": 8.76,
-    "95_self": 7.75
-   },
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "venues.22806848.227740799.2101",
-   "venue": true
+   "98": 10.06
   },
   "venues.22872385.228527242.2042479": {
-   "brand": "סונול",
-   "name": "גיסין",
-   "98": 7.38,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.22,
-    "95": 9.99,
-    "95_self": 8.15,
-    "98_service": 7.38,
-    "diesel_service": 7.38
-   },
-   "updated": "2026-09-22T16:58:40Z",
-   "age_days": 9.6,
-   "current_period": false,
-   "label": "98 שרות",
-   "key": "venues.22872385.228527242.2042479",
-   "venue": true
+   "98": 8.74
   },
   "googlePlaces.ChIJrfkxuYOzAhURSNiR-BJbBr8": {
-   "brand": "מיקה",
-   "name": "אליאן",
-   "98": 8.66,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:24Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJrfkxuYOzAhURSNiR-BJbBr8",
-   "venue": true
+   "98": 8.66
   },
   "googlePlaces.ChIJsT_e6LewHRURsbV-3jv5c7M": {
-   "brand": "מיקה",
-   "name": "חיפה",
-   "98": 8.68,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJsT_e6LewHRURsbV-3jv5c7M",
-   "venue": true
+   "98": 8.68
   },
   "googlePlaces.ChIJYxsDh79eHBURw2ZkVJue2UA": {
-   "brand": "מיקה",
-   "name": "בית שאן",
-   "98": 8.74,
-   "source": "mika",
-   "fuels": {
-    "95_self": 7.75
-   },
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJYxsDh79eHBURw2ZkVJue2UA",
-   "venue": true
+   "98": 8.74
   },
   "googlePlaces.ChIJs7Kqx4I-HBURjQBdWAL2nPo": {
-   "brand": "מיקה",
-   "name": "מגדל",
-   "98": 9.7,
-   "source": "mika",
-   "fuels": {
-    "95_self": 7.7
-   },
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJs7Kqx4I-HBURjQBdWAL2nPo",
-   "venue": true
+   "98": 9.7
   },
   "googlePlaces.ChIJxaBIOYWzAhURE0gMF6_nCO0": {
-   "brand": "מיקה",
-   "name": "יהונתן",
-   "98": 8.74,
-   "source": "mika",
-   "fuels": {
-    "diesel": 8.82,
-    "98": 8.5,
-    "95_self": 7.67
-   },
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJxaBIOYWzAhURE0gMF6_nCO0",
-   "venue": true
+   "98": 8.74
   },
   "googlePlaces.ChIJZX45QwycAhURhdYe-LPqvLE": {
-   "brand": "מיקה",
-   "name": "הדרי אשקלון",
-   "98": 9.72,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJZX45QwycAhURhdYe-LPqvLE",
-   "venue": true
+   "98": 9.72
   },
   "googlePlaces.ChIJRcQepS0oAxUR_NDJ3z8QzJY": {
-   "brand": "מיקה",
-   "name": "גן הפעמון",
-   "98": 9.25,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJRcQepS0oAxUR_NDJ3z8QzJY",
-   "venue": true
-  },
-  "pin:32.864715,35.286841": {
-   "brand": "אחר",
-   "name": "יעד סכנין",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "95_self": 8.0
-   },
-   "key": "pin:32.864715,35.286841",
-   "venue": false
-  },
-  "googlePlaces.ChIJIxdoneszHBURKOlrfPEsB2s": {
-   "brand": "פז",
-   "name": "כרמיאל מערב",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJIxdoneszHBURKOlrfPEsB2s",
-   "venue": true
-  },
-  "googlePlaces.ChIJOYLmOEFJHRURg91N6SDNCYc": {
-   "brand": "פז",
-   "name": "נווה עוז",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.23,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJOYLmOEFJHRURg91N6SDNCYc",
-   "venue": true
+   "98": 9.25
   },
   "googlePlaces.ChIJ9_Y-C7-iAhUR_puIKzko1eU": {
-   "brand": "פז",
-   "name": "עד הלום",
-   "98": 9.15,
-   "source": "waze",
-   "fuels": {
-    "premium": 2.66,
-    "diesel": 9.31,
-    "98": 9.15,
-    "95": 8.27,
-    "95_self": 7.75
-   },
-   "updated": "2026-10-01T14:00:19Z",
-   "age_days": 0.8,
-   "current_period": true,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJ9_Y-C7-iAhUR_puIKzko1eU",
-   "venue": true
+   "98": 9.15
   },
   "googlePlaces.ChIJQ-mgcZBMHRURmxzgBnQCmPg": {
-   "brand": "פז",
-   "name": "פז גן",
-   "98": 9.02,
-   "source": "waze",
-   "fuels": {
-    "diesel": 8.85,
-    "95": 6.0,
-    "95_self": 7.75,
-    "98_service": 9.02
-   },
-   "updated": "2026-09-30T13:42:58Z",
-   "age_days": 1.8,
-   "current_period": false,
-   "label": "98 שרות",
-   "key": "googlePlaces.ChIJQ-mgcZBMHRURmxzgBnQCmPg",
-   "venue": true
+   "98": 9.02
   },
   "googlePlaces.ChIJxaYxs85LHRURRFHxtq3b8Sw": {
-   "brand": "פז",
-   "name": "רמה רמת גן",
-   "98": 9.9,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.87,
-    "98": 9.9,
-    "95_self": 8.27,
-    "diesel_service": 7.73
-   },
-   "updated": "2026-10-01T01:54:20Z",
-   "age_days": 1.3,
-   "current_period": true,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJxaYxs85LHRURRFHxtq3b8Sw",
-   "venue": true
-  },
-  "googlePlaces.ChIJyV-jJMHPAhURdYG7QNPK1BE": {
-   "brand": "פז",
-   "name": "שער הגיא",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "95": 7.0,
-    "95_self": 8.27
-   },
-   "key": "googlePlaces.ChIJyV-jJMHPAhURdYG7QNPK1BE",
-   "venue": true
-  },
-  "venues.23068990.230558824.2219": {
-   "brand": "פז",
-   "name": "רמת דניה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "95_self": 7.75
-   },
-   "key": "venues.23068990.230558824.2219",
-   "venue": true
+   "98": 9.9
   },
   "googlePlaces.ChIJeejxjF3QAhURXlxm8RWzhnQ": {
-   "brand": "פז",
-   "name": "שואבה",
-   "98": 9.63,
-   "source": "waze",
-   "fuels": {
-    "premium": 3.56,
-    "diesel": 9.99,
-    "98": 9.63,
-    "95": 8.01,
-    "95_self": 7.75
-   },
-   "updated": "2026-10-01T16:18:20Z",
-   "age_days": 0.7,
-   "current_period": true,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJeejxjF3QAhURXlxm8RWzhnQ",
-   "venue": true
+   "98": 9.63
   },
   "venues.22741310.227150954.2196": {
-   "brand": "סונול",
-   "name": "עד הלום",
-   "98": 9.2,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.29,
-    "98": 9.2,
-    "95": 8.09,
-    "95_self": 7.75
-   },
-   "updated": "2026-09-30T13:00:19Z",
-   "age_days": 1.8,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "venues.22741310.227150954.2196",
-   "venue": true
-  },
-  "googlePlaces.ChIJa5KLvNlHHRURmvyroADEHb0": {
-   "brand": "סונול",
-   "name": "אילוש",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.99,
-    "95": 8.53,
-    "95_self": 8.27,
-    "diesel_service": 9.99
-   },
-   "key": "googlePlaces.ChIJa5KLvNlHHRURmvyroADEHb0",
-   "venue": true
-  },
-  "googlePlaces.ChIJW2cdpFkSHRUR9Z4bHa0lht0": {
-   "brand": "סונול",
-   "name": "חדרה העיר",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.99,
-    "95": 8.52,
-    "95_self": 8.27
-   },
-   "key": "googlePlaces.ChIJW2cdpFkSHRUR9Z4bHa0lht0",
-   "venue": true
-  },
-  "venues.22872387.228461724.296": {
-   "brand": "סונול",
-   "name": "פולג גיבורי ישראל",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 8.85,
-    "95_self": 7.75
-   },
-   "key": "venues.22872387.228461724.296",
-   "venue": true
-  },
-  "googlePlaces.ChIJIcf2yjYOHRURgeY57DlSYO8": {
-   "brand": "סונול",
-   "name": "עירון",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.81,
-    "95": 8.05,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJIcf2yjYOHRURgeY57DlSYO8",
-   "venue": true
-  },
-  "googlePlaces.ChIJk2HGjzQPHRUR7Ol5FnxSSio": {
-   "brand": "סונול",
-   "name": "פרדס חנה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "95_self": 7.69
-   },
-   "key": "googlePlaces.ChIJk2HGjzQPHRUR7Ol5FnxSSio",
-   "venue": true
-  },
-  "googlePlaces.ChIJkQ5onkWRAhUR-ENu4s96a8Y": {
-   "brand": "סונול",
-   "name": "פלוגות",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.99,
-    "95": 8.05,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJkQ5onkWRAhUR-ENu4s96a8Y",
-   "venue": true
+   "98": 9.2
   },
   "googlePlaces.ChIJxa-xT0E4HRURCPmSbzgXMyM": {
-   "brand": "סונול",
-   "name": "צומת רעננה הברוש",
-   "98": 9.34,
-   "source": "waze",
-   "fuels": {
-    "premium": 4.15,
-    "diesel": 9.06,
-    "98": 9.34,
-    "95": 8.34,
-    "95_self": 7.75
-   },
-   "updated": "2026-09-30T16:24:13Z",
-   "age_days": 1.7,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJxa-xT0E4HRURCPmSbzgXMyM",
-   "venue": true
-  },
-  "googlePlaces.ChIJ809pMZZLHRURMhLs_7Ep_jM": {
-   "brand": "סונול",
-   "name": "איילון - שומרת שבת",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.99,
-    "95": 8.27,
-    "95_self": 8.27
-   },
-   "key": "googlePlaces.ChIJ809pMZZLHRURMhLs_7Ep_jM",
-   "venue": true
+   "98": 9.34
   },
   "googlePlaces.ChIJQ-_WephLHRURXxnCJ2p5obw": {
-   "brand": "סונול",
-   "name": "יגאל אלון",
-   "98": 8.68,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJQ-_WephLHRURXxnCJ2p5obw",
-   "venue": true
+   "98": 8.68
   },
   "googlePlaces.ChIJi5M_9DhmAhURt3Ry_NXChhY": {
-   "brand": "תפוז",
-   "name": "באר שבע",
-   "98": 9.08,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.3,
-    "98": 9.08,
-    "95_self": 7.63
-   },
-   "updated": "2026-10-02T07:16:52Z",
-   "age_days": 0.0,
-   "current_period": true,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJi5M_9DhmAhURt3Ry_NXChhY",
-   "venue": true
+   "98": 9.08
   },
-  "pin:32.00076,34.76441": {
-   "brand": "דלק",
-   "name": "היובל",
-   "98": 8.65,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.0,
-    "98": 8.65,
-    "95": 9.85,
-    "95_self": 9.9
-   },
-   "updated": "2026-09-27T08:43:14Z",
-   "age_days": 5.0,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "pin:32.00076,34.76441",
-   "venue": false
+  "pin:32.000760,34.764410": {
+   "98": 8.65
   },
   "venues.22675774.227085421.1731": {
-   "brand": "דלק",
-   "name": "גל ראשונים אשדוד",
-   "98": 8.33,
-   "source": "waze",
-   "fuels": {
-    "premium": 3.31,
-    "diesel": 9.13,
-    "98": 8.33,
-    "95": 8.66,
-    "95_self": 7.75
-   },
-   "updated": "2026-09-30T12:39:59Z",
-   "age_days": 1.8,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "venues.22675774.227085421.1731",
-   "venue": true
-  },
-  "googlePlaces.ChIJEQAcq7NJHRURYEnAnFV9BrI": {
-   "brand": "דלק",
-   "name": "רמת השרון",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.22,
-    "95": 8.01,
-    "95_self": 7.75,
-    "diesel_service": 9.39
-   },
-   "key": "googlePlaces.ChIJEQAcq7NJHRURYEnAnFV9BrI",
-   "venue": true
-  },
-  "googlePlaces.ChIJ62Aw5BBAHRURMG0k9V7uSkY": {
-   "brand": "דלק",
-   "name": "גל נתניה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 8.88,
-    "95": 9.3,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJ62Aw5BBAHRURMG0k9V7uSkY",
-   "venue": true
+   "98": 8.33
   },
   "googlePlaces.ChIJ_WovrT7KAhURDA01mPapM00": {
-   "brand": "דלק",
-   "name": "קפלן",
-   "98": 8.97,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.88,
-    "98": 8.97,
-    "95_self": 7.75
-   },
-   "updated": "2026-09-29T10:39:36Z",
-   "age_days": 2.9,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJ_WovrT7KAhURDA01mPapM00",
-   "venue": true
+   "98": 8.97
   },
   "googlePlaces.ChIJ_YlZfUGjAhUR7x_jHIcNzpg": {
-   "brand": "דורלון",
-   "name": "אשדוד רום שפר",
-   "98": 9.76,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJ_YlZfUGjAhUR7x_jHIcNzpg",
-   "venue": true
+   "98": 9.76
   },
-  "pin:32.0057983,34.7438908": {
-   "brand": "דורלון",
-   "name": "בת ים הילי",
-   "98": 8.53,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "pin:32.0057983,34.7438908",
-   "venue": false
-  },
-  "googlePlaces.ChIJz6lEMzCKAhURn4e1_wD_ygQ": {
-   "brand": "דורלון",
-   "name": "דבירה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "premium": 4.6,
-    "diesel": 9.99,
-    "95": 8.01,
-    "95_self": 7.75,
-    "diesel_service": 1.1
-   },
-   "key": "googlePlaces.ChIJz6lEMzCKAhURn4e1_wD_ygQ",
-   "venue": true
-  },
-  "googlePlaces.ChIJ5cEzf0K6HRURyxdOZwxmlTY": {
-   "brand": "דורלון",
-   "name": "חיפה עוקף קריות",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "premium": 4.34,
-    "95": 7.32,
-    "95_self": 7.07
-   },
-   "key": "googlePlaces.ChIJ5cEzf0K6HRURyxdOZwxmlTY",
-   "venue": true
-  },
-  "venues.22937917.229379175.2143849": {
-   "brand": "דורלון",
-   "name": "מחסיה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 8.65,
-    "95_self": 7.75
-   },
-   "key": "venues.22937917.229379175.2143849",
-   "venue": true
+  "pin:32.005798,34.743891": {
+   "98": 8.53
   },
   "googlePlaces.ChIJY9lNlhJxABUR3Peijg7ViOY": {
-   "brand": "מיקה",
-   "name": "אילת",
-   "98": 8.79,
-   "source": "mika",
-   "fuels": {
-    "diesel": 8.8,
-    "98": 8.79,
-    "95": 7.23,
-    "95_self": 7.01,
-    "98_service": 8.79,
-    "diesel_service": 8.8
-   },
-   "updated": "2026-10-01T00:01:24Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJY9lNlhJxABUR3Peijg7ViOY",
-   "venue": true
+   "98": 8.79
   },
   "googlePlaces.ChIJtaFbVqJJHRURHkGmf9CmYO8": {
-   "brand": "מיקה",
-   "name": "עתידים",
-   "98": 8.59,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:24Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJtaFbVqJJHRURHkGmf9CmYO8",
-   "venue": true
+   "98": 8.59
   },
   "googlePlaces.ChIJ0-FCYFG0AhURj88HPob8Bjs": {
-   "brand": "מיקה",
-   "name": "פריימן",
-   "98": 9.4,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJ0-FCYFG0AhURj88HPob8Bjs",
-   "venue": true
+   "98": 9.4
   },
   "googlePlaces.ChIJ33ZEf2UxHBUR1-e5Pe8DjaI": {
-   "brand": "מיקה",
-   "name": "כרמיאל",
-   "98": 9.31,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJ33ZEf2UxHBUR1-e5Pe8DjaI",
-   "venue": true
+   "98": 9.31
   },
   "googlePlaces.ChIJRbDsBsfPAhURV5N9ZyQda0E": {
-   "brand": "מיקה",
-   "name": "מודיעין",
-   "98": 8.74,
-   "source": "mika",
-   "fuels": {
-    "premium": 3.1,
-    "diesel": 9.1,
-    "95": 7.75,
-    "95_self": 7.75
-   },
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJRbDsBsfPAhURV5N9ZyQda0E",
-   "venue": true
+   "98": 8.74
   },
   "googlePlaces.ChIJcb19X_O9AhUR33dqAI3tpfk": {
-   "brand": "מיקה",
-   "name": "באר טוביה",
-   "98": 9.31,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJcb19X_O9AhUR33dqAI3tpfk",
-   "venue": true
+   "98": 9.31
   },
   "googlePlaces.ChIJ9XG5-N59AhURgm08TANGb_Q": {
-   "brand": "מיקה",
-   "name": "נתיבות",
-   "98": 9.7,
-   "source": "mika",
-   "fuels": {
-    "diesel": 8.86,
-    "95": 8.06,
-    "95_self": 8.06
-   },
-   "updated": "2026-10-01T00:01:25Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJ9XG5-N59AhURgm08TANGb_Q",
-   "venue": true
+   "98": 9.7
   },
   "googlePlaces.ChIJMTk5qWu0AhURuB3uRRvGuqM": {
-   "brand": "מיקה",
-   "name": "ראשון",
-   "98": 8.68,
-   "source": "mika",
-   "fuels": {
-    "premium": 2.78,
-    "diesel": 8.82,
-    "95": 8.01,
-    "95_self": 7.75
-   },
-   "updated": "2026-10-01T00:01:24Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "review": "conflict: page 'משה לוי' vs official 'רוזנסקי 9 ראשל\"צ'",
-   "key": "googlePlaces.ChIJMTk5qWu0AhURuB3uRRvGuqM",
-   "venue": true
+   "98": 8.68
   },
   "pin:31.922624,34.786105": {
-   "brand": "אחר",
-   "name": "יעד יובל נס ציונה",
-   "98": 8.46,
-   "source": "waze",
-   "fuels": {
-    "diesel": 8.87,
-    "98": 8.46,
-    "95_self": 7.75
-   },
-   "updated": "2026-09-20T10:03:17Z",
-   "age_days": 11.9,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "pin:31.922624,34.786105",
-   "venue": false
-  },
-  "pin:32.597481,35.294691": {
-   "brand": "אחר",
-   "name": "תמר עפולה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 7.31,
-    "95": 7.96,
-    "95_self": 7.56
-   },
-   "key": "pin:32.597481,35.294691",
-   "venue": false
+   "98": 8.46
   },
   "googlePlaces.ChIJsfcB8RlKHRURmGNd1XqR5lo": {
-   "brand": "פז",
-   "name": "אורלי גהה",
-   "98": 9.99,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.99,
-    "98": 9.99,
-    "95": 8.01,
-    "95_self": 7.75,
-    "98_service": 9.99,
-    "diesel_service": 9.99
-   },
-   "updated": "2026-09-28T16:43:03Z",
-   "age_days": 3.6,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJsfcB8RlKHRURmGNd1XqR5lo",
-   "venue": true
-  },
-  "venues.23068993.230755466.517185": {
-   "brand": "פז",
-   "name": "אריאל",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "95": 8.3,
-    "95_self": 8.05
-   },
-   "key": "venues.23068993.230755466.517185",
-   "venue": true
-  },
-  "googlePlaces.ChIJo5QCW0rWAhUR6nJFH3REYQU": {
-   "brand": "פז",
-   "name": "גבעת שאול",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.73,
-    "95": 8.34,
-    "95_self": 7.75,
-    "diesel_service": 8.36
-   },
-   "key": "googlePlaces.ChIJo5QCW0rWAhUR6nJFH3REYQU",
-   "venue": true
+   "98": 9.99
   },
   "googlePlaces.ChIJiScjwrUUHRUR1fnl_okPcQI": {
-   "brand": "פז",
-   "name": "חופית",
-   "98": 9.99,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.9,
-    "98": 9.99,
-    "95": 8.01,
-    "95_self": 8.27,
-    "98_service": 9.1,
-    "diesel_service": 9.5
-   },
-   "updated": "2026-10-01T07:03:47Z",
-   "age_days": 1.0,
-   "current_period": true,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJiScjwrUUHRUR1fnl_okPcQI",
-   "venue": true
-  },
-  "googlePlaces.ChIJZwSDlRg8HRURCGtfbgHnUco": {
-   "brand": "פז",
-   "name": "טירה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.02,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJZwSDlRg8HRURCGtfbgHnUco",
-   "venue": true
-  },
-  "googlePlaces.ChIJL6PAQGM1HRURys2VmbFoh1Q": {
-   "brand": "פז",
-   "name": "סביון",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.99,
-    "95": 8.51,
-    "95_self": 8.27
-   },
-   "key": "googlePlaces.ChIJL6PAQGM1HRURys2VmbFoh1Q",
-   "venue": true
+   "98": 9.99
   },
   "googlePlaces.ChIJ47Jj48dLHRURQLNCgkpBSKw": {
-   "brand": "פז",
-   "name": "עוז רמת גן",
-   "98": 9.28,
-   "source": "waze",
-   "fuels": {
-    "diesel": 9.99,
-    "98": 9.28,
-    "95_self": 7.75
-   },
-   "updated": "2026-09-29T16:02:28Z",
-   "age_days": 2.7,
-   "current_period": false,
-   "label": "98 עצמי",
-   "key": "googlePlaces.ChIJ47Jj48dLHRURQLNCgkpBSKw",
-   "venue": true
-  },
-  "googlePlaces.ChIJ8wJU1VPIHRURpOOsWmywlqA": {
-   "brand": "פז",
-   "name": "עכו עיר",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.1,
-    "95": 7.7,
-    "95_self": 8.03
-   },
-   "key": "googlePlaces.ChIJ8wJU1VPIHRURpOOsWmywlqA",
-   "venue": true
-  },
-  "googlePlaces.ChIJi8idcFG5AhURxubHca6wy7Q": {
-   "brand": "פז",
-   "name": "פז גדרה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "premium": 3.31,
-    "diesel": 8.66,
-    "95_self": 7.75,
-    "diesel_service": 1.08
-   },
-   "key": "googlePlaces.ChIJi8idcFG5AhURxubHca6wy7Q",
-   "venue": true
-  },
-  "venues.22806847.228134005.485733": {
-   "brand": "פז",
-   "name": "רמה רחובות",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 8.94,
-    "95_self": 8.09
-   },
-   "key": "venues.22806847.228134005.485733",
-   "venue": true
-  },
-  "googlePlaces.ChIJmzEfo5NUHBUR4ip5chQu5Xg": {
-   "brand": "פז",
-   "name": "תענכים",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "premium": 3.56,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJmzEfo5NUHBUR4ip5chQu5Xg",
-   "venue": true
+   "98": 9.28
   },
   "googlePlaces.ChIJ9bc10KHNAhURI7TbqL-nY-g": {
-   "brand": "סונול",
-   "name": "שילת",
-   "98": 9.04,
-   "source": "waze",
-   "fuels": {
-    "premium": 3.33,
-    "95": 8.55,
-    "95_self": 7.75,
-    "98_service": 9.04
-   },
-   "updated": "2026-09-28T08:17:30Z",
-   "age_days": 4.0,
-   "current_period": false,
-   "label": "98 שרות",
-   "key": "googlePlaces.ChIJ9bc10KHNAhURI7TbqL-nY-g",
-   "venue": true
-  },
-  "googlePlaces.ChIJD3cEjDW2AhUR98LoZw9VRm0": {
-   "brand": "סונול",
-   "name": "סתריה",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.45,
-    "95": 8.01,
-    "95_self": 7.75
-   },
-   "key": "googlePlaces.ChIJD3cEjDW2AhUR98LoZw9VRm0",
-   "venue": true
-  },
-  "googlePlaces.ChIJ-cQL_fi2HRURbEdZIz7m_vA": {
-   "brand": "סונול",
-   "name": "קריון",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 9.99,
-    "95": 8.34,
-    "95_self": 8.09
-   },
-   "key": "googlePlaces.ChIJ-cQL_fi2HRURbEdZIz7m_vA",
-   "venue": true
-  },
-  "googlePlaces.ChIJo-sLuZ23AhURDbswYLTo2LE": {
-   "brand": "סונול",
-   "name": "סונול מיקה רחובות - שומרת שבת",
-   "98": null,
-   "source": null,
-   "fuels": {
-    "diesel": 8.85,
-    "95": 8.34,
-    "95_self": 8.25
-   },
-   "key": "googlePlaces.ChIJo-sLuZ23AhURDbswYLTo2LE",
-   "venue": true
+   "98": 9.04
   },
   "googlePlaces.ChIJ42I5Ac23AhURCmVGN2de4a8": {
-   "brand": "סונול",
-   "name": "בילו רחובות",
-   "98": 9.64,
-   "source": "mika",
-   "updated": "2026-10-01T00:01:24Z",
-   "age_days": 1.4,
-   "current_period": true,
-   "label": "98",
-   "key": "googlePlaces.ChIJ42I5Ac23AhURCmVGN2de4a8",
-   "venue": true
+   "98": 9.64
+  },
+  "pin:32.034457,34.769726": {
+   "98": 8.53
+  },
+  "pin:31.895664,34.790335": {
+   "98": 8.68
   }
  }
 }

@@ -11,8 +11,8 @@ name: update
 # run cannot blank the site.
 
 on:
-  push:
-    branches: ['ci-prices']          # TEMP: validation trigger, drop before merging to main
+  # No `push` trigger on purpose: the publish job commits data/prices.json and data/violations.json,
+  # and a push-triggered run would chase its own commits. Scheduled runs plus workflow_dispatch.
   schedule:
     - cron: '15 */2 * * *'            # every 2 hours at :15 IL - prices (each run retries until the
                                       # IL cluster answers, so more attempts = more warm windows)
