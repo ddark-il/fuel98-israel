@@ -588,6 +588,14 @@ def main() -> int:
     print(f'[{ts()}] distributor: {wl.BASE}', flush=True)
     checker = PriceChecker(state=a.state, sleep=a.sleep, tries=a.tries, verbose=a.verbose,
                            rounds=a.rounds, parallel=a.parallel)
+    if a.wait_for_il and a.wait_probes and stations:
+        if not checker.wait_for_il(stations, probes=a.wait_probes, gap=a.wait_for_il) and a.require_il:
+            # Nothing below this point would be a price, and a full sweep of non-answers costs the
+            # same as a real one. Say so once and let the caller decide when to try again.
+            print(f'[{ts()}] stopping: no IL cluster from this network right now '
+                  f'({"no Waze layer this run" if not a.out else "no output written"})', flush=True)
+            return 3
+
     fh = open(a.jsonl, 'a', encoding='utf-8')
     t0 = time.time()
     for i, st in enumerate(todo, 1):
@@ -605,14 +613,6 @@ def main() -> int:
               flush=True)
         time.sleep(a.sleep)
     fh.close()
-
-    if a.wait_for_il and a.wait_probes and stations:
-        if not checker.wait_for_il(stations, probes=a.wait_probes, gap=a.wait_for_il) and a.require_il:
-            # Nothing below this point would be a price, and a full sweep of non-answers costs the
-            # same as a real one. Say so once and let the caller decide when to try again.
-            print(f'[{ts()}] stopping: no IL cluster from this network right now '
-                  f'({"no Waze layer this run" if not a.out else "no output written"})', flush=True)
-            return 3
 
     can = checker.canary(stations)
     if can:
