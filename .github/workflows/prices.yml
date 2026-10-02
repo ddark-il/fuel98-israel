@@ -142,12 +142,22 @@ jobs:
           path: price-ci/shard-*.json
 
   violations:
-    # The Ministry's API is geo-restricted, so this has to run from Israel - which is what the
-    # self-hosted runner is for. It writes data/violations.json and commits it, like the prices job.
+    # The Ministry's API is geo-restricted, so the check runs from Israel - which is what the
+    # self-hosted runner is for. Committing is a separate job: the IL runner's `git` is the
+    # CommandLineTools shim, which an x86_64 runner on Apple Silicon cannot execute.
     runs-on: ${{ fromJSON(vars.WAZE_RUNNER || '["ubuntu-latest"]') }}
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+
+      - name: Where does this runner egress from?
+        run: |
+          country=$(curl -s -m 20 https://ifconfig.co/country-iso || echo '?')
+          echo "egress country: $country"
+          if [ "$country" != "IL" ]; then
+            echo "::error::the Ministry fuel-quality API answers only Israeli IPs - this runner is $country"
+            exit 1
+          fi
 
       - name: Tools on this runner
         run: |
@@ -160,20 +170,24 @@ jobs:
           echo "NODE=$NODE" >> "$GITHUB_ENV"
           echo "node: $NODE ($("$NODE" --version))"
 
-      - name: Where does this runner egress from?
-        run: |
-          country=$(curl -s -m 20 https://ifconfig.co/country-iso || echo '?')
-          echo "egress country: $country"
-          if [ "$country" != "IL" ]; then
-            echo "::error::the Ministry fuel-quality API answers only Israeli IPs - this runner is $country"
-            exit 1
-          fi
-
       - name: Check the Ministry's substandard-fuel list against our stations
         run: '"$NODE" scripts/check-violations.mjs'
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: violations
+          path: data/violations.json
+
+  violations-commit:
+    needs: violations
+    if: always() && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with: { name: violations, path: data }
       - name: Commit
-        if: github.ref == 'refs/heads/main'
         run: |
           git config user.name  'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -315,11 +329,12 @@ jobs:
                     "at all. Nothing here may be read as \"this station has no 98\": the run "
                     "needs more attempts (--rounds) or an Israeli egress.")
           d = json.load(open('data/prices.json', encoding='utf-8'))
-          c = d['counts']
-          print(f"## 98 prices: {c['with_98']} of {c['stations']} stations priced")
-          print(f"* {c['current_period']} reported in the current price period")
-          print(f"* {c['from_mika']} from Mika (the operator's own published price)")
-          print(f"* {c['by_venue']} keyed by Waze venue id, the rest by coordinate")
+          c = d.get('counts', {})
+          print(f"## 98 prices: {c.get('with_98', '?')} stations priced")
+          if c.get('from_mika') is not None:
+              print(f"* {c['from_mika']} from Mika (the operator's own published price)")
+          if c.get('carried_over'):
+              print(f"* {c['carried_over']} carried over from the previous file (not read this run)")
           review = sorted(f"{v['brand']}/{v['name']}" for v in d['stations'].values() if v.get('review'))
           if review:
               print(f"* {len(review)} with an unconfirmed station match: {', '.join(review)}")
