@@ -61,6 +61,7 @@ UA = ('Waze/5.24.5.0 (com.waze; Android 13; he_IL) Mozilla/5.0 (Linux; Android 1
       'sdk_gphone64_arm64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 '
       'Mobile Safari/537.36')
 ACCOUNT_FILE = 'waze_account.json'
+AFFINITY_COOKIE = 'Waze-Session-Affinity'
 
 # response-side element numbers
 EL_RESPONSE_TIMESTAMP = 2150
@@ -200,6 +201,9 @@ class Session:
         self.country, self.env, self.verbose = country, env, verbose
         prefer_ipv4()
         self.sessionid = -1
+        # WAZE_SESSION_COOKIE lets a machine that cannot reach an IL frontend start from one that a
+        # machine in Israel obtained. Empty by default: a normal run mints its own.
+        self.affinity = os.environ.get('WAZE_SESSION_COOKIE', '')
         self.cookie = ''
         self.rtserver_id = None
         self.installation_id = '00000000-0000-4000-8000-000000000000'
@@ -211,7 +215,7 @@ class Session:
 
     # -- transport ---------------------------------------------------------
     def params(self, extra: dict | None = None) -> dict:
-        p = {'sessionid': str(self.sessionid), 'cookie': self.cookie,
+        p = {'sessionid': str(self.sessionid), 'cookie': self.cookie or self.affinity,
              'client_version': '5.24.5.0', 'env': self.env}
         if self.rtserver_id:
             p['rtserver-id'] = self.rtserver_id
@@ -226,6 +230,13 @@ class Session:
         sc = headers.get('set-cookie') or headers.get('Set-Cookie') or ''
         if 'rtserver-id=' in sc:
             self.rtserver_id = sc.split('rtserver-id=')[1].split(';')[0]
+        if AFFINITY_COOKIE in sc:
+            # `Waze-Session-Affinity` is the distributor's own stickiness token: the frontend that
+            # serves a request hands it out (an IL frontend did, with the fuel prices attached), and
+            # a client that keeps it is kept on that frontend - this is the `cookie=` the app puts in
+            # every URL (`nativeManager.getServerCookie()`), and the reason the app does not depend on
+            # the draw-by-draw routing lottery we hit. Store it, send it back.
+            self.affinity = sc.split(AFFINITY_COOKIE + '=')[1].split(';')[0].strip('"')
 
     def post_keepalive(self, conn, batch: bytes, path: str = '/command') -> dict:
         """POST over a caller-owned connection, keeping it open.
@@ -236,9 +247,10 @@ class Session:
         holding on to: it carries the Israeli fuel prices, and every request sent over it does too.
         """
         body = b'ProtoBase64,' + base64.b64encode(batch)
-        conn.request('POST', self.request_url(path), body=body,
-                     headers={'Content-Type': 'text/plain', 'User-Agent': UA,
-                              'Connection': 'keep-alive'})
+        hdrs = {'Content-Type': 'text/plain', 'User-Agent': UA, 'Connection': 'keep-alive'}
+        if self.affinity:
+            hdrs['Cookie'] = f'{AFFINITY_COOKIE}="{self.affinity}"'
+        conn.request('POST', self.request_url(path), body=body, headers=hdrs)
         r = conn.getresponse()
         data = r.read()
         hdrs = {k.lower(): v for k, v in (r.getheaders() or [])}
@@ -253,6 +265,8 @@ class Session:
         req = urllib.request.Request(url, data=body, method='POST')
         req.add_header('Content-Type', 'text/plain')
         req.add_header('User-Agent', UA)
+        if self.affinity:
+            req.add_header('Cookie', f'{AFFINITY_COOKIE}="{self.affinity}"')
         try:
             with self.opener.open(req, timeout=45) as r:
                 status, headers, data = r.status, dict(r.headers), r.read()

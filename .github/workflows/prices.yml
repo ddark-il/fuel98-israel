@@ -40,6 +40,12 @@ jobs:
     # same minute with the same account). Set the repository variable WAZE_RUNNER to a JSON label
     # array, e.g. ["self-hosted","israel"], to run this job on an Israeli machine.
     runs-on: ${{ fromJSON(vars.WAZE_RUNNER || '["ubuntu-latest"]') }}
+    env:
+      # The distributor hands out `Waze-Session-Affinity` on replies from the IL frontend, and a
+      # client that keeps it stays there - this is the `cookie=` the app sends in every URL. A runner
+      # that never reaches an IL frontend cannot mint one, so it starts from a cookie obtained on an
+      # Israeli line (repository variable, refreshed when it expires). No cookie = the old lottery.
+      WAZE_SESSION_COOKIE: '${{ vars.WAZE_SESSION_COOKIE }}'
     timeout-minutes: 45
     strategy:
       fail-fast: false
