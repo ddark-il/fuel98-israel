@@ -1,4 +1,4 @@
-name: prices
+name: update
 
 # What this does, three times a day, on the Israeli runner (repository variable WAZE_RUNNER):
 #   1. asks Waze for the 98 price of every station that carries a `waze_id` (3 parallel shards),
@@ -110,10 +110,14 @@ jobs:
       # A shard that returns nothing is NOT a failed run: Waze serves fuel prices only to Israeli
       # IPs, so a GitHub-hosted runner legitimately comes back empty. The publish job decides
       # whether the *pipeline* is broken (no prices from any source) and fails there.
-      - name: Check 98 prices (shard ${{ matrix.shard }})
+      - name: Update (shard ${{ matrix.shard }})
         working-directory: price-ci
-        continue-on-error: true
+        # NOT continue-on-error: that made a crashing shard report as a green job - two of three
+        # "successful" shards in an earlier run had in fact died. price_check's exit codes are mapped
+        # here instead: 3 = "no IL cluster from this network" is a source condition and becomes a
+        # warning; anything else fails the job.
         run: |
+          set +e
           LIMIT_ARG=""
           if [ -n "${{ github.event.inputs.limit }}" ]; then LIMIT_ARG="--limit ${{ github.event.inputs.limit }}"; fi
           "$PYTHON" price_check.py \
@@ -125,9 +129,15 @@ jobs:
             --sleep 0.15 \
             --parallel 4 \
             --rounds 12 \
-            --wait-probes 1 \
-            --wait-for-il 5 \
+            --wait-probes 3 \
+            --wait-for-il 15 \
             ${LIMIT_ARG:-$LIMIT_ARG}
+          code=$?
+          if [ "$code" -eq 3 ]; then
+            echo "::warning::shard ${{ matrix.shard }}: no IL cluster from this network - no Waze layer this run (not a failure)"
+            exit 0
+          fi
+          exit "$code"
 
       - uses: actions/upload-artifact@v4
         if: always()
