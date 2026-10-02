@@ -68,14 +68,7 @@ jobs:
       - name: Probe - can this runner reach the IL cluster?
         working-directory: price-ci
         continue-on-error: true
-        run: |
-          python3 - "${{ secrets.WAZE_ACCOUNT }}" <<'PY'
-          import json, os, subprocess, sys
-          acct = sys.argv[1] if len(sys.argv) > 1 else ''
-          if acct:
-              open('waze_account.json', 'w').write(acct)
-          subprocess.run([sys.executable, 'probe_il.py', '-n', '64', '--batch', '16'], check=False)
-          PY
+        run: python3 probe_il.py -n 64 --batch 16
 
       # A shard that returns nothing is NOT a failed run: Waze serves fuel prices only to Israeli
       # IPs, so a GitHub-hosted runner legitimately comes back empty. The publish job decides
