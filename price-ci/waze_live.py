@@ -33,6 +33,7 @@ import base64
 import http.cookiejar
 import json
 import os
+import socket
 import sys
 import urllib.error
 import urllib.request
@@ -41,7 +42,6 @@ from urllib.parse import urlencode
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(_HERE, 'tools'))
 import pbtext                                                   # noqa: E402
-
 
 import importlib.util                                           # noqa: E402
 _spec = importlib.util.spec_from_file_location('poc', os.path.join(_HERE, 'waze_rt_poc.py'))
@@ -160,9 +160,37 @@ def show(resp: dict, label: str = '') -> None:
 
 
 # -------------------------------------------------------------------- session
+def prefer_ipv4() -> None:
+    """Pin the API to its A record.
+
+    rt.waze.com publishes an AAAA as well (Google's *global* IPv6 anycast). From a host with IPv6
+    that is the address python picks, and the edge it lands on answers searches normally while
+    returning **no fuel products at all** - which is exactly how a Waze run looks when it is
+    "blocked" but has no error to show: the same account and the same 75 stations gave 0 prices on
+    a GitHub runner and prices from Israel. Opt out with WAZE_IPV6=1.
+    """
+    if os.environ.get('WAZE_IPV6') == '1' or getattr(socket.getaddrinfo, '_waze_ipv4', False):
+        return
+    orig = socket.getaddrinfo
+
+    def getaddrinfo(host, port, family=0, type=0, proto=0, flags=0):
+        if family in (0, socket.AF_UNSPEC) and not str(host).startswith('['):
+            try:
+                v4 = orig(host, port, socket.AF_INET, type or socket.SOCK_STREAM, proto, flags)
+                if v4:
+                    return v4
+            except OSError:
+                pass                                  # no A record: fall back to whatever exists
+        return orig(host, port, family, type, proto, flags)
+
+    getaddrinfo._waze_ipv4 = True
+    socket.getaddrinfo = getaddrinfo          # type: ignore[assignment]
+
+
 class Session:
     def __init__(self, country: str = 'IL', env: str = 'il', verbose: bool = False):
         self.country, self.env, self.verbose = country, env, verbose
+        prefer_ipv4()
         self.sessionid = -1
         self.cookie = ''
         self.rtserver_id = None
