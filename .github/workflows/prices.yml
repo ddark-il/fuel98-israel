@@ -68,7 +68,7 @@ jobs:
       - name: Probe - can this runner reach the IL cluster?
         working-directory: price-ci
         continue-on-error: true
-        run: python3 probe_il.py -n 64 --batch 16
+        run: python3 probe_il.py -n 192 --batch 24
 
       # A shard that returns nothing is NOT a failed run: Waze serves fuel prices only to Israeli
       # IPs, so a GitHub-hosted runner legitimately comes back empty. The publish job decides
@@ -77,15 +77,19 @@ jobs:
         working-directory: price-ci
         continue-on-error: true
         run: |
-          LIMIT_ARG="--limit 15"     # TEMP: validation run, drop for the full sweep
+          LIMIT_ARG="--limit 6"      # TEMP: decisive test - few stations, many draws each
           if [ -n "${{ github.event.inputs.limit }}" ]; then LIMIT_ARG="--limit ${{ github.event.inputs.limit }}"; fi
           python3 price_check.py \
             --shard ${{ matrix.shard }}/3 \
             --jsonl price_check-shard${{ matrix.shard }}.jsonl \
             --out shard-${{ matrix.shard }}.json \
             --state waze_account.json \
-            --min-prices 3 \
-            --sleep 0.3 \
+            --min-prices 1 \
+            --sleep 0.15 \
+            --parallel 16 \
+            --rounds 64 \
+            --wait-probes 3 \
+            --wait-for-il 15 \
             ${LIMIT_ARG:-$LIMIT_ARG}
 
       - uses: actions/upload-artifact@v4
