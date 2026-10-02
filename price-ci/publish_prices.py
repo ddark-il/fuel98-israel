@@ -57,7 +57,7 @@ def station_index(pattern: str) -> dict:
             continue
         d = json.load(open(f, encoding='utf-8'))
         brand_file = d.get('brand') if isinstance(d, dict) else None
-        for s in (d if isinstance(d, list) else d.get('stations', [])):
+        for s in (d if isinstance(d, list) else (d.get('stations') if isinstance(d.get('stations'), list) else [])):
             c = s.get('coordinates') or {}
             if c.get('lat') is None:
                 continue

@@ -628,11 +628,11 @@ def load_ours(pattern: str) -> list[dict]:
     out = []
     for f in sorted(glob.glob(pattern)):
         base = os.path.basename(f)
-        if base in ('manifest.json', 'violations.json'):
+        if base in ('manifest.json', 'violations.json', 'prices.json'):
             continue
         d = json.load(open(f, encoding='utf-8'))
         brand_file = d.get('brand') if isinstance(d, dict) else None
-        for s in (d if isinstance(d, list) else d.get('stations', [])):
+        for s in (d if isinstance(d, list) else (d.get('stations') if isinstance(d.get('stations'), list) else [])):
             c = s.get('coordinates') or {}
             if c.get('lat') is None:
                 continue
