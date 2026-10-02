@@ -1,0 +1,180 @@
+#!/usr/bin/env python3
+"""Build ../data/prices.json from a price check run (Waze + Mika merged).
+
+The site is a static no-build page, so the price layer is one small JSON file that CI rewrites:
+keyed by the station's `waze_id`, with a coordinate key for the stations that have no venue id, so
+every row the frontend already renders can find its price.
+
+    python3 price-ci/publish_prices.py --in merged.json          # writes data/prices.json
+    python3 price-ci/publish_prices.py --in merged.json --check   # validate, don't write
+
+Two guards, because a failed CI run must never blank the site's prices:
+  * --min-rows N     refuse to write a file with fewer priced stations than N
+  * never shrink by more than --max-drop-pct (default 50%) against the file already committed,
+    unless --allow-shrink is passed. A run that found fewer prices is a run worth reading, not one
+    worth publishing.
+"""
+from __future__ import annotations
+
+import argparse
+import glob
+import json
+import os
+import sys
+from datetime import datetime, timezone
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+DATA = os.path.join(HERE, '..', 'data')
+OUT_DEFAULT = os.path.join(DATA, 'prices.json')
+
+# Only these two sources are allowed to speak for a price; anything else is a bug in the merge.
+SOURCES = {'waze', 'mika'}
+
+
+def iter_stations(doc: dict):
+    """Yield (station key, record) from any of our price files.
+
+    `price_check.py --out` writes a LIST of rows, `--publish` and the merged file write a DICT
+    keyed by station key - the CI hands us one of each depending on the step, and a price pipeline
+    should not die on that difference.
+    """
+    s = doc.get('stations', {})
+    if isinstance(s, dict):
+        yield from s.items()
+    else:
+        for rec in s:
+            k = rec.get('key')
+            if k:
+                yield k, rec
+
+
+def station_index(pattern: str) -> dict:
+    """our station key -> the fields a consumer needs to match a price row back to a station."""
+    out = {}
+    for f in sorted(glob.glob(pattern)):
+        base = os.path.basename(f)
+        if base in ('manifest.json', 'violations.json', 'prices.json'):
+            continue
+        d = json.load(open(f, encoding='utf-8'))
+        brand_file = d.get('brand') if isinstance(d, dict) else None
+        for s in (d if isinstance(d, list) else d.get('stations', [])):
+            c = s.get('coordinates') or {}
+            if c.get('lat') is None:
+                continue
+            key = f"{base}|{s.get('name')}|{c['lat']},{c['lon']}"
+            out[key] = {'waze_id': s.get('waze_id'), 'brand': s.get('brand') or brand_file,
+                        'name': s.get('name'), 'lat': float(c['lat']), 'lon': float(c['lon'])}
+    return out
+
+
+def row_of(rec: dict, st: dict) -> dict | None:
+    """One price row: what we know about this station's 98 price, or None if we know nothing."""
+    price = rec.get('price98')
+    src = rec.get('price98_source') or ('waze' if price is not None else None)
+    if price is None and not rec.get('prices'):
+        return None                                    # nothing reported at all: no row
+    if src and src not in SOURCES:
+        src = 'waze'
+    out = {'brand': st['brand'], 'name': st['name'],
+           '98': price if price is not None else None,
+           'source': src if price is not None else None}
+    if rec.get('prices'):
+        out['fuels'] = rec['prices']
+    if rec.get('price98_updated'):
+        out['updated'] = datetime.fromtimestamp(
+            rec['price98_updated'] / 1000, tz=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    for k_from, k_to in (('price98_age_days', 'age_days'),
+                         ('price98_current_period', 'current_period'),
+                         ('price98_label', 'label')):
+        if rec.get(k_from) is not None:
+            out[k_to] = rec[k_from]
+    # A join we could not confirm on the ground: the site should soften or hide the figure.
+    if rec.get('price98_review'):
+        out['review'] = rec['price98_review']
+    # ...and the opposite case: a doubt a person settled, with the proof, travels with the price.
+    if rec.get('price98_verified'):
+        out['verified'] = rec['price98_verified']
+    return out
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--in', dest='src', required=True,
+                    help='price_check output with the Mika prices merged in')
+    ap.add_argument('--out', default=OUT_DEFAULT)
+    ap.add_argument('--data', default=os.path.join(DATA, '*.json'))
+    ap.add_argument('--min-rows', type=int, default=10, dest='min_rows')
+    ap.add_argument('--max-drop-pct', type=float, default=50.0, dest='max_drop_pct')
+    ap.add_argument('--allow-shrink', action='store_true', dest='allow_shrink')
+    ap.add_argument('--check', action='store_true', help='validate and report, do not write')
+    a = ap.parse_args()
+
+    merged = json.load(open(a.src, encoding='utf-8'))
+    ours = station_index(a.data)
+    by_id: dict[str, dict] = {}
+    no_price = no_station = 0
+    for key, rec in iter_stations(merged):
+        st = ours.get(key)
+        if not st:
+            no_station += 1                       # the price file knows a station we removed
+            continue
+        row = row_of(rec, st)
+        if not row:
+            no_price += 1
+            continue
+        # waze_id first (it is the stable handle), coordinate second (the fallback the site draws)
+        ident = st['waze_id'] or f"pin:{st['lat']},{st['lon']}"
+        row['key'] = ident
+        row['venue'] = bool(st['waze_id'])
+        by_id[ident] = row
+
+    priced = [r for r in by_id.values() if r['98'] is not None]
+    current = [r for r in priced if r.get('current_period')]
+    from_mika = [r for r in priced if r['source'] == 'mika']
+
+    prev_rows = {}
+    if os.path.exists(a.out):
+        try:
+            prev_rows = json.load(open(a.out, encoding='utf-8')).get('stations', {})
+        except Exception:                                          # noqa: BLE001
+            print(f'note: existing {a.out} is unreadable, writing a fresh file')
+
+    payload = {
+        'generated': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'fuel': '98',
+        'note': ('per-station 98-octane prices, reported by Waze drivers and by Mika (its own '
+                 'published prices). A missing row means nobody reported it - not that 98 is '
+                 'unavailable. `review` marks a price whose station match is unconfirmed.'),
+        'counts': {'stations': len(by_id), 'with_98': len(priced), 'current_period': len(current),
+                   'from_mika': len(from_mika), 'by_venue': sum(1 for r in by_id.values()
+                                                                 if r['venue'])},
+        'stations': by_id,
+    }
+
+    print(f'{len(by_id)} rows, {len(priced)} with a 98 price ({len(current)} in the current price '
+          f'period, {len(from_mika)} from Mika), {no_price} stations with nothing reported')
+    if no_station:
+        print(f'  note: {no_station} priced station(s) are not in data/*.json any more (dropped)')
+
+    problems = []
+    if len(priced) < a.min_rows:
+        problems.append(f'only {len(priced)} priced stations (< --min-rows {a.min_rows})')
+    if prev_rows and not a.allow_shrink:
+        was = sum(1 for r in prev_rows.values() if r.get('98') is not None)
+        if was and len(priced) < was * (1 - a.max_drop_pct / 100):
+            problems.append(f'{len(priced)} priced stations vs {was} in the committed file '
+                            f'(> {a.max_drop_pct:.0f}% drop) - pass --allow-shrink if intended')
+    for p in problems:
+        print(f'FAIL: {p}')
+    if problems or a.check:
+        return 1 if problems else 0
+
+    os.makedirs(os.path.dirname(a.out), exist_ok=True)
+    json.dump(payload, open(a.out, 'w', encoding='utf-8'), ensure_ascii=False,
+              indent=1, sort_keys=False)
+    print(f'wrote {a.out} ({os.path.getsize(a.out)/1024:.0f} KB)')
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

@@ -1,0 +1,11 @@
+# run artefacts - the only file CI commits is ../data/prices.json
+merged.json
+mika_prices.json
+shard-*.json
+*.jsonl
+out/
+waze_account.json
+pc_state.json
+registry_cache.json
+mika_navpoints_cache.json
+__pycache__/

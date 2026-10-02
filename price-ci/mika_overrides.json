@@ -1,0 +1,20 @@
+{
+  "_note": "Owner rulings about mika.org.il content. Entries listed here are NOT reported by mika_prices.py. Use `match` = a substring of the station title/slug as the site shows it, `reason` = why it must be dropped. Every entry needs a person to have checked the live site - this is not for 'I could not match it' (unmatched pages stay in the output on purpose).",
+  "exclude": [
+    {
+      "match": "ביאליק",
+      "reason": "Mistake on Mika's site, fixed by Mika (owner, 2026-10-02). Post id=181 still publishes under the stale title 'מיקה ביאליק, שדרות חן 13' while the page's own title says 'דור אלון קריית ביאליק'; we track no such station (Kiryat Bialik in our data = סונול קריון only).",
+      "checked": "2026-10-02",
+      "by": "owner report + live check"
+    }
+  ],
+  "verified": [
+    {
+      "match": "רחובות, אלי הורוביץ",
+      "reason": "The Waze venue stored on our station (googlePlaces.ChIJD0mut2S3AhURf8OW4zDpma8) resolves to 'מיקה רחובות ההולנדית, Eli Horovitz St, Rehovot' - the venue's own address is Eli Horovitz, exactly what Mika's page states; the registry's 'פנחס ספיר 1 רחובות' is the licensed parcel of the same forecourt (registry row 43 m from our pin).",
+      "checked": "2026-10-02",
+      "by": "waze venue page for our own waze_id"
+    }
+  ],
+  "_note_verified": "Entries here settle an address conflict with a checkable source; the evidence stays in the output (address_check) and the join stops being reported as an open review item. Never add one from the join itself."
+}

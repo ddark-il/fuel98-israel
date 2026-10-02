@@ -1,0 +1,170 @@
+name: 98 prices
+
+# What this does, three times a day:
+#   1. asks Waze for the 98 price of every station that carries a `waze_id` (3 parallel shards),
+#   2. scrapes Mika's own published prices and merges them on top (the operator beats the crowd),
+#   3. writes data/prices.json and commits it, so the static site gets fresh prices with no deploy.
+#
+# It fails loudly when the *run* is broken (transport blocked, API changed, source unreachable) and
+# stays green when Waze simply has no price for a station today - which is most stations.
+# publish_prices.py refuses to publish a file with far fewer prices than the committed one, so a bad
+# run cannot blank the site.
+
+on:
+  schedule:
+    - cron: '15 3,11,19 * * *'        # 06:15, 14:15, 22:15 Israel time
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'check only N stations per shard (blank = all; use e.g. 15 to test)'
+        required: false
+        default: ''
+      allow_shrink:
+        description: 'publish even if the price count drops sharply (after a data change)'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prices
+
+jobs:
+  waze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+
+      # The anonymous Waze account is created once and reused; without this every run registers a
+      # new one, which is both wasteful and the sort of thing an API provider notices.
+      - name: Cache the anonymous Waze account
+        uses: actions/cache@v4
+        with:
+          path: price-ci/waze_account.json
+          key: waze-account-${{ runner.os }}
+          restore-keys: waze-account-
+
+      - name: Check 98 prices (shard ${{ matrix.shard }})
+        working-directory: price-ci
+        run: |
+          LIMIT_ARG=""
+          if [ -n "${{ github.event.inputs.limit }}" ]; then LIMIT_ARG="--limit ${{ github.event.inputs.limit }}"; fi
+          python3 price_check.py \
+            --shard ${{ matrix.shard }}/3 \
+            --jsonl price_check-shard${{ matrix.shard }}.jsonl \
+            --out shard-${{ matrix.shard }}.json \
+            --state waze_account.json \
+            --min-prices 3 \
+            --sleep 0.3 \
+            $LIMIT_ARG
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shard-${{ matrix.shard }}
+          path: price-ci/shard-*.json
+
+  publish:
+    needs: waze
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+
+      - uses: actions/download-artifact@v4
+        with: { name: shard-0, path: shards }
+      - uses: actions/download-artifact@v4
+        with: { name: shard-1, path: shards }
+      - uses: actions/download-artifact@v4
+        with: { name: shard-2, path: shards }
+
+      # Each shard publishes only the stations it processed, so the shards have to be merged before
+      # anything reads them: one shared out/prices.json would be won by the last writer.
+      - name: Merge shards
+        run: |
+          python3 - <<'PY'
+          import glob, json
+          from datetime import datetime, timezone
+          files = sorted(glob.glob('shards/**/shard-*.json', recursive=True))
+          stations = {}
+          def rows(doc):                          # --out writes a list, --publish a dict
+              s = doc.get('stations', {})
+              return s.items() if isinstance(s, dict) else [(r.get('key'), r) for r in s]
+          for f in files:
+              for k, v in rows(json.load(open(f, encoding='utf-8'))):
+                  if k:
+                      stations[k] = v          # shard-scoped files: a key never appears twice
+          json.dump({'generated': datetime.now(timezone.utc).isoformat(), 'stations': stations},
+                    open('price-ci/merged.json', 'w', encoding='utf-8'),
+                    ensure_ascii=False, indent=1)
+          print(f'merged {len(stations)} stations from {len(files)} shard files')
+          PY
+
+      # Mika's street join uses the Ministry registry, and some Mika pages resolve their pin from a
+      # cached map link. Both are cacheable; losing the registry only weakens one join pass, it does
+      # not fail the run.
+      - name: Cache the Ministry registry + Mika map markers
+        uses: actions/cache@v4
+        with:
+          path: |
+            price-ci/registry_cache.json
+            price-ci/mika_navpoints_cache.json
+          key: mika-caches-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: mika-caches-${{ runner.os }}-
+
+      - name: Mika - the operator's own prices, merged on top
+        working-directory: price-ci
+        run: |
+          python3 mika_prices.py \
+            --out mika_prices.json \
+            --publish out \
+            --merge merged.json \
+            --sleep 0.4
+
+      - name: Build data/prices.json
+        working-directory: price-ci
+        run: |
+          ARG=""
+          if [ "${{ github.event.inputs.allow_shrink }}" = "true" ]; then ARG="--allow-shrink"; fi
+          python3 publish_prices.py --in merged.json --out ../data/prices.json $ARG
+
+      - name: Summary
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          d = json.load(open('data/prices.json', encoding='utf-8'))
+          c = d['counts']
+          print(f"## 98 prices: {c['with_98']} of {c['stations']} stations priced")
+          print(f"* {c['current_period']} reported in the current price period")
+          print(f"* {c['from_mika']} from Mika (the operator's own published price)")
+          print(f"* {c['by_venue']} keyed by Waze venue id, the rest by coordinate")
+          review = sorted(f"{v['brand']}/{v['name']}" for v in d['stations'].values() if v.get('review'))
+          if review:
+              print(f"* {len(review)} with an unconfirmed station match: {', '.join(review)}")
+          PY
+          cat data/prices.json | head -1 > /dev/null
+
+      - name: Commit
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name  'price-check[bot]'
+          git config user.email '107122576+price-check-bot@users.noreply.github.com'
+          git add data/prices.json
+          if git diff --cached --quiet; then echo 'data/prices.json unchanged'; exit 0; fi
+          MSG="prices: refresh 98 prices (Waze + Mika) [skip ci]"
+          BODY="$(python3 -c "import json;c=json.load(open('data/prices.json'))['counts'];print(f\"{c['with_98']} of {c['stations']} stations priced, {c['from_mika']} from Mika\")")"
+          git commit -m "$MSG" -m "$BODY"
+          git push
