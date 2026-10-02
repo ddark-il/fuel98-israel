@@ -47,14 +47,21 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
 
-      # The anonymous Waze account is created once and reused; without this every run registers a
-      # new one, which is both wasteful and the sort of thing an API provider notices.
-      - name: Cache the anonymous Waze account
-        uses: actions/cache@v4
-        with:
-          path: price-ci/waze_account.json
-          key: waze-account-${{ runner.os }}
-          restore-keys: waze-account-
+      # Waze stamps the *country* onto the account when it is registered, taken from the IP that
+      # asked: this runner registers `usa_...` and then gets no Israeli fuel prices at all, while an
+      # account registered from Israel (`world_...`, our secret) does. So the account is a secret,
+      # not something each run invents. Without the secret a run still works, it just comes back
+      # empty-handed - and the summary says so.
+      - name: Restore the Waze account
+        working-directory: price-ci
+        env: { WAZE_ACCOUNT: '${{ secrets.WAZE_ACCOUNT }}' }
+        run: |
+          if [ -n "$WAZE_ACCOUNT" ]; then
+            printf '%s' "$WAZE_ACCOUNT" > waze_account.json
+            echo "using the Waze account from secrets (user: $(python3 -c "import json;print(json.load(open('waze_account.json'))['username'])"))"
+          else
+            echo "no WAZE_ACCOUNT secret - this run will register a fresh, foreign-country account"
+          fi
 
       # A shard that returns nothing is NOT a failed run: Waze serves fuel prices only to Israeli
       # IPs, so a GitHub-hosted runner legitimately comes back empty. The publish job decides
@@ -63,7 +70,7 @@ jobs:
         working-directory: price-ci
         continue-on-error: true
         run: |
-          LIMIT_ARG=""
+          LIMIT_ARG="--limit 25"     # TEMP: validation run, drop for the full sweep
           if [ -n "${{ github.event.inputs.limit }}" ]; then LIMIT_ARG="--limit ${{ github.event.inputs.limit }}"; fi
           python3 price_check.py \
             --shard ${{ matrix.shard }}/3 \
@@ -72,7 +79,7 @@ jobs:
             --state waze_account.json \
             --min-prices 3 \
             --sleep 0.3 \
-            $LIMIT_ARG
+            ${LIMIT_ARG:-$LIMIT_ARG}
 
       - uses: actions/upload-artifact@v4
         if: always()
