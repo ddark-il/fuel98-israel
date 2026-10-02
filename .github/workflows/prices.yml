@@ -191,11 +191,10 @@ jobs:
                                 f" ({c.get('products', 0)} products, {c.get('attempts')} rounds)"
                                 for c in canary))
           if wp == 0 and canary and not any(c.get('price98') for c in canary):
-              print("Waze answered with venue cards but stripped the fuel data from every "
-                    "station *including the canary ones*, so nothing in this run may be read as "
-                    '"this station has no 98". The reply switches between the Waze view (with "
-                    "`product[]`) and the Google-backed view (without it) for minutes at a time; "
-                    "re-running is the fix, not a different IP.")
+              print("Waze answered, but not one reply in this run came from the IL cluster - the "
+                    "one that carries fuel prices; `row` replies carry the venue and no products "
+                    "at all. Nothing here may be read as \"this station has no 98\": the run "
+                    "needs more attempts (--rounds) or an Israeli egress.")
           d = json.load(open('data/prices.json', encoding='utf-8'))
           c = d['counts']
           print(f"## 98 prices: {c['with_98']} of {c['stations']} stations priced")
