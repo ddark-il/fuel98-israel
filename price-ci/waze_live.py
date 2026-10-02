@@ -48,7 +48,15 @@ _spec = importlib.util.spec_from_file_location('poc', os.path.join(_HERE, 'waze_
 poc = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(poc)
 
-BASE = 'https://rt.waze.com/rtserver'
+# The distributor has one endpoint for the whole world and a **regional proxy per cluster**, and the
+# two are not equivalent: `rt.waze.com` load-balances every request across the `-il-` and `-row-`
+# frontends, and only the Israeli one is attached to the service mesh that carries fuel prices
+# (`venue.prod.il.mesh-waze`, named in a bridge error). Measured over 6 draws: rt.waze.com -> 5 row /
+# 1 il, rtproxy-il.waze.com -> 6 il, all with prices. The name comes from the app's own server list
+# and from the SAN list of its certificate (which also carries the legacy `rt-il.waze.com`, still
+# serving but with a certificate that expired in 2023).
+BASE = os.environ.get('WAZE_BASE') or 'https://rtproxy-il.waze.com/rtserver'
+
 UA = ('Waze/5.24.5.0 (com.waze; Android 13; he_IL) Mozilla/5.0 (Linux; Android 13; '
       'sdk_gphone64_arm64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 '
       'Mobile Safari/537.36')

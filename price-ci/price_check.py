@@ -515,6 +515,10 @@ def main() -> int:
                          'cold window produces only non-answers, at full cost)')
     ap.add_argument('--wait-probes', type=int, default=6, dest='wait_probes',
                     help='how many times to probe while waiting for the IL cluster')
+    ap.add_argument('--base', default=None,
+                    help='distributor endpoint; default is wl.BASE, the Israeli regional proxy '
+                         '(rtproxy-il.waze.com) - the world endpoint rt.waze.com only reaches the '
+                         'price-carrying IL cluster by luck')
     ap.add_argument('--parallel', type=int, default=8,
                     help='requests fired at once per station: the edge picks the cluster per request '
                          '(il carries fuel prices, row never does), so the pool has to be sampled')
@@ -579,6 +583,9 @@ def main() -> int:
           + (f', {stale} stale rows to re-check' if stale else '')
           + f', {len(todo)} to do', flush=True)
 
+    if a.base:
+        wl.BASE = a.base
+    print(f'[{ts()}] distributor: {wl.BASE}', flush=True)
     checker = PriceChecker(state=a.state, sleep=a.sleep, tries=a.tries, verbose=a.verbose,
                            rounds=a.rounds, parallel=a.parallel)
     fh = open(a.jsonl, 'a', encoding='utf-8')
