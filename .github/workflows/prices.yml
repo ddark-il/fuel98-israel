@@ -77,7 +77,7 @@ jobs:
         working-directory: price-ci
         continue-on-error: true
         run: |
-          LIMIT_ARG="--limit 30"     # TEMP: validation run, drop for the full sweep
+          LIMIT_ARG="--limit 2"      # TEMP: tiny run - is the runner eligible while this line is?
           if [ -n "${{ github.event.inputs.limit }}" ]; then LIMIT_ARG="--limit ${{ github.event.inputs.limit }}"; fi
           python3 price_check.py \
             --shard ${{ matrix.shard }}/3 \
@@ -87,8 +87,8 @@ jobs:
             --min-prices 2 \
             --sleep 0.15 \
             --parallel 4 \
-            --rounds 8 \
-            --wait-probes 2 \
+            --rounds 6 \
+            --wait-probes 1 \
             --wait-for-il 10 \
             ${LIMIT_ARG:-$LIMIT_ARG}
 
