@@ -31,10 +31,24 @@ pc = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(pc)
 
 
+def _sample(pc, st, a):
+    """Open `a.connections` connections and return the ones answered by the IL cluster."""
+    checker = pc.PriceChecker(state=a.state, sleep=0.2, tries=1, rounds=1, parallel=a.batch)
+    found, opened = [], 0
+    while opened < a.connections:
+        n = min(a.batch, a.connections - opened)
+        found += checker._pin_batch(st, n)
+        opened += n
+        print(f'  {opened:>4} connection(s): {len(found)} from the IL cluster', flush=True)
+    return found, opened
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument('-n', '--connections', type=int, default=64, help='connections to sample')
     ap.add_argument('--batch', type=int, default=16, help='connections opened at once')
+    ap.add_argument('--compare', action='store_true',
+                    help='sample without the cookie first, then with it')
     ap.add_argument('--state', default=os.path.join(_HERE, 'waze_account.json'))
     a = ap.parse_args()
 
@@ -47,14 +61,16 @@ def main() -> int:
     cookie = os.environ.get('WAZE_SESSION_COOKIE', '')
     print(f'  WAZE_SESSION_COOKIE: {"set (" + str(len(cookie)) + " chars)" if cookie else "not set"}',
           flush=True)
-    checker = pc.PriceChecker(state=a.state, sleep=0.2, tries=1, rounds=1, parallel=a.batch)
-    found, opened = [], 0
-    while opened < a.connections:
-        n = min(a.batch, a.connections - opened)
-        found += checker._pin_batch(st, n)
-        opened += n
-        print(f'  {opened:>4} connection(s): {len(found)} from the IL cluster', flush=True)
-
+    if cookie and a.compare:
+        # Same machine, same moment, same account: with the affinity cookie and without it. This is
+        # the only way to tell whether the cookie (rather than the network) is what selects the IL
+        # frontend.
+        os.environ.pop('WAZE_SESSION_COOKIE', None)
+        print('  control run without it:', flush=True)
+        _sample(pc, st, a)
+        os.environ['WAZE_SESSION_COOKIE'] = cookie
+        print('  run with the cookie:', flush=True)
+    found, opened = _sample(pc, st, a)
     rate = len(found) / max(1, opened)
     print(f'\n{len(found)}/{opened} connections answered from the IL cluster ({rate:.1%})')
     if not found:

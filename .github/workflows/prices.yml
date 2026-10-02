@@ -78,7 +78,7 @@ jobs:
       - name: Probe - can this runner reach the IL cluster?
         working-directory: price-ci
         continue-on-error: true
-        run: python3 probe_il.py -n 16 --batch 8
+        run: python3 probe_il.py -n 16 --batch 8 --compare
 
       # A shard that returns nothing is NOT a failed run: Waze serves fuel prices only to Israeli
       # IPs, so a GitHub-hosted runner legitimately comes back empty. The publish job decides
