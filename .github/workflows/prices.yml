@@ -185,8 +185,8 @@ jobs:
           print(f"## Sources on this runner: Waze {wp} prices over {len(waze)} stations, "
                 f"see below for the merged result")
           print("* backends that answered: " + ', '.join(f'{v}x {k}' for k, v in sorted(cl.items()))
-                + "  (`il` is the cluster that carries fuel prices; `row` replies have no "
-                  "products at all and are retried)")
+                + "  (`il` carries the fuel prices; `row` has none and is retried; `none` means no "
+                  "IL connection was available from this runner at all)")
           replies = Counter(str(r.get('no_price_reply')) for r in waze.values()
                            if r.get('price98') is None and r.get('not_checked') != 'no waze_id')
           if replies:

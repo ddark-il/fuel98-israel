@@ -187,6 +187,7 @@ class PriceChecker:
         self.want_pins = 0                 # set from --pins
         self.pin_max = 256                 # set from --pin-max
         self.pin_opens = 0                 # connections opened while looking for IL nodes
+        self.no_pins_said = False
         self.last_reply = None        # shape of the last reply that had no products
         self.last_cluster = ''        # cluster that served it ('il' carries the fuel prices)
         self.state = state
@@ -251,9 +252,13 @@ class PriceChecker:
                       f'- prices will be read over {"them" if len(self.pins) > 1 else "it"}',
                       flush=True)
                 return
-        if not self.pins:
+        if not self.pins and not self.no_pins_said:
+            # Say it once, loudly, and then stop: every later station is a foregone conclusion, and
+            # a sweep that cannot see the IL cluster must not spend an hour proving it.
+            self.no_pins_said = True
             print(f'[{ts()}] no IL connection in {self.pin_opens} attempt(s): this network is not '
-                  f'being routed to the cluster that carries fuel prices right now', flush=True)
+                  f'being routed to the cluster that carries fuel prices right now. Nothing below is '
+                  f'a price - the run cannot see them from here.', flush=True)
 
     def _drop(self, pin) -> None:
         try:
@@ -426,6 +431,8 @@ class PriceChecker:
         used, cluster = 0, ''
         for _ in range(max(1, rounds)):
             used += 1
+            if not self.pins and self.pin_opens >= self.pin_max:
+                return {}, None, used, 'none'       # no IL cluster from here: do not guess
             prods, cluster = self._pinned_reply(st, rid)
             if prods:
                 return prods, st['waze_id'], used, cluster
@@ -681,8 +688,13 @@ def main() -> int:
     print(f'  with a 98 price: {len(with98)}/{len(rows)}')
     il_rows = [r for r in rows if r.get('reply_cluster') == 'il']
     row_only = [r for r in rows if r.get('reply_cluster') == 'row']
-    note = (f', {len(row_only)} never reached it - their "no price" is a non-answer'
-            if row_only else '')
+    no_cluster = [r for r in rows if r.get('reply_cluster') == 'none']
+    note = ''
+    if row_only:
+        note += f', {len(row_only)} got only the row cluster (their "no price" is a non-answer)'
+    if no_cluster:
+        note += (f', {len(no_cluster)} could not be checked at all - no IL connection was available '
+                 f'from this network')
     print(f'  backend        : {len(il_rows)}/{len(rows)} answered by the IL cluster' + note)
     if with98:
         vals = sorted(r['price98'] for r in with98)
