@@ -202,15 +202,46 @@ class Session:
         self.last_headers: dict = {}
 
     # -- transport ---------------------------------------------------------
-    def post(self, batch: bytes, path: str = '/command', params: dict | None = None,
-             raw_out: str | None = None) -> dict:
-        body = b'ProtoBase64,' + base64.b64encode(batch)
+    def params(self, extra: dict | None = None) -> dict:
         p = {'sessionid': str(self.sessionid), 'cookie': self.cookie,
              'client_version': '5.24.5.0', 'env': self.env}
         if self.rtserver_id:
             p['rtserver-id'] = self.rtserver_id
-        p.update(params or {})
-        url = BASE + path + '?' + urlencode(p)
+        p.update(extra or {})
+        return p
+
+    def request_url(self, path: str = '/command', params: dict | None = None) -> str:
+        return BASE + path + '?' + urlencode(self.params(params))
+
+    def _absorb_headers(self, headers: dict) -> None:
+        self.last_headers = headers
+        sc = headers.get('set-cookie') or headers.get('Set-Cookie') or ''
+        if 'rtserver-id=' in sc:
+            self.rtserver_id = sc.split('rtserver-id=')[1].split(';')[0]
+
+    def post_keepalive(self, conn, batch: bytes, path: str = '/command') -> dict:
+        """POST over a caller-owned connection, keeping it open.
+
+        The distributor edge assigns a backend **per connection** - one that lasts: ten requests
+        over one kept-alive connection all came back from the same cluster, while ten separate
+        connections split between them. A connection that answers from `...-il-*` is therefore worth
+        holding on to: it carries the Israeli fuel prices, and every request sent over it does too.
+        """
+        body = b'ProtoBase64,' + base64.b64encode(batch)
+        conn.request('POST', self.request_url(path), body=body,
+                     headers={'Content-Type': 'text/plain', 'User-Agent': UA,
+                              'Connection': 'keep-alive'})
+        r = conn.getresponse()
+        data = r.read()
+        hdrs = {k.lower(): v for k, v in (r.getheaders() or [])}
+        hdrs.setdefault('status', str(r.status))
+        self._absorb_headers(hdrs)
+        return decode(data)
+
+    def post(self, batch: bytes, path: str = '/command', params: dict | None = None,
+             raw_out: str | None = None) -> dict:
+        body = b'ProtoBase64,' + base64.b64encode(batch)
+        url = self.request_url(path, params)
         req = urllib.request.Request(url, data=body, method='POST')
         req.add_header('Content-Type', 'text/plain')
         req.add_header('User-Agent', UA)
@@ -221,10 +252,7 @@ class Session:
             status, headers, data = e.code, dict(e.headers), e.read()
         if raw_out:
             open(raw_out, 'wb').write(data)
-        self.last_headers = headers
-        sc = headers.get('set-cookie') or headers.get('Set-Cookie') or ''
-        if 'rtserver-id=' in sc:
-            self.rtserver_id = sc.split('rtserver-id=')[1].split(';')[0]
+        self._absorb_headers(headers)
         resp = decode(data)
         if self.verbose:
             print(f'   -> {url}\n   <- HTTP {status} {len(data)}B '
