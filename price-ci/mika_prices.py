@@ -668,6 +668,8 @@ def main() -> int:
     ap.add_argument('--publish', default=None, metavar='DIR')
     ap.add_argument('--from-json', default=None, metavar='MIKA_JSON', dest='from_json',
                     help='reuse an existing mika_prices.json instead of scraping again')
+    ap.add_argument('--covered-out', default='mika_covered.json', dest='covered_out',
+                    help='write the stations this run priced, for the Waze sweep to skip next time')
     ap.add_argument('--merge', default=None, metavar='PRICES_JSON',
                     help='inject Mika prices into a price_check output (written in place)')
     ap.add_argument('--overrides', default=os.path.join(_HERE, 'mika_overrides.json'),
@@ -871,6 +873,16 @@ def write_outputs(a, rows, overridden, with98, matched, errors) -> int:
                    'stations': compact}, open(path, 'w', encoding='utf-8'),
                   ensure_ascii=False, indent=1)
         print('wrote', path)
+
+    # What Waze should not be asked again: the stations this run priced from the operator's own site.
+    # The next Waze sweep reads this file and skips them, which keeps the sweep (and its windows) for
+    # the stations nobody else publishes.
+    if a.covered_out:
+        covered = {r['station_key']: (r.get('mika_name') or '')
+                   for r in rows if r.get('station_key') and r.get('price98') is not None}
+        json.dump({'generated': datetime.now(timezone.utc).isoformat(), 'stations': covered},
+                  open(a.covered_out, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+        print(f'wrote {a.covered_out} ({len(covered)} station(s) whose price comes from Mika)')
 
     if a.merge:
         try:

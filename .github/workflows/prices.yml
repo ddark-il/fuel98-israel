@@ -259,6 +259,7 @@ jobs:
             --out mika_prices.json \
             --publish out \
             --merge merged.json \
+            --covered-out ../price-ci/mika_covered.json \
             --sleep 0.4
 
       - name: Build data/prices.json
@@ -347,9 +348,9 @@ jobs:
         run: |
           git config user.name  'price-check[bot]'
           git config user.email '107122576+price-check-bot@users.noreply.github.com'
-          git add data/prices.json
-          if git diff --cached --quiet; then echo 'data/prices.json unchanged'; exit 0; fi
+          git add data/prices.json price-ci/mika_covered.json
+          if git diff --cached --quiet; then echo 'nothing changed'; exit 0; fi
           MSG="prices: refresh 98 prices (Waze + Mika) [skip ci]"
-          BODY="$(python3 -c "import json;c=json.load(open('data/prices.json'))['counts'];print(f\"{c['with_98']} of {c['stations']} stations priced, {c['from_mika']} from Mika\")")"
+          BODY="$(python3 -c "import json;c=json.load(open('data/prices.json'))['counts'];print(f\"{c['with_98']} stations priced, {c['from_mika']} from Mika, {c.get('carried_over', 0)} carried over\")")"
           git commit -m "$MSG" -m "$BODY"
           git push
