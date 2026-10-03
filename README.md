@@ -6,92 +6,27 @@ A simple map + list of fuel stations in Israel that sell **98-octane** petrol (�
 
 Search by name or city, filter by brand, sort by distance from your location, and open any station directly in Waze.
 
-## 98 prices
+## Prices
 
-Where a station has a reported 98 price, the site shows it in a white ₪ bubble — in the list column, on
-the map card and in the mobile cards. Two sources feed it:
+Where a station has a reported 98 price, the site shows it in a white ₪ bubble — in the list, on the map
+card and in the mobile cards. Two sources:
 
-| source | what it is | produced by |
-|---|---|---|
-| **Waze** | community reports — a driver told Waze what they paid | `price-ci/price_check.py` (per venue, via `waze_id`) |
-| **Mika** | the operator's own published price for the pumps it runs | `price-ci/mika_prices.py` (scrapes mika.org.il) |
+| source | where it comes from |
+|---|---|
+| **Waze** | community reports — drivers report what they paid at that station; read per station by venue id (`price-ci/price_check.py`) |
+| **Mika** | the operator's own published prices for the pumps it runs, scraped from mika.org.il (`price-ci/mika_prices.py`) |
 
-The operator's own figure always wins over a community report, and stations Mika publishes for are not
-asked of Waze at all (`price-ci/mika_covered.json`, written by the Mika step and committed).
+Mika's own figure wins over a Waze report, and stations Mika publishes for are not asked of Waze at all.
+The result is `data/prices.json` — one row per station that has a price, keyed by its `waze_id` (or
+`pin:<lat>,<lon>` where it has none), e.g. `{"venues.22806850…": {"98": 9.81}}` — written hourly by
+[`.github/workflows/prices.yml`](.github/workflows/prices.yml). A station with no price is not in the
+file, and a run that could not read a station keeps its previous price instead of dropping it.
 
-`data/prices.json` is written by [`.github/workflows/prices.yml`](.github/workflows/prices.yml):
-
-```json
-{ "generated": "2026-10-03T01:30:05Z", "fuel": "98",
-  "counts": { "stations": 78, "with_98": 78, "from_mika": 32, "carried_over": 23 },
-  "stations": {
-    "googlePlaces.ChIJ…":             { "98": 8.59 },
-    "venues.22806850.228134032.1804": { "98": 9.81 },
-    "pin:31.986506,34.772124":        { "98": 8.68 } } }
-```
-
-* **Key**: the station's `waze_id`, else `pin:<lat>,<lon>` (6 decimals) for the 21 stations without a
-  venue id — the same numbers the site already has, so the join is a lookup, never a distance
-  calculation.
-* **A station with no price is not in the file.** Absence means nobody reported one, not that 98 is
-  unavailable at that station.
-* `counts.carried_over`: a run that could not read a station keeps the previous file's price for it as
-  the last known one, so a cold source cannot blank the site. `--with-meta` adds `source`, `updated`,
-  `review` and `verified` per row for debugging the feed.
-* Nothing else in the site writes this file, and it writes no other data file.
-
-### Where the pipeline runs, and why it runs in Israel
-
-Waze serves Israeli fuel prices only from the `-il-` frontend, which is attached to an Israeli service
-mesh holding that data (`xds:///venue.prod.il.mesh-waze:12401`, named in a bridge error once we got an
-`il` reply; the `-row-` frontend answers with the venue and no products at all). Which frontend a
-request lands on is decided per request by Waze's edge, and a **GitHub-hosted runner never gets an
-`il` one** — measured: 0 of 64 connections, and 0 in 135 canary attempts, while the same account from
-an Israeli line answered 4/4 with prices in the same minute. Nothing in the request changes it: not the
-URL parameters, the session, the device identity, HTTP/1.1 vs HTTP/2 vs HTTP/3, or a pinned
-`rtserver-id`. The app's own server list and certificate SANs gave the Israeli endpoint directly
-(`rtproxy-il.waze.com`, plus the legacy `rt-il.waze.com`), which `price-ci/waze_live.py` uses by
-default (`WAZE_BASE` overrides it).
-
-So both Israel-only jobs run on a **self-hosted runner** — the Mac mini that is on 24/7 on an Israeli
-line — selected by the repository variable `WAZE_RUNNER` (currently `["self-hosted","macOS","X64"]`).
-Move them by changing that variable, not the workflow.
-
-| job | where | when |
-|---|---|---|
-| `waze` — 98 prices | `WAZE_RUNNER` (Israel) | hourly at :15 |
-| `violations` — Ministry fuel-quality list | `WAZE_RUNNER` (Israel) | daily 02:45 UTC |
-| `publish` — Mika + merge + commit | hosted | after `waze` |
-| `violations-commit` | hosted | after `violations` |
-
-What that machine needs: `python3` ≥ 3.10 and `node` ≥ 18 (the scripts are stdlib-only — no pip, no
-npm), `git`, `curl`, and an Israeli egress. The jobs discover the interpreters themselves and print
-which one they picked. Two traps worth knowing, both handled by the workflow:
-
-* **an x86_64 runner on an Apple Silicon Mac cannot execute `/usr/bin/python3`** (or `git`): the
-  CommandLineTools shim is arm64-only while the runner process is translated, so it dies with
-  `unable to load libxcrun`. Install the `osx-arm64` runner build, or let the discovery step pick a
-  Homebrew python — which is why committing is a separate job on a hosted runner.
-* **`continue-on-error` on the shard step hid a dead shard**, so it reported as a green job. The step
-  now maps exit codes: `3` (no IL cluster from this network) fails with that reason, anything else
-  fails as a real error. A run that reads nothing is red, not quietly green.
-
-Two guards keep a bad run from emptying the site: `publish_prices.py` refuses to write when fewer than
-`--min-rows` stations are priced, or when the count drops by more than half against the committed file
-(`--allow-shrink` overrides, after a deliberate data change).
-
-### Reproducing locally
-
-Run these from `price-ci/` (the scripts import their siblings relative to the working directory):
-
-```bash
-python3 price_check.py --out prices.json            # asks Waze; needs an Israeli line
-python3 mika_prices.py --merge prices.json          # operator prices on top
-python3 publish_prices.py --in prices.json --out ../data/prices.json
-```
-
-`price_check.py --shard i/n` splits the list for parallel jobs, `--jsonl` resumes an interrupted run,
-and `--wait-probes`/`--wait-for-il` control how long it waits for the Israeli frontend before giving up.
+Waze serves Israeli fuel prices only from its `-il-` frontend — that data sits behind an Israeli service
+mesh — and a GitHub-hosted runner never gets one (0 of 64 connections, while the same account from an
+Israeli line answered 4/4 with prices in the same minute). Both Israel-only jobs therefore run on the
+self-hosted runner selected by the `WAZE_RUNNER` variable; publishing and committing stay on hosted
+runners.
 
 ## Data sources
 
@@ -160,6 +95,19 @@ No build step — it's a static site. `index.html` fetches `data/manifest.json`,
 For crawlability, `index.html` carries a hidden `<noscript>` block listing every station grouped by city. `scripts/build-seo.py` takes each station's city from the Ministry registry's רשות_מקומית and rewrites the block on demand — offline, deterministic, and finished in well under a second. It is still a manual step, run whenever the station data changes.
 
 The **station scrapers and coordinate-verification scripts** (Mika → its own map pins, Delek → official locator, Tapuz/Other → the data.gov.il registry, plus the pin-source planner) live **outside** this repository, in the parent project.
+
+**Maintaining the price pipeline.** Both Israel-only jobs run on the self-hosted runner named by the
+repository variable `WAZE_RUNNER` (an Israeli Mac mini, on 24/7); the publish and commit steps run on
+hosted runners, because the Israeli machine's x86_64 runner cannot execute `/usr/bin/python3` or `git`
+— the CommandLineTools shim is arm64-only, so the jobs discover a working interpreter themselves and
+print which one they picked (installing the `osx-arm64` runner build removes the whole class of trap).
+A run that reads nothing is **red on purpose**: `exit 3` means no IL frontend answered for 30 minutes,
+and `continue-on-error` used to hide exactly that. `publish_prices.py` refuses to write a file with
+fewer than `--min-rows` prices, or one that drops more than half against the committed file
+(`--allow-shrink` overrides, after a deliberate data change). To reproduce locally, run from
+`price-ci/`: `python3 price_check.py --out prices.json` (needs an Israeli line), then
+`python3 mika_prices.py --merge prices.json`, then
+`python3 publish_prices.py --in prices.json --out ../data/prices.json`.
 
 ## License
 
