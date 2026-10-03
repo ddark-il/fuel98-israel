@@ -115,6 +115,7 @@ def main() -> int:
     merged = json.load(open(a.src, encoding='utf-8'))
     ours = station_index(a.data)
     by_id: dict[str, dict] = {}
+    collisions: list[str] = []
     no_price = no_station = 0
     for key, rec in iter_stations(merged):
         st = ours.get(key)
@@ -132,6 +133,22 @@ def main() -> int:
         ident = st['waze_id'] or f"pin:{float(st['lat']):.6f},{float(st['lon']):.6f}"
         row['key'] = ident
         row['venue'] = bool(st['waze_id'])
+        prev = by_id.get(ident)
+        if prev is not None:
+            # Two of our records share one venue id - Mika runs pumps inside stations whose brand
+            # record we also carry (סונול גיסין / מיקה גיסין, and three more), and both point at the
+            # same forecourt. The site keys prices by venue id, so exactly one entry may be published:
+            # keep the one that has a price, and Mika's when both have one (the operator's own
+            # published figure wins). Without this the later record silently overwrote the earlier
+            # one, so which price survived depended on dict order - גיסין showed a 9-day-old Waze
+            # report at 01:30 and Mika's own price at 16:46, from identical inputs.
+            collisions.append(f"{row['brand']}/{st['name']} shares a venue with "
+                              f"{prev['brand']}/{prev['name']}")
+            takes = (prev['98'] is None and row['98'] is not None) or \
+                    (prev['98'] is not None and row['98'] is not None
+                     and row.get('source') == 'mika' and prev.get('source') != 'mika')
+            if not takes:
+                continue
         by_id[ident] = row
 
     prev_rows = {}
@@ -198,6 +215,8 @@ def main() -> int:
               f'file as the last known price - pass --with-meta to publish how old each one is)')
     if no_station:
         print(f'  note: {no_station} priced station(s) are not in data/*.json any more (dropped)')
+    for c in collisions:
+        print(f'  note: {c} (one entry published; see the comment in the code)')
 
     problems = []
     if len(priced) < a.min_rows:

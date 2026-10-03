@@ -14,8 +14,9 @@ on:
   # No `push` trigger on purpose: the publish job commits data/prices.json and data/violations.json,
   # and a push-triggered run would chase its own commits. Scheduled runs plus workflow_dispatch.
   schedule:
-    - cron: '15 */2 * * *'            # every 2 hours at :15 IL - prices (each run retries until the
-                                      # IL cluster answers, so more attempts = more warm windows)
+    - cron: '15 * * * *'              # hourly at :15 - GitHub's scheduler is best-effort: a 2-hourly
+                                      # cron was delivering runs 30-60 min late and 4-5 h apart, and each
+                                      # attempt may land in a cold window, so try every hour
     - cron: '45 2 * * *'              # 05:45 Israel time - fuel-quality flags (violations job)
   workflow_dispatch:
     inputs:
@@ -123,14 +124,14 @@ jobs:
             --sleep 0.15 \
             --parallel 4 \
             --rounds 12 \
-            --wait-probes 20 \
-            --wait-for-il 60 \
+            --wait-probes 6 \
+            --wait-for-il 300 \
             ${LIMIT_ARG:-$LIMIT_ARG}
           code=$?
           if [ "$code" -eq 3 ]; then
             # Not a bug in the pipeline - but the run did not read a single price, and a green job
             # here is a lie (that is how two dead shards went unnoticed earlier). Red, with the reason.
-            echo "::error::no IL cluster answered for 20 minutes - the Waze layer was not read this run. The site keeps its previous prices (publish carries them over); the next scheduled run tries again."
+            echo "::error::no IL cluster answered for 30 minutes - the Waze layer was not read this run. The site keeps its previous prices (publish carries them over); the next scheduled run tries again."
             exit 3
           fi
           exit "$code"
