@@ -459,6 +459,18 @@ def ts() -> str:
     return datetime.now(timezone.utc).strftime('%H:%M:%S')
 
 
+def covered_rows(stations: list[dict], covered: dict) -> list[dict]:
+    """Rows for the stations Waze was not asked about, so the operator's price has a home.
+
+    Same shape as `venue_less_rows`: no prices, and a `not_checked` reason that says why.
+    """
+    return [{'key': s['key'], 'file': s['file'], 'brand': s['brand'], 'name': s['name'],
+             'lat': s['lat'], 'lon': s['lon'], 'waze_id': s.get('waze_id'), 'prices': {},
+             'price98': None, 'price98_label': None, 'checked_at': None,
+             'not_checked': 'operator publishes its own price'} for s in stations
+            if s['key'] in covered]
+
+
 def venue_less_rows(stations: list[dict]) -> list[dict]:
     """Rows for the stations this check cannot reach (no `waze_id`), so the file stays complete.
 
@@ -515,6 +527,9 @@ def main() -> int:
                          'cold window produces only non-answers, at full cost)')
     ap.add_argument('--wait-probes', type=int, default=6, dest='wait_probes',
                     help='how many times to probe while waiting for the IL cluster')
+    ap.add_argument('--skip-covered', default='mika_covered.json', dest='skip_covered',
+                    help='stations whose operator publishes its own price; written by the Mika step, '
+                         'they are not asked of Waze (pass "" to disable)')
     ap.add_argument('--base', default=None,
                     help='distributor endpoint; default is wl.BASE, the Israeli regional proxy '
                          '(rtproxy-il.waze.com) - the world endpoint rt.waze.com only reaches the '
@@ -573,7 +588,23 @@ def main() -> int:
             done[r['key']] = r
     if a.recheck_empty:
         done = {k: r for k, r in done.items() if r.get('prices')}     # forget the empty rows
-    todo = [s for s in stations if s['key'] not in done]
+    # Stations whose operator publishes its own price are not asked of Waze at all: the figure would
+    # be a community report competing with the operator's own (and, in the גיסין case, a 9-day-old
+    # mis-entered one), and the sweep would spend a request on a station that already has a better
+    # answer. The list comes from the Mika step of a previous run (`mika_covered.json`), so it covers
+    # exactly the stations Mika priced - not every station whose brand happens to be Mika.
+    covered: dict[str, str] = {}
+    if a.skip_covered and os.path.exists(a.skip_covered):
+        try:
+            doc = json.load(open(a.skip_covered, encoding='utf-8'))
+            covered = {k: str(v)[:80] for k, v in (doc.get('stations') or {}).items()}
+        except Exception as e:                                      # noqa: BLE001
+            print(f'note: ignoring unreadable {a.skip_covered}: {e}', flush=True)
+    skipped = [s for s in stations if s['key'] in covered]
+    todo = [s for s in stations if s['key'] not in done and s['key'] not in covered]
+    if skipped:
+        print(f'[{ts()}] {len(skipped)} station(s) skipped: their operator publishes the price itself '
+              f'({a.skip_covered})', flush=True)
     if a.shard:
         i, n = (int(x) for x in a.shard.split('/'))
         todo = todo[i::n]
@@ -674,7 +705,7 @@ def main() -> int:
                    'counts': {'checked': len(rows), 'with_prices': len(priced),
                               'with_98': len(with98), 'no_venue': len(unreachable)},
                    'canary': can,
-                   'stations': rows + unreachable}, open(a.out, 'w', encoding='utf-8'),
+                   'stations': rows + unreachable + covered_rows(skipped, covered)}, open(a.out, 'w', encoding='utf-8'),
                   ensure_ascii=False, indent=1)
         print('  wrote', a.out)
     if a.publish:
@@ -682,7 +713,8 @@ def main() -> int:
         # each rewrite the file from their own (partial) view of the shared jsonl and the last
         # writer would win - which silently published 24 stations instead of 60.
         run_rows = [done[s['key']] for s in todo if s['key'] in done]
-        path = publish(run_rows + unreachable, a.publish, only_current=a.only_current)
+        path = publish(run_rows + unreachable + covered_rows(skipped, covered), a.publish,
+                       only_current=a.only_current)
         print(f'  wrote {path} ({len(run_rows)} stations'
               + (f", shard {a.shard}" if a.shard else '') + ')')
 
