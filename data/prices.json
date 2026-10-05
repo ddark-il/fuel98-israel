@@ -1,11 +1,11 @@
 {
- "generated": "2026-10-04T21:46:00Z",
+ "generated": "2026-10-05T01:17:45Z",
  "fuel": "98",
  "counts": {
   "stations": 95,
   "with_98": 95,
   "from_mika": 32,
-  "carried_over": 11
+  "carried_over": 7
  },
  "stations": {
   "venues.22806850.228134032.1804": {
@@ -32,9 +32,6 @@
   "googlePlaces.ChIJ_WovrT7KAhURDA01mPapM00": {
    "98": 8.97
   },
-  "googlePlaces.ChIJ3d-f09rXAhURkrEm7I5MJ_U": {
-   "98": 9.99
-  },
   "googlePlaces.ChIJHQKPXfDQAhURiO3Chm1sDv8": {
    "98": 9.99
   },
@@ -46,9 +43,6 @@
   },
   "googlePlaces.ChIJ9ZC-EIZJHRUR_Ch9ZFHmScE": {
    "98": 8.65
-  },
-  "googlePlaces.ChIJseoEH9-qHRUR1uV4r9_VviU": {
-   "98": 8.74
   },
   "googlePlaces.ChIJSVWdofBLHRURLruTXvVOs5Y": {
    "98": 8.34
@@ -65,11 +59,23 @@
   "venues.22872385.228985993.43231": {
    "98": 8.0
   },
+  "googlePlaces.ChIJsfcB8RlKHRURmGNd1XqR5lo": {
+   "98": 9.99
+  },
+  "googlePlaces.ChIJQfr7ZlZKHRURGeIxYBPb3pA": {
+   "98": 9.28
+  },
+  "googlePlaces.ChIJa-DCwNs5HRUR5l0nX5vfJq4": {
+   "98": 9.33
+  },
   "googlePlaces.ChIJZ-4HnQ5mAhUR7rZIHh-iAi4": {
    "98": 9.28
   },
   "googlePlaces.ChIJi413yC7WAhURyk-Psr5NzRI": {
    "98": 8.0
+  },
+  "googlePlaces.ChIJLUJVLPxJHRURJr1bMJfae44": {
+   "98": 9.78
   },
   "googlePlaces.ChIJqVHV2xXYAhURWrjmJbzssdU": {
    "98": 9.6
@@ -104,22 +110,22 @@
   "googlePlaces.ChIJM4GadvlxABURLnWtksNCGRs": {
    "98": 8.39
   },
-  "googlePlaces.ChIJmXsRhcQpAxURjddhg1xSROo": {
-   "98": 9.78
-  },
   "googlePlaces.ChIJl_0XGp62AhURB8WQLqAkIB0": {
    "98": 9.28
   },
   "googlePlaces.ChIJiQ10R_bOHRURHZ-9D76CsqI": {
    "98": 9.0
   },
+  "googlePlaces.ChIJMaEUUfu0AhUR5R4qC4LNnmg": {
+   "98": 9.81
+  },
   "googlePlaces.ChIJ9_Y-C7-iAhUR_puIKzko1eU": {
    "98": 9.15
   },
-  "googlePlaces.ChIJ47Jj48dLHRURQLNCgkpBSKw": {
-   "98": 9.28
-  },
   "googlePlaces.ChIJQ-mgcZBMHRURmxzgBnQCmPg": {
+   "98": 9.02
+  },
+  "venues.22872381.229051489.1441": {
    "98": 9.02
   },
   "venues.22872387.228527264.1935": {
@@ -134,6 +140,9 @@
   "googlePlaces.ChIJeejxjF3QAhURXlxm8RWzhnQ": {
    "98": 9.63
   },
+  "googlePlaces.ChIJ98IF-5ZDABURrEHOM72D8c0": {
+   "98": 8.65
+  },
   "venues.22741310.227150954.2196": {
    "98": 9.2
   },
@@ -143,14 +152,17 @@
   "googlePlaces.ChIJPUvJhAmzAhURumBHr7UWgBk": {
    "98": 9.81
   },
+  "googlePlaces.ChIJ8fdYcoa7HRURxLFNPnDLKIw": {
+   "98": 9.2
+  },
+  "googlePlaces.ChIJoSwZ_a6xHRURQKXp90l8dwI": {
+   "98": 9.32
+  },
   "googlePlaces.ChIJ9bc10KHNAhURI7TbqL-nY-g": {
    "98": 9.04
   },
   "googlePlaces.ChIJ34VBSp7FAhUR1XgIhPCMBDw": {
    "98": 9.81
-  },
-  "googlePlaces.ChIJgZRjq_5JHRURQUsGq7cekqY": {
-   "98": 9.64
   },
   "venues.22872385.228527242.2042479": {
    "98": 8.74
@@ -169,9 +181,6 @@
   },
   "googlePlaces.ChIJubeYjOZTHBURl1y1-mHNMCU": {
    "98": 8.36
-  },
-  "googlePlaces.ChIJMwImKuU_HRURbqtkvtz-XfY": {
-   "98": 8.89
   },
   "pin:32.005798,34.743891": {
    "98": 8.53
@@ -245,6 +254,9 @@
   "googlePlaces.ChIJRcQepS0oAxUR_NDJ3z8QzJY": {
    "98": 9.25
   },
+  "googlePlaces.ChIJgZRjq_5JHRURQUsGq7cekqY": {
+   "98": 9.64
+  },
   "googlePlaces.ChIJEYYko0y7AhURv4456wyvd2o": {
    "98": 9.64
   },
@@ -260,32 +272,20 @@
   "googlePlaces.ChIJ42I5Ac23AhURCmVGN2de4a8": {
    "98": 9.64
   },
-  "googlePlaces.ChIJsfcB8RlKHRURmGNd1XqR5lo": {
+  "googlePlaces.ChIJ3d-f09rXAhURkrEm7I5MJ_U": {
    "98": 9.99
   },
-  "googlePlaces.ChIJQfr7ZlZKHRURGeIxYBPb3pA": {
-   "98": 9.28
+  "googlePlaces.ChIJseoEH9-qHRUR1uV4r9_VviU": {
+   "98": 8.74
   },
-  "googlePlaces.ChIJa-DCwNs5HRUR5l0nX5vfJq4": {
-   "98": 9.33
-  },
-  "googlePlaces.ChIJMaEUUfu0AhUR5R4qC4LNnmg": {
-   "98": 9.81
-  },
-  "venues.22872381.229051489.1441": {
-   "98": 9.02
-  },
-  "googlePlaces.ChIJoSwZ_a6xHRURQKXp90l8dwI": {
-   "98": 9.32
-  },
-  "googlePlaces.ChIJLUJVLPxJHRURJr1bMJfae44": {
+  "googlePlaces.ChIJmXsRhcQpAxURjddhg1xSROo": {
    "98": 9.78
   },
-  "googlePlaces.ChIJ8fdYcoa7HRURxLFNPnDLKIw": {
-   "98": 9.2
+  "googlePlaces.ChIJ47Jj48dLHRURQLNCgkpBSKw": {
+   "98": 9.28
   },
-  "googlePlaces.ChIJ98IF-5ZDABURrEHOM72D8c0": {
-   "98": 8.65
+  "googlePlaces.ChIJMwImKuU_HRURbqtkvtz-XfY": {
+   "98": 8.89
   },
   "pin:32.000760,34.764410": {
    "98": 8.65
