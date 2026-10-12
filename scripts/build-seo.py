@@ -117,7 +117,7 @@ def load_stations():
 def build_block(by_city, no_city):
     p = ["<noscript>",
          "<h2>תחנות דלק 98 (בנזין 98) בישראל — לפי עיר</h2>",
-         "<p>רשימת תחנות הדלק המספקות בנזין 98 (אוקטן 98) בכל הארץ, מסודרות לפי עיר וחברה.</p>"]
+         "<p>רשימת תחנות הדלק המספקות בנזין 98 (אוקטן 98) בכל הארץ, מסודרות לפי עיר וחברה, עם מחיר 98 מעודכן בתחנות מדווחות.</p>"]
     for city in sorted(by_city):
         p.append(f"<h3>תחנות דלק 98 ב{html.escape(city)}</h3>")
         p.append("<ul>" + "".join(f"<li>{e}</li>" for e in sorted(by_city[city])) + "</ul>")
