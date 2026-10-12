@@ -72,10 +72,12 @@
     "name": "וולפסון",
     "brand": "מיקה",
     "coordinates": {
-      "lat": 32.0344568,
-      "lon": 34.7697256
+      "lat": 32.035189,
+      "lon": 34.767947
     },
-    "pin_source": "brand-nav"
+    "pin_source": "registry",
+    "pin_note": "moved 186 m to the official pin (licence 1922, מיקה וולפסון, הלוחמים 1 חולון) — owner ruling 2026-10-12: for Mika the registry pin wins over Mika's own map link, which sits 186 m away (their page says הלוחמים 51, the licence says הלוחמים 1); Waze venue 'מיקה וולפסון' agrees with the official pin (38 m)",
+    "waze_id": "venues.22806848.227871876.502808"
   },
   {
     "name": "טבריה",

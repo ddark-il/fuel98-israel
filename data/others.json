@@ -116,5 +116,16 @@
       "lon": 34.65674
     },
     "pin_source": "registry"
+  },
+  {
+    "brand": "אחר",
+    "name": "אנרגיה אשקלון",
+    "coordinates": {
+      "lat": 31.662098,
+      "lon": 34.588776
+    },
+    "pin_source": "registry",
+    "pin_note": "hand-checked 2026-10-12: registry licence 2977 (שם_תחנה Energy, רח' הנחל 2 אשקלון) sits 13 m from the verified map pin, Waze venue אנרג'י 12 m; no operator locator exists, so the registry pin is the source",
+    "waze_id": "venues.22675773.226692190.2053583"
   }
 ]
