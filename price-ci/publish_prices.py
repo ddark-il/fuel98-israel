@@ -169,14 +169,27 @@ def main() -> int:
     # the merge simply has no row for a station - deleting the price the site already shows would be
     # the wrong answer to "we could not ask this time". The row keeps its own timestamp and reporter,
     # so an old price stays recognisable as old. Stations dropped from data/*.json are not resurrected.
-    live = {st['waze_id'] or f"pin:{float(st['lat']):.6f},{float(st['lon']):.6f}"
-            for st in ours.values()}
-    carried = 0
+    def ident_of(st: dict) -> str:
+        return st['waze_id'] or f"pin:{float(st['lat']):.6f},{float(st['lon']):.6f}"
+
+    live = {ident_of(st) for st in ours.values()}
+    # A station that just gained a venue id was priced under its pin key until now. Carry that
+    # price onto the new venue key instead of dropping it: the first run after a venue addition
+    # may not read the station, and the site would silently lose a price it already had. The
+    # lookup is coordinate-based, so it cannot attach a price to a different forecourt.
+    pin_to_ident = {f"pin:{float(st['lat']):.6f},{float(st['lon']):.6f}": ident_of(st)
+                    for st in ours.values()}
+    carried = migrated = 0
     for ident, prev in prev_rows.items():
-        if ident in by_id or ident not in live:
+        target = pin_to_ident.get(ident, ident) if ident.startswith('pin:') else ident
+        if target in by_id or target not in live:
             continue
-        by_id[ident] = prev
+        by_id[target] = prev
         carried += 1
+        if target != ident:
+            migrated += 1
+    if migrated:
+        print(f'  migrated {migrated} pin-keyed price(s) onto their new venue id', flush=True)
 
     priced = [r for r in by_id.values() if r['98'] is not None]
     current = [r for r in priced if r.get('current_period')]

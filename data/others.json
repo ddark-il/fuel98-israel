@@ -6,7 +6,8 @@
       "lat": 31.922624,
       "lon": 34.786105
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "venues.22806847.228002936.24246"
   },
   {
     "brand": "אחר",
@@ -15,7 +16,8 @@
       "lat": 32.194812,
       "lon": 34.878285
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "venues.22872386.228592787.690"
   },
   {
     "brand": "אחר",
@@ -24,7 +26,8 @@
       "lat": 31.954832,
       "lon": 34.892246
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "venues.22872384.228658299.22489"
   },
   {
     "brand": "אחר",
@@ -33,7 +36,8 @@
       "lat": 31.979678,
       "lon": 34.813567
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "venues.22806848.228134014.22533"
   },
   {
     "brand": "אחר",
@@ -42,7 +46,8 @@
       "lat": 33.027484,
       "lon": 35.096263
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "venues.23003466.230034663.22562"
   },
   {
     "brand": "אחר",
@@ -61,7 +66,8 @@
       "lon": 35.0617527
     },
     "pin_source": "manual",
-    "pin_note": "operator listing (Sonol place pin); registry row 79m NE is a different station"
+    "pin_note": "operator listing (Sonol place pin); registry row 79m NE is a different station",
+    "waze_id": "venues.23003463.229772488.2120161"
   },
   {
     "brand": "אחר",
@@ -88,7 +94,8 @@
       "lat": 32.597481,
       "lon": 35.294691
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "venues.23134534.231279804.409900"
   },
   {
     "brand": "אחר",
@@ -106,7 +113,8 @@
       "lat": 32.864715,
       "lon": 35.286841
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "venues.23134537.231279830.23198"
   },
   {
     "brand": "אחר",

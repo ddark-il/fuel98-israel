@@ -76,7 +76,8 @@
       "lat": 32.0057983,
       "lon": 34.7438908
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22741312.227675265.1855"
   },
   {
     "name": "גבעת עוז",
@@ -154,7 +155,8 @@
       "lat": 32.441406,
       "lon": 34.933079
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22872388.228920492.1429"
   },
   {
     "name": "חולון דרך השבעה",
@@ -361,7 +363,8 @@
       "lat": 33.000548,
       "lon": 35.097005
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23003466.230034660.522"
   },
   {
     "name": "נען מזרח (מדרום לצפון)",
@@ -456,7 +459,8 @@
       "lat": 32.9255544,
       "lon": 35.5432391
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23265609.232918237.477807"
   },
   {
     "name": "ערד",
@@ -474,7 +478,8 @@
       "lat": 32.0911726,
       "lon": 34.8646861
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22872385.228461705.904"
   },
   {
     "name": "צומת חנניה",
@@ -521,7 +526,8 @@
       "lat": 32.806367,
       "lon": 35.074341
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23003464.229838033.435577"
   },
   {
     "name": "תל אביב דרך נמיר",

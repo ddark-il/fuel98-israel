@@ -16,7 +16,8 @@
       "lat": 32.02517,
       "lon": 34.794966
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "venues.22806848.228002947.531014"
   },
   {
     "name": "גיסין",
@@ -86,7 +87,8 @@
       "lat": 32.7855957,
       "lon": 35.5397489
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23265608.232918223.248091"
   },
   {
     "name": "חיפה",

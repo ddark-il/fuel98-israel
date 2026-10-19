@@ -504,7 +504,8 @@
       "lat": 31.78545,
       "lon": 35.334712
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23134526.231541867.22640"
   },
   {
     "name": "מנדלבאום",
@@ -693,7 +694,8 @@
       "lat": 32.6921101,
       "lon": 35.2978763
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23134535.231345349.2045"
   },
   {
     "name": "עכו עיר",
@@ -1012,7 +1014,8 @@
       "lat": 32.2808478,
       "lon": 35.0053699
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22937923.229444764.22637"
   },
   {
     "name": "שרונים",

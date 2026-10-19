@@ -46,7 +46,8 @@
       "lat": 31.4164685,
       "lon": 34.6052904
     },
-    "pin_source": "manual"
+    "pin_source": "manual",
+    "waze_id": "venues.22675770.226823238.22535"
   },
   {
     "brand": "תפוז",
@@ -64,7 +65,8 @@
       "lat": 32.104843,
       "lon": 34.893416
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "venues.22872385.228658314.288531"
   },
   {
     "brand": "תפוז",
@@ -121,7 +123,8 @@
       "lat": 32.817052,
       "lon": 35.061269
     },
-    "pin_source": "registry"
+    "pin_source": "registry",
+    "waze_id": "venues.23003464.229772498.696"
   },
   {
     "brand": "תפוז",

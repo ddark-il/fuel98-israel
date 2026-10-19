@@ -2,7 +2,8 @@
 """price_check.py — read currently-reported 98-octane prices per Waze venue.
 
 Runs over our own station database, using the `waze_id` (Waze venue id) we already resolved for
-305/326 stations, so no name/coordinate matching is needed here. For each venue:
+every station that carries one (303/327 today), so no name/coordinate matching is needed here.
+For each venue:
 
   1. search near our pin to obtain a fresh *search result id* for that venue (the distributor
      will not return products for a venue id on its own — measured 0/6 that way, vs ~5/6 with a
@@ -340,13 +341,29 @@ class PriceChecker:
             n = min(self.parallel, max(1, rounds) - used)
             replies = self._burst(st, rid, n)
             used += n
+            il_answered = False
             for prods, cl in replies:
                 if prods:
                     return prods, st['waze_id'], used, cl
                 cluster = cl or cluster
                 if cl == 'il':
-                    # the cluster that carries prices answered and has nothing for this station
-                    return {}, None, used, 'il'
+                    il_answered = True
+            # A burst draws from both clusters at once: it can hold an IL reply with no products
+            # *and* another reply carrying the price (measured: the same station returned 8.65 in
+            # one draw and "no products" 14 s later). "IL answered with no products" is therefore
+            # a verdict only after every reply in the burst has been inspected - returning on the
+            # first one silently discards a price sitting next to it.
+            if il_answered:
+                if vid and vid != st['waze_id'] and used < max(1, rounds):
+                    # the other representation of the same station (our id is often the
+                    # Google-backed one, the search returns the Waze-native id)
+                    prods, cl = self._one_request(st, vid)
+                    used += 1
+                    if prods:
+                        return prods, vid, used, cl
+                    if cl == 'il':
+                        return {}, None, used, 'il'
+                return {}, None, used, 'il'
             if vid and vid != st['waze_id'] and used < max(1, rounds):
                 # the other representation of the same station (our id is often the Google-backed
                 # one, the search returns the Waze-native id)

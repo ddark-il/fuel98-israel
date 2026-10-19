@@ -102,6 +102,30 @@ jobs:
             echo "no WAZE_ACCOUNT secret - this run will register a fresh, foreign-country account"
           fi
 
+      # The sweep only visits stations that carry a `waze_id`, so a data regression that strips
+      # ids becomes a quietly smaller - and still green - run. Refuse to price a dataset whose
+      # venue coverage has collapsed, and print the count on every run so the change is visible.
+      - name: Venue coverage
+        working-directory: price-ci
+        run: |
+          "$PYTHON" - <<'PY'
+          import glob, json, os, sys
+          total = with_id = 0
+          for f in sorted(glob.glob(os.path.join('..', 'data', '*.json'))):
+              base = os.path.basename(f)
+              if base in ('manifest.json', 'violations.json', 'prices.json'):
+                  continue
+              for s in json.load(open(f, encoding='utf-8')):
+                  total += 1
+                  if s.get('waze_id'):
+                      with_id += 1
+          pct = (100.0 * with_id / total) if total else 0.0
+          print(f'venue coverage: {with_id}/{total} stations carry a waze_id ({pct:.1f}%)')
+          if not total or pct < 85.0:
+              sys.exit(f'::error::venue coverage collapsed to {with_id}/{total} - refusing to price '
+                       f'a stripped dataset (expected at least 85%)')
+          PY
+
       # A shard that returns nothing is NOT a failed run: Waze serves fuel prices only to Israeli
       # IPs, so a GitHub-hosted runner legitimately comes back empty. The publish job decides
       # whether the *pipeline* is broken (no prices from any source) and fails there.
@@ -293,7 +317,7 @@ jobs:
         if: always()
         run: |
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
-          import glob, json
+          import glob, json, os
           from collections import Counter
           waze = {}
           canary = []
@@ -332,7 +356,16 @@ jobs:
                     "needs more attempts (--rounds) or an Israeli egress.")
           d = json.load(open('data/prices.json', encoding='utf-8'))
           c = d.get('counts', {})
+          total = with_id = 0
+          for f in glob.glob('data/*.json'):
+              if os.path.basename(f) in ('manifest.json', 'violations.json', 'prices.json'):
+                  continue
+              for s in json.load(open(f, encoding='utf-8')):
+                  total += 1
+                  if s.get('waze_id'):
+                      with_id += 1
           print(f"## 98 prices: {c.get('with_98', '?')} stations priced")
+          print(f"* venues: {with_id}/{total} stations carry a waze_id")
           if c.get('from_mika') is not None:
               print(f"* {c['from_mika']} from Mika (the operator's own published price)")
           if c.get('carried_over'):

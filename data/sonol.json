@@ -26,7 +26,8 @@
       "lat": 32.6384524,
       "lon": 35.0625391
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23003462.229772480.131"
   },
   {
     "name": "אשל השומרון",
@@ -105,7 +106,8 @@
       "lat": 32.519937,
       "lon": 35.002734
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22937925.229379252.517"
   },
   {
     "name": "אור בגבעה - שומרת שבת",
@@ -584,7 +586,8 @@
       "lat": 32.82319,
       "lon": 35.15027
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23069000.230362322.387"
   },
   {
     "name": "צומת עדי",

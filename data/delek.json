@@ -26,7 +26,8 @@
       "lat": 32.529703,
       "lon": 35.153921
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23068997.230362293.1131"
   },
   {
     "brand": "דלק",
@@ -45,7 +46,8 @@
       "lat": 32.00076,
       "lon": 34.76441
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22806848.227806336.2133"
   },
   {
     "brand": "דלק",
@@ -123,7 +125,8 @@
       "lat": 32.09055,
       "lon": 34.8732
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22872385.228527241.1505"
   },
   {
     "brand": "דלק",
@@ -300,7 +303,8 @@
       "lat": 32.145373,
       "lon": 34.95152
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "googlePlaces.ChIJ37iE2Uc7HRURd2xvu6NQQUY"
   },
   {
     "brand": "דלק",
@@ -309,7 +313,8 @@
       "lat": 32.920524,
       "lon": 35.09231
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.23003465.229969116.329"
   },
   {
     "brand": "דלק",
