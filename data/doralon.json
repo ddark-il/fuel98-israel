@@ -27,7 +27,7 @@
       "lon": 34.5760767
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJhdjAbBWcAhURyv2SyPm_edE"
+    "waze_id": "venues.22675773.226626656.1060"
   },
   {
     "name": "בית דגן",
@@ -37,7 +37,7 @@
       "lon": 34.8295163
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJ4dU4pBC1AhURi0pwwO13tgc"
+    "waze_id": "venues.22806848.228265087.631"
   },
   {
     "name": "בני ברק האיצטדיון",
@@ -47,7 +47,7 @@
       "lon": 34.8285158
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJ9ZC-EIZJHRUR_Ch9ZFHmScE"
+    "waze_id": "venues.22806849.228265098.266"
   },
   {
     "name": "בנימינה מערב",
@@ -87,7 +87,7 @@
       "lon": 35.1968891
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJseoEH9-qHRUR1uV4r9_VviU"
+    "waze_id": "venues.23068998.230689977.569"
   },
   {
     "name": "גילון",
@@ -97,7 +97,7 @@
       "lon": 35.2266452
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJi9gW7aU0HBURhHN1Hr8exBM"
+    "waze_id": "venues.23069001.230886620.2143"
   },
   {
     "name": "גן הצפון",
@@ -107,7 +107,7 @@
       "lon": 35.61587
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJ9-HSWvm8HhURAqhWhAlzxLU"
+    "waze_id": "venues.23331148.233442554.1730"
   },
   {
     "name": "געש צומת ספרים",
@@ -117,7 +117,7 @@
       "lon": 34.8302
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJY_E7_Q9HHRUR2z23rcKv8oY"
+    "waze_id": "venues.22806850.228265111.2153"
   },
   {
     "name": "גשר הזיו",
@@ -127,7 +127,7 @@
       "lon": 35.106946
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJR2GUOufRHRURBgNVqsJZNrY"
+    "waze_id": "venues.23003466.230100200.1924"
   },
   {
     "name": "דבירה",
@@ -166,7 +166,7 @@
       "lon": 34.7977418
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJSVWdofBLHRURLruTXvVOs5Y"
+    "waze_id": "venues.22806848.228068483.1132"
   },
   {
     "name": "חיפה גרנד קניון",
@@ -196,7 +196,7 @@
       "lon": 35.063767
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJixpPCJSxHRUR3_pmvI45MXQ"
+    "waze_id": "venues.23003464.229772497.899"
   },
   {
     "name": "חיפה שערי חיפה",
@@ -226,7 +226,7 @@
       "lon": 34.73218
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJW204t4a6AhURldxSG2_6f98"
+    "waze_id": "venues.22741311.227609717.187"
   },
   {
     "name": "יהוד",
@@ -236,7 +236,7 @@
       "lon": 34.89865
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJJ6Gn4wQ1HRURDCcIJYh95Co"
+    "waze_id": "venues.22872384.228723843.1554"
   },
   {
     "name": "יזרעאל",
@@ -256,7 +256,7 @@
       "lon": 35.170062
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJYwSIT1XKHRURZd8yUCnZ9ik"
+    "waze_id": "venues.23069001.230493402.376"
   },
   {
     "name": "יקום",
@@ -286,7 +286,7 @@
       "lon": 35.1874389
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJCyDdCUbWAhURQzhXnpy-kHI"
+    "waze_id": "venues.23068990.230624363.801"
   },
   {
     "name": "ירכא",
@@ -394,7 +394,7 @@
       "lon": 34.9041224
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJ_1vJ4tTKAhURhx7BPKXNgLo"
+    "waze_id": "venues.22872384.228723839.901"
   },
   {
     "name": "נתניה עיר ימים",
@@ -421,7 +421,8 @@
       "lat": 32.4556878,
       "lon": 34.9086001
     },
-    "pin_source": "brand-nav"
+    "pin_source": "brand-nav",
+    "waze_id": "venues.22872389.228789422.1977"
   },
   {
     "name": "עילוט",
@@ -450,7 +451,7 @@
       "lon": 35.0911178
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJOxYg4M7JHRURAxXow26fW7k"
+    "waze_id": "venues.23003465.229969114.1749"
   },
   {
     "name": "עמיעד",
@@ -517,7 +518,7 @@
       "lon": 34.8034
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJcWcEcsdLHRURc7Xaa4xsffk"
+    "waze_id": "venues.22806849.228068488.1940"
   },
   {
     "name": "שער הצפון",
@@ -537,7 +538,7 @@
       "lon": 34.795865
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJM1iaxrZJHRURoXsncEpeJgg"
+    "waze_id": "venues.22806849.228068493.415"
   },
   {
     "name": "תל יצחק",
@@ -547,7 +548,7 @@
       "lon": 34.87504
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJYe37vUQ_HRURyjX67Da8ask"
+    "waze_id": "venues.22872387.228592793.937"
   },
   {
     "name": "מחסיה",

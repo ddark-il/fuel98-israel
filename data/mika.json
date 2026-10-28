@@ -7,7 +7,7 @@
       "lon": 34.957821
     },
     "pin_source": "registry",
-    "waze_id": "googlePlaces.ChIJY9lNlhJxABUR3Peijg7ViOY"
+    "waze_id": "venues.22937896.229116812.427"
   },
   {
     "name": "הפלד",
@@ -27,7 +27,7 @@
       "lon": 34.8663649
     },
     "pin_source": "brand-nav",
-    "waze_id": "venues.22872385.228527242.2042479"
+    "waze_id": "venues.22872385.228461706.1780"
   },
   {
     "name": "עתידים",
@@ -37,7 +37,7 @@
       "lon": 34.8419784
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJtaFbVqJJHRURHkGmf9CmYO8"
+    "waze_id": "venues.22806849.228330635.817"
   },
   {
     "name": "רחובות",
@@ -118,7 +118,7 @@
       "lon": 35.5117865
     },
     "pin_source": "manual",
-    "waze_id": "googlePlaces.ChIJs7Kqx4I-HBURjQBdWAL2nPo"
+    "waze_id": "venues.23265608.232721619.22527"
   },
   {
     "name": "בית שאן",
@@ -128,7 +128,7 @@
       "lon": 35.497839
     },
     "pin_source": "registry",
-    "waze_id": "googlePlaces.ChIJYxsDh79eHBURw2ZkVJue2UA"
+    "waze_id": "venues.23265605.232656050.1242"
   },
   {
     "name": "מודיעין",
@@ -158,7 +158,7 @@
       "lon": 34.770134
     },
     "pin_source": "manual",
-    "waze_id": "googlePlaces.ChIJ-WPoFIGzAhURoI6J0bxgXx0"
+    "waze_id": "venues.22806848.227871871.292"
   },
   {
     "name": "באר טוביה",
@@ -197,7 +197,7 @@
       "lon": 34.5973233
     },
     "pin_source": "manual",
-    "waze_id": "googlePlaces.ChIJgz_44YmbAhURg46PY39j-l4"
+    "waze_id": "venues.22675773.226757726.23710"
   },
   {
     "name": "נתיבות",
@@ -217,7 +217,7 @@
       "lon": 35.2240388
     },
     "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJRcQepS0oAxUR_NDJ3z8QzJY"
+    "waze_id": "venues.23068990.230820969.1822"
   },
   {
     "name": "פתח תקווה",
@@ -237,7 +237,7 @@
       "lon": 34.772124
     },
     "pin_source": "registry",
-    "waze_id": "googlePlaces.ChIJMTk5qWu0AhURuB3uRRvGuqM"
+    "waze_id": "venues.22806848.227871871.27930"
   },
   {
     "name": "הקידמה אשדוד",
