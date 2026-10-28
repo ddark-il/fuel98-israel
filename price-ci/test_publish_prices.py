@@ -16,6 +16,10 @@ class ReportedAt(unittest.TestCase):
                       'mika_scraped_at': '2026-10-28T05:00:00+00:00'}, ST)
         self.assertEqual(row['reported_at'], '2026-10-28T05:00:00Z')
 
+    def test_missing_date_uses_unknown_sentinel(self):
+        row = row_of({'price98': 8.5}, ST)
+        self.assertEqual(row['reported_at'], '2025-01-01T00:00:00Z')
+
 
 if __name__ == '__main__':
     unittest.main()

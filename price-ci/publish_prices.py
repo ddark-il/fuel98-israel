@@ -30,6 +30,10 @@ OUT_DEFAULT = os.path.join(DATA, 'prices.json')
 # Only these two sources are allowed to speak for a price; anything else is a bug in the merge.
 SOURCES = {'waze', 'mika'}
 
+# A price whose report date we cannot establish gets this sentinel, so the site can show "unknown"
+# instead of pretending it is fresh.
+UNKNOWN_REPORTED_AT = '2025-01-01T00:00:00Z'
+
 
 def iter_stations(doc: dict):
     """Yield (station key, record) from any of our price files.
@@ -90,6 +94,8 @@ def row_of(rec: dict, st: dict) -> dict | None:
             rec['mika_scraped_at']).astimezone(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     elif out.get('updated'):
         out['reported_at'] = out['updated']
+    else:
+        out['reported_at'] = UNKNOWN_REPORTED_AT
     for k_from, k_to in (('price98_age_days', 'age_days'),
                          ('price98_current_period', 'current_period'),
                          ('price98_label', 'label')):
@@ -159,11 +165,9 @@ def main() -> int:
         by_id[ident] = row
 
     prev_rows = {}
-    prev_generated = None
     if os.path.exists(a.out):
         try:
             prev_doc = json.load(open(a.out, encoding='utf-8'))
-            prev_generated = prev_doc.get('generated')
             raw_prev = prev_doc.get('stations', {})
             # accept both shapes: {"id": {"98": 8.4}} and a hand-written {"id": 8.4}
             prev_rows = {}
@@ -195,11 +199,10 @@ def main() -> int:
         if target in by_id or target not in live:
             continue
         by_id[target] = prev
-        # A price we could not read this run keeps the last date it was published with. Files
-        # written before reported_at existed have none, so fall back to that run's timestamp -
-        # the file's generated date is the last time this price was actually confirmed.
+        # A price we could not read this run keeps the date it was last published with. If it has
+        # none, we cannot verify when it was reported - mark it with the sentinel, not a fake date.
         if not prev.get('reported_at'):
-            prev['reported_at'] = prev.get('updated') or prev_generated
+            prev['reported_at'] = prev.get('updated') or UNKNOWN_REPORTED_AT
         carried += 1
         if target != ident:
             migrated += 1

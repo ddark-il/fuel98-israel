@@ -171,7 +171,6 @@ body {
   white-space: nowrap; flex-shrink: 0;
 }
 .price-bubble .cur { color: #e94560; font-weight: 700; }
-.price-bubble .age { font-weight: 500; font-size: 11px; color: #999; }
 /* Tap/click the bubble to see when the price was reported. */
 .price-bubble { position: relative; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .price-bubble .price-tip {
@@ -715,16 +714,11 @@ function fmtDate(iso) {
   var p = function(n) { return (n < 10 ? '0' : '') + n; };
   return p(d.getDate()) + '.' + p(d.getMonth() + 1) + '.' + d.getFullYear();
 }
-function priceBubble(s, withAge) {
+function priceBubble(s) {
   var p = priceOf(s);
   if (p === null) return '';
   var rec = priceRecord(s);
   var when = (rec && (rec.reported_at || rec.updated)) || pricesGenerated || '';
-  var age = '';
-  if (withAge && when) {
-    var days = Math.floor((Date.now() - Date.parse(when)) / 86400000);
-    if (isFinite(days) && days > 0) age = '<span class="age">·' + days + 'd</span>';
-  }
   var dm = fmtDate(when);
   var tip = dm
     ? '<span class="price-tip" role="tooltip">תאריך דיווח: ' + dm + '</span>'
@@ -733,7 +727,7 @@ function priceBubble(s, withAge) {
          (tip ? ' tabindex="0" role="button" aria-label="מחיר 98 — הצג תאריך דיווח"' : '') +
          (tip ? ' onclick="togglePriceTip(event, this)"' : '') +
          ' title="מחיר 98 אחרון שדווח (₪ לליטר)">' +
-         '<span class="cur">₪</span>' + p.toFixed(2) + age + tip + '</span>';
+         '<span class="cur">₪</span>' + p.toFixed(2) + tip + '</span>';
 }
 // Toggle the report-date tooltip; stopPropagation keeps a click inside a map popup from closing it.
 function togglePriceTip(e, el) {
@@ -871,7 +865,7 @@ function renderTable(list) {
           ${s._dist != null ? `<span class="distance">${formatDist(s._dist)}</span>` : ''}
         </div>
       </div>
-      ${priceBubble(s, true)}
+      ${priceBubble(s)}
       <a class="waze-btn" href="${wazeUrl(s)}" target="_blank" title="נווט ב-Waze"><img src="${WAZE_ICON_WHITE}" alt="Waze"></a>
     </div>`;
   });
@@ -891,7 +885,7 @@ function renderTable(list) {
       <td>${flagBadge(s)}${s.name}</td>
       <td><span class="brand-tag brand-${brandClass(s.brand)}">${brand}</span></td>
       ${userLat !== null ? `<td class="distance">${formatDist(s._dist)}</td>` : ''}
-      <td class="price-cell">${priceBubble(s, true) || '<span class="price-none">—</span>'}</td>
+      <td class="price-cell">${priceBubble(s) || '<span class="price-none">—</span>'}</td>
       <td><a class="waze-link" href="${wazeUrl(s)}" target="_blank"><img src="${WAZE_ICON_BLUE}" alt="Waze"> Waze</a></td>
     </tr>`;
   });
@@ -950,7 +944,7 @@ function renderMap(list) {
         <b>${flagBadge(s)}${s.name}</b><br>
         <span style="display:flex;align-items:center;gap:6px;margin:4px 0;flex-wrap:wrap">
           <span class="brand-tag brand-${brandClass(s.brand)}" style="display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px">${brand}</span>
-          ${priceBubble(s, true)}
+          ${priceBubble(s)}
         </span>
         ${distStr}
         <br><a href="${wazeUrl(s)}" target="_blank"
