@@ -1,36 +1,28 @@
 {
- "generated": "2026-10-28T06:45:32Z",
+ "generated": "2026-10-28T07:13:46Z",
  "fuel": "98",
  "counts": {
   "stations": 93,
   "with_98": 93,
   "from_mika": 32,
-  "carried_over": 26
+  "carried_over": 33
  },
  "stations": {
-  "venues.22806848.227806336.2133": {
-   "98": 8.19,
-   "reported_at": "2026-10-26T06:50:46Z"
-  },
   "googlePlaces.ChIJxdXimqq0AhURImljB3cVBTY": {
    "98": 8.01,
    "reported_at": "2026-10-27T20:28:08Z"
+  },
+  "googlePlaces.ChIJ_WovrT7KAhURDA01mPapM00": {
+   "98": 8.97,
+   "reported_at": "2026-09-29T10:39:36Z"
   },
   "googlePlaces.ChIJl3TXRCDXAhURa_lW1zhXdyo": {
    "98": 8.99,
    "reported_at": "2026-10-24T10:28:36Z"
   },
-  "googlePlaces.ChIJ3d-f09rXAhURkrEm7I5MJ_U": {
-   "98": 8.09,
-   "reported_at": "2026-10-24T11:12:02Z"
-  },
-  "googlePlaces.ChIJhdjAbBWcAhURyv2SyPm_edE": {
-   "98": 9.57,
-   "reported_at": "2026-10-26T17:59:17Z"
-  },
-  "googlePlaces.ChIJ9ZC-EIZJHRUR_Ch9ZFHmScE": {
-   "98": 8.65,
-   "reported_at": "2026-10-27T16:54:24Z"
+  "googlePlaces.ChIJ4dU4pBC1AhURi0pwwO13tgc": {
+   "98": 8.76,
+   "reported_at": "2026-10-25T15:45:01Z"
   },
   "googlePlaces.ChIJz6lEMzCKAhURn4e1_wD_ygQ": {
    "98": 9.76,
@@ -44,9 +36,9 @@
    "98": 8.96,
    "reported_at": "2026-10-19T11:35:40Z"
   },
-  "venues.22872385.228985993.43231": {
-   "98": 8.0,
-   "reported_at": "2026-10-22T18:07:31Z"
+  "googlePlaces.ChIJYwSIT1XKHRURZd8yUCnZ9ik": {
+   "98": 9.28,
+   "reported_at": "2026-10-08T14:05:04Z"
   },
   "venues.22872386.228592787.690": {
    "98": 8.77,
@@ -56,69 +48,61 @@
    "98": 8.8,
    "reported_at": "2026-10-14T08:27:41Z"
   },
-  "googlePlaces.ChIJQfr7ZlZKHRURGeIxYBPb3pA": {
-   "98": 9.28,
-   "reported_at": "2026-10-27T12:35:06Z"
+  "googlePlaces.ChIJa-DCwNs5HRUR5l0nX5vfJq4": {
+   "98": 9.33,
+   "reported_at": "2026-10-26T17:54:31Z"
+  },
+  "googlePlaces.ChIJZ-4HnQ5mAhUR7rZIHh-iAi4": {
+   "98": 9.31,
+   "reported_at": "2026-10-26T18:10:00Z"
   },
   "googlePlaces.ChIJU2TUhnAVHRURTMOaTa25n_A": {
    "98": 9.78,
    "reported_at": "2026-10-14T21:09:40Z"
   },
-  "googlePlaces.ChIJi413yC7WAhURyk-Psr5NzRI": {
-   "98": 8.0,
-   "reported_at": "2026-10-21T13:36:25Z"
-  },
-  "googlePlaces.ChIJe3H1JqoVHRURyjGmGKDtJu0": {
-   "98": 7.77,
-   "reported_at": "2026-10-24T21:09:31Z"
-  },
-  "googlePlaces.ChIJIxdoneszHBURKOlrfPEsB2s": {
+  "googlePlaces.ChIJLUJVLPxJHRURJr1bMJfae44": {
    "98": 9.31,
-   "reported_at": "2026-10-27T06:25:15Z"
+   "reported_at": "2026-10-19T13:00:01Z"
+  },
+  "googlePlaces.ChIJI-GvwZJmAhURun4IVL3M4Lk": {
+   "98": 9.31,
+   "reported_at": "2026-10-26T18:36:48Z"
+  },
+  "googlePlaces.ChIJmThj0pq1AhURmj__GDEgVF4": {
+   "98": 9.31,
+   "reported_at": "2026-10-25T19:23:49Z"
+  },
+  "googlePlaces.ChIJiScjwrUUHRUR1fnl_okPcQI": {
+   "98": 9.99,
+   "reported_at": "2026-10-26T08:45:19Z"
   },
   "googlePlaces.ChIJDQFDPq_OAhURx8qkcWndCow": {
    "98": 9.31,
    "reported_at": "2026-10-27T07:33:24Z"
   },
+  "googlePlaces.ChIJmXsRhcQpAxURjddhg1xSROo": {
+   "98": 9.78,
+   "reported_at": "2026-10-09T08:48:10Z"
+  },
   "googlePlaces.ChIJl_0XGp62AhURB8WQLqAkIB0": {
    "98": 9.28,
    "reported_at": "2026-10-26T18:16:46Z"
   },
-  "googlePlaces.ChIJbVP4MQ44HBURTKJbC2D98Ug": {
-   "98": 9.31,
-   "reported_at": "2026-10-26T06:39:45Z"
-  },
-  "googlePlaces.ChIJiQ10R_bOHRURHZ-9D76CsqI": {
-   "98": 9.0,
-   "reported_at": "2026-10-26T04:16:41Z"
-  },
-  "googlePlaces.ChIJOYLmOEFJHRURg91N6SDNCYc": {
-   "98": 9.9,
-   "reported_at": "2026-10-18T05:35:27Z"
+  "googlePlaces.ChIJMaEUUfu0AhUR5R4qC4LNnmg": {
+   "98": 9.81,
+   "reported_at": "2026-10-15T18:26:02Z"
   },
   "googlePlaces.ChIJ9_Y-C7-iAhUR_puIKzko1eU": {
    "98": 9.15,
    "reported_at": "2026-10-26T21:27:28Z"
   },
-  "venues.22872381.229051489.1441": {
-   "98": 7.77,
-   "reported_at": "2026-10-27T10:01:16Z"
-  },
   "venues.22872387.228527264.1935": {
    "98": 9.63,
    "reported_at": "2026-10-26T05:13:00Z"
   },
-  "venues.22806847.228134005.485733": {
-   "98": 9.31,
-   "reported_at": "2026-10-24T11:15:07Z"
-  },
   "googlePlaces.ChIJxaYxs85LHRURRFHxtq3b8Sw": {
    "98": 9.9,
    "reported_at": "2026-10-23T17:27:05Z"
-  },
-  "googlePlaces.ChIJ98IF-5ZDABURrEHOM72D8c0": {
-   "98": 8.65,
-   "reported_at": "2026-10-17T14:42:36Z"
   },
   "googlePlaces.ChIJ-RUZQUlmAhURRFtwR7sMeMk": {
    "98": 9.5,
@@ -134,15 +118,199 @@
   },
   "googlePlaces.ChIJRcQepS0oAxUR_NDJ3z8QzJY": {
    "98": 9.25,
-   "reported_at": "2026-10-28T06:45:02Z"
+   "reported_at": "2026-10-28T07:13:14Z"
+  },
+  "googlePlaces.ChIJ34VBSp7FAhUR1XgIhPCMBDw": {
+   "98": 9.81,
+   "reported_at": "2026-09-30T17:45:16Z"
+  },
+  "googlePlaces.ChIJMTk5qWu0AhURuB3uRRvGuqM": {
+   "98": 8.68,
+   "reported_at": "2026-10-28T07:13:15Z"
+  },
+  "pin:31.895664,34.790335": {
+   "98": 8.68,
+   "reported_at": "2026-10-28T07:12:52Z"
+  },
+  "googlePlaces.ChIJ_YlZfUGjAhUR7x_jHIcNzpg": {
+   "98": 9.76,
+   "reported_at": "2026-10-28T07:12:58Z"
+  },
+  "venues.22741312.227675265.1855": {
+   "98": 8.53,
+   "reported_at": "2026-10-28T07:13:02Z"
+  },
+  "venues.22806848.227740799.2101": {
+   "98": 10.06,
+   "reported_at": "2026-10-28T07:13:00Z"
+  },
+  "googlePlaces.ChIJY9lNlhJxABUR3Peijg7ViOY": {
+   "98": 8.79,
+   "reported_at": "2026-10-28T07:13:18Z"
+  },
+  "venues.22806848.228002947.531014": {
+   "98": 8.59,
+   "reported_at": "2026-10-28T07:13:21Z"
+  },
+  "venues.22872385.228527242.2042479": {
+   "98": 8.74,
+   "reported_at": "2026-10-28T07:13:23Z"
+  },
+  "googlePlaces.ChIJtaFbVqJJHRURHkGmf9CmYO8": {
+   "98": 8.59,
+   "reported_at": "2026-10-28T07:13:25Z"
+  },
+  "googlePlaces.ChIJD0mut2S3AhURf8OW4zDpma8": {
+   "98": 8.74,
+   "reported_at": "2026-10-28T07:13:31Z"
+  },
+  "googlePlaces.ChIJrfkxuYOzAhURSNiR-BJbBr8": {
+   "98": 8.66,
+   "reported_at": "2026-10-28T07:13:27Z"
+  },
+  "googlePlaces.ChIJ0-FCYFG0AhURj88HPob8Bjs": {
+   "98": 9.4,
+   "reported_at": "2026-10-28T07:13:33Z"
+  },
+  "venues.22806848.227871876.502808": {
+   "98": 8.53,
+   "reported_at": "2026-10-28T07:13:28Z"
+  },
+  "venues.23265608.232918223.248091": {
+   "98": 8.53,
+   "reported_at": "2026-10-28T07:13:30Z"
+  },
+  "googlePlaces.ChIJsT_e6LewHRURsbV-3jv5c7M": {
+   "98": 8.68,
+   "reported_at": "2026-10-28T07:13:40Z"
+  },
+  "googlePlaces.ChIJ33ZEf2UxHBUR1-e5Pe8DjaI": {
+   "98": 9.31,
+   "reported_at": "2026-10-28T07:13:44Z"
+  },
+  "googlePlaces.ChIJs7Kqx4I-HBURjQBdWAL2nPo": {
+   "98": 9.7,
+   "reported_at": "2026-10-28T07:13:42Z"
+  },
+  "googlePlaces.ChIJYxsDh79eHBURw2ZkVJue2UA": {
+   "98": 8.74,
+   "reported_at": "2026-10-28T07:13:39Z"
+  },
+  "googlePlaces.ChIJRbDsBsfPAhURV5N9ZyQda0E": {
+   "98": 8.74,
+   "reported_at": "2026-10-28T07:13:37Z"
+  },
+  "googlePlaces.ChIJxaBIOYWzAhURE0gMF6_nCO0": {
+   "98": 8.74,
+   "reported_at": "2026-10-28T07:13:36Z"
+  },
+  "googlePlaces.ChIJ-WPoFIGzAhURoI6J0bxgXx0": {
+   "98": 8.74,
+   "reported_at": "2026-10-28T07:13:34Z"
+  },
+  "googlePlaces.ChIJcb19X_O9AhUR33dqAI3tpfk": {
+   "98": 9.31,
+   "reported_at": "2026-10-28T07:13:13Z"
+  },
+  "googlePlaces.ChIJZX45QwycAhURhdYe-LPqvLE": {
+   "98": 9.72,
+   "reported_at": "2026-10-28T07:13:45Z"
+  },
+  "googlePlaces.ChIJgz_44YmbAhURg46PY39j-l4": {
+   "98": 9.7,
+   "reported_at": "2026-10-28T07:13:09Z"
+  },
+  "googlePlaces.ChIJ9XG5-N59AhURgm08TANGb_Q": {
+   "98": 9.7,
+   "reported_at": "2026-10-28T07:13:08Z"
+  },
+  "googlePlaces.ChIJgZRjq_5JHRURQUsGq7cekqY": {
+   "98": 9.64,
+   "reported_at": "2026-10-28T07:13:05Z"
+  },
+  "googlePlaces.ChIJEYYko0y7AhURv4456wyvd2o": {
+   "98": 9.64,
+   "reported_at": "2026-10-28T07:12:56Z"
+  },
+  "googlePlaces.ChIJKx-Fi2c3HRURkQU--CsZXh4": {
+   "98": 8.53,
+   "reported_at": "2026-10-28T07:13:17Z"
+  },
+  "googlePlaces.ChIJQ-_WephLHRURXxnCJ2p5obw": {
+   "98": 8.68,
+   "reported_at": "2026-10-28T07:13:04Z"
+  },
+  "venues.22675773.226757725.33060": {
+   "98": 9.64,
+   "reported_at": "2026-10-28T07:12:54Z"
+  },
+  "googlePlaces.ChIJ42I5Ac23AhURCmVGN2de4a8": {
+   "98": 9.64,
+   "reported_at": "2026-10-28T07:12:59Z"
+  },
+  "venues.22806848.227806336.2133": {
+   "98": 8.19,
+   "reported_at": "2026-10-26T06:50:46Z"
+  },
+  "googlePlaces.ChIJ3d-f09rXAhURkrEm7I5MJ_U": {
+   "98": 8.09,
+   "reported_at": "2026-10-24T11:12:02Z"
+  },
+  "googlePlaces.ChIJhdjAbBWcAhURyv2SyPm_edE": {
+   "98": 9.57,
+   "reported_at": "2026-10-26T17:59:17Z"
+  },
+  "googlePlaces.ChIJ9ZC-EIZJHRUR_Ch9ZFHmScE": {
+   "98": 8.65,
+   "reported_at": "2026-10-27T16:54:24Z"
+  },
+  "venues.22872385.228985993.43231": {
+   "98": 8.0,
+   "reported_at": "2026-10-22T18:07:31Z"
+  },
+  "googlePlaces.ChIJQfr7ZlZKHRURGeIxYBPb3pA": {
+   "98": 9.28,
+   "reported_at": "2026-10-27T12:35:06Z"
+  },
+  "googlePlaces.ChIJi413yC7WAhURyk-Psr5NzRI": {
+   "98": 8.0,
+   "reported_at": "2026-10-21T13:36:25Z"
+  },
+  "googlePlaces.ChIJe3H1JqoVHRURyjGmGKDtJu0": {
+   "98": 7.77,
+   "reported_at": "2026-10-24T21:09:31Z"
+  },
+  "googlePlaces.ChIJIxdoneszHBURKOlrfPEsB2s": {
+   "98": 9.31,
+   "reported_at": "2026-10-27T06:25:15Z"
+  },
+  "googlePlaces.ChIJbVP4MQ44HBURTKJbC2D98Ug": {
+   "98": 9.31,
+   "reported_at": "2026-10-26T06:39:45Z"
+  },
+  "googlePlaces.ChIJiQ10R_bOHRURHZ-9D76CsqI": {
+   "98": 9.0,
+   "reported_at": "2026-10-26T04:16:41Z"
+  },
+  "googlePlaces.ChIJOYLmOEFJHRURg91N6SDNCYc": {
+   "98": 9.9,
+   "reported_at": "2026-10-18T05:35:27Z"
+  },
+  "venues.22872381.229051489.1441": {
+   "98": 7.77,
+   "reported_at": "2026-10-27T10:01:16Z"
+  },
+  "venues.22806847.228134005.485733": {
+   "98": 9.31,
+   "reported_at": "2026-10-24T11:15:07Z"
+  },
+  "googlePlaces.ChIJ98IF-5ZDABURrEHOM72D8c0": {
+   "98": 8.65,
+   "reported_at": "2026-10-17T14:42:36Z"
   },
   "googlePlaces.ChIJ9bc10KHNAhURI7TbqL-nY-g": {
    "98": 9.04,
    "reported_at": "2026-10-27T11:54:43Z"
-  },
-  "googlePlaces.ChIJMTk5qWu0AhURuB3uRRvGuqM": {
-   "98": 8.68,
-   "reported_at": "2026-10-28T06:45:04Z"
   },
   "googlePlaces.ChIJxa-xT0E4HRURCPmSbzgXMyM": {
    "98": 9.34,
@@ -156,148 +324,12 @@
    "98": 8.36,
    "reported_at": "2026-10-27T10:55:19Z"
   },
-  "pin:31.895664,34.790335": {
-   "98": 8.68,
-   "reported_at": "2026-10-28T06:44:40Z"
-  },
-  "googlePlaces.ChIJ_YlZfUGjAhUR7x_jHIcNzpg": {
-   "98": 9.76,
-   "reported_at": "2026-10-28T06:44:45Z"
-  },
-  "venues.22741312.227675265.1855": {
-   "98": 8.53,
-   "reported_at": "2026-10-28T06:44:50Z"
-  },
-  "venues.22806848.227740799.2101": {
-   "98": 10.06,
-   "reported_at": "2026-10-28T06:44:49Z"
-  },
-  "googlePlaces.ChIJY9lNlhJxABUR3Peijg7ViOY": {
-   "98": 8.79,
-   "reported_at": "2026-10-28T06:45:07Z"
-  },
-  "venues.22806848.228002947.531014": {
-   "98": 8.59,
-   "reported_at": "2026-10-28T06:45:10Z"
-  },
-  "venues.22872385.228527242.2042479": {
-   "98": 8.74,
-   "reported_at": "2026-10-28T06:45:12Z"
-  },
-  "googlePlaces.ChIJtaFbVqJJHRURHkGmf9CmYO8": {
-   "98": 8.59,
-   "reported_at": "2026-10-28T06:45:13Z"
-  },
-  "googlePlaces.ChIJD0mut2S3AhURf8OW4zDpma8": {
-   "98": 8.74,
-   "reported_at": "2026-10-28T06:45:19Z"
-  },
-  "googlePlaces.ChIJrfkxuYOzAhURSNiR-BJbBr8": {
-   "98": 8.66,
-   "reported_at": "2026-10-28T06:45:15Z"
-  },
-  "googlePlaces.ChIJ0-FCYFG0AhURj88HPob8Bjs": {
-   "98": 9.4,
-   "reported_at": "2026-10-28T06:45:20Z"
-  },
-  "venues.22806848.227871876.502808": {
-   "98": 8.53,
-   "reported_at": "2026-10-28T06:45:16Z"
-  },
-  "venues.23265608.232918223.248091": {
-   "98": 8.53,
-   "reported_at": "2026-10-28T06:45:17Z"
-  },
-  "googlePlaces.ChIJsT_e6LewHRURsbV-3jv5c7M": {
-   "98": 8.68,
-   "reported_at": "2026-10-28T06:45:27Z"
-  },
-  "googlePlaces.ChIJ33ZEf2UxHBUR1-e5Pe8DjaI": {
-   "98": 9.31,
-   "reported_at": "2026-10-28T06:45:30Z"
-  },
-  "googlePlaces.ChIJs7Kqx4I-HBURjQBdWAL2nPo": {
-   "98": 9.7,
-   "reported_at": "2026-10-28T06:45:28Z"
-  },
-  "googlePlaces.ChIJYxsDh79eHBURw2ZkVJue2UA": {
-   "98": 8.74,
-   "reported_at": "2026-10-28T06:45:26Z"
-  },
-  "googlePlaces.ChIJRbDsBsfPAhURV5N9ZyQda0E": {
-   "98": 8.74,
-   "reported_at": "2026-10-28T06:45:24Z"
-  },
-  "googlePlaces.ChIJxaBIOYWzAhURE0gMF6_nCO0": {
-   "98": 8.74,
-   "reported_at": "2026-10-28T06:45:23Z"
-  },
-  "googlePlaces.ChIJ-WPoFIGzAhURoI6J0bxgXx0": {
-   "98": 8.74,
-   "reported_at": "2026-10-28T06:45:22Z"
-  },
-  "googlePlaces.ChIJcb19X_O9AhUR33dqAI3tpfk": {
-   "98": 9.31,
-   "reported_at": "2026-10-28T06:45:01Z"
-  },
-  "googlePlaces.ChIJZX45QwycAhURhdYe-LPqvLE": {
-   "98": 9.72,
-   "reported_at": "2026-10-28T06:45:31Z"
-  },
-  "googlePlaces.ChIJgz_44YmbAhURg46PY39j-l4": {
-   "98": 9.7,
-   "reported_at": "2026-10-28T06:44:57Z"
-  },
-  "googlePlaces.ChIJ9XG5-N59AhURgm08TANGb_Q": {
-   "98": 9.7,
-   "reported_at": "2026-10-28T06:44:56Z"
-  },
-  "googlePlaces.ChIJgZRjq_5JHRURQUsGq7cekqY": {
-   "98": 9.64,
-   "reported_at": "2026-10-28T06:44:53Z"
-  },
-  "googlePlaces.ChIJEYYko0y7AhURv4456wyvd2o": {
-   "98": 9.64,
-   "reported_at": "2026-10-28T06:44:44Z"
-  },
-  "googlePlaces.ChIJKx-Fi2c3HRURkQU--CsZXh4": {
-   "98": 8.53,
-   "reported_at": "2026-10-28T06:45:06Z"
-  },
-  "googlePlaces.ChIJQ-_WephLHRURXxnCJ2p5obw": {
-   "98": 8.68,
-   "reported_at": "2026-10-28T06:44:52Z"
-  },
-  "venues.22675773.226757725.33060": {
-   "98": 9.64,
-   "reported_at": "2026-10-28T06:44:42Z"
-  },
-  "googlePlaces.ChIJ42I5Ac23AhURCmVGN2de4a8": {
-   "98": 9.64,
-   "reported_at": "2026-10-28T06:44:47Z"
-  },
   "googlePlaces.ChIJbSOZahZKHRUREZOE-9KKV4M": {
    "98": 8.2,
    "reported_at": "2025-01-01T00:00:00Z"
   },
-  "googlePlaces.ChIJ_WovrT7KAhURDA01mPapM00": {
-   "98": 8.97,
-   "reported_at": "2025-01-01T00:00:00Z"
-  },
   "googlePlaces.ChIJseoEH9-qHRUR1uV4r9_VviU": {
    "98": 8.74,
-   "reported_at": "2025-01-01T00:00:00Z"
-  },
-  "googlePlaces.ChIJYwSIT1XKHRURZd8yUCnZ9ik": {
-   "98": 9.28,
-   "reported_at": "2025-01-01T00:00:00Z"
-  },
-  "googlePlaces.ChIJa-DCwNs5HRUR5l0nX5vfJq4": {
-   "98": 9.33,
-   "reported_at": "2025-01-01T00:00:00Z"
-  },
-  "googlePlaces.ChIJLUJVLPxJHRURJr1bMJfae44": {
-   "98": 9.31,
    "reported_at": "2025-01-01T00:00:00Z"
   },
   "googlePlaces.ChIJqVHV2xXYAhURWrjmJbzssdU": {
@@ -316,10 +348,6 @@
    "98": 9.02,
    "reported_at": "2025-01-01T00:00:00Z"
   },
-  "googlePlaces.ChIJ34VBSp7FAhUR1XgIhPCMBDw": {
-   "98": 9.81,
-   "reported_at": "2025-01-01T00:00:00Z"
-  },
   "googlePlaces.ChIJMwImKuU_HRURbqtkvtz-XfY": {
    "98": 8.83,
    "reported_at": "2025-01-01T00:00:00Z"
@@ -332,44 +360,16 @@
    "98": 9.99,
    "reported_at": "2025-01-01T00:00:00Z"
   },
-  "googlePlaces.ChIJ4dU4pBC1AhURi0pwwO13tgc": {
-   "98": 8.76,
-   "reported_at": "2025-01-01T00:00:00Z"
-  },
   "venues.22937928.229444815.827": {
    "98": 8.76,
-   "reported_at": "2025-01-01T00:00:00Z"
-  },
-  "googlePlaces.ChIJmXsRhcQpAxURjddhg1xSROo": {
-   "98": 9.78,
-   "reported_at": "2025-01-01T00:00:00Z"
-  },
-  "googlePlaces.ChIJZ-4HnQ5mAhUR7rZIHh-iAi4": {
-   "98": 9.31,
-   "reported_at": "2025-01-01T00:00:00Z"
-  },
-  "googlePlaces.ChIJI-GvwZJmAhURun4IVL3M4Lk": {
-   "98": 9.31,
-   "reported_at": "2025-01-01T00:00:00Z"
-  },
-  "googlePlaces.ChIJmThj0pq1AhURmj__GDEgVF4": {
-   "98": 9.31,
    "reported_at": "2025-01-01T00:00:00Z"
   },
   "googlePlaces.ChIJb6FbNqo3HRUR9IYRMgvt1DM": {
    "98": 9.31,
    "reported_at": "2025-01-01T00:00:00Z"
   },
-  "googlePlaces.ChIJiScjwrUUHRUR1fnl_okPcQI": {
-   "98": 9.99,
-   "reported_at": "2025-01-01T00:00:00Z"
-  },
   "googlePlaces.ChIJ3SsdK-plAhURWlMr8z7b0C4": {
    "98": 8.89,
-   "reported_at": "2025-01-01T00:00:00Z"
-  },
-  "googlePlaces.ChIJMaEUUfu0AhUR5R4qC4LNnmg": {
-   "98": 9.81,
    "reported_at": "2025-01-01T00:00:00Z"
   },
   "venues.22741310.227150954.2196": {
