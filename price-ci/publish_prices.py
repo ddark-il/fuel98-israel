@@ -83,6 +83,13 @@ def row_of(rec: dict, st: dict) -> dict | None:
     if rec.get('price98_updated'):
         out['updated'] = datetime.fromtimestamp(
             rec['price98_updated'] / 1000, tz=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    # The date the site shows on the price. Waze prices carry the driver's report time; Mika
+    # prices are read from the operator's own site, so their report date is the scrape date.
+    if src == 'mika' and rec.get('mika_scraped_at'):
+        out['reported_at'] = datetime.fromisoformat(
+            rec['mika_scraped_at']).astimezone(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    elif out.get('updated'):
+        out['reported_at'] = out['updated']
     for k_from, k_to in (('price98_age_days', 'age_days'),
                          ('price98_current_period', 'current_period'),
                          ('price98_label', 'label')):
@@ -152,9 +159,12 @@ def main() -> int:
         by_id[ident] = row
 
     prev_rows = {}
+    prev_generated = None
     if os.path.exists(a.out):
         try:
-            raw_prev = json.load(open(a.out, encoding='utf-8')).get('stations', {})
+            prev_doc = json.load(open(a.out, encoding='utf-8'))
+            prev_generated = prev_doc.get('generated')
+            raw_prev = prev_doc.get('stations', {})
             # accept both shapes: {"id": {"98": 8.4}} and a hand-written {"id": 8.4}
             prev_rows = {}
             for k, v in raw_prev.items():
@@ -185,6 +195,11 @@ def main() -> int:
         if target in by_id or target not in live:
             continue
         by_id[target] = prev
+        # A price we could not read this run keeps the last date it was published with. Files
+        # written before reported_at existed have none, so fall back to that run's timestamp -
+        # the file's generated date is the last time this price was actually confirmed.
+        if not prev.get('reported_at'):
+            prev['reported_at'] = prev.get('updated') or prev_generated
         carried += 1
         if target != ident:
             migrated += 1
@@ -195,19 +210,22 @@ def main() -> int:
     current = [r for r in priced if r.get('current_period')]
     from_mika = [r for r in priced if r.get('source') == 'mika']
 
-    # The published file is deliberately minimal: station identity -> price, and nothing else.
-    # Everything a reader needs to *show* a price (brand, name, coordinates, the station page) is
-    # already in data/*.json, keyed by the same `waze_id`; shipping it twice meant every consumer had
-    # to know which copy was authoritative, and it made the file 40 KB of mostly repeated strings.
+    # The published file is deliberately minimal: station identity -> price and the date it was
+    # reported (Waze's report time, or the Mika scrape date), and nothing else. Everything a reader
+    # needs to *show* a price (brand, name, coordinates, the station page) is already in
+    # data/*.json, keyed by the same `waze_id`; shipping it twice meant every consumer had to know
+    # which copy was authoritative, and it made the file 40 KB of mostly repeated strings.
     # A station with no price is not listed at all - that IS the signal (see README).
     stations_out: dict[str, dict] = {}
     for ident, row in by_id.items():
         if row.get('98') is None:
             continue
         entry = {'98': row['98']}
+        if row.get('reported_at'):
+            entry['reported_at'] = row['reported_at']
         if a.with_meta:                       # for debugging: where it came from and how old it is
-            for k in ('source', 'updated', 'age_days', 'current_period', 'label', 'review',
-                      'verified', 'brand', 'name'):
+            for k in ('source', 'updated', 'reported_at', 'age_days', 'current_period', 'label',
+                      'review', 'verified', 'brand', 'name'):
                 if row.get(k) is not None:
                     entry[k] = row[k]
         stations_out[ident] = entry

@@ -680,7 +680,8 @@ function flagBadge(s) {
   return '<span class="fuel-flag" title="' + t + '">⚠️</span> ';
 }
 
-// 98 prices, published by the price pipeline as { "<waze_id>|<pin:lat,lon>": { "98": 8.59 } }.
+// 98 prices, published by the price pipeline as
+// { "<waze_id>|<pin:lat,lon>": { "98": 8.59, "reported_at": "2026-10-28T05:00:00Z" } }.
 // The station data already carries the identity, so the join is a lookup - never a distance
 // calculation. Pins are matched on 6 decimals so a float that stringifies differently
 // ("31.986506" vs "31.986506000000002") cannot silently detach a price from its station.
@@ -706,9 +707,8 @@ function priceOf(s) {
   var v = (rec['98'] != null) ? rec['98'] : (typeof rec === 'number' ? rec : null);
   return (typeof v === 'number' && isFinite(v)) ? v : null;
 }
-// `withAge` adds the "·Nd" chip when the publisher included a per-station `updated`; the lean
-// file carries only the number, so the tap/click tooltip falls back to the file's `generated`
-// timestamp. Either way the bubble can say when its data was reported.
+// The publisher writes `reported_at` per station: Waze's report time, or the Mika scrape date.
+// Older files have no per-station date, so fall back to the file's `generated` timestamp.
 function fmtDayMonth(iso) {
   var d = new Date(iso);
   if (isNaN(d.getTime())) return '';
@@ -718,12 +718,13 @@ function priceBubble(s, withAge) {
   var p = priceOf(s);
   if (p === null) return '';
   var rec = priceRecord(s);
+  var when = (rec && (rec.reported_at || rec.updated)) || pricesGenerated || '';
   var age = '';
-  if (withAge && rec && rec.updated) {
-    var days = Math.floor((Date.now() - Date.parse(rec.updated)) / 86400000);
+  if (withAge && when) {
+    var days = Math.floor((Date.now() - Date.parse(when)) / 86400000);
     if (isFinite(days) && days > 0) age = '<span class="age">·' + days + 'd</span>';
   }
-  var dm = fmtDayMonth((rec && rec.updated) || pricesGenerated || '');
+  var dm = fmtDayMonth(when);
   var tip = dm
     ? '<span class="price-tip" role="tooltip">דיווח מ' + dm + '</span>'
     : '';
