@@ -218,8 +218,13 @@ class PriceChecker:
         return c.find_stations(category=category, query=query, radius=3000, max_results=20)
 
     def find_result_id(self, st: dict) -> tuple[str | None, str, float | None, str | None]:
-        """Fresh (result_id, venue_id, distance, name) for our venue, by id first, then nearest."""
-        vids_seen = []
+        """Fresh (result_id, venue_id, distance, name) for our venue, by id first, then nearest.
+
+        Every search pass is tried for the exact venue id before falling back to the nearest
+        candidate. Returning the first nearby venue is how a googlePlaces duplicate 43 m away
+        shadowed the Waze-native venue 75 m away that carried the price (דורון, 2026-10-28).
+        """
+        fallback = None
         for query, cat in ((f"{st['brand']} {st['name']}", None), (st['name'], None),
                            (st['brand'], 'GAS_STATION'), (None, 'GAS_STATION')):
             try:
@@ -229,16 +234,21 @@ class PriceChecker:
                 cands = []
             if not cands:
                 continue
-            vids_seen += [c['venue_id'] for c in cands]
             exact = [c for c in cands if c['venue_id'] == st['waze_id']]
-            pool = exact or cands
-            best = min(pool, key=lambda c: haversine_m(st['lat'], st['lon'],
-                                                       c['lat'] or 0, c['lon'] or 0))
-            dist = haversine_m(st['lat'], st['lon'], best['lat'] or 0, best['lon'] or 0)
-            # accept a lookup that found our venue, or a close one of the same kind
-            if exact or dist <= 150:
+            if exact:
+                best = min(exact, key=lambda c: haversine_m(st['lat'], st['lon'],
+                                                            c['lat'] or 0, c['lon'] or 0))
+                dist = haversine_m(st['lat'], st['lon'], best['lat'] or 0, best['lon'] or 0)
                 return best['result_id'], best['venue_id'], dist, best['name']
+            if fallback is None:
+                best = min(cands, key=lambda c: haversine_m(st['lat'], st['lon'],
+                                                            c['lat'] or 0, c['lon'] or 0))
+                dist = haversine_m(st['lat'], st['lon'], best['lat'] or 0, best['lon'] or 0)
+                if dist <= 150:
+                    fallback = (best['result_id'], best['venue_id'], dist, best['name'])
             time.sleep(self.sleep)
+        if fallback:
+            return fallback
         return None, st['waze_id'], None, None
 
     # ---------------------------------------------------------------- fetching
@@ -432,7 +442,13 @@ class PriceChecker:
                'products': {}, 'prices': {}, 'price98': None, 'price98_id': None,
                'price98_label': None, 'price98_updated': None, 'price98_by': None,
                'updated': None, 'updated_by': None}
-        rid, vid, dist, vname = self.find_result_id(st)
+        # A Waze-native id (venues.*) is a venue in its own right: ask for it directly. The
+        # search returns the Google-backed view for these sites, and pairing a foreign result id
+        # with this venue is what produced the empty "no price" (דורון, 2026-10-28).
+        if st['waze_id'].startswith('venues.'):
+            rid, vid, dist, vname = None, st['waze_id'], 0.0, None
+        else:
+            rid, vid, dist, vname = self.find_result_id(st)
         row['matched_venue_id'] = vid
         row['venue_name'] = vname
         row['search_distance_m'] = round(dist, 1) if dist is not None else None
