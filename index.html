@@ -172,6 +172,21 @@ body {
 }
 .price-bubble .cur { color: #e94560; font-weight: 700; }
 .price-bubble .age { font-weight: 500; font-size: 11px; color: #999; }
+/* Tap/click the bubble to see when the price was reported. */
+.price-bubble { position: relative; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.price-bubble .price-tip {
+  display: none; position: absolute; bottom: calc(100% + 7px); left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e; color: #fff; font-size: 11px; font-weight: 500; line-height: 1.4;
+  padding: 4px 8px; border-radius: 6px; white-space: nowrap;
+  direction: rtl; unicode-bidi: isolate;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25); pointer-events: none; z-index: 700;
+}
+.price-bubble .price-tip::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 4px solid transparent; border-top-color: #1a1a2e;
+}
+.price-bubble.open .price-tip { display: block; }
 .price-none { color: #ddd; }
 
 .waze-btn {
@@ -665,11 +680,14 @@ function flagBadge(s) {
   return '<span class="fuel-flag" title="' + t + '">⚠️</span> ';
 }
 
-// 98 prices, published by the price pipeline as { "<waze_id>|<pin:lat,lon>": { "98": 8.59 } }.
+// 98 prices, published by the price pipeline as
+// { "<waze_id>|<pin:lat,lon>": { "98": 8.59, "reported_at": "2026-10-28T05:00:00Z" } }.
 // The station data already carries the identity, so the join is a lookup - never a distance
 // calculation. Pins are matched on 6 decimals so a float that stringifies differently
 // ("31.986506" vs "31.986506000000002") cannot silently detach a price from its station.
 var prices = {};
+// Timestamp of the published price file ("generated"); the fallback for the report-date tooltip.
+var pricesGenerated = null;
 // The publisher's key is canonical at 6 decimals; the unrounded form is accepted too so a file
 // written before that was normalised still resolves.
 function pinKeys(lat, lon) {
@@ -689,19 +707,40 @@ function priceOf(s) {
   var v = (rec['98'] != null) ? rec['98'] : (typeof rec === 'number' ? rec : null);
   return (typeof v === 'number' && isFinite(v)) ? v : null;
 }
-// `withAge` shows how long ago the report was made - only available when the publisher ran with
-// --with-meta (the lean file carries nothing but the number).
+// The publisher writes `reported_at` per station: Waze's report time, or the Mika scrape date.
+// Older files have no per-station date, so fall back to the file's `generated` timestamp.
+function fmtDate(iso) {
+  var d = new Date(iso);
+  if (isNaN(d.getTime())) return '';
+  var p = function(n) { return (n < 10 ? '0' : '') + n; };
+  return p(d.getDate()) + '.' + p(d.getMonth() + 1) + '.' + d.getFullYear();
+}
 function priceBubble(s, withAge) {
   var p = priceOf(s);
   if (p === null) return '';
+  var rec = priceRecord(s);
+  var when = (rec && (rec.reported_at || rec.updated)) || pricesGenerated || '';
   var age = '';
-  var rec = withAge ? priceRecord(s) : null;
-  if (rec && rec.updated) {
-    var days = Math.floor((Date.now() - Date.parse(rec.updated)) / 86400000);
+  if (withAge && when) {
+    var days = Math.floor((Date.now() - Date.parse(when)) / 86400000);
     if (isFinite(days) && days > 0) age = '<span class="age">·' + days + 'd</span>';
   }
-  return '<span class="price-bubble" title="מחיר 98 אחרון שדווח (₪ לליטר)">' +
-         '<span class="cur">₪</span>' + p.toFixed(2) + age + '</span>';
+  var dm = fmtDate(when);
+  var tip = dm
+    ? '<span class="price-tip" role="tooltip">תאריך דיווח: ' + dm + '</span>'
+    : '';
+  return '<span class="price-bubble' + (tip ? ' has-tip' : '') + '"' +
+         (tip ? ' tabindex="0" role="button" aria-label="מחיר 98 — הצג תאריך דיווח"' : '') +
+         (tip ? ' onclick="togglePriceTip(event, this)"' : '') +
+         ' title="מחיר 98 אחרון שדווח (₪ לליטר)">' +
+         '<span class="cur">₪</span>' + p.toFixed(2) + age + tip + '</span>';
+}
+// Toggle the report-date tooltip; stopPropagation keeps a click inside a map popup from closing it.
+function togglePriceTip(e, el) {
+  if (e) e.stopPropagation();
+  var wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.price-bubble.open').forEach(function(b) { b.classList.remove('open'); });
+  if (!wasOpen) el.classList.add('open');
 }
 
 // Load all brand files (via manifest) + the fuel-quality violation flags
@@ -717,7 +756,10 @@ Promise.all([
   fetch('data/violations.json').then(function(r) { return r.json(); }).catch(function() { return []; }),
   // a missing prices.json is not an error: the site simply shows no prices
   fetch('data/prices.json').then(function(r) { return r.json(); })
-    .then(function(d) { return d.stations || d || {}; }).catch(function() { return {}; })
+    .then(function(d) {
+      pricesGenerated = d.generated || null;
+      return d.stations || d || {};
+    }).catch(function() { return {}; })
 ]).then(function(res) {
   stations = res[0].filter(function(s) { return s.coordinates; });
   res[1].forEach(function(v) { flagged.set(v.brand + '|' + v.name, v); });
@@ -1026,6 +1068,18 @@ document.getElementById('locateBtn').addEventListener('click', function() {
     },
     { enableHighAccuracy: false, timeout: 30000, maximumAge: 60000 }
   );
+});
+
+// Close the price tooltip on an outside click; keyboard users toggle it with Enter/Space.
+document.addEventListener('click', function() {
+  document.querySelectorAll('.price-bubble.open').forEach(function(b) { b.classList.remove('open'); });
+});
+document.addEventListener('keydown', function(e) {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList &&
+      e.target.classList.contains('price-bubble')) {
+    e.preventDefault();
+    togglePriceTip(e, e.target);
+  }
 });
 </script>
 <script data-goatcounter="https://ddark-il.goatcounter.com/count"

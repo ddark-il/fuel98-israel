@@ -917,6 +917,10 @@ def write_outputs(a, rows, overridden, with98, matched, errors) -> int:
                 rec['price98_mika'] = m['price98']
                 rec['price98_label'] = '98'
                 rec['mika_modified'] = m['modified']
+                # The price was read from the operator's own site on this run: that scrape is the
+                # report date the site shows, not the page's `modified` field.
+                rec['mika_scraped_at'] = (m.get('fetched_at')
+                                          or datetime.now(timezone.utc).isoformat())
                 # Mika's page timestamp is the only date it gives us - use it for freshness
                 ms = None
                 try:
