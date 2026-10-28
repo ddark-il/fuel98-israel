@@ -145,6 +145,7 @@ jobs:
             --out shard-${{ matrix.shard }}.json \
             --state waze_account.json \
             --min-prices 2 \
+            --skip-covered "" \
             --sleep 0.15 \
             --parallel 4 \
             --rounds 12 \

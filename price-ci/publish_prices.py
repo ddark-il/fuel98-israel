@@ -151,15 +151,13 @@ def main() -> int:
             # Two of our records share one venue id - Mika runs pumps inside stations whose brand
             # record we also carry (סונול גיסין / מיקה גיסין, and three more), and both point at the
             # same forecourt. The site keys prices by venue id, so exactly one entry may be published:
-            # keep the one that has a price, and Mika's when both have one (the operator's own
-            # published figure wins). Without this the later record silently overwrote the earlier
-            # one, so which price survived depended on dict order - גיסין showed a 9-day-old Waze
-            # report at 01:30 and Mika's own price at 16:46, from identical inputs.
+            # keep the one that has a price, and a Waze report when both have one (the operator's
+            # page can be stale; Mika is only the fallback when Waze has no report).
             collisions.append(f"{row['brand']}/{st['name']} shares a venue with "
                               f"{prev['brand']}/{prev['name']}")
             takes = (prev['98'] is None and row['98'] is not None) or \
                     (prev['98'] is not None and row['98'] is not None
-                     and row.get('source') == 'mika' and prev.get('source') != 'mika')
+                     and row.get('source') == 'waze' and prev.get('source') != 'waze')
             if not takes:
                 continue
         by_id[ident] = row
