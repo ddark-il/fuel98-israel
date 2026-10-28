@@ -67,7 +67,8 @@ def station_index(pattern: str) -> dict:
                 continue
             key = f"{base}|{s.get('name')}|{c['lat']},{c['lon']}"
             out[key] = {'waze_id': s.get('waze_id'), 'brand': s.get('brand') or brand_file,
-                        'name': s.get('name'), 'lat': float(c['lat']), 'lon': float(c['lon'])}
+                        'name': s.get('name'), 'lat': float(c['lat']), 'lon': float(c['lon']),
+                        'key': key}
     return out
 
 
@@ -81,7 +82,8 @@ def row_of(rec: dict, st: dict) -> dict | None:
         src = 'waze'
     out = {'brand': st['brand'], 'name': st['name'],
            '98': price if price is not None else None,
-           'source': src if price is not None else None}
+           'source': src if price is not None else None,
+           'station': st['key']}
     if rec.get('prices'):
         out['fuels'] = rec['prices']
     if rec.get('price98_updated'):
@@ -191,9 +193,15 @@ def main() -> int:
     # lookup is coordinate-based, so it cannot attach a price to a different forecourt.
     pin_to_ident = {f"pin:{float(st['lat']):.6f},{float(st['lon']):.6f}": ident_of(st)
                     for st in ours.values()}
+    # The venue id is not stable: a repin can move a station from googlePlaces.* to venues.*,
+    # and a price keyed by the old id would silently disappear from the site (45 stations after
+    # the 2026-10-28 repin). The station key is stable, so an entry that carries one follows it.
+    by_station = {st['key']: ident_of(st) for st in ours.values()}
     carried = migrated = 0
     for ident, prev in prev_rows.items():
         target = pin_to_ident.get(ident, ident) if ident.startswith('pin:') else ident
+        if prev.get('station') and prev['station'] in by_station:
+            target = by_station[prev['station']]
         if target in by_id or target not in live:
             continue
         by_id[target] = prev
@@ -222,6 +230,8 @@ def main() -> int:
         if row.get('98') is None:
             continue
         entry = {'98': row['98']}
+        if row.get('station'):
+            entry['station'] = row['station']
         if row.get('reported_at'):
             entry['reported_at'] = row['reported_at']
         if a.with_meta:                       # for debugging: where it came from and how old it is
