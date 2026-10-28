@@ -709,10 +709,11 @@ function priceOf(s) {
 }
 // The publisher writes `reported_at` per station: Waze's report time, or the Mika scrape date.
 // Older files have no per-station date, so fall back to the file's `generated` timestamp.
-function fmtDayMonth(iso) {
+function fmtDate(iso) {
   var d = new Date(iso);
   if (isNaN(d.getTime())) return '';
-  return d.getDate() + '/' + (d.getMonth() + 1);
+  var p = function(n) { return (n < 10 ? '0' : '') + n; };
+  return p(d.getDate()) + '.' + p(d.getMonth() + 1) + '.' + d.getFullYear();
 }
 function priceBubble(s, withAge) {
   var p = priceOf(s);
@@ -724,9 +725,9 @@ function priceBubble(s, withAge) {
     var days = Math.floor((Date.now() - Date.parse(when)) / 86400000);
     if (isFinite(days) && days > 0) age = '<span class="age">·' + days + 'd</span>';
   }
-  var dm = fmtDayMonth(when);
+  var dm = fmtDate(when);
   var tip = dm
-    ? '<span class="price-tip" role="tooltip">דיווח מ' + dm + '</span>'
+    ? '<span class="price-tip" role="tooltip">תאריך דיווח: ' + dm + '</span>'
     : '';
   return '<span class="price-bubble' + (tip ? ' has-tip' : '') + '"' +
          (tip ? ' tabindex="0" role="button" aria-label="מחיר 98 — הצג תאריך דיווח"' : '') +
