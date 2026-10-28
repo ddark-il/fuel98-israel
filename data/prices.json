@@ -1,13 +1,16 @@
 {
- "generated": "2026-10-27T20:10:50Z",
+ "generated": "2026-10-28T00:14:12Z",
  "fuel": "98",
  "counts": {
   "stations": 94,
   "with_98": 94,
-  "from_mika": 32,
-  "carried_over": 45
+  "from_mika": 1,
+  "carried_over": 93
  },
  "stations": {
+  "pin:31.895664,34.790335": {
+   "98": 8.68
+  },
   "venues.22675774.227085421.1731": {
    "98": 8.33
   },
@@ -66,9 +69,6 @@
    "98": 8.74
   },
   "googlePlaces.ChIJMTk5qWu0AhURuB3uRRvGuqM": {
-   "98": 8.68
-  },
-  "pin:31.895664,34.790335": {
    "98": 8.68
   },
   "googlePlaces.ChIJ_YlZfUGjAhUR7x_jHIcNzpg": {
