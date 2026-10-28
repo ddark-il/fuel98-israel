@@ -907,35 +907,30 @@ def write_outputs(a, rows, overridden, with98, matched, errors) -> int:
             if rec.get('prices') and 'waze' not in src:
                 src['waze'] = rec['prices']       # what the Waze check saw for this station
             src['mika'] = m['prices']
-            if m['price98'] is not None:
-                # The operator's figure is always recorded, but it is only *used* when Waze has
-                # no report: Mika's own page can be stale, so a live Waze report wins.
+            if m['price98'] is not None:            # operator's published price wins
+                if rec.get('price98') is not None:
+                    updated += 1
+                else:
+                    added += 1
+                rec['price98'] = m['price98']
+                rec['price98_source'] = 'mika'
                 rec['price98_mika'] = m['price98']
+                rec['price98_label'] = '98'
                 rec['mika_modified'] = m['modified']
                 rec['mika_scraped_at'] = (m.get('fetched_at')
                                           or datetime.now(timezone.utc).isoformat())
-                rec['mika_price_date'] = m['modified']
-                if rec.get('price98') is None:
-                    # No Waze report this run: fall back to the operator's published price.
-                    rec['price98'] = m['price98']
-                    rec['price98_source'] = 'mika'
-                    rec['price98_label'] = '98'
-                    ms = None
-                    try:
-                        ms = int(datetime.fromisoformat(m['modified']).replace(
-                            tzinfo=timezone.utc).timestamp() * 1000)
-                    except Exception:                              # noqa: BLE001
-                        pass
-                    if ms:
-                        rec['price98_updated'] = ms
-                        rec['price98_age_days'] = round(
-                            (time.time() * 1000 - ms) / 86400000.0, 1)
-                        rec['price98_current_period'] = ms >= period_start_ms()
-                    added += 1
-                else:
-                    # Waze reported it: keep the Waze price and its report date.
-                    rec.setdefault('price98_source', 'waze')
-                    updated += 1
+                ms = None
+                try:
+                    ms = int(datetime.fromisoformat(m['modified']).replace(
+                        tzinfo=timezone.utc).timestamp() * 1000)
+                except Exception:                              # noqa: BLE001
+                    pass
+                if ms:
+                    rec['price98_updated'] = ms
+                    rec['price98_age_days'] = round(
+                        (time.time() * 1000 - ms) / 86400000.0, 1)
+                    rec['price98_current_period'] = ms >= period_start_ms()
+                    rec['mika_price_date'] = m['modified']
             rec['mika_name'] = m['mika_name']
             # Set AND clear: a join settled later (an override with evidence) must not keep a
             # review tag left behind by an earlier run, or the site softens a price we confirmed.
@@ -949,8 +944,8 @@ def write_outputs(a, rows, overridden, with98, matched, errors) -> int:
                 rec.pop('price98_verified', None)
         merged['mika_merged_at'] = datetime.now(timezone.utc).isoformat()
         json.dump(merged, open(a.merge, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-        print(f'merged into {a.merge}: {added} stations fell back to Mika (no Waze report), '
-              f'{updated} kept the Waze report')
+        print(f'merged into {a.merge}: {added} stations gained a 98 price from Mika, '
+              f'{updated} overrode a Waze one')
         if missing:
             print(f'  !! {len(missing)} matched Mika station(s) are absent from {a.merge} - '
                   f'no price written for them: {", ".join(sorted(missing)[:3])}'

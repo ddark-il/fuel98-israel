@@ -4,7 +4,7 @@
  "counts": {
   "stations": 97,
   "with_98": 97,
-  "from_mika": 30,
+  "from_mika": 32,
   "carried_over": 35
  },
  "stations": {
@@ -74,9 +74,9 @@
    "reported_at": "2026-10-28T11:22:04Z"
   },
   "venues.22806848.228002947.531014": {
-   "98": 8.09,
+   "98": 8.59,
    "station": "mika.json|הפלד|32.02517,34.794966",
-   "reported_at": "2026-10-27T10:47:08Z"
+   "reported_at": "2026-10-28T09:43:55Z"
   },
   "venues.22872385.228461706.1780": {
    "98": 8.74,
@@ -139,9 +139,9 @@
    "reported_at": "2026-10-28T11:22:23Z"
   },
   "googlePlaces.ChIJxaBIOYWzAhURE0gMF6_nCO0": {
-   "98": 8.5,
+   "98": 8.74,
    "station": "mika.json|יהונתן|31.987759,34.764161",
-   "reported_at": "2026-10-27T16:52:10Z"
+   "reported_at": "2026-10-28T09:44:22Z"
   },
   "venues.22806848.227871871.292": {
    "98": 8.74,
