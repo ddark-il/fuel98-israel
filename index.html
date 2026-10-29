@@ -836,10 +836,26 @@ function wazeUrl(s) {
     : `https://waze.com/ul?${ll}&navigate=yes`;
 }
 
+// GoatCounter events: one path per station so clicks can be counted per station. The path is the
+// event name and must not start with '/', hence the `waze-` prefix; `waze_id` is unique, and the
+// coordinate pin is the fallback for the stations without a venue id.
+const escAttr = v => String(v).replace(/[&<>"']/g, c =>
+  ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+function wazeEventAttrs(s) {
+  const id = s.waze_id || `pin-${s.coordinates.lat}-${s.coordinates.lon}`;
+  return `data-goatcounter-click="waze-${escAttr(id)}"` +
+         ` data-goatcounter-title="${escAttr(s.brand + ' ' + s.name)}"` +
+         ' data-goatcounter-no-session="1"';
+}
+function bindCounter() {
+  if (window.goatcounter && typeof goatcounter.bind_events === 'function') goatcounter.bind_events();
+}
+
 function render() {
   const list = getFiltered();
   if (currentView === 'table') renderTable(list);
   if (currentView === 'map') renderMap(list);
+  bindCounter();
 }
 
 function renderTable(list) {
@@ -866,7 +882,7 @@ function renderTable(list) {
         </div>
       </div>
       ${priceBubble(s)}
-      <a class="waze-btn" href="${wazeUrl(s)}" target="_blank" title="נווט ב-Waze"><img src="${WAZE_ICON_WHITE}" alt="Waze"></a>
+      <a class="waze-btn" href="${wazeUrl(s)}" target="_blank" title="נווט ב-Waze" ${wazeEventAttrs(s)}><img src="${WAZE_ICON_WHITE}" alt="Waze"></a>
     </div>`;
   });
 
@@ -886,7 +902,7 @@ function renderTable(list) {
       <td><span class="brand-tag brand-${brandClass(s.brand)}">${brand}</span></td>
       ${userLat !== null ? `<td class="distance">${formatDist(s._dist)}</td>` : ''}
       <td class="price-cell">${priceBubble(s) || '<span class="price-none">—</span>'}</td>
-      <td><a class="waze-link" href="${wazeUrl(s)}" target="_blank"><img src="${WAZE_ICON_BLUE}" alt="Waze"> Waze</a></td>
+      <td><a class="waze-link" href="${wazeUrl(s)}" target="_blank" ${wazeEventAttrs(s)}><img src="${WAZE_ICON_BLUE}" alt="Waze"> Waze</a></td>
     </tr>`;
   });
   table += '</tbody></table>';
@@ -947,11 +963,12 @@ function renderMap(list) {
           ${priceBubble(s)}
         </span>
         ${distStr}
-        <br><a href="${wazeUrl(s)}" target="_blank"
+        <br><a href="${wazeUrl(s)}" target="_blank" ${wazeEventAttrs(s)}
           style="display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:6px 14px;background:#1a1a2e;color:#fff;border-radius:6px;text-decoration:none;font-size:13px">
           <img src="${WAZE_ICON_WHITE}" width="16" height="16" alt=""> נווט ב-Waze</a>
       </div>
     `);
+    marker.on('popupopen', bindCounter);
     markers.push(marker);
   });
 
