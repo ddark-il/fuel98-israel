@@ -97,7 +97,9 @@ def haversine_m(lat1, lon1, lat2, lon2):
 
 
 def fetch(url: str, timeout: int = 30) -> tuple[int, str, str]:
-    req = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept-Language': 'he-IL,he;q=0.9'})
+    req = urllib.request.Request(url, headers={
+        'User-Agent': UA, 'Accept-Language': 'he-IL,he;q=0.9',
+        'Accept': 'application/json, text/html;q=0.9, */*;q=0.8'})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             return r.status, r.read().decode('utf-8', 'replace'), r.geturl()
@@ -189,9 +191,19 @@ class MikaScraper:
             status, body, _ = fetch(url)
             if status != 200 or not body.strip().startswith('['):
                 if page == 1:
-                    self.errors.append(f'station list HTTP {status}: {body[:120]}')
-                    return []
-                break
+                    # The WAF in front of the site intermittently answers a 200 with an HTML
+                    # challenge instead of JSON (2026-10-29 10:19 run: the next read was JSON).
+                    # Retry briefly before calling the source broken.
+                    for _ in range(3):
+                        time.sleep(5)
+                        status, body, _ = fetch(url)
+                        if status == 200 and body.strip().startswith('['):
+                            break
+                if status != 200 or not body.strip().startswith('['):
+                    if page == 1:
+                        self.errors.append(f'station list HTTP {status}: {body[:120]}')
+                        return []
+                    break
             batch = json.loads(body)
             if not batch:
                 break
