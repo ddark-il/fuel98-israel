@@ -1,13 +1,18 @@
 {
- "generated": "2026-11-04T06:53:05Z",
+ "generated": "2026-11-04T15:55:26Z",
  "fuel": "98",
  "counts": {
   "stations": 103,
   "with_98": 103,
-  "from_mika": 32,
-  "carried_over": 39
+  "from_mika": 1,
+  "carried_over": 102
  },
  "stations": {
+  "pin:31.895664,34.790335": {
+   "98": 7.76,
+   "station": "mika.json|רום רחובות|31.895664,34.7903352",
+   "reported_at": "2026-11-04T15:54:47Z"
+  },
   "venues.22675774.227085421.1731": {
    "98": 8.33,
    "station": "delek.json|גל ראשונים אשדוד|31.81427,34.64934",
@@ -172,11 +177,6 @@
    "98": 8.49,
    "station": "tapuz.json|חיפה|32.783092,35.037541",
    "reported_at": "2026-11-03T16:14:11Z"
-  },
-  "pin:31.895664,34.790335": {
-   "98": 7.76,
-   "station": "mika.json|רום רחובות|31.895664,34.7903352",
-   "reported_at": "2026-11-04T06:52:43Z"
   },
   "googlePlaces.ChIJ_YlZfUGjAhUR7x_jHIcNzpg": {
    "98": 8.84,
