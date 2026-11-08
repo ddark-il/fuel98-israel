@@ -25,6 +25,11 @@ class LooksBlocked(unittest.TestCase):
     def test_the_real_403_deny(self):
         self.assertTrue(mp.looks_blocked(403, DENY))
 
+    def test_415_greylist_answer(self):
+        # WebShield answers a greylisted IP's Accept: application/json request with 415
+        # (docs.imunify360.com/features/, WebShield > Greylist and Anti-Bot Challenge).
+        self.assertTrue(mp.looks_blocked(415, ''))
+
     def test_html_challenge_on_a_json_endpoint(self):
         self.assertTrue(mp.looks_blocked(200, CHALLENGE, want_json=True))
         self.assertFalse(mp.looks_blocked(200, LIST_JSON, want_json=True))

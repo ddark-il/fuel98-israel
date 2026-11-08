@@ -174,11 +174,12 @@ def looks_blocked(status: int, body: str, want_json: bool = False) -> bool:
     """Is this an Immunify360 bot-protection answer, as opposed to a site change?
 
     Positive signatures only - a block must be named to be excused, so a real site change
-    keeps failing loudly: the 403 itself, the vendor string in the denial body, and (for a
-    JSON endpoint) a 200 whose body is an HTML document - the challenge page seen
-    2026-10-28, which the next read answered with JSON."""
+    keeps failing loudly: the 403 itself, the vendor string in the denial body, the 415 a
+    greylisted IP gets for an `Accept: application/json` request (docs.imunify360.com/features/,
+    WebShield > Greylist), and (for a JSON endpoint) a 200 whose body is an HTML document - the
+    challenge page seen 2026-10-28, which the next read answered with JSON."""
     b = (body or '')[:600].lower()
-    if status == 403 or 'imunify' in b:
+    if status in (403, 415) or 'imunify' in b:
         return True
     return want_json and status == 200 and not (body or '').lstrip().startswith('[') \
         and b.lstrip().startswith('<!doctype')
