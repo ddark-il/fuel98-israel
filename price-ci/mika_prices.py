@@ -21,8 +21,11 @@ Prices are the operator's published consumer prices, not community reports; the 
     python3 mika_prices.py --publish out                    # + out/prices_mika.json
     python3 mika_prices.py --merge out/prices.json          # inject into a price_check output
 
-Exit status is 1 when the station list cannot be fetched at all (site changed / blocked), so a
-CI job fails loudly instead of publishing an empty file.
+Exit status: 0 = ok. 1 = the station list failed in a way that looks like a site change, so a
+CI job fails loudly instead of publishing an empty file. 4 = the site answered its Immunify360
+bot-protection block (a transient WAF state, observed 2026-11-06 and 2026-11-07: both runs
+recovered on their own hours later); CI warns and continues, so a block costs one Mika refresh
+and not the whole price run - publish_prices.py carries the previous Mika prices over.
 """
 from __future__ import annotations
 
@@ -167,7 +170,26 @@ def period_start_ms(now: datetime | None = None) -> int:
     return int(first.timestamp() * 1000)
 
 
+def looks_blocked(status: int, body: str, want_json: bool = False) -> bool:
+    """Is this an Immunify360 bot-protection answer, as opposed to a site change?
+
+    Positive signatures only - a block must be named to be excused, so a real site change
+    keeps failing loudly: the 403 itself, the vendor string in the denial body, and (for a
+    JSON endpoint) a 200 whose body is an HTML document - the challenge page seen
+    2026-10-28, which the next read answered with JSON."""
+    b = (body or '')[:600].lower()
+    if status == 403 or 'imunify' in b:
+        return True
+    return want_json and status == 200 and not (body or '').lstrip().startswith('[') \
+        and b.lstrip().startswith('<!doctype')
+
+
 class MikaScraper:
+    # The site sits behind Immunify360 bot-protection, which intermittently 403s datacenter IPs
+    # ("IPs used for automation should be whitelisted"). The trigger decays, so retry with a
+    # rising backoff before giving up; both observed blocks were over within hours.
+    BLOCK_WAITS = (5, 30, 90, 180)
+
     def __init__(self, sleep: float = 0.5, cache: str = NAV_CACHE):
         self.sleep = sleep
         self.cache_path = cache
@@ -178,6 +200,7 @@ class MikaScraper:
             except Exception:                                          # noqa: BLE001
                 self.cache = {}
         self.errors: list[str] = []
+        self.blocked = False
 
     def save_cache(self):
         json.dump(self.cache, open(self.cache_path, 'w', encoding='utf-8'), indent=1)
@@ -191,16 +214,18 @@ class MikaScraper:
             status, body, _ = fetch(url)
             if status != 200 or not body.strip().startswith('['):
                 if page == 1:
-                    # The WAF in front of the site intermittently answers a 200 with an HTML
-                    # challenge instead of JSON (2026-10-29 10:19 run: the next read was JSON).
-                    # Retry briefly before calling the source broken.
-                    for _ in range(3):
-                        time.sleep(5)
+                    # The WAF in front of the site intermittently answers a 403 (Immunify360
+                    # bot-protection) or a 200 with an HTML challenge instead of JSON
+                    # (2026-10-29 10:19, 2026-11-06, 2026-11-07 runs: the source was fine again
+                    # hours later). Back off and retry before calling the source broken.
+                    for wait in self.BLOCK_WAITS:
+                        time.sleep(wait)
                         status, body, _ = fetch(url)
                         if status == 200 and body.strip().startswith('['):
                             break
                 if status != 200 or not body.strip().startswith('['):
                     if page == 1:
+                        self.blocked = looks_blocked(status, body, want_json=True)
                         self.errors.append(f'station list HTTP {status}: {body[:120]}')
                         return []
                     break
@@ -239,8 +264,13 @@ class MikaScraper:
                'http_status': status, 'prices': {}, 'lat': None, 'lon': None, 'map_url': None}
         if status != 200:
             self.errors.append(f"{st['slug']}: HTTP {status}")
+            if status == 403:
+                row['blocked'] = True
             return row
         row['prices'] = parse_prices(html)
+        if not row['prices'] and looks_blocked(status, html):
+            row['blocked'] = True
+            self.errors.append(f"{st['slug']}: Immunify360 challenge")
         # The WordPress post title (h1) can be stale after an operator renames a station: on
         # `mika-קריית-ביאליק` the CPT still says "מיקה ביאליק" while the page's own SEO title says
         # "דור אלון קריית ביאליק". The page is authoritative, so keep both and prefer the page.
@@ -706,6 +736,14 @@ def main() -> int:
     sc = MikaScraper(sleep=a.sleep)
     stations = sc.stations()
     if not stations:
+        if sc.blocked:
+            # A transient WAF block is not a site change: exit 4 so CI warns and publishes the
+            # Waze layer anyway (publish_prices.py carries the previous Mika prices over) instead
+            # of failing the whole price run. The next scheduled run retries.
+            print('WARN: mika.org.il answered its Immunify360 bot-protection block after all '
+                  'retries - keeping the previously published Mika prices:', sc.errors[:2],
+                  flush=True)
+            return 4
         print('FAIL: could not list Mika stations:', sc.errors[:2])
         return 1
     if a.limit:
@@ -743,6 +781,15 @@ def main() -> int:
         prices = ' '.join(f'{k}={v["price"]}' for k, v in row['prices'].items())
         print(f"[{i}/{len(stations)}] {row['mika_name'][:38]:<38} {prices}", flush=True)
         time.sleep(a.sleep)
+
+    # The block can also start mid-run: if the list got through but most pages are bot-blocked,
+    # merging their empty price sets would say "Mika has no prices", which is not true. Same
+    # soft-fail as a list-level block - keep the previous Mika prices, do not touch the merge.
+    blocked = [r for r in rows if r.get('blocked')]
+    if rows and not any(r['prices'] for r in rows) and len(blocked) * 2 >= len(rows):
+        print(f'WARN: {len(blocked)}/{len(rows)} Mika pages came back blocked (Immunify360) - '
+              'keeping the previously published Mika prices.', flush=True)
+        return 4
 
     # ---- join to our stations, strongest evidence first, and never twice to the same station
     taken: dict[str, str] = {}
