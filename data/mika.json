@@ -141,16 +141,6 @@
     "waze_id": "googlePlaces.ChIJRbDsBsfPAhURV5N9ZyQda0E"
   },
   {
-    "name": "יהונתן",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.987759,
-      "lon": 34.764161
-    },
-    "pin_source": "registry",
-    "waze_id": "googlePlaces.ChIJxaBIOYWzAhURE0gMF6_nCO0"
-  },
-  {
     "name": "עומר",
     "brand": "מיקה",
     "coordinates": {
