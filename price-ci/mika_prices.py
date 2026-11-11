@@ -377,6 +377,20 @@ def join_by_name(mika_name: str, ours: list[dict]) -> tuple[dict | None, str, li
     return None, f'ambiguous ({", ".join(names[:4])})', names
 
 
+def join_page_by_name(row: dict, ours: list[dict]) -> tuple[dict | None, str, list[str]]:
+    """Pass 2: the page's own name, falling back to its WordPress post title.
+
+    The SEO title is usually the cleaner name, but its separator is inconsistent - e.g.
+    `מיקה ראשון-תחנת דלק בראשון לציון` has no spaces around the dash, so the "page name" is the
+    whole sentence and matches nothing. When that happens the page must still be tried by its
+    post title (`מיקה ראשון, משה לוי 7 ראשל"צ`). Without this, the page silently loses its
+    station to a price-less page in the last-resort pass and its 98 price never merges."""
+    joined, method, cands = join_by_name(row.get('page_name') or row['mika_name'], ours)
+    if not joined and row.get('page_name') and row['mika_name'] != row['page_name']:
+        joined, method, cands = join_by_name(row['mika_name'], ours)
+    return joined, method, cands
+
+
 CITY_ALIASES = {'ראשל"צ': 'ראשון לציון', 'ראשלצ': 'ראשון לציון', 'פ"ת': 'פתח תקווה',
                 'ת"א': 'תל אביב-יפו', 'י-ם': 'ירושלים', 'באר שבע': 'באר שבע'}
 
@@ -809,7 +823,7 @@ def main() -> int:
     for row in rows:                                   # pass 2: station name on the page
         if row.get('station_key'):
             continue
-        joined, method, cands = join_by_name(row.get('page_name') or row['mika_name'], ours)
+        joined, method, cands = join_page_by_name(row, ours)
         row['name_candidates'] = cands
         if joined and joined['key'] not in taken:
             row.update({'station_key': joined['key'], 'station_file': joined['file'],
@@ -833,7 +847,7 @@ def main() -> int:
             taken[joined['key']] = row['slug']
             row['address_check'] = address_check(row, joined, book)
     for row in rows:                                   # pass 4: co-branded pumps (city + brand)
-        if row.get('station_key') or not city_index:
+        if row.get('station_key') or not row['prices'] or not city_index:
             continue
         joined, method, cands = join_by_city_brand(row['mika_name'], ours, city_index,
                                                    set(taken), brand_hint=row.get('page_brand'))

@@ -75,5 +75,20 @@ class StationListRetry(unittest.TestCase):
         self.assertFalse(sc.blocked)
 
 
+class PageTitleFallback(unittest.TestCase):
+    def test_junk_seo_title_falls_back_to_the_post_title(self):
+        # Seen live 2026-11-11: the Rishon page's <title> is "מיקה ראשון-תחנת דלק בראשון לציון"
+        # (no spaces around the dash), so the "page name" parsed to the whole sentence and the
+        # page matched nothing - then a price-less page took its station in the last-resort pass
+        # and its 98 price stopped merging.
+        ours = [{'name': 'ראשון', 'brand': 'מיקה', 'key': 'mika.json|ראשון|31.986506,34.772124',
+                 'file': 'mika.json'}]
+        row = {'mika_name': 'מיקה ראשון, משה לוי 7 ראשל"צ',
+               'page_name': 'מיקה ראשון-תחנת דלק בראשון לציון'}
+        joined, method, _ = mp.join_page_by_name(row, ours)
+        self.assertEqual(joined.get('name'), 'ראשון')
+        self.assertEqual(method, 'name-brand')
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
