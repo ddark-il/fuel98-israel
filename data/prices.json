@@ -1,11 +1,11 @@
 {
- "generated": "2026-11-11T07:10:10Z",
+ "generated": "2026-11-11T10:19:46Z",
  "fuel": "98",
  "counts": {
   "stations": 103,
   "with_98": 103,
-  "from_mika": 29,
-  "carried_over": 35
+  "from_mika": 0,
+  "carried_over": 103
  },
  "stations": {
   "venues.22806848.227871875.1195": {
