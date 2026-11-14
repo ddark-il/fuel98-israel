@@ -1,17 +1,17 @@
 {
- "generated": "2026-11-13T18:26:15Z",
+ "generated": "2026-11-14T00:08:12Z",
  "fuel": "98",
  "counts": {
   "stations": 106,
   "with_98": 106,
-  "from_mika": 0,
-  "carried_over": 106
+  "from_mika": 29,
+  "carried_over": 59
  },
  "stations": {
   "venues.22806849.228330632.1919": {
    "98": 8.2,
    "station": "delek.json|בני ברק|32.07825,34.8418",
-   "reported_at": "2026-11-12T18:42:40Z"
+   "reported_at": "2026-11-13T11:49:55Z"
   },
   "venues.22806848.227806336.2133": {
    "98": 8.25,
@@ -22,6 +22,226 @@
    "98": 8.01,
    "station": "delek.json|שעריי חולון|32.03291,34.77497",
    "reported_at": "2026-11-09T21:06:18Z"
+  },
+  "venues.22806848.228265087.631": {
+   "98": 8.76,
+   "station": "doralon.json|בית דגן|31.990032,34.8295163",
+   "reported_at": "2026-11-12T10:49:45Z"
+  },
+  "venues.22806849.228068488.1940": {
+   "98": 7.89,
+   "station": "doralon.json|רמת גן אבא הלל|32.08496,34.8034",
+   "reported_at": "2026-11-12T21:18:39Z"
+  },
+  "venues.22806850.228134032.951": {
+   "98": 6.0,
+   "station": "paz.json|אשל הרצליה|32.1578923,34.8102571",
+   "reported_at": "2026-11-12T18:22:43Z"
+  },
+  "venues.22806841.228002872.564": {
+   "98": 9.37,
+   "station": "paz.json|הנשיאים|31.2779185,34.79484",
+   "reported_at": "2026-11-12T15:54:15Z"
+  },
+  "venues.22872387.228789411.2107": {
+   "98": 7.77,
+   "station": "paz.json|זך רופין|32.3454167,34.9084071",
+   "reported_at": "2026-11-13T17:30:27Z"
+  },
+  "venues.22806848.227871875.201": {
+   "98": 9.83,
+   "station": "paz.json|חולון|32.0304332,34.7744083",
+   "reported_at": "2026-11-09T08:07:58Z"
+  },
+  "googlePlaces.ChIJM4GadvlxABURLnWtksNCGRs": {
+   "98": 7.58,
+   "station": "paz.json|לשם אילת|29.5552326,34.9555432",
+   "reported_at": "2026-11-13T13:45:19Z"
+  },
+  "googlePlaces.ChIJDQFDPq_OAhURx8qkcWndCow": {
+   "98": 9.31,
+   "station": "paz.json|מודיעין הראל דרך צור|31.889423,34.960295",
+   "reported_at": "2026-11-10T18:06:43Z"
+  },
+  "googlePlaces.ChIJbVP4MQ44HBURTKJbC2D98Ug": {
+   "98": 9.31,
+   "station": "paz.json|מצפה טורען|32.7944357,35.4042631",
+   "reported_at": "2026-11-11T15:04:25Z"
+  },
+  "googlePlaces.ChIJiQ10R_bOHRURHZ-9D76CsqI": {
+   "98": 9.0,
+   "station": "paz.json|נהריה לוחמי הגטאות.|33.00146,35.09743",
+   "reported_at": "2026-10-26T04:16:41Z"
+  },
+  "venues.22806849.227806342.251": {
+   "98": 9.02,
+   "station": "paz.json|פז גן|32.0641358,34.7619018",
+   "reported_at": "2026-11-04T11:11:35Z"
+  },
+  "venues.22741310.227150954.2196": {
+   "98": 9.2,
+   "station": "sonol.json|עד הלום|31.77852,34.66406",
+   "reported_at": "2026-11-09T14:18:01Z"
+  },
+  "venues.22937928.229117138.458": {
+   "98": 9.2,
+   "station": "sonol.json|שער העליה|32.819453,34.955617",
+   "reported_at": "2026-11-10T19:38:48Z"
+  },
+  "googlePlaces.ChIJ9bc10KHNAhURI7TbqL-nY-g": {
+   "98": 7.42,
+   "station": "sonol.json|שילת|31.91466,35.01615",
+   "reported_at": "2026-11-12T14:53:37Z"
+  },
+  "googlePlaces.ChIJgZRjq_5JHRURQUsGq7cekqY": {
+   "98": 9.22,
+   "station": "mika.json|פתח תקווה|32.091762,34.856639",
+   "reported_at": "2026-11-14T00:06:27Z"
+  },
+  "venues.22937928.229641422.506": {
+   "98": 8.39,
+   "station": "tapuz.json|חיפה|32.783092,35.037541",
+   "reported_at": "2026-11-13T11:05:07Z"
+  },
+  "googlePlaces.ChIJ_YlZfUGjAhUR7x_jHIcNzpg": {
+   "98": 9.34,
+   "station": "doralon.json|אשדוד רום שפר|31.8123573,34.6667287",
+   "reported_at": "2026-11-14T00:05:08Z"
+  },
+  "venues.22741312.227675265.1855": {
+   "98": 8.11,
+   "station": "doralon.json|בת ים הילי|32.0057983,34.7438908",
+   "reported_at": "2026-11-14T00:06:24Z"
+  },
+  "venues.22806848.227740799.2101": {
+   "98": 9.64,
+   "station": "doralon.json|ראשל\"צ שפירא|31.9919875,34.7538383",
+   "reported_at": "2026-11-14T00:05:11Z"
+  },
+  "venues.22937896.229116812.427": {
+   "98": 8.03,
+   "station": "mika.json|אילת|29.560773,34.957821",
+   "reported_at": "2026-11-14T00:08:12Z"
+  },
+  "venues.22806848.228002947.531014": {
+   "98": 8.17,
+   "station": "mika.json|הפלד|32.02517,34.794966",
+   "reported_at": "2026-11-14T00:05:12Z"
+  },
+  "venues.22872385.228461706.1780": {
+   "98": 8.32,
+   "station": "mika.json|גיסין|32.0984816,34.8663649",
+   "reported_at": "2026-11-14T00:05:13Z"
+  },
+  "venues.22806849.228330635.817": {
+   "98": 8.17,
+   "station": "mika.json|עתידים|32.1139947,34.8419784",
+   "reported_at": "2026-11-14T00:05:15Z"
+  },
+  "googlePlaces.ChIJD0mut2S3AhURf8OW4zDpma8": {
+   "98": 8.32,
+   "station": "mika.json|רחובות|31.898351,34.7869091",
+   "reported_at": "2026-11-14T00:05:21Z"
+  },
+  "googlePlaces.ChIJrfkxuYOzAhURSNiR-BJbBr8": {
+   "98": 8.24,
+   "station": "mika.json|אליאן|31.9935184,34.7677803",
+   "reported_at": "2026-11-14T00:05:16Z"
+  },
+  "googlePlaces.ChIJ0-FCYFG0AhURj88HPob8Bjs": {
+   "98": 8.98,
+   "station": "mika.json|פריימן|31.975284,34.812803",
+   "reported_at": "2026-11-14T00:08:10Z"
+  },
+  "venues.22806848.227871876.502808": {
+   "98": 8.11,
+   "station": "mika.json|וולפסון|32.035189,34.767947",
+   "reported_at": "2026-11-14T00:05:18Z"
+  },
+  "venues.23265608.232918223.248091": {
+   "98": 8.11,
+   "station": "mika.json|טבריה|32.7855957,35.5397489",
+   "reported_at": "2026-11-14T00:05:19Z"
+  },
+  "googlePlaces.ChIJsT_e6LewHRURsbV-3jv5c7M": {
+   "98": 8.26,
+   "station": "mika.json|חיפה|32.8085519,35.0596903",
+   "reported_at": "2026-11-14T00:07:51Z"
+  },
+  "googlePlaces.ChIJ33ZEf2UxHBUR1-e5Pe8DjaI": {
+   "98": 8.89,
+   "station": "mika.json|כרמיאל|32.920662,35.313417",
+   "reported_at": "2026-11-14T00:07:59Z"
+  },
+  "venues.23265608.232721619.22527": {
+   "98": 9.28,
+   "station": "mika.json|מגדל|32.8287773,35.5117865",
+   "reported_at": "2026-11-14T00:07:55Z"
+  },
+  "venues.23265605.232656050.1242": {
+   "98": 8.32,
+   "station": "mika.json|בית שאן|32.498738,35.497839",
+   "reported_at": "2026-11-14T00:07:46Z"
+  },
+  "googlePlaces.ChIJRbDsBsfPAhURV5N9ZyQda0E": {
+   "98": 8.32,
+   "station": "mika.json|מודיעין|31.89031,34.967369",
+   "reported_at": "2026-11-14T00:07:42Z"
+  },
+  "googlePlaces.ChIJcb19X_O9AhUR33dqAI3tpfk": {
+   "98": 8.89,
+   "station": "mika.json|באר טוביה|31.727304,34.750475",
+   "reported_at": "2026-11-14T00:07:10Z"
+  },
+  "googlePlaces.ChIJZX45QwycAhURhdYe-LPqvLE": {
+   "98": 9.3,
+   "station": "mika.json|הדרי אשקלון|31.673801,34.590038",
+   "reported_at": "2026-11-14T00:06:37Z"
+  },
+  "venues.22675773.226757726.23710": {
+   "98": 9.28,
+   "station": "mika.json|אשקלון|31.662251,34.5973233",
+   "reported_at": "2026-11-14T00:06:35Z"
+  },
+  "googlePlaces.ChIJ9XG5-N59AhURgm08TANGb_Q": {
+   "98": 9.28,
+   "station": "mika.json|נתיבות|31.423954,34.60046",
+   "reported_at": "2026-11-14T00:06:30Z"
+  },
+  "venues.23068990.230820969.1822": {
+   "98": 8.83,
+   "station": "mika.json|גן הפעמון|31.7694092,35.2240388",
+   "reported_at": "2026-11-14T00:07:44Z"
+  },
+  "venues.22806848.227871871.27930": {
+   "98": 8.26,
+   "station": "mika.json|ראשון|31.986506,34.772124",
+   "reported_at": "2026-11-14T00:07:53Z"
+  },
+  "googlePlaces.ChIJEYYko0y7AhURv4456wyvd2o": {
+   "98": 9.22,
+   "station": "mika.json|הקידמה אשדוד|31.835153,34.686938",
+   "reported_at": "2026-11-14T00:05:06Z"
+  },
+  "googlePlaces.ChIJKx-Fi2c3HRURkQU--CsZXh4": {
+   "98": 8.11,
+   "station": "mika.json|צומת גנים|32.097083,34.90685",
+   "reported_at": "2026-11-14T00:08:06Z"
+  },
+  "venues.22806849.228068487.2056": {
+   "98": 8.26,
+   "station": "sonol.json|יגאל אלון|32.074681,34.795835",
+   "reported_at": "2026-11-14T00:06:26Z"
+  },
+  "venues.22675773.226757725.28": {
+   "98": 9.22,
+   "station": "sonol.json|בית שקמה|31.654017,34.6001",
+   "reported_at": "2026-11-14T00:05:05Z"
+  },
+  "venues.22806847.228199538.5": {
+   "98": 9.22,
+   "station": "sonol.json|בילו רחובות|31.8616771,34.8154988",
+   "reported_at": "2026-11-14T00:05:09Z"
   },
   "venues.22872385.228527241.1505": {
    "98": 9.31,
@@ -52,11 +272,6 @@
    "98": 9.57,
    "station": "doralon.json|אשקלון עמיצור|31.6764459,34.5760767",
    "reported_at": "2026-10-26T17:59:17Z"
-  },
-  "venues.22806848.228265087.631": {
-   "98": 8.76,
-   "station": "doralon.json|בית דגן|31.990032,34.8295163",
-   "reported_at": "2026-11-12T10:49:45Z"
   },
   "venues.23068998.230689977.569": {
    "98": 8.74,
@@ -113,11 +328,6 @@
    "station": "paz.json|דרך המנהרות|31.72688,35.19473",
    "reported_at": "2026-11-04T07:01:24Z"
   },
-  "venues.22872387.228789411.2107": {
-   "98": 7.77,
-   "station": "paz.json|זך רופין|32.3454167,34.9084071",
-   "reported_at": "2026-11-12T13:08:04Z"
-  },
   "venues.23134537.231214300.456": {
    "98": 9.31,
    "station": "paz.json|כרמיאל מערב|32.9189738,35.2837013",
@@ -127,16 +337,6 @@
    "98": 9.28,
    "station": "paz.json|מנחם|31.9446477,34.800707",
    "reported_at": "2026-11-09T14:52:55Z"
-  },
-  "googlePlaces.ChIJbVP4MQ44HBURTKJbC2D98Ug": {
-   "98": 9.31,
-   "station": "paz.json|מצפה טורען|32.7944357,35.4042631",
-   "reported_at": "2026-11-11T15:04:25Z"
-  },
-  "googlePlaces.ChIJiQ10R_bOHRURHZ-9D76CsqI": {
-   "98": 9.0,
-   "station": "paz.json|נהריה לוחמי הגטאות.|33.00146,35.09743",
-   "reported_at": "2026-10-26T04:16:41Z"
   },
   "googlePlaces.ChIJOYLmOEFJHRURg91N6SDNCYc": {
    "98": 9.9,
@@ -157,11 +357,6 @@
    "98": 8.68,
    "station": "paz.json|עד הלום|31.7660602,34.6664046",
    "reported_at": "2026-11-04T20:32:25Z"
-  },
-  "venues.22806849.227806342.251": {
-   "98": 9.02,
-   "station": "paz.json|פז גן|32.0641358,34.7619018",
-   "reported_at": "2026-11-04T11:11:35Z"
   },
   "venues.22872381.229051489.1441": {
    "98": 7.77,
@@ -188,170 +383,10 @@
    "station": "sonol.json|קוממיות|32.004431,34.745829",
    "reported_at": "2026-11-05T12:19:06Z"
   },
-  "venues.22937928.229117138.458": {
-   "98": 9.2,
-   "station": "sonol.json|שער העליה|32.819453,34.955617",
-   "reported_at": "2026-11-10T19:38:48Z"
-  },
-  "venues.23068990.230820969.1822": {
-   "98": 8.83,
-   "station": "mika.json|גן הפעמון|31.7694092,35.2240388",
-   "reported_at": "2026-11-13T10:13:20Z"
-  },
-  "googlePlaces.ChIJ9bc10KHNAhURI7TbqL-nY-g": {
-   "98": 7.42,
-   "station": "sonol.json|שילת|31.91466,35.01615",
-   "reported_at": "2026-11-12T14:53:37Z"
-  },
   "googlePlaces.ChIJpy93IIm0HRUR-4auafMBsQU": {
    "98": 8.86,
    "station": "sonol.json|צומת עדי|32.792722,35.175127",
    "reported_at": "2026-11-05T09:20:38Z"
-  },
-  "venues.22937928.229641422.506": {
-   "98": 8.39,
-   "station": "tapuz.json|חיפה|32.783092,35.037541",
-   "reported_at": "2026-11-12T17:41:34Z"
-  },
-  "googlePlaces.ChIJ_YlZfUGjAhUR7x_jHIcNzpg": {
-   "98": 9.34,
-   "station": "doralon.json|אשדוד רום שפר|31.8123573,34.6667287",
-   "reported_at": "2026-11-13T10:10:42Z"
-  },
-  "venues.22741312.227675265.1855": {
-   "98": 8.11,
-   "station": "doralon.json|בת ים הילי|32.0057983,34.7438908",
-   "reported_at": "2026-11-13T10:12:01Z"
-  },
-  "venues.22806848.227740799.2101": {
-   "98": 9.64,
-   "station": "doralon.json|ראשל\"צ שפירא|31.9919875,34.7538383",
-   "reported_at": "2026-11-13T10:10:46Z"
-  },
-  "venues.22937896.229116812.427": {
-   "98": 8.03,
-   "station": "mika.json|אילת|29.560773,34.957821",
-   "reported_at": "2026-11-13T10:13:38Z"
-  },
-  "venues.22806848.228002947.531014": {
-   "98": 8.17,
-   "station": "mika.json|הפלד|32.02517,34.794966",
-   "reported_at": "2026-11-13T10:10:48Z"
-  },
-  "venues.22872385.228461706.1780": {
-   "98": 8.32,
-   "station": "mika.json|גיסין|32.0984816,34.8663649",
-   "reported_at": "2026-11-13T10:10:50Z"
-  },
-  "venues.22806849.228330635.817": {
-   "98": 8.17,
-   "station": "mika.json|עתידים|32.1139947,34.8419784",
-   "reported_at": "2026-11-13T10:10:52Z"
-  },
-  "googlePlaces.ChIJD0mut2S3AhURf8OW4zDpma8": {
-   "98": 8.32,
-   "station": "mika.json|רחובות|31.898351,34.7869091",
-   "reported_at": "2026-11-13T10:10:58Z"
-  },
-  "googlePlaces.ChIJrfkxuYOzAhURSNiR-BJbBr8": {
-   "98": 8.24,
-   "station": "mika.json|אליאן|31.9935184,34.7677803",
-   "reported_at": "2026-11-13T10:10:53Z"
-  },
-  "googlePlaces.ChIJ0-FCYFG0AhURj88HPob8Bjs": {
-   "98": 8.98,
-   "station": "mika.json|פריימן|31.975284,34.812803",
-   "reported_at": "2026-11-13T10:13:36Z"
-  },
-  "venues.22806848.227871876.502808": {
-   "98": 8.11,
-   "station": "mika.json|וולפסון|32.035189,34.767947",
-   "reported_at": "2026-11-13T10:10:55Z"
-  },
-  "venues.23265608.232918223.248091": {
-   "98": 8.11,
-   "station": "mika.json|טבריה|32.7855957,35.5397489",
-   "reported_at": "2026-11-13T10:10:56Z"
-  },
-  "googlePlaces.ChIJsT_e6LewHRURsbV-3jv5c7M": {
-   "98": 8.26,
-   "station": "mika.json|חיפה|32.8085519,35.0596903",
-   "reported_at": "2026-11-13T10:13:24Z"
-  },
-  "googlePlaces.ChIJ33ZEf2UxHBUR1-e5Pe8DjaI": {
-   "98": 8.89,
-   "station": "mika.json|כרמיאל|32.920662,35.313417",
-   "reported_at": "2026-11-13T10:13:30Z"
-  },
-  "venues.23265608.232721619.22527": {
-   "98": 9.28,
-   "station": "mika.json|מגדל|32.8287773,35.5117865",
-   "reported_at": "2026-11-13T10:13:28Z"
-  },
-  "venues.23265605.232656050.1242": {
-   "98": 8.32,
-   "station": "mika.json|בית שאן|32.498738,35.497839",
-   "reported_at": "2026-11-13T10:13:22Z"
-  },
-  "googlePlaces.ChIJRbDsBsfPAhURV5N9ZyQda0E": {
-   "98": 8.32,
-   "station": "mika.json|מודיעין|31.89031,34.967369",
-   "reported_at": "2026-11-13T10:13:18Z"
-  },
-  "googlePlaces.ChIJcb19X_O9AhUR33dqAI3tpfk": {
-   "98": 8.89,
-   "station": "mika.json|באר טוביה|31.727304,34.750475",
-   "reported_at": "2026-11-13T10:12:44Z"
-  },
-  "googlePlaces.ChIJZX45QwycAhURhdYe-LPqvLE": {
-   "98": 9.3,
-   "station": "mika.json|הדרי אשקלון|31.673801,34.590038",
-   "reported_at": "2026-11-13T10:12:11Z"
-  },
-  "venues.22675773.226757726.23710": {
-   "98": 9.28,
-   "station": "mika.json|אשקלון|31.662251,34.5973233",
-   "reported_at": "2026-11-13T10:12:10Z"
-  },
-  "googlePlaces.ChIJ9XG5-N59AhURgm08TANGb_Q": {
-   "98": 9.28,
-   "station": "mika.json|נתיבות|31.423954,34.60046",
-   "reported_at": "2026-11-13T10:12:08Z"
-  },
-  "googlePlaces.ChIJgZRjq_5JHRURQUsGq7cekqY": {
-   "98": 9.22,
-   "station": "mika.json|פתח תקווה|32.091762,34.856639",
-   "reported_at": "2026-11-13T10:12:05Z"
-  },
-  "venues.22806848.227871871.27930": {
-   "98": 8.26,
-   "station": "mika.json|ראשון|31.986506,34.772124",
-   "reported_at": "2026-11-13T10:13:26Z"
-  },
-  "googlePlaces.ChIJEYYko0y7AhURv4456wyvd2o": {
-   "98": 9.22,
-   "station": "mika.json|הקידמה אשדוד|31.835153,34.686938",
-   "reported_at": "2026-11-13T10:10:40Z"
-  },
-  "googlePlaces.ChIJKx-Fi2c3HRURkQU--CsZXh4": {
-   "98": 8.11,
-   "station": "mika.json|צומת גנים|32.097083,34.90685",
-   "reported_at": "2026-11-13T10:13:32Z"
-  },
-  "venues.22806849.228068487.2056": {
-   "98": 8.26,
-   "station": "sonol.json|יגאל אלון|32.074681,34.795835",
-   "reported_at": "2026-11-13T10:12:03Z"
-  },
-  "venues.22675773.226757725.28": {
-   "98": 9.22,
-   "station": "sonol.json|בית שקמה|31.654017,34.6001",
-   "reported_at": "2026-11-13T10:10:38Z"
-  },
-  "venues.22806847.228199538.5": {
-   "98": 9.22,
-   "station": "sonol.json|בילו רחובות|31.8616771,34.8154988",
-   "reported_at": "2026-11-13T10:10:44Z"
   },
   "venues.22675774.227085421.1731": {
    "98": 8.33,
@@ -373,16 +408,6 @@
    "station": "doralon.json|יהוד|32.026,34.89865",
    "reported_at": "2026-11-09T15:02:30Z"
   },
-  "venues.22806849.228068488.1940": {
-   "98": 7.89,
-   "station": "doralon.json|רמת גן אבא הלל|32.08496,34.8034",
-   "reported_at": "2026-11-12T21:18:39Z"
-  },
-  "venues.22806850.228134032.951": {
-   "98": 6.0,
-   "station": "paz.json|אשל הרצליה|32.1578923,34.8102571",
-   "reported_at": "2026-11-12T18:22:43Z"
-  },
   "googlePlaces.ChIJZ-4HnQ5mAhUR7rZIHh-iAi4": {
    "98": 9.3,
    "station": "paz.json|באר שבע צפון|31.2452645,34.7816333",
@@ -392,11 +417,6 @@
    "98": 8.0,
    "station": "paz.json|בר-כוכבא|31.783729,35.2087493",
    "reported_at": "2026-11-03T07:15:38Z"
-  },
-  "venues.22806848.227871875.201": {
-   "98": 9.83,
-   "station": "paz.json|חולון|32.0304332,34.7744083",
-   "reported_at": "2026-11-09T08:07:58Z"
   },
   "googlePlaces.ChIJiScjwrUUHRUR1fnl_okPcQI": {
    "98": 9.99,
@@ -443,11 +463,6 @@
    "station": "paz.json|אלוף שדה|32.0592117,34.8153404",
    "reported_at": "2026-11-08T16:08:21Z"
   },
-  "googlePlaces.ChIJDQFDPq_OAhURx8qkcWndCow": {
-   "98": 9.31,
-   "station": "paz.json|מודיעין הראל דרך צור|31.889423,34.960295",
-   "reported_at": "2026-11-10T18:06:43Z"
-  },
   "venues.22675773.226823264.392": {
    "98": 7.8,
    "station": "paz.json|סילבר|31.6837147,34.6102765",
@@ -478,20 +493,10 @@
    "station": "paz.json|הסיירים|32.0026081,34.8077773",
    "reported_at": "2026-11-12T05:37:42Z"
   },
-  "googlePlaces.ChIJM4GadvlxABURLnWtksNCGRs": {
-   "98": 7.58,
-   "station": "paz.json|לשם אילת|29.5552326,34.9555432",
-   "reported_at": "2026-11-07T15:38:38Z"
-  },
   "venues.22806841.228199477.752": {
    "98": 9.99,
    "station": "paz.json|פז בר|31.2509745,34.8207422",
    "reported_at": "2026-11-08T06:53:39Z"
-  },
-  "venues.22741310.227150954.2196": {
-   "98": 9.2,
-   "station": "sonol.json|עד הלום|31.77852,34.66406",
-   "reported_at": "2026-11-09T14:18:01Z"
   },
   "venues.23134534.231279804.319": {
    "98": 8.36,
@@ -517,11 +522,6 @@
    "98": 9.84,
    "station": "doralon.json|מחסיה|31.748198,35.003437",
    "reported_at": "2026-11-09T19:02:30Z"
-  },
-  "venues.22806841.228002872.564": {
-   "98": 9.37,
-   "station": "paz.json|הנשיאים|31.2779185,34.79484",
-   "reported_at": "2026-11-10T13:38:28Z"
   },
   "venues.22872385.228527242.2042479": {
    "98": 7.38,
