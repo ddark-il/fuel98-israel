@@ -90,5 +90,14 @@ class PageTitleFallback(unittest.TestCase):
         self.assertEqual(method, 'name-brand')
 
 
+class PinnedChain(unittest.TestCase):
+    def test_the_mika_chain_file_loads(self):
+        # 2026-11-17: mika.org.il serves a chain whose intermediate does not match its leaf's
+        # issuer; the pinned issuer cert is what keeps HTTPS reads verifiable.
+        self.assertTrue(os.path.exists(mp.CHAIN_PEM), mp.CHAIN_PEM)
+        ctx = mp.ssl_context()          # must raise if the PEM is corrupt
+        self.assertGreater(len(ctx.get_ca_certs()), 1)
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -35,6 +35,7 @@ import json
 import math
 import os
 import re
+import ssl
 import sys
 import time
 import urllib.error
@@ -66,6 +67,22 @@ def _sibling(*parts: str) -> str:
 _HERE = os.path.dirname(os.path.abspath(__file__))   # files that ship next to this script
 DATA_GLOB = _sibling('data', '*.json')
 NAV_CACHE = 'mika_navpoints_cache.json'
+
+# On 2026-11-17 mika.org.il stopped sending the intermediate that signs its leaf (the leaf's
+# issuer is RapidSSL G5 TLS RSA4096 SHA384 2022 CA1, but the served chain carries the older
+# RapidSSL TLS RSA CA G1), so every HTTPS read fails with "unable to get local issuer
+# certificate". mika_chain.pem is that issuer cert as DigiCert publishes it at the leaf's own
+# AIA URL (http://cacerts.digicert.com/RapidSSLG5TLSRSA4096SHA3842022CA1.crt); it is loaded as
+# one extra trust anchor, so a server chain that verifies normally is unaffected. Remove the
+# file (and this context) once mika.org.il serves a complete chain again.
+CHAIN_PEM = _sibling('mika_chain.pem')
+
+
+def ssl_context() -> ssl.SSLContext:
+    ctx = ssl.create_default_context()
+    if os.path.exists(CHAIN_PEM):
+        ctx.load_verify_locations(cafile=CHAIN_PEM)
+    return ctx
 
 TITLE_RE = re.compile(r'<title>([^<]{2,200})</title>', re.S)
 # The station page states its own address under כתובת: - the only place Mika gives a street
@@ -104,7 +121,7 @@ def fetch(url: str, timeout: int = 30) -> tuple[int, str, str]:
         'User-Agent': UA, 'Accept-Language': 'he-IL,he;q=0.9',
         'Accept': 'application/json, text/html;q=0.9, */*;q=0.8'})
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
+        with urllib.request.urlopen(req, timeout=timeout, context=ssl_context()) as r:
             return r.status, r.read().decode('utf-8', 'replace'), r.geturl()
     except urllib.error.HTTPError as e:
         return e.code, e.read().decode('utf-8', 'replace'), url
