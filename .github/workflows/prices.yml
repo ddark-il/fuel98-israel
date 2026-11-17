@@ -215,6 +215,25 @@ jobs:
           fi
           exit $code
 
+      - name: Mika - station-page flags (brand, 98, Shabbat)
+        run: |
+          set +e
+          python3 poc/mika_update.py
+          code=$?
+          if [ "$code" -ne 0 ]; then
+            echo "::warning::mika_update.py failed (exit $code) - the commit carries the previous Mika matches"
+          fi
+          exit 0
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        continue-on-error: true
+        with:
+          name: mika-matches
+          path: |
+            poc/mika_matches.json
+            poc/mika_update.json
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -261,8 +280,134 @@ jobs:
           path: data/violations.json
 
   # ────────────────────────────────────────────────────────────────────────────── commit ──
+  # ─────────────────────────────────────────────── station-database gatherers (brand sites + Waze) ──
+  # Each brand job fetches the operator's own station list, runs its updater and uploads the
+  # matches; the commit job folds them into data/stations.json - the site's single database.
+  pricecheck:
+    # Waze only answers with prices to an IL frontend, so this job uses the Israeli runner.
+    runs-on: ${{ fromJSON(vars.WAZE_RUNNER || '["ubuntu-latest"]') }}
+    timeout-minutes: 90
+    env:
+      WAZE_SESSION_COOKIE: '${{ vars.WAZE_SESSION_COOKIE }}'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Price-check every collected venue
+        run: python3 poc/price_check_all.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pricecheck
+          path: poc/price_check.jsonl
+
+  paz:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Browser tools
+        run: |
+          npm i --no-save playwright
+          npx playwright install --with-deps chromium
+      - run: node poc/fetch_official.js paz
+      - run: python3 poc/paz_update.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: paz, path: poc/paz_matches.json }
+
+  sonol:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Browser tools
+        run: |
+          npm i --no-save playwright
+          npx playwright install --with-deps chromium
+      - run: node poc/fetch_official.js sonol
+      - run: python3 poc/sonol_update.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sonol
+          path: |
+            poc/sonol_matches.json
+            poc/sonol_unmatched.json
+
+  doralon:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Browser tools
+        run: |
+          npm i --no-save playwright
+          npx playwright install --with-deps chromium
+      - run: node poc/fetch_official.js doralon
+      - run: python3 poc/doralon_update.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: doralon
+          path: |
+            poc/doralon_matches.json
+            poc/doralon_unmatched.json
+
+  delek:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Browser tools
+        run: |
+          npm i --no-save playwright
+          npx playwright install --with-deps chromium
+      - run: node poc/fetch_official.js delek
+      - run: python3 poc/delek_update.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: delek
+          path: |
+            poc/delek_matches.json
+            poc/delek_unmatched.json
+
+  ten:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: python3 poc/fetch_ten.py
+      - run: python3 poc/ten_update.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ten
+          path: |
+            poc/ten_matches.json
+            poc/ten_unmatched.json
+
   commit:
-    needs: [waze, mika, violations]
+    needs: [waze, mika, violations, pricecheck, paz, sonol, doralon, delek, ten]
     if: always() && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -427,13 +572,29 @@ jobs:
           PY
           cat data/prices.json | head -1 > /dev/null
 
+      # Station-database inputs: the brand jobs' matches + the Waze price check run by the
+      # pricecheck job. A missing artifact is fine - the builder carries the previous values.
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: '{paz,sonol,doralon,delek,ten,pricecheck,mika-matches}'
+          path: poc
+          merge-multiple: true
+
+      - name: Build data/stations.json (the site database)
+        continue-on-error: true
+        run: |
+          python3 poc/build_stations.py
+          python3 poc/publish_site.py
+
       - name: Commit
         run: |
           git config user.name  'price-check[bot]'
           git config user.email '107122576+price-check-bot@users.noreply.github.com'
           git add data/prices.json price-ci/mika_covered.json data/violations.json
+          git add data/stations.json || true
           if git diff --cached --quiet; then echo 'nothing changed'; exit 0; fi
-          MSG="data: refresh 98 prices (Waze + Mika) and fuel-quality flags [skip ci]"
-          BODY="$(python3 -c "import json;c=json.load(open('data/prices.json'))['counts'];print(f\"{c['with_98']} stations priced, {c['from_mika']} from Mika, {c.get('carried_over', 0)} carried over\")")"
+          MSG="data: refresh stations database + 98 prices (brands, Waze, Mika) [skip ci]"
+          BODY="$(python3 -c "import json;d=json.load(open('data/stations.json'));print(f\"{len(d)} stations, {sum(1 for r in d if r['got98'])} sell 98, {sum(1 for r in d if r['price'] is not None)} priced, {sum(1 for r in d if r['shabbat_closure'])} Shabbat-closed\")")"
           git commit -m "$MSG" -m "$BODY"
           git push

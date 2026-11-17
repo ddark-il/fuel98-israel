@@ -1,0 +1,6192 @@
+[
+ {
+  "name": "Ten אופקים",
+  "address": "ז'בוטינסקי, א.ת אופקים",
+  "lat": 31.3179978,
+  "lon": 34.6245068,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "9",
+   "10",
+   "11",
+   "15",
+   "19",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten אור עקיבא",
+  "address": "ההדס 2, א.ת צפוני, אור עקיבא",
+  "lat": 32.5156276,
+  "lon": 34.9213516,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten אילת",
+  "address": "הסוללים 9, אזור תעשיה שחורת, אילת",
+  "lat": 29.59599,
+  "lon": 34.9755094,
+  "shabbat_closed": false,
+  "saturday_text": "08:00-23:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "10:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "23:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten אריאל",
+  "address": "כניסה לפארק תעשיות אריאל מערב",
+  "lat": 32.096286,
+  "lon": 35.123783,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten אשדוד - עורף הנמל",
+  "address": "המדע 1, אשדוד",
+  "lat": 31.8306353,
+  "lon": 34.6716784,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "13:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten אשדוד ג'מבו",
+  "address": "הבושם 7, אשדוד",
+  "lat": 31.8197601,
+  "lon": 34.6611871,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten אשקלון דרום",
+  "address": "רחוב המתכנן 10, א.ת דרומי, אשקלון",
+  "lat": 31.6352492,
+  "lon": 34.5535683,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "18",
+   "19",
+   "22",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten אשקלון סילבר",
+  "address": "צומת סילבר, על כביש אשדוד אשקלון",
+  "lat": 31.6694733,
+  "lon": 34.6056985,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten באקה אל גרבייה",
+  "address": "אזור תעשיה ג'ת",
+  "lat": 32.39341134561897,
+  "lon": 35.044852459801554,
+  "shabbat_closed": false,
+  "saturday_text": "10:00-22:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "10:00",
+      "to_hour": "22:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "23",
+   "27",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten באר טוביה",
+  "address": "א.ת באר טוביה",
+  "lat": 31.7238729,
+  "lon": 34.7448179,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "12",
+   "14",
+   "15",
+   "17",
+   "19",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten באר שבע - בן גוריון",
+  "address": "שדרות בן גוריון 30, באר שבע",
+  "lat": null,
+  "lon": null,
+  "shabbat_closed": false,
+  "saturday_text": null,
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "00:00",
+      "to_hour": "00:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "00:00",
+      "to_hour": "00:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "00:00",
+      "to_hour": "00:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "00:00",
+      "to_hour": "00:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "00:00",
+      "to_hour": "00:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "00:00",
+      "to_hour": "00:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "00:00",
+      "to_hour": "00:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten באר שבע - דרך חברון",
+  "address": "דרך חברון, קריית עתידים, באר שבע",
+  "lat": 31.2414486,
+  "lon": 34.8043244,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten באר שבע - הדקל",
+  "address": "הדקל 1, באר שבע",
+  "lat": null,
+  "lon": null,
+  "shabbat_closed": false,
+  "saturday_text": null,
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "23:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "23:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "23:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "23:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "23:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "23:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "23:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "14",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten באר שבע עמק שרה",
+  "address": "הפועלים 19, א.ת עמק שרה, באר שבע",
+  "lat": 31.2262122,
+  "lon": 34.8076273,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten בארות יצחק",
+  "address": "מרכז מסחרי, כביש 4623, בארות יצחק",
+  "lat": 32.0472896,
+  "lon": 34.908942,
+  "shabbat_closed": true,
+  "saturday_text": "סגור",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "9",
+   "10",
+   "11",
+   "15",
+   "18",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten בילו סנטר- עקרון",
+  "address": "בוסי סנט ג'ורג' 14, עקרון",
+  "lat": 31.862947,
+  "lon": 34.8145344,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten בית העמק",
+  "address": "בכניסה לקיבוץ בית העמק",
+  "lat": 32.9694634,
+  "lon": 35.149986,
+  "shabbat_closed": false,
+  "saturday_text": "08:00-20:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten בית יהושע",
+  "address": "מתחם תחנת רכבת בית יהושע",
+  "lat": 32.2620627,
+  "lon": 34.8589539,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten בית שאן",
+  "address": "א.ת צפוני, בית שאן, פתוח 24/7",
+  "lat": 32.486596,
+  "lon": 35.495658,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "12",
+   "13",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten בת ים",
+  "address": "אורט ישראל 58, בת ים",
+  "lat": 32.0069004,
+  "lon": 34.7451608,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "17:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten דימונה",
+  "address": "מתחם קניון פרץ סנטר, דימונה",
+  "lat": 31.060742,
+  "lon": 35.019583,
+  "shabbat_closed": false,
+  "saturday_text": "09:00-22:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "09:00",
+      "to_hour": "22:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten הסיבים גבעת שמואל",
+  "address": "הסיבים 51, גבעת שמואל",
+  "lat": 32.0852171,
+  "lon": 34.8564071,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "9",
+   "10",
+   "11",
+   "12",
+   "15",
+   "19",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten חדרה",
+  "address": "היוצרים, חדרה",
+  "lat": 32.450637,
+  "lon": 34.909419,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "15",
+   "19",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten חולון",
+  "address": "הפלד 9, חולון",
+  "lat": 32.022553,
+  "lon": 34.797788,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten חולון המרכבה",
+  "address": "",
+  "lat": null,
+  "lon": null,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "14"
+  ]
+ },
+ {
+  "name": "Ten חוף שמן",
+  "address": "אופיר 27, חוף שמן",
+  "lat": 32.807627,
+  "lon": 35.015319,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "19",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten חיפה - חלוצי התעשיה",
+  "address": "חלוצי התעשיה 92, חיפה",
+  "lat": 32.8179674,
+  "lon": 35.0563455,
+  "shabbat_closed": false,
+  "saturday_text": "10:00-20:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "10:00",
+      "to_hour": "20:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten טבריה",
+  "address": "אזור תעשיה טבריה עילית",
+  "lat": 32.780801,
+  "lon": 35.501275,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "9",
+   "10",
+   "11",
+   "15",
+   "18",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten טירת הכרמל",
+  "address": "הרצל 72, טירת הכרמל",
+  "lat": 32.7710492,
+  "lon": 34.9754977,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "9",
+   "11",
+   "15",
+   "19",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten יבנה",
+  "address": "נחל דן 2 פינת נחל פארן, יבנה",
+  "lat": 31.8929278,
+  "lon": 34.7383491,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten יהוד",
+  "address": "העצמאות 50",
+  "lat": 32.0282316,
+  "lon": 34.8904472,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten ירושלים עטרות",
+  "address": "יציב 12, א.ת עטרות, ירושלים",
+  "lat": 31.85512,
+  "lon": 35.2146765,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "17:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "17:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "17:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "17:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "17:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten ירושלים תלפיות",
+  "address": "חרשי הברזל 11, ירושלים",
+  "lat": 31.7499356,
+  "lon": 35.2078257,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "17:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten כביש הסרגל עפולה (רימון)",
+  "address": "",
+  "lat": 32.60011384800157,
+  "lon": 35.26131387360888,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten כפר סבא מזרח",
+  "address": "עתיר ידע 6, אזור תעשיה כפר סבא",
+  "lat": 32.1642392,
+  "lon": 34.9294994,
+  "shabbat_closed": false,
+  "saturday_text": "10:00-22:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "10:00",
+      "to_hour": "22:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "9",
+   "10",
+   "11",
+   "15",
+   "19",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten כרמיאל",
+  "address": "החרושת 29, כרמיאל",
+  "lat": 32.9231834,
+  "lon": 35.3130528,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten מגדל העמק",
+  "address": "בכניסה המערבית לא.ת, מגדל העמק",
+  "lat": 32.667063,
+  "lon": 35.240797,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten מעלות תרשיחא",
+  "address": "רחוב חרושת, אזור תעשיה קורן, מעלות",
+  "lat": 33.018028,
+  "lon": 35.279788,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten נוף הגליל (נצרת עלית)",
+  "address": "פאוור סנטר 2000, הר יונה, נוף הגליל",
+  "lat": 32.7185858,
+  "lon": 35.3376242,
+  "shabbat_closed": false,
+  "saturday_text": null,
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "9",
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten ניר יפה",
+  "address": "כביש תענכים, בכניסה למושב ניר יפה",
+  "lat": 32.5738505,
+  "lon": 35.248804,
+  "shabbat_closed": false,
+  "saturday_text": "09:00-21:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "17:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "09:00",
+      "to_hour": "21:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten נתיבות",
+  "address": "יוסף סמלו, א.ת נתיבות",
+  "lat": 31.4184467,
+  "lon": 34.6015474,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten נתניה קניון ביקל",
+  "address": "הקדר 2, נתניה",
+  "lat": 32.322868,
+  "lon": 34.872032,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten סאג'ור",
+  "address": "כפר סאג'ור",
+  "lat": 32.9392947,
+  "lon": 35.3530136,
+  "shabbat_closed": false,
+  "saturday_text": "09:00-18:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "17:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "09:00",
+      "to_hour": "18:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "12",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten סלמה (נחל צלמון)",
+  "address": "כניסה לכפר סלמה",
+  "lat": 32.897355,
+  "lon": 35.365894,
+  "shabbat_closed": false,
+  "saturday_text": "08:00-21:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "21:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten עד הלום",
+  "address": "כביש אשדוד אשקלון, פאוור סנטר עד הלום",
+  "lat": 31.7670268,
+  "lon": 34.6655982,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten עידן הנגב",
+  "address": "א.ת עידן הנגב",
+  "lat": 31.3854187,
+  "lon": 34.7901755,
+  "shabbat_closed": false,
+  "saturday_text": "08:00-22:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "22:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten עילבון",
+  "address": "כפר עילבון",
+  "lat": 32.830886,
+  "lon": 35.407945,
+  "shabbat_closed": false,
+  "saturday_text": "09:00-20:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "09:00",
+      "to_hour": "20:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten עין צורים",
+  "address": "כביש 3 - כניסה לקיבוץ עין צורים",
+  "lat": 31.70155678446148,
+  "lon": 34.714858880814575,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "14"
+  ]
+ },
+ {
+  "name": "Ten עמק חפר",
+  "address": "א.ת עמק חפר",
+  "lat": 32.402043,
+  "lon": 34.901008,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "9",
+   "10",
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten עפולה",
+  "address": "א.ת ליד אולמי פאר, עפולה",
+  "lat": 32.606884,
+  "lon": 35.2969991,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten ערד",
+  "address": "מכונה 4, א.ת ערד",
+  "lat": 31.2480018,
+  "lon": 35.2046672,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten פארק ראם",
+  "address": "נחושתן, פארק ראם",
+  "lat": 31.77738103601997,
+  "lon": 34.752967202464674,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "13:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "18",
+   "19"
+  ]
+ },
+ {
+  "name": "Ten פלוגות",
+  "address": "צומת קוממיות",
+  "lat": 31.652742724824968,
+  "lon": 34.76282558464143,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "12",
+   "14",
+   "15",
+   "19",
+   "23",
+   "27",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten פרדס חנה",
+  "address": "המלאכה 92, פרדס חנה",
+  "lat": 32.4867547,
+  "lon": 34.9721236,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "12",
+   "14",
+   "15",
+   "19",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten פתח תקווה גיסין",
+  "address": "אבשלום גיסין 71, פינת משה דיין",
+  "lat": 32.09657496003082,
+  "lon": 34.86204873100003,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten צ'ק פוסט",
+  "address": "יעקב מושלי 20, צ'ק פוסט",
+  "lat": 32.787517,
+  "lon": 35.0386172,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten צפת",
+  "address": "מתחם לב העיר, אזור תעשיה, צפת",
+  "lat": 32.961404,
+  "lon": 35.498594,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "19:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "13",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten קצרין",
+  "address": "דרך היין, קצרין",
+  "lat": 32.987504684468966,
+  "lon": 35.708409498155845,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "13",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten קריית אתא",
+  "address": "זבולון 166, קריית אתא",
+  "lat": 32.8028939,
+  "lon": 35.0821053,
+  "shabbat_closed": false,
+  "saturday_text": "10:00-22:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "10:00",
+      "to_hour": "22:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten קריית ביאליק",
+  "address": "כביש חיפה - עכו, בכניסה הצפונית לא.ת",
+  "lat": 32.87449,
+  "lon": 35.0975709,
+  "shabbat_closed": false,
+  "saturday_text": "09:00-21:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "09:00",
+      "to_hour": "21:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "12",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten קריית שמונה",
+  "address": "מתחם מבנה, קרית שמונה",
+  "lat": 33.1991889,
+  "lon": 35.5764647,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten קרית גת",
+  "address": "טבת 9, קריית גת",
+  "lat": 31.5981053,
+  "lon": 34.7780501,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "9",
+   "10",
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten ראש העין",
+  "address": "עמל 1, פארק אפק, ראש העין",
+  "lat": 32.1087123,
+  "lon": 34.9643018,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "21:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "9",
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten ראש פינה",
+  "address": "סנטר הגליל, כביש ראשי ראש פינה",
+  "lat": 32.9689822,
+  "lon": 35.5497971,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten ראשון לציון",
+  "address": "הרצל 79, ראשון לציון",
+  "lat": 31.964745,
+  "lon": 34.802867,
+  "shabbat_closed": false,
+  "saturday_text": "10:00-22:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "10:00",
+      "to_hour": "22:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "15",
+   "19",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten ראשון לציון המפרש",
+  "address": "שמוטקין 38, ראשון לציון",
+  "lat": 31.9797439,
+  "lon": 34.8134597,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "13",
+   "14",
+   "18",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten ראשון לציון לזרוב",
+  "address": "לזרוב 7, ראשון לציון",
+  "lat": 31.9943157,
+  "lon": 34.7690383,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "15"
+  ]
+ },
+ {
+  "name": "Ten ראשון לציון מערב",
+  "address": "זאב שלנג 5, ראשון לציון",
+  "lat": 31.9867338,
+  "lon": 34.7693138,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "09:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "9",
+   "10",
+   "11",
+   "12",
+   "15",
+   "19",
+   "23",
+   "29"
+  ]
+ },
+ {
+  "name": "Ten רומת אל הייב",
+  "address": "כביש 77, בצומת הכניסה לכיוון הישוב רומת אל הייב",
+  "lat": 32.767595,
+  "lon": 35.310158,
+  "shabbat_closed": false,
+  "saturday_text": "08:00-23:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "23:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten רחובות מכון וייצמן",
+  "address": "הרצל 223, רחובות",
+  "lat": 31.903804,
+  "lon": 34.807415,
+  "shabbat_closed": false,
+  "saturday_text": "10:00-22:00",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "00:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "00:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "00:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "00:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "00:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "17:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "10:00",
+      "to_hour": "22:00"
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten רמלה",
+  "address": "היצירה, א.ת רמלה",
+  "lat": 31.9328902,
+  "lon": 34.8829018,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten רמלה נשר",
+  "address": "הר גלבוע, רמלה",
+  "lat": 31.9160105,
+  "lon": 34.8893434,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "16:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "9",
+   "10",
+   "11",
+   "15",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten רעננה",
+  "address": "החרושת 10, רעננה",
+  "lat": 32.1938056,
+  "lon": 34.8811389,
+  "shabbat_closed": false,
+  "saturday_text": "21:00-23:59",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "00:00",
+      "to_hour": "23:59"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "00:00",
+      "to_hour": "23:59"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "00:00",
+      "to_hour": "23:59"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "00:00",
+      "to_hour": "23:59"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "00:00",
+      "to_hour": "23:59"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "00:00",
+      "to_hour": "23:59"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": "21:00",
+      "to_hour": "23:59"
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "13",
+   "14",
+   "15"
+  ]
+ },
+ {
+  "name": "Ten שדרות",
+  "address": "קופנהאגן 7, א.ת שדרות",
+  "lat": 31.5241729,
+  "lon": 34.6076219,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "20:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "19",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten תל אביב - מתחם התחנה",
+  "address": "אליזבת ברגנר 10, תל אביב",
+  "lat": 32.05748589585966,
+  "lon": 34.75933312929977,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "07:00",
+      "to_hour": "18:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "08:00",
+      "to_hour": "14:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "11",
+   "15",
+   "17",
+   "19",
+   "22",
+   "23"
+  ]
+ },
+ {
+  "name": "Ten תל חנן",
+  "address": "מרכז מסחרי תל חנן, תל חנן",
+  "lat": 32.7779884,
+  "lon": 35.0391334,
+  "shabbat_closed": false,
+  "saturday_text": "שירות עצמי",
+  "opening_hours": {
+   "1": {
+    "day": "1",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "2": {
+    "day": "2",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "3": {
+    "day": "3",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "4": {
+    "day": "4",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "5": {
+    "day": "5",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "22:00"
+     }
+    ]
+   },
+   "6": {
+    "day": "6",
+    "hoursArr": [
+     {
+      "from_hour": "06:00",
+      "to_hour": "15:00"
+     }
+    ]
+   },
+   "7": {
+    "day": "7",
+    "hoursArr": [
+     {
+      "from_hour": 0,
+      "to_hour": 0
+     }
+    ]
+   }
+  },
+  "services": [
+   "10",
+   "11",
+   "14",
+   "15",
+   "17",
+   "19",
+   "23",
+   "29"
+  ]
+ }
+]

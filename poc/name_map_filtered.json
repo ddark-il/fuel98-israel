@@ -1,0 +1,79 @@
+[
+ {
+  "ministry_id": "2344",
+  "station_name": "נווה יעקב",
+  "brand": "פז",
+  "lat": 31.835998879999998,
+  "lon": 35.22757187,
+  "venue_id": "googlePlaces.ChIJXTk8rR8rAxUR1Ms0o8Do35I",
+  "venue_name": "פז נווה יעקב",
+  "dist_m": 895.3,
+  "name_match": true
+ },
+ {
+  "ministry_id": "2360",
+  "station_name": "עזריה",
+  "brand": "פז",
+  "lat": 31.77218544,
+  "lon": 35.24285931,
+  "venue_id": "googlePlaces.ChIJHzV2P7EpAxURvMglS6ZT12k",
+  "venue_name": "פז עזריה",
+  "dist_m": 841.4,
+  "name_match": true
+ },
+ {
+  "ministry_id": "2496",
+  "station_name": "האון",
+  "brand": "דורלון",
+  "lat": 32.72430171,
+  "lon": 35.61941837,
+  "venue_id": "venues.23331143.233442504.2106",
+  "venue_name": "דור אלון האון",
+  "dist_m": 329.7,
+  "name_match": true
+ },
+ {
+  "ministry_id": "2736",
+  "station_name": "ערד שילה",
+  "brand": "דורלון",
+  "lat": 31.25395144,
+  "lon": 35.20625937,
+  "venue_id": "venues.23068984.230689845.567",
+  "venue_name": "דור אלון ערד שילה",
+  "dist_m": 1074.2,
+  "name_match": true
+ },
+ {
+  "ministry_id": "2787",
+  "station_name": "גן נר",
+  "brand": "דלק",
+  "lat": 32.532685,
+  "lon": 35.31857895,
+  "venue_id": "googlePlaces.ChIJWbxCYmFWHBURtPM10xVCe00",
+  "venue_name": "דלק גן נר",
+  "dist_m": 1715.1,
+  "name_match": true
+ },
+ {
+  "ministry_id": "2899",
+  "station_name": "דור אלון קרית ענבים",
+  "brand": "דורלון",
+  "lat": 31.810079,
+  "lon": 35.109048,
+  "venue_id": "googlePlaces.ChIJQ74ruRLRAhURpeF1UYUI71I",
+  "venue_name": "דור אלון קרית ענבים",
+  "dist_m": 1133.0,
+  "name_match": true
+ },
+ {
+  "ministry_id": "3109",
+  "station_name": "תפוז עמק שרה",
+  "brand": "תפוז",
+  "lat": 31.224918,
+  "lon": 34.805844,
+  "venue_id": "venues.22806840.228133938.2087575",
+  "venue_name": "תפוז עמק שרה",
+  "dist_m": 302.7,
+  "name_match": true
+ }
+]

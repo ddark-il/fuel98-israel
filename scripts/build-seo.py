@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent          # fuel98-israel/
 DATA = ROOT / "data"
 INDEX = ROOT / "index.html"
 DISP = {"דורלון": "דור אלון", "שיא אנרגיה": "אחר"}      # display-friendly brand names
-SKIP = {"manifest.json", "violations.json", "prices.json"}
+SKIP = {"manifest.json", "violations.json", "prices.json", "stations.json"}
 
 REGISTRY_RID = "5537a0ef-3eeb-449c-90c8-51e27564f0cb"
 REGISTRY_CACHE = Path("/tmp/ministry-registry.json")
@@ -107,6 +107,13 @@ def city_for(station, registry):
     return display_authority(pick["authority"]) if pick else ""
 
 def load_stations():
+    # the single station database (data/stations.json) when present; brand files otherwise
+    db = DATA / "stations.json"
+    if db.exists():
+        rows = json.loads(db.read_text(encoding="utf-8"))
+        return [{"brand": r["brand"], "name": r["station_name"],
+                 "coordinates": {"lat": r["lattiude"], "lon": r["longtitude"]}}
+                for r in rows if r.get("got98")]
     out = []
     for f in sorted(DATA.glob("*.json")):
         if f.name in SKIP:

@@ -1,0 +1,266 @@
+{
+ "1981": {
+  "slug": "%d7%a1%d7%95%d7%a0%d7%95%d7%9c-%d7%91%d7%99%d7%aa-%d7%a9%d7%a7%d7%9e%d7%94",
+  "brand": "סונול",
+  "price98": 9.22,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "1943": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%90%d7%a9%d7%93%d7%95%d7%93",
+  "brand": "מיקה",
+  "price98": null,
+  "got98": false,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2018": {
+  "slug": "%d7%93%d7%95%d7%a8-%d7%90%d7%9c%d7%95%d7%9f-%d7%a2%d7%9e%d7%99%d7%aa-%d7%a8%d7%90%d7%a9%d7%95%d7%9f-%d7%9c%d7%a6%d7%99%d7%95%d7%9f",
+  "brand": "דור אלון",
+  "price98": 9.64,
+  "got98": true,
+  "shabbat_closure": true,
+  "dist_m": null
+ },
+ "2215": {
+  "slug": "%d7%a1%d7%95%d7%a0%d7%95%d7%9c-%d7%91%d7%99%d7%9c%d7%95-%d7%a8%d7%97%d7%95%d7%91%d7%95%d7%aa",
+  "brand": "סונול",
+  "price98": 9.22,
+  "got98": true,
+  "shabbat_closure": true,
+  "dist_m": null
+ },
+ "2425": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%94%d7%a4%d7%9c%d7%93",
+  "brand": "מיקה",
+  "price98": 8.17,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2770": {
+  "slug": "%d7%91%d7%a7%d7%a8%d7%95%d7%91-%d7%9e%d7%99%d7%a7%d7%94-%d7%92%d7%99%d7%a1%d7%99%d7%9f",
+  "brand": "מיקה",
+  "price98": 8.32,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": 0.0
+ },
+ "2193": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%a2%d7%aa%d7%99%d7%93%d7%99%d7%9d",
+  "brand": "מיקה",
+  "price98": 8.17,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": 0.0
+ },
+ "2802": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%90%d7%9c%d7%99%d7%90%d7%9f",
+  "brand": "מיקה",
+  "price98": 8.24,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": 0.0
+ },
+ "1922": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%95%d7%95%d7%9c%d7%a4%d7%a1%d7%95%d7%9f",
+  "brand": "מיקה",
+  "price98": 8.11,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": 186.4
+ },
+ "2239": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%98%d7%91%d7%a8%d7%99%d7%94",
+  "brand": "מיקה",
+  "price98": 8.11,
+  "got98": true,
+  "shabbat_closure": true,
+  "dist_m": 0.0
+ },
+ "3046": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%aa%d7%97%d7%a0%d7%aa-%d7%93%d7%9c%d7%a7-%d7%91%d7%a8%d7%97%d7%95%d7%91%d7%95%d7%aa%d7%aa%d7%97%d7%a0%d7%95%d7%aa-%d7%93%d7%9c%d7%a7-%d7%a8%d7%97%d7%95%d7%91%d7%95%d7%aa",
+  "brand": "מיקה",
+  "price98": 8.32,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "3018": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%a8%d7%95%d7%9d-%d7%a8%d7%97%d7%95%d7%91%d7%95%d7%aa",
+  "brand": "מיקה",
+  "price98": null,
+  "got98": false,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2834": {
+  "slug": "%d7%a1%d7%95%d7%a0%d7%95%d7%9c-%d7%a2%d7%95%d7%9e%d7%a8-%d7%a1%d7%97%d7%a8%d7%95%d7%91-%d7%a8%d7%90%d7%a9%d7%95%d7%9f-%d7%9c%d7%a6%d7%99%d7%95%d7%9f",
+  "brand": "מיקה",
+  "price98": null,
+  "got98": false,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2830": {
+  "slug": "%d7%93%d7%95%d7%a8-%d7%90%d7%9c%d7%95%d7%9f-%d7%94%d7%99%d7%9c%d7%99-%d7%91%d7%aa-%d7%99%d7%9d",
+  "brand": "מיקה",
+  "price98": 8.11,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2606": {
+  "slug": "%d7%a1%d7%95%d7%a0%d7%95%d7%9c-%d7%99%d7%92%d7%90%d7%9c-%d7%90%d7%9c%d7%95%d7%9f",
+  "brand": "סונול",
+  "price98": 8.26,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2718": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%a4%d7%aa%d7%97-%d7%aa%d7%a7%d7%95%d7%95%d7%94",
+  "brand": "מיקה",
+  "price98": 9.22,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2682": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%a7%d7%a8%d7%99%d7%99%d7%aa-%d7%91%d7%99%d7%90%d7%9c%d7%99%d7%a7",
+  "brand": "מיקה",
+  "price98": null,
+  "got98": false,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "1840": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%a0%d7%aa%d7%99%d7%91%d7%95%d7%aa",
+  "brand": "מיקה",
+  "price98": 9.28,
+  "got98": true,
+  "shabbat_closure": true,
+  "dist_m": null
+ },
+ "2619": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%90%d7%a9%d7%a7%d7%9c%d7%95%d7%9f",
+  "brand": "מיקה",
+  "price98": 9.28,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2887": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%94%d7%93%d7%a8%d7%99-%d7%90%d7%a9%d7%a7%d7%9c%d7%95%d7%9f",
+  "brand": "מיקה",
+  "price98": 9.3,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "1879": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%91%d7%90%d7%a8-%d7%98%d7%95%d7%91%d7%99%d7%94",
+  "brand": "מיקה",
+  "price98": 8.89,
+  "got98": true,
+  "shabbat_closure": true,
+  "dist_m": null
+ },
+ "2749": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%99%d7%94%d7%95%d7%a0%d7%aa%d7%9f",
+  "brand": "מיקה",
+  "price98": null,
+  "got98": false,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2897": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%9e%d7%95%d7%93%d7%99%d7%a2%d7%99%d7%9f",
+  "brand": "מיקה",
+  "price98": 8.32,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2349": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%92%d7%9f-%d7%94%d7%a4%d7%a2%d7%9e%d7%95%d7%9f",
+  "brand": "מיקה",
+  "price98": 8.83,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": 0.0
+ },
+ "1920": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%91%d7%99%d7%aa-%d7%a9%d7%90%d7%9f",
+  "brand": "מיקה",
+  "price98": 8.32,
+  "got98": true,
+  "shabbat_closure": true,
+  "dist_m": null
+ },
+ "2420": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%97%d7%99%d7%a4%d7%94",
+  "brand": "מיקה",
+  "price98": 8.26,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2205": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%a8%d7%90%d7%a9%d7%95%d7%9f",
+  "brand": "סונול",
+  "price98": 8.26,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2898": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%9e%d7%92%d7%93%d7%9c",
+  "brand": "מיקה",
+  "price98": 9.28,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2930": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%9b%d7%a8%d7%9e%d7%99%d7%90%d7%9c",
+  "brand": "מיקה",
+  "price98": 8.89,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "2460": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%a6%d7%95%d7%9e%d7%aa-%d7%92%d7%a0%d7%99%d7%9d",
+  "brand": "מיקה",
+  "price98": 8.11,
+  "got98": true,
+  "shabbat_closure": true,
+  "dist_m": null
+ },
+ "3058": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%91%d7%99%d7%aa-%d7%97%d7%a9%d7%9e%d7%95%d7%a0%d7%90%d7%99",
+  "brand": "מיקה",
+  "price98": null,
+  "got98": false,
+  "shabbat_closure": true,
+  "dist_m": null
+ },
+ "2874": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%a4%d7%a8%d7%99%d7%99%d7%9e%d7%9f",
+  "brand": "מיקה",
+  "price98": 8.98,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ },
+ "1916": {
+  "slug": "%d7%9e%d7%99%d7%a7%d7%94-%d7%90%d7%99%d7%9c%d7%aa",
+  "brand": "מיקה",
+  "price98": 8.03,
+  "got98": true,
+  "shabbat_closure": false,
+  "dist_m": null
+ }
+}
