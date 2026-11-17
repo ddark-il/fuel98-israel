@@ -1,17 +1,20 @@
 name: update
 
-# What this does, three times a day, on the Israeli runner (repository variable WAZE_RUNNER):
-#   1. asks Waze for the 98 price of every station that carries a `waze_id` (3 parallel shards),
-#   2. scrapes Mika's own published prices and merges them on top (the operator beats the crowd),
-#   3. writes data/prices.json and commits it, so the static site gets fresh prices with no deploy.
-#
-# It fails loudly when the *run* is broken (transport blocked, API changed, source unreachable) and
-# stays green when Waze simply has no price for a station today - which is most stations.
-# publish_prices.py refuses to publish a file with far fewer prices than the committed one, so a bad
+# What this does, on the Israeli runner (repository variable WAZE_RUNNER) and GitHub-hosted runners:
+#   1. waze      - asks Waze for the 98 price of every station that carries a `waze_id`,
+#   2. mika      - scrapes Mika's own published prices (the operator beats the crowd),
+#   3. violations- checks the Ministry's substandard-fuel list,
+#   4. commit    - merges the two price sources on top of each other, builds data/prices.json,
+#                  and commits it together with data/violations.json, so the static site gets
+#                  fresh data with no deploy.
+# The three gatherers are independent: a failed source still lets the commit job publish what the
+# others found (publish_prices.py carries the previous prices over). It fails loudly when the *run*
+# is broken and stays green when Waze simply has no price for a station today - which is most
+# stations. publish_prices.py refuses a file with far fewer prices than the committed one, so a bad
 # run cannot blank the site.
 
 on:
-  # No `push` trigger on purpose: the publish job commits data/prices.json and data/violations.json,
+  # No `push` trigger on purpose: the commit job commits data/prices.json and data/violations.json,
   # and a push-triggered run would chase its own commits. Scheduled runs plus workflow_dispatch.
   schedule:
     - cron: '15 * * * *'              # hourly at :15 - GitHub's scheduler is best-effort: a 2-hourly
@@ -37,6 +40,7 @@ concurrency:
   group: prices
 
 jobs:
+  # ─────────────────────────────────────────────────────────────────────────── gatherers ──
   waze:
     # Waze serves Israeli fuel prices only to the IL frontend, and a GitHub-hosted runner is never
     # given one (measured: 0 draws in 64 connections, and 0 while an Israeli line answered 4/4 in the
@@ -127,7 +131,7 @@ jobs:
           PY
 
       # A shard that returns nothing is NOT a failed run: Waze serves fuel prices only to Israeli
-      # IPs, so a GitHub-hosted runner legitimately comes back empty. The publish job decides
+      # IPs, so a GitHub-hosted runner legitimately comes back empty. The commit job decides
       # whether the *pipeline* is broken (no prices from any source) and fails there.
       - name: Update (shard ${{ matrix.shard }})
         working-directory: price-ci
@@ -155,7 +159,7 @@ jobs:
           if [ "$code" -eq 3 ]; then
             # Not a bug in the pipeline - but the run did not read a single price, and a green job
             # here is a lie (that is how two dead shards went unnoticed earlier). Red, with the reason.
-            echo "::error::no IL cluster answered for 30 minutes - the Waze layer was not read this run. The site keeps its previous prices (publish carries them over); the next scheduled run tries again."
+            echo "::error::no IL cluster answered for 30 minutes - the Waze layer was not read this run. The site keeps its previous prices (commit carries them over); the next scheduled run tries again."
             exit 3
           fi
           exit "$code"
@@ -166,10 +170,63 @@ jobs:
           name: shard-${{ matrix.shard }}
           path: price-ci/shard-*.json
 
+  mika:
+    # Mika's own published prices. Independent of Waze and violations: it only scrapes and uploads
+    # its rows, and the commit job merges them. ubuntu-latest is fine - mika.org.il serves everyone
+    # (the pin in price-ci/mika_chain.pem covers the broken intermediate it started sending on
+    # 2026-11-17).
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+
+      # Mika's street join uses the Ministry registry, and some Mika pages resolve their pin from a
+      # cached map link. Both are cacheable; losing the registry only weakens one join pass, it does
+      # not fail the run.
+      - name: Cache the Ministry registry + Mika map markers
+        uses: actions/cache@v4
+        with:
+          path: |
+            price-ci/registry_cache.json
+            price-ci/mika_navpoints_cache.json
+          key: mika-caches-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: mika-caches-${{ runner.os }}-
+
+      - name: Mika - the operator's own prices
+        working-directory: price-ci
+        run: |
+          set +e
+          python3 mika_prices.py \
+            --out mika_prices.json \
+            --publish out \
+            --covered-out ../price-ci/mika_covered.json \
+            --sleep 0.4
+          code=$?
+          if [ "$code" -eq 4 ]; then
+            # Immunify360 bot-protection is holding this runner's IP right now. Publish the Waze
+            # layer anyway: publish_prices.py carries the previous Mika prices over, so the site
+            # loses a Mika refresh, not a price - the next run retries. (2026-11-06/-07: the old
+            # hard-fail threw away the whole Waze sweep for one 403.)
+            echo "::warning::mika.org.il is bot-blocking this IP (Immunify360) - previous Mika prices carried over, the Waze layer publishes as-is. The next run retries."
+            exit 0
+          fi
+          exit $code
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mika
+          path: |
+            price-ci/mika_prices.json
+            price-ci/mika_covered.json
+
   violations:
     # The Ministry's API is geo-restricted, so the check runs from Israel - which is what the
-    # self-hosted runner is for. Committing is a separate job: the IL runner's `git` is the
-    # CommandLineTools shim, which an x86_64 runner on Apple Silicon cannot execute.
+    # self-hosted runner is for. Committing is the commit job's business (the IL runner's `git` is
+    # the CommandLineTools shim, which an x86_64 runner on Apple Silicon cannot execute).
     runs-on: ${{ fromJSON(vars.WAZE_RUNNER || '["ubuntu-latest"]') }}
     timeout-minutes: 20
     steps:
@@ -203,30 +260,10 @@ jobs:
           name: violations
           path: data/violations.json
 
-  violations-commit:
-    needs: violations
+  # ────────────────────────────────────────────────────────────────────────────── commit ──
+  commit:
+    needs: [waze, mika, violations]
     if: always() && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with: { name: violations, path: data }
-      - name: Commit
-        run: |
-          git config user.name  'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          if git diff --quiet -- data/violations.json; then
-            echo "violations.json unchanged"
-          else
-            git add data/violations.json
-            git commit -m "data: violations.json from the Ministry list ($(date -u +%F))"
-            git push
-          fi
-
-  publish:
-    needs: waze
-    if: always()          # Mika is independent of Waze: publish what works
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -264,38 +301,41 @@ jobs:
           print(f'merged {len(stations)} stations from {len(files)} shard files')
           PY
 
-      # Mika's street join uses the Ministry registry, and some Mika pages resolve their pin from a
-      # cached map link. Both are cacheable; losing the registry only weakens one join pass, it does
-      # not fail the run.
-      - name: Cache the Ministry registry + Mika map markers
-        uses: actions/cache@v4
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
-          path: |
-            price-ci/registry_cache.json
-            price-ci/mika_navpoints_cache.json
-          key: mika-caches-${{ runner.os }}-${{ github.run_id }}
-          restore-keys: mika-caches-${{ runner.os }}-
+          pattern: mika
+          path: price-ci
+          merge-multiple: true
 
-      - name: Mika - the operator's own prices, merged on top
+      # Mika's rows are merged on top of the Waze shards (the operator beats the crowd). Skipped
+      # when the mika job failed - the Waze layer still publishes, with the previous Mika prices
+      # carried over by publish_prices.py.
+      - name: Merge Mika's prices on top
         working-directory: price-ci
         run: |
-          set +e
-          python3 mika_prices.py \
-            --out mika_prices.json \
-            --publish out \
-            --merge merged.json \
-            --covered-out ../price-ci/mika_covered.json \
-            --sleep 0.4
-          code=$?
-          if [ "$code" -eq 4 ]; then
-            # Immunify360 bot-protection is holding this runner's IP right now. Publish the Waze
-            # layer anyway: publish_prices.py carries the previous Mika prices over, so the site
-            # loses a Mika refresh, not a price - the next run retries. (2026-11-06/-07: the old
-            # hard-fail threw away the whole Waze sweep for one 403.)
-            echo "::warning::mika.org.il is bot-blocking this IP (Immunify360) - previous Mika prices carried over, the Waze layer publishes as-is. The next run retries."
+          if [ ! -f mika_prices.json ]; then
+            echo "::warning::no Mika artifact from this run - publishing the Waze layer only"
             exit 0
           fi
-          exit $code
+          set +e
+          python3 mika_prices.py \
+            --from-json mika_prices.json \
+            --merge merged.json \
+            --out mika_prices.json \
+            --publish out \
+            --covered-out ../price-ci/mika_covered.json
+          code=$?
+          if [ "$code" -ne 0 ]; then
+            echo "::warning::Mika merge failed (exit $code) - publishing the Waze layer only"
+          fi
+          exit 0
+
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: violations
+          path: data
 
       - name: Build data/prices.json
         working-directory: price-ci
@@ -320,7 +360,7 @@ jobs:
           for s in stopped:
               print(f'  stopped - {s}')
           if stopped and not priced:
-              print('  -> the IL cluster did not answer; publish carries the previous prices over, so '
+              print('  -> the IL cluster did not answer; commit carries the previous prices over, so '
                     'the site is not left empty, and the next run tries again')
           PY
 
@@ -388,13 +428,12 @@ jobs:
           cat data/prices.json | head -1 > /dev/null
 
       - name: Commit
-        if: github.ref == 'refs/heads/main'
         run: |
           git config user.name  'price-check[bot]'
           git config user.email '107122576+price-check-bot@users.noreply.github.com'
-          git add data/prices.json price-ci/mika_covered.json
+          git add data/prices.json price-ci/mika_covered.json data/violations.json
           if git diff --cached --quiet; then echo 'nothing changed'; exit 0; fi
-          MSG="prices: refresh 98 prices (Waze + Mika) [skip ci]"
+          MSG="data: refresh 98 prices (Waze + Mika) and fuel-quality flags [skip ci]"
           BODY="$(python3 -c "import json;c=json.load(open('data/prices.json'))['counts'];print(f\"{c['with_98']} stations priced, {c['from_mika']} from Mika, {c.get('carried_over', 0)} carried over\")")"
           git commit -m "$MSG" -m "$BODY"
           git push
