@@ -571,4 +571,14 @@ jobs:
           MSG="data: refresh stations database + 98 prices (brands, Waze, Mika) [skip ci]"
           BODY="$(python3 -c "import json;d=json.load(open('data/stations.json'));print(f\"{len(d)} stations, {sum(1 for r in d if r['got98'])} sell 98, {sum(1 for r in d if r['price'] is not None)} priced, {sum(1 for r in d if r['shabbat_closure'])} Shabbat-closed\")")"
           git commit -m "$MSG" -m "$BODY"
-          git push
+          # a human push during the run can move main under us: rebase and retry
+          for attempt in 1 2 3; do
+            if ! git pull --rebase origin main; then
+              git rebase --abort 2>/dev/null || true
+              echo "::error::rebase onto main failed - leaving the commit for the next run"
+              exit 1
+            fi
+            if git push; then exit 0; fi
+            sleep 5
+          done
+          exit 1
