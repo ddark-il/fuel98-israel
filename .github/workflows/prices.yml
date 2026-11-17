@@ -117,7 +117,7 @@ jobs:
           total = with_id = 0
           for f in sorted(glob.glob(os.path.join('..', 'data', '*.json'))):
               base = os.path.basename(f)
-              if base in ('manifest.json', 'violations.json', 'prices.json'):
+              if base in ('manifest.json', 'violations.json', 'prices.json', 'stations.json'):
                   continue
               for s in json.load(open(f, encoding='utf-8')):
                   total += 1
@@ -637,14 +637,20 @@ jobs:
           MSG="data: refresh stations database + 98 prices (brands, Waze, Mika) [skip ci]"
           BODY="$(python3 -c "import json;d=json.load(open('data/stations.json'));print(f\"{len(d)} stations, {sum(1 for r in d if r['got98'])} sell 98, {sum(1 for r in d if r['price'] is not None)} priced, {sum(1 for r in d if r['shabbat_closure'])} Shabbat-closed\")")"
           git commit -m "$MSG" -m "$BODY"
-          # a human push during the run can move main under us: rebase and retry
+          # a push during the run can move main under us: rebase and retry; if a data file
+          # conflicts, merge preferring the freshly built files (they are the newer truth)
           for attempt in 1 2 3; do
-            if ! git pull --rebase --autostash origin main; then
+            if git pull --rebase --autostash origin main 2>/dev/null; then
+              if git push 2>/dev/null; then exit 0; fi
+            else
               git rebase --abort 2>/dev/null || true
-              echo "::error::rebase onto main failed - leaving the commit for the next run"
-              exit 1
+              if git merge --no-edit -X ours origin/main 2>/dev/null; then
+                if git push 2>/dev/null; then exit 0; fi
+              else
+                git merge --abort 2>/dev/null || true
+              fi
             fi
-            if git push; then exit 0; fi
             sleep 5
           done
+          echo "::error::could not push the data commit - leaving it for the next run"
           exit 1
