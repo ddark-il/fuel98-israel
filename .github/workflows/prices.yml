@@ -390,7 +390,9 @@ jobs:
             poc/delek_unmatched.json
 
   ten:
-    runs-on: ubuntu-latest
+    # Ten's API answers with a 403 from GitHub-hosted runners (geo/IP filtered), so this job runs
+    # on the Israeli runner like the Waze checks.
+    runs-on: ${{ fromJSON(vars.WAZE_RUNNER || '["ubuntu-latest"]') }}
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
