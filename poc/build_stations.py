@@ -132,6 +132,73 @@ def brand_list_match(name, brand, lists):
     return (best is not None), bool(best and best[1])
 
 
+
+def apply_tapuz(rows):
+    """Brand list is the source of truth for Tapuz: one row per data/tapuz.json station.
+
+    The Ministry list carries several licences on a Tapuz forecourt (and stale rows), which
+    produced duplicate titles. Each brand-file station takes the nearest Tapuz database row as
+    its licence (preferring a venue-id match); every other Tapuz row is marked listed=False so
+    the site and the SEO block show the brand list only. A station with no ministry row gets a
+    synthetic id (tapuz:<name>) so it still gets a price.
+    """
+    taps = []
+    tp = os.path.join(REPO, 'data', 'tapuz.json')
+    if os.path.exists(tp):
+        taps = json.load(open(tp, encoding='utf-8'))
+    if not taps:
+        return rows
+    used, added = set(), []
+
+    def hav(a, b, c, d):
+        r = math.radians
+        R = 6371000
+        x = (math.sin((r(c) - r(a)) / 2) ** 2
+             + math.cos(r(a)) * math.cos(r(c)) * math.sin((r(d) - r(b)) / 2) ** 2)
+        return 2 * R * math.asin(math.sqrt(x))
+
+    for st in taps:
+        name = st['name']
+        shabbat = 'שמרת שבת' in name or 'שומרת שבת' in name
+        name = re.sub(r'\s*[-–,|]?\s*שומרת שבת\s*', ' ', name).strip()
+        lat, lon = st['coordinates']['lat'], st['coordinates']['lon']
+        cand, best = None, None
+        for r in rows:
+            if r['brand'] != 'תפוז' or r['ministry_id'] in used:
+                continue
+            d = hav(lat, lon, r['lattiude'], r['longtitude'])
+            if d > 300:
+                continue
+            score = (0 if (r.get('waze_id') and r.get('waze_id') == st.get('waze_id')) else 1,
+                     d, int(r['ministry_id']) if str(r['ministry_id']).isdigit() else 10**9)
+            if best is None or score < best:
+                best, cand = score, r
+        if cand is not None:
+            cand['station_name'] = name
+            cand['lattiude'], cand['longtitude'] = lat, lon
+            if st.get('waze_id'):
+                cand['waze_id'] = st['waze_id']
+            cand['listed'] = True
+            if shabbat:
+                cand['shabbat_closure'] = True
+            used.add(cand['ministry_id'])
+        else:
+            rec = {k: None for k in ('price', 'price_reported', 'violation_fuel',
+                                     'violation_sampling')}
+            rec.update({
+                'ministry_id': 'tapuz:' + re.sub(r'\s+', '-', name),
+                'station_name': name, 'brand': 'תפוז', 'lattiude': lat, 'longtitude': lon,
+                'waze_id': st.get('waze_id') or None, 'google_id': None,
+                'got98': True, 'price': None, 'price_reported': None,
+                'shabbat_closure': shabbat, 'violation': False,
+                'violation_fuel': None, 'violation_sampling': None, 'listed': True})
+            added.append(rec)
+    for r in rows:
+        if r['brand'] == 'תפוז' and r['ministry_id'] not in used:
+            r['listed'] = False
+    print(f'tapuz: {len(taps)} brand-list stations, {len(added)} without a ministry row')
+    return rows + added
+
 def main() -> int:
     rows = json.load(open(REGISTRY, encoding='utf-8'))
     if isinstance(rows, dict):
@@ -477,6 +544,7 @@ def main() -> int:
         stats['viol'] += row['violation']
         stats['waze'] += bool(venue_id)
 
+    out = apply_tapuz(out)
     json.dump(out, open(OUT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print(f'wrote {OUT}: {len(out)} stations')
     print('  linked to our data:', stats['linked'], '| with a waze_id:', stats['waze'])

@@ -113,7 +113,7 @@ def load_stations():
         rows = json.loads(db.read_text(encoding="utf-8"))
         return [{"brand": r["brand"], "name": r["station_name"],
                  "coordinates": {"lat": r["lattiude"], "lon": r["longtitude"]}}
-                for r in rows if r.get("got98")]
+                for r in rows if r.get("got98") and r.get("listed") is not False]
     out = []
     for f in sorted(DATA.glob("*.json")):
         if f.name in SKIP:
