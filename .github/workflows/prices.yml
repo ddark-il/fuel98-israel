@@ -298,7 +298,13 @@ jobs:
         run: |
           npm i --no-save playwright
           npx playwright install --with-deps chromium
-      - run: node poc/fetch_official.js paz
+      - name: Fetch the Paz station list (retry; the committed list is the fallback)
+        continue-on-error: true
+        run: |
+          for i in 1 2 3; do
+            node poc/fetch_official.js paz && break
+            sleep 20
+          done
       - run: python3 poc/paz_update.py
       - uses: actions/upload-artifact@v4
         if: always()
@@ -317,7 +323,13 @@ jobs:
         run: |
           npm i --no-save playwright
           npx playwright install --with-deps chromium
-      - run: node poc/fetch_official.js sonol
+      - name: Fetch the Sonol station list (retry; the committed list is the fallback)
+        continue-on-error: true
+        run: |
+          for i in 1 2 3; do
+            node poc/fetch_official.js sonol && break
+            sleep 20
+          done
       - run: python3 poc/sonol_update.py
       - uses: actions/upload-artifact@v4
         if: always()
@@ -340,7 +352,13 @@ jobs:
         run: |
           npm i --no-save playwright
           npx playwright install --with-deps chromium
-      - run: node poc/fetch_official.js doralon
+      - name: Fetch the Dor Alon station list (retry; the committed list is the fallback)
+        continue-on-error: true
+        run: |
+          for i in 1 2 3; do
+            node poc/fetch_official.js doralon && break
+            sleep 20
+          done
       - run: python3 poc/doralon_update.py
       - uses: actions/upload-artifact@v4
         if: always()
@@ -363,7 +381,13 @@ jobs:
         run: |
           npm i --no-save playwright
           npx playwright install --with-deps chromium
-      - run: node poc/fetch_official.js delek
+      - name: Fetch the Delek station list (retry; the committed list is the fallback)
+        continue-on-error: true
+        run: |
+          for i in 1 2 3; do
+            node poc/fetch_official.js delek && break
+            sleep 20
+          done
       - run: python3 poc/delek_update.py
       - uses: actions/upload-artifact@v4
         if: always()
@@ -394,7 +418,13 @@ jobs:
           fi
           echo "PYTHON=$PY" >> "$GITHUB_ENV"
           echo "python: $PY ($("$PY" --version 2>&1))"
-      - run: $PYTHON poc/fetch_ten.py
+      - name: Fetch Ten's station list (the committed list is the fallback)
+        continue-on-error: true
+        run: |
+          for i in 1 2 3; do
+            $PYTHON poc/fetch_ten.py && break
+            sleep 20
+          done
       - run: $PYTHON poc/ten_update.py
       - uses: actions/upload-artifact@v4
         if: always()
