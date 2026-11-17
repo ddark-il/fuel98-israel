@@ -555,6 +555,18 @@ jobs:
           path: poc
           merge-multiple: true
 
+      # build_stations needs the Ministry registry, which is a gitignored cache in the repo:
+      # fetch it here from data.gov.il (the same loader Mika uses, which writes the cache).
+      - name: Ministry registry for the station database
+        run: |
+          python3 - <<'PY'
+          import sys
+          sys.path.insert(0, 'price-ci')
+          import mika_prices
+          rows = mika_prices.load_registry()
+          print(f'registry rows: {len(rows)}')
+          PY
+
       - name: Build data/stations.json (the site database)
         continue-on-error: true
         run: |
@@ -573,7 +585,7 @@ jobs:
           git commit -m "$MSG" -m "$BODY"
           # a human push during the run can move main under us: rebase and retry
           for attempt in 1 2 3; do
-            if ! git pull --rebase origin main; then
+            if ! git pull --rebase --autostash origin main; then
               git rebase --abort 2>/dev/null || true
               echo "::error::rebase onto main failed - leaving the commit for the next run"
               exit 1
