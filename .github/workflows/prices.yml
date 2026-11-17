@@ -263,10 +263,22 @@ jobs:
       WAZE_SESSION_COOKIE: '${{ vars.WAZE_SESSION_COOKIE }}'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: { python-version: '3.12' }
+      - name: Tools on this runner
+        run: |
+          echo "host: $(uname -srm)"
+          PY=""
+          for c in "$(command -v python3 2>/dev/null)" /opt/homebrew/bin/python3 /usr/local/bin/python3 /usr/bin/python3 python3; do
+            [ -n "$c" ] || continue
+            if "$c" -c 'import sys; assert sys.version_info >= (3, 10)' 2>/dev/null; then PY="$c"; break; fi
+          done
+          if [ -z "$PY" ]; then
+            echo "::error::no working python3 >= 3.10 on this runner"
+            exit 1
+          fi
+          echo "PYTHON=$PY" >> "$GITHUB_ENV"
+          echo "python: $PY ($("$PY" --version 2>&1))"
       - name: Price-check every collected venue
-        run: python3 poc/price_check_all.py
+        run: $PYTHON poc/price_check_all.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -368,10 +380,22 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: { python-version: '3.12' }
-      - run: python3 poc/fetch_ten.py
-      - run: python3 poc/ten_update.py
+      - name: Tools on this runner
+        run: |
+          echo "host: $(uname -srm)"
+          PY=""
+          for c in "$(command -v python3 2>/dev/null)" /opt/homebrew/bin/python3 /usr/local/bin/python3 /usr/bin/python3 python3; do
+            [ -n "$c" ] || continue
+            if "$c" -c 'import sys; assert sys.version_info >= (3, 10)' 2>/dev/null; then PY="$c"; break; fi
+          done
+          if [ -z "$PY" ]; then
+            echo "::error::no working python3 >= 3.10 on this runner"
+            exit 1
+          fi
+          echo "PYTHON=$PY" >> "$GITHUB_ENV"
+          echo "python: $PY ($("$PY" --version 2>&1))"
+      - run: $PYTHON poc/fetch_ten.py
+      - run: $PYTHON poc/ten_update.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
