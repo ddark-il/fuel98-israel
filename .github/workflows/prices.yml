@@ -171,10 +171,10 @@ jobs:
           path: price-ci/shard-*.json
 
   mika:
-    # Mika's own published prices. Independent of Waze and violations: it only scrapes and uploads
-    # its rows, and the commit job merges them. ubuntu-latest is fine - mika.org.il serves everyone
-    # (the pin in price-ci/mika_chain.pem covers the broken intermediate it started sending on
-    # 2026-11-17).
+    # Mika's station pages: one scrape yields the operator's own prices, the 98 flag, the brand
+    # logo and the Shabbat hours, so there is a single step (mika_update.py). ubuntu-latest is fine
+    # - mika.org.il serves everyone (the pin in price-ci/mika_chain.pem covers the broken
+    # intermediate it started sending on 2026-11-17).
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -195,26 +195,6 @@ jobs:
           key: mika-caches-${{ runner.os }}-${{ github.run_id }}
           restore-keys: mika-caches-${{ runner.os }}-
 
-      - name: Mika - the operator's own prices
-        working-directory: price-ci
-        run: |
-          set +e
-          python3 mika_prices.py \
-            --out mika_prices.json \
-            --publish out \
-            --covered-out ../price-ci/mika_covered.json \
-            --sleep 0.4
-          code=$?
-          if [ "$code" -eq 4 ]; then
-            # Immunify360 bot-protection is holding this runner's IP right now. Publish the Waze
-            # layer anyway: publish_prices.py carries the previous Mika prices over, so the site
-            # loses a Mika refresh, not a price - the next run retries. (2026-11-06/-07: the old
-            # hard-fail threw away the whole Waze sweep for one 403.)
-            echo "::warning::mika.org.il is bot-blocking this IP (Immunify360) - previous Mika prices carried over, the Waze layer publishes as-is. The next run retries."
-            exit 0
-          fi
-          exit $code
-
       - name: Mika - station-page flags (brand, 98, Shabbat)
         run: |
           set +e
@@ -233,14 +213,6 @@ jobs:
           path: |
             poc/mika_matches.json
             poc/mika_update.json
-
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: mika
-          path: |
-            price-ci/mika_prices.json
-            price-ci/mika_covered.json
 
   violations:
     # The Ministry's API is geo-restricted, so the check runs from Israel - which is what the
