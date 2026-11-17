@@ -444,9 +444,12 @@ def main() -> int:
             price_rep_out = None
         if 'שומרת שבת' in (name or ''):
             name = re.sub(r'\s*[-–,|]?\s*שומרת שבת\s*', ' ', name).strip()
+        station_name = linked['name'] if linked else name
+        if 'שומרת שבת' in (station_name or ''):
+            station_name = re.sub(r'\s*[-–,|]?\s*שומרת שבת\s*', ' ', station_name).strip()
         row = {
             'ministry_id': lic,
-            'station_name': linked['name'] if linked else name,
+            'station_name': station_name,
             'brand': brand,
             'longtitude': (official_pins.get(lic) or {}).get('lon')
                           if (official_pins.get(lic) or {}).get('lon') is not None
