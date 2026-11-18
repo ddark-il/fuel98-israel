@@ -236,7 +236,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "898",
@@ -329,7 +330,7 @@
   "brand": "מיקה",
   "longtitude": 34.86204873100003,
   "lattiude": 32.09657496003082,
-  "got98": false,
+  "got98": true,
   "waze_id": "venues.22872385.228461706.1753",
   "google_id": "googlePlaces.ChIJtfUupOJJHRURNmjdxFF1tiM",
   "price": null,
@@ -1256,7 +1257,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "1536",
@@ -1324,7 +1326,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "1547",
@@ -1562,7 +1565,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "1604",
@@ -1613,7 +1617,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "1616",
@@ -1868,7 +1873,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "1657",
@@ -2276,7 +2282,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "1760",
@@ -2480,7 +2487,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "1830",
@@ -2621,10 +2629,10 @@
  {
   "ministry_id": "1840",
   "station_name": "נתיבות",
-  "brand": "מיקה",
+  "brand": "דלק",
   "longtitude": 34.60046,
   "lattiude": 31.423954,
-  "got98": true,
+  "got98": false,
   "waze_id": "venues.22675770.226757702.250496",
   "google_id": "googlePlaces.ChIJ9XG5-N59AhURgm08TANGb_Q",
   "price": 9.28,
@@ -3215,8 +3223,8 @@
  },
  {
   "ministry_id": "1879",
-  "station_name": "באר טוביה",
-  "brand": "מיקה",
+  "station_name": "גל באר טוביה",
+  "brand": "דלק",
   "longtitude": 34.750475,
   "lattiude": 31.727304,
   "got98": true,
@@ -3895,12 +3903,12 @@
  },
  {
   "ministry_id": "1920",
-  "station_name": "בית שאן",
-  "brand": "מיקה",
+  "station_name": "אספסת (בית שאן)",
+  "brand": "דלק",
   "longtitude": 35.497839,
   "lattiude": 32.498738,
-  "got98": true,
-  "waze_id": "venues.23265605.232656050.1242",
+  "got98": false,
+  "waze_id": null,
   "google_id": "googlePlaces.ChIJYxsDh79eHBURw2ZkVJue2UA",
   "price": 8.32,
   "price_reported": "2026-11-18T08:41:16.031161+00:00",
@@ -4256,7 +4264,7 @@
   "brand": "מיקה",
   "longtitude": 34.686938,
   "lattiude": 31.835153,
-  "got98": false,
+  "got98": true,
   "waze_id": "venues.22741310.227347568.71749",
   "google_id": "googlePlaces.ChIJEYYko0y7AhURv4456wyvd2o",
   "price": null,
@@ -4316,7 +4324,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "1948",
@@ -4698,7 +4707,7 @@
   "brand": "מיקה",
   "longtitude": 34.60046,
   "lattiude": 31.423954,
-  "got98": false,
+  "got98": true,
   "waze_id": "venues.22675770.226757702.250496",
   "google_id": "googlePlaces.ChIJ9XG5-N59AhURgm08TANGb_Q",
   "price": null,
@@ -6305,7 +6314,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2087",
@@ -6339,7 +6349,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2089",
@@ -6766,7 +6777,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2117",
@@ -6923,12 +6935,12 @@
  },
  {
   "ministry_id": "2127",
-  "station_name": "לירי אילת",
-  "brand": "סונול",
+  "station_name": "אדום אילת",
+  "brand": "פז",
   "longtitude": 34.961762,
   "lattiude": 29.570225,
-  "got98": true,
-  "waze_id": "venues.22937896.229116813.22619",
+  "got98": false,
+  "waze_id": "venues.22937896.229116813.1015",
   "google_id": "googlePlaces.ChIJRdj1wwZvABURB4pCt0dXKhc",
   "price": null,
   "price_reported": null,
@@ -7021,7 +7033,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2133",
@@ -7875,7 +7888,7 @@
  },
  {
   "ministry_id": "2187",
-  "station_name": "ראש העין אפק",
+  "station_name": "בעינה",
   "brand": "פז",
   "longtitude": 35.2764522,
   "lattiude": 32.9250541,
@@ -8058,7 +8071,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2199",
@@ -8691,8 +8705,8 @@
  },
  {
   "ministry_id": "2239",
-  "station_name": "טבריה",
-  "brand": "מיקה",
+  "station_name": "עוז טבריה",
+  "brand": "פז",
   "longtitude": 35.5397489,
   "lattiude": 32.7855957,
   "got98": true,
@@ -10591,7 +10605,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2370",
@@ -10901,12 +10916,12 @@
  },
  {
   "ministry_id": "2388",
-  "station_name": "אילת",
-  "brand": "מיקה",
+  "station_name": "אילת העיר",
+  "brand": "סונול",
   "longtitude": 34.957821,
   "lattiude": 29.560773,
   "got98": false,
-  "waze_id": "venues.22937896.229116812.427",
+  "waze_id": "venues.22937896.229116812.1378",
   "google_id": "googlePlaces.ChIJY9lNlhJxABUR3Peijg7ViOY",
   "price": null,
   "price_reported": null,
@@ -10965,7 +10980,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2392",
@@ -11394,11 +11410,11 @@
  },
  {
   "ministry_id": "2420",
-  "station_name": "חיפה",
-  "brand": "מיקה",
+  "station_name": "חיפה השיש",
+  "brand": "דורלון",
   "longtitude": 35.0596903,
   "lattiude": 32.8085519,
-  "got98": true,
+  "got98": false,
   "waze_id": "venues.23003464.229772497.22485",
   "google_id": "googlePlaces.ChIJsT_e6LewHRURsbV-3jv5c7M",
   "price": 8.26,
@@ -11441,7 +11457,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2423",
@@ -11730,7 +11747,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2441",
@@ -11785,11 +11803,11 @@
  },
  {
   "ministry_id": "2444",
-  "station_name": "נין התבור",
-  "brand": "דלק",
+  "station_name": "נין",
+  "brand": "דורלון",
   "longtitude": 35.343528,
   "lattiude": 32.638207,
-  "got98": true,
+  "got98": false,
   "waze_id": "venues.23134534.231607488.470",
   "google_id": "googlePlaces.ChIJTTQD9NJRHBURKPq8_yD63iA",
   "price": null,
@@ -11985,7 +12003,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2456",
@@ -12143,11 +12162,11 @@
  },
  {
   "ministry_id": "2465",
-  "station_name": "דנה",
-  "brand": "סונול",
+  "station_name": "ראשל\"צ משמר",
+  "brand": "דורלון",
   "longtitude": 34.80822802,
   "lattiude": 31.97697401,
-  "got98": true,
+  "got98": false,
   "waze_id": "venues.22806848.228134014.2043",
   "google_id": "googlePlaces.ChIJfw-Nx1C0AhURo1xKezsbydc",
   "price": null,
@@ -12360,7 +12379,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2479",
@@ -13244,7 +13264,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2536",
@@ -13397,7 +13418,8 @@
   "shabbat_closure": true,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2549",
@@ -13601,7 +13623,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2564",
@@ -13771,7 +13794,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2575",
@@ -14060,7 +14084,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2600",
@@ -14536,7 +14561,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2642",
@@ -14570,7 +14596,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2644",
@@ -14731,7 +14758,7 @@
   "brand": "מיקה",
   "longtitude": 35.5397489,
   "lattiude": 32.7855957,
-  "got98": false,
+  "got98": true,
   "waze_id": "venues.23265608.232918223.248091",
   "google_id": "googlePlaces.ChIJt5lUIPI_HBURkbZE8PjLdTI",
   "price": null,
@@ -14808,7 +14835,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2662",
@@ -14910,7 +14938,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2669",
@@ -15064,7 +15093,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2680",
@@ -15187,13 +15217,13 @@
  },
  {
   "ministry_id": "2690",
-  "station_name": "ראש העין אפק",
-  "brand": "פז",
+  "station_name": "ראש העין",
+  "brand": "דורלון",
   "longtitude": 34.9624273,
   "lattiude": 32.1091428,
   "got98": false,
-  "waze_id": "venues.22937921.229117067.538589",
-  "google_id": "googlePlaces.ChIJY-ZtCMYwHRURGsvsJm2EnlI",
+  "waze_id": null,
+  "google_id": null,
   "price": null,
   "price_reported": null,
   "updated_at": "2026-11-18T09:00:43.074329+00:00",
@@ -15268,7 +15298,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2697",
@@ -15498,7 +15529,7 @@
   "brand": "מיקה",
   "longtitude": 35.497839,
   "lattiude": 32.498738,
-  "got98": false,
+  "got98": true,
   "waze_id": "venues.23265605.232656050.1242",
   "google_id": "googlePlaces.ChIJYxsDh79eHBURw2ZkVJue2UA",
   "price": null,
@@ -15712,7 +15743,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2725",
@@ -15848,7 +15880,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2738",
@@ -16171,7 +16204,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2760",
@@ -16243,13 +16277,13 @@
  },
  {
   "ministry_id": "2764",
-  "station_name": "כפר סבא",
-  "brand": "דורלון",
+  "station_name": "ביסקוויט כפר סבא",
+  "brand": "דלק",
   "longtitude": 34.9243569374,
   "lattiude": 32.1720027924,
   "got98": false,
-  "waze_id": "venues.22872386.228854929.489651",
-  "google_id": "googlePlaces.ChIJWVFUv-w5HRURBdOywhbn25Q",
+  "waze_id": null,
+  "google_id": "googlePlaces.ChIJJbM9PLw5HRURG_Rue-jIBls",
   "price": null,
   "price_reported": null,
   "updated_at": "2026-11-18T09:00:43.074329+00:00",
@@ -16290,7 +16324,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2767",
@@ -16635,12 +16670,12 @@
  },
  {
   "ministry_id": "2788",
-  "station_name": "שלמה צריפין",
-  "brand": "סונול",
+  "station_name": "שוק סיטונאי צריפין",
+  "brand": "דלק",
   "longtitude": 34.85081,
   "lattiude": 31.95943,
   "got98": false,
-  "waze_id": null,
+  "waze_id": "venues.22872384.228396156.145305",
   "google_id": "googlePlaces.ChIJe46VCJC1AhUREAaOICRXUo8",
   "price": null,
   "price_reported": null,
@@ -16886,7 +16921,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2806",
@@ -17234,7 +17270,7 @@
   "brand": "מיקה",
   "longtitude": 35.0596903,
   "lattiude": 32.8085519,
-  "got98": false,
+  "got98": true,
   "waze_id": "venues.23003464.229772497.22485",
   "google_id": "googlePlaces.ChIJsT_e6LewHRURsbV-3jv5c7M",
   "price": null,
@@ -17277,7 +17313,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2832",
@@ -17294,7 +17331,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2833",
@@ -17703,7 +17741,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": true
  },
  {
   "ministry_id": "2859",
@@ -18085,7 +18124,7 @@
   "brand": "מיקה",
   "longtitude": 34.750475,
   "lattiude": 31.727304,
-  "got98": false,
+  "got98": true,
   "waze_id": "venues.22806845.227740773.26137",
   "google_id": "googlePlaces.ChIJcb19X_O9AhUR33dqAI3tpfk",
   "price": null,
@@ -18405,7 +18444,7 @@
  },
  {
   "ministry_id": "2909",
-  "station_name": "אשדוד רום שפר",
+  "station_name": "אשדוד אורט",
   "brand": "דורלון",
   "longtitude": 34.654642,
   "lattiude": 31.812813,
@@ -18452,7 +18491,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2912",
@@ -18860,7 +18900,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2938",
@@ -18912,7 +18953,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "2941",
@@ -19550,7 +19592,7 @@
  },
  {
   "ministry_id": "2986",
-  "station_name": "אור יהודה",
+  "station_name": "אור יהודה צפון",
   "brand": "דורלון",
   "longtitude": 34.84884644,
   "lattiude": 32.03434753418,
@@ -19784,7 +19826,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "3002",
@@ -20124,7 +20167,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "3027",
@@ -20311,7 +20355,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "3042",
@@ -21076,7 +21121,8 @@
   "shabbat_closure": false,
   "violation": false,
   "violation_fuel": null,
-  "violation_sampling": null
+  "violation_sampling": null,
+  "listed": false
  },
  {
   "ministry_id": "3099",
