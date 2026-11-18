@@ -22,7 +22,8 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import mika_prices as mp                                              # noqa: E402
-from datetime import datetime, timezone                                 # noqa: E402
+from datetime import datetime, timezone
+import html as _html                                 # noqa: E402
 
 LIST_API = 'https://mika.org.il/wp-json/wp/v2/station?per_page=100&_fields=id,slug,title,modified,activity-hours'
 ALL_PAGE = 'https://mika.org.il/%D7%9B%D7%9C-%D7%94%D7%9E%D7%AA%D7%97%D7%9E%D7%99%D7%9D/'
@@ -71,7 +72,7 @@ def main() -> int:
     for i, s in enumerate(stations, 1):
         slug = s['slug']
         link = f'https://mika.org.il/station/{slug}'
-        title = re.sub(r'<[^>]+>', '', (s.get('title') or {}).get('rendered', '')).strip()
+        title = _html.unescape(re.sub(r'<[^>]+>', '', (s.get('title') or {}).get('rendered', '')).strip())
         rec = {'slug': slug, 'title': title, 'brand': cards.get(slug) or mp.page_brand(title),
                'price98': None, 'shabbat_closure': False, 'loaded': False,
                'http_status': None, 'lat': None, 'lon': None,
@@ -113,9 +114,17 @@ def main() -> int:
         return {t for t in s.split() if t not in BRAND_WORDS and len(t) > 1}
 
     try:
-        reg = {str(x['licence']): (x.get('company') or '') for x in mp.load_registry()}
+        _rows = {str(x['licence']): x for x in mp.load_registry()}
+        reg = {k: (x.get('company') or '') for k, x in _rows.items()}
+        reg_addr = {k: (x.get('address') or '') for k, x in _rows.items()}
     except Exception:                                             # noqa: BLE001
-        reg = {}
+        reg, reg_addr = {}, {}
+
+    def addr_tokens(s):
+        s = _re.sub(r'[^0-9a-zA-Z\u0590-\u05FF ]+', ' ', s or '')
+        # city abbreviations (פ"ת, ת"א, י"ם) are not street evidence
+        return {t for t in s.split() if t not in ('פת', 'תא', 'ים', 'פ', 'ת')}
+
 
     def company_brand(c):
         c = c or ''
@@ -134,6 +143,8 @@ def main() -> int:
     matches = {}
     for rec in out:
         name_part = toks((rec['title'] or '').split(',')[0])
+        page_addr = addr_tokens((rec.get('title') or '').split(',', 1)[1]
+                                if ',' in (rec.get('title') or '') else '')
         cands = []
         for r in db:
             d = (hav(rec['lat'], rec['lon'], r['lattiude'], r['longtitude'])
@@ -144,8 +155,9 @@ def main() -> int:
                                               or (rec['brand'] == 'דור אלון' and r['brand'] == 'דורלון'))
             if overlap >= 1 or (d <= 250 and rec['lat'] is not None):
                 cb = company_brand(reg.get(str(r['ministry_id'])))
+                addr_ok = len(page_addr & addr_tokens(reg_addr.get(str(r['ministry_id'])))) if page_addr else 0
                 score = (overlap * 3 + (2 if brand_ok else 0) + (2 if d <= 250 else 0)
-                         + (3 if cb and cb == rec['brand'] else 0))
+                         + (3 if cb and cb == rec['brand'] else 0) + addr_ok * 4)
                 cands.append((score, d, r))
         if not cands:
             continue
