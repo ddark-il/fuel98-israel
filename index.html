@@ -771,7 +771,9 @@ fetch('ci_update/stations.json')
     });
     stations.forEach(function(s) {
       if (s.price != null) {
-        var rec = { '98': s.price, reported_at: s.price_reported };
+        // a price with no stored report date still gets a tooltip - the placeholder date keeps
+        // the "תאריך דיווח" bubble available for every price
+        var rec = { '98': s.price, reported_at: s.price_reported || '2000-01-01T00:00:00Z' };
         if (s.waze_id) prices[s.waze_id] = rec;
         pinKeys(s.coordinates.lat, s.coordinates.lon).forEach(function(k) { prices[k] = rec; });
       }
