@@ -289,11 +289,15 @@ def main() -> int:
         except Exception:                                         # noqa: BLE001
             prev_hist = {}
     site_prices = {}
+    prev_meta = {}
     prev_prices = {}
     prev_doc = os.path.join(HERE, 'stations.json')
     if os.path.exists(prev_doc):
         try:
             for x in json.load(open(prev_doc, encoding='utf-8')):
+                prev_meta[str(x['ministry_id'])] = {
+                    'got98': x.get('got98'), 'shabbat_closure': x.get('shabbat_closure'),
+                    'price': x.get('price'), 'price_reported': x.get('price_reported')}
                 if x.get('price') is not None:
                     prev_prices[str(x['ministry_id'])] = (x['price'], x.get('price_reported'))
         except Exception:                                         # noqa: BLE001
@@ -502,6 +506,11 @@ def main() -> int:
         price_out = price_rec.get('98') if price_rec else None
         price_rep_out = price_rec.get('reported_at') if price_rec else None
         mk = mika.get(lic) or {}
+        # a Mika page that did not load (bot block, 503) is not "Mika has no price": carry the
+        # previous row's values instead of wiping the station's price and 98 flag
+        mk_blocked = bool(mk) and mk.get('loaded') is False
+        if mk_blocked:
+            mk = {}
         if mk:
             # the logo decides the brand only when our own data did not already place the
             # station under its operator - Mika operates pumps inside Sonol/Dor Alon forecourts,
@@ -595,6 +604,13 @@ def main() -> int:
         # a Mika station is only a 98 station when Mika publishes a price for it
         if brand == 'מיקה' and price_out is None:
             got98 = False
+        if mk_blocked:
+            pm = prev_meta.get(lic) or {}
+            got98 = bool(pm.get('got98'))
+            price_out = pm.get('price')
+            price_rep_out = pm.get('price_reported')
+            if pm.get('shabbat_closure') is not None:
+                shabbat_set = pm.get('shabbat_closure')
         # a station that does not sell 98 carries no price at all
         if not got98:
             price_out = None
