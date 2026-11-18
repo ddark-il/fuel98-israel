@@ -1,37 +1,29 @@
 name: update
 
-# What this does, on the Israeli runner (repository variable WAZE_RUNNER) and GitHub-hosted runners:
-#   1. waze      - asks Waze for the 98 price of every station that carries a `waze_id`,
-#   2. mika      - scrapes Mika's own published prices (the operator beats the crowd),
-#   3. violations- checks the Ministry's substandard-fuel list,
-#   4. commit    - merges the two price sources on top of each other, builds data/prices.json,
-#                  and commits it together with data/violations.json, so the static site gets
-#                  fresh data with no deploy.
-# The three gatherers are independent: a failed source still lets the commit job publish what the
-# others found (publish_prices.py carries the previous prices over). It fails loudly when the *run*
-# is broken and stays green when Waze simply has no price for a station today - which is most
-# stations. publish_prices.py refuses a file with far fewer prices than the committed one, so a bad
-# run cannot blank the site.
+# The hourly data pipeline. Everything feeds one file: data/stations.json (the site database).
+#
+# Gatherers (each uploads an artifact; a failure in one never blocks the others):
+#   mika            - Mika's station pages: operator prices, the 98 flag, the logo brand,
+#                     the Shabbat hours
+#   violations      - the Ministry's substandard-fuel list, by licence
+#   pricecheck      - Waze's reported 98 price for every collected venue (Israeli runner)
+#   paz/sonol/doralon/delek - the operator's own station list + its updater
+#   ten             - Ten's station list (no 98 anywhere)
+# commit            - folds all artifacts into data/stations.json with poc/build_stations.py,
+#                     publishes it with poc/publish_site.py, and commits it plus
+#                     data/violations.json. Pages serves the new file with no deploy.
+# The commit job runs `if: always()`, so one broken gatherer costs that source's refresh, not
+# the whole run; prices with no fresh report carry the previous value over.
 
 on:
-  # No `push` trigger on purpose: the commit job commits data/prices.json and data/violations.json,
-  # and a push-triggered run would chase its own commits. Scheduled runs plus workflow_dispatch.
+  # No `push` trigger on purpose: the commit job commits data/stations.json and
+  # data/violations.json, and a push-triggered run would chase its own commits.
   schedule:
     - cron: '15 * * * *'              # hourly at :15 - GitHub's scheduler is best-effort: a 2-hourly
                                       # cron was delivering runs 30-60 min late and 4-5 h apart, and each
                                       # attempt may land in a cold window, so try every hour
     - cron: '45 2 * * *'              # 05:45 Israel time - fuel-quality flags (violations job)
-  workflow_dispatch:
-    inputs:
-      limit:
-        description: 'check only N stations per shard (blank = all; use e.g. 15 to test)'
-        required: false
-        default: ''
-      allow_shrink:
-        description: 'publish even if the price count drops sharply (after a data change)'
-        type: boolean
-        required: false
-        default: false
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -41,135 +33,6 @@ concurrency:
 
 jobs:
   # ─────────────────────────────────────────────────────────────────────────── gatherers ──
-  waze:
-    # Waze serves Israeli fuel prices only to the IL frontend, and a GitHub-hosted runner is never
-    # given one (measured: 0 draws in 64 connections, and 0 while an Israeli line answered 4/4 in the
-    # same minute with the same account). Set the repository variable WAZE_RUNNER to a JSON label
-    # array, e.g. ["self-hosted","israel"], to run this job on an Israeli machine.
-    runs-on: ${{ fromJSON(vars.WAZE_RUNNER || '["ubuntu-latest"]') }}
-    env:
-      # The distributor hands out `Waze-Session-Affinity` on replies from the IL frontend, and a
-      # client that keeps it stays there - this is the `cookie=` the app sends in every URL. A runner
-      # that never reaches an IL frontend cannot mint one, so it starts from a cookie obtained on an
-      # Israeli line (repository variable, refreshed when it expires). No cookie = the old lottery.
-      WAZE_SESSION_COOKIE: '${{ vars.WAZE_SESSION_COOKIE }}'
-    timeout-minutes: 45
-    strategy:
-      fail-fast: false
-      matrix:
-        # One shard. The runner is a single Israeli Mac mini, so three matrix shards do not run in
-        # parallel - they queue, and the two that start later sweep into a window that may already
-        # have closed. The whole list takes ~20-30 min in one job, which is the point of having it on
-        # a machine that is on 24/7. `--shard` stays available for a manual parallel run.
-        shard: [0]
-    steps:
-      - uses: actions/checkout@v4
-
-      # No setup-python: the scripts are stdlib-only. But this job also runs on a self-hosted machine
-      # we do not control, so the tools are *discovered* rather than assumed: a runner that is the
-      # x86_64 build on an Apple Silicon Mac cannot execute /usr/bin/python3 (the CommandLineTools
-      # shim is arm64-only) even though it exists, and that is exactly how the first run failed.
-      - name: Tools on this runner
-        run: |
-          echo "host: $(uname -srm)"
-          PY=""
-          for c in "$(command -v python3 2>/dev/null)" /opt/homebrew/bin/python3 /usr/local/bin/python3 /usr/bin/python3 python3; do
-            [ -n "$c" ] || continue
-            if "$c" -c 'import sys; assert sys.version_info >= (3, 10)' 2>/dev/null; then PY="$c"; break; fi
-          done
-          if [ -z "$PY" ]; then
-            echo "::error::no working python3 >= 3.10 on this runner - install one (brew install python) or use the arm64 runner build on Apple Silicon"
-            exit 1
-          fi
-          echo "PYTHON=$PY" >> "$GITHUB_ENV"
-          echo "python: $PY ($("$PY" --version 2>&1))"
-          NODE=""
-          for c in "$(command -v node 2>/dev/null)" /opt/homebrew/bin/node /usr/local/bin/node node; do
-            [ -n "$c" ] || continue
-            if "$c" --version >/dev/null 2>&1; then NODE="$c"; break; fi
-          done
-          if [ -n "$NODE" ]; then echo "NODE=$NODE" >> "$GITHUB_ENV"; echo "node: $NODE ($("$NODE" --version))"; else echo "::warning::no node on this runner"; fi
-
-      # Waze stamps the *country* onto the account when it is registered, taken from the IP that
-      # asked: this runner registers `usa_...` and then gets no Israeli fuel prices at all, while an
-      # account registered from Israel (`world_...`, our secret) does. So the account is a secret,
-      # not something each run invents. Without the secret a run still works, it just comes back
-      # empty-handed - and the summary says so.
-      - name: Restore the Waze account
-        working-directory: price-ci
-        env: { WAZE_ACCOUNT: '${{ secrets.WAZE_ACCOUNT }}' }
-        run: |
-          if [ -n "$WAZE_ACCOUNT" ]; then
-            printf '%s' "$WAZE_ACCOUNT" > waze_account.json
-            echo "using the Waze account from secrets (user: $("$PYTHON" -c "import json;print(json.load(open('waze_account.json'))['username'])"))"
-          else
-            echo "no WAZE_ACCOUNT secret - this run will register a fresh, foreign-country account"
-          fi
-
-      # The sweep only visits stations that carry a `waze_id`, so a data regression that strips
-      # ids becomes a quietly smaller - and still green - run. Refuse to price a dataset whose
-      # venue coverage has collapsed, and print the count on every run so the change is visible.
-      - name: Venue coverage
-        working-directory: price-ci
-        run: |
-          "$PYTHON" - <<'PY'
-          import glob, json, os, sys
-          total = with_id = 0
-          for f in sorted(glob.glob(os.path.join('..', 'data', '*.json'))):
-              base = os.path.basename(f)
-              if base in ('manifest.json', 'violations.json', 'prices.json', 'stations.json'):
-                  continue
-              for s in json.load(open(f, encoding='utf-8')):
-                  total += 1
-                  if s.get('waze_id'):
-                      with_id += 1
-          pct = (100.0 * with_id / total) if total else 0.0
-          print(f'venue coverage: {with_id}/{total} stations carry a waze_id ({pct:.1f}%)')
-          if not total or pct < 85.0:
-              sys.exit(f'::error::venue coverage collapsed to {with_id}/{total} - refusing to price '
-                       f'a stripped dataset (expected at least 85%)')
-          PY
-
-      # A shard that returns nothing is NOT a failed run: Waze serves fuel prices only to Israeli
-      # IPs, so a GitHub-hosted runner legitimately comes back empty. The commit job decides
-      # whether the *pipeline* is broken (no prices from any source) and fails there.
-      - name: Update (shard ${{ matrix.shard }})
-        working-directory: price-ci
-        # NOT continue-on-error: that made a crashing shard report as a green job - two of three
-        # "successful" shards in an earlier run had in fact died. price_check's exit codes are mapped
-        # here instead: 3 = "no IL cluster from this network" is a source condition and becomes a
-        # warning; anything else fails the job.
-        run: |
-          set +e
-          LIMIT_ARG=""
-          if [ -n "${{ github.event.inputs.limit }}" ]; then LIMIT_ARG="--limit ${{ github.event.inputs.limit }}"; fi
-          "$PYTHON" price_check.py \
-            --shard ${{ matrix.shard }}/1 \
-            --jsonl price_check-shard${{ matrix.shard }}.jsonl \
-            --out shard-${{ matrix.shard }}.json \
-            --state waze_account.json \
-            --min-prices 2 \
-            --sleep 0.15 \
-            --parallel 4 \
-            --rounds 12 \
-            --wait-probes 6 \
-            --wait-for-il 300 \
-            ${LIMIT_ARG:-$LIMIT_ARG}
-          code=$?
-          if [ "$code" -eq 3 ]; then
-            # Not a bug in the pipeline - but the run did not read a single price, and a green job
-            # here is a lie (that is how two dead shards went unnoticed earlier). Red, with the reason.
-            echo "::error::no IL cluster answered for 30 minutes - the Waze layer was not read this run. The site keeps its previous prices (commit carries them over); the next scheduled run tries again."
-            exit 3
-          fi
-          exit "$code"
-
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: shard-${{ matrix.shard }}
-          path: price-ci/shard-*.json
-
   mika:
     # Mika's station pages: one scrape yields the operator's own prices, the 98 flag, the brand
     # logo and the Shabbat hours, so there is a single step (mika_update.py). ubuntu-latest is fine
@@ -246,10 +109,17 @@ jobs:
       - name: Check the Ministry's substandard-fuel list against our stations
         run: '"$NODE" scripts/check-violations.mjs'
 
+      # the licence list is what stations.json marks by ministry_id (works for stations that are
+      # not one of our 326 live venues)
+      - name: Violation licences
+        run: '"$NODE" poc/violation_licences.js'
+
       - uses: actions/upload-artifact@v4
         with:
           name: violations
-          path: data/violations.json
+          path: |
+            data/violations.json
+            poc/violation_licences.json
 
   # ────────────────────────────────────────────────────────────────────────────── commit ──
   # ─────────────────────────────────────────────── station-database gatherers (brand sites + Waze) ──
@@ -435,7 +305,7 @@ jobs:
             poc/ten_unmatched.json
 
   commit:
-    needs: [waze, mika, violations, pricecheck, paz, sonol, doralon, delek, ten]
+    needs: [mika, violations, pricecheck, paz, sonol, doralon, delek, ten]
     if: always() && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -445,163 +315,15 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
 
-      - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          pattern: shard-*
-          path: shards
-          merge-multiple: true
-
-      # Each shard publishes only the stations it processed, so the shards have to be merged before
-      # anything reads them: one shared out/prices.json would be won by the last writer.
-      - name: Merge shards
-        run: |
-          python3 - <<'PY'
-          import glob, json
-          from datetime import datetime, timezone
-          files = sorted(glob.glob('shards/**/shard-*.json', recursive=True))
-          stations = {}
-          def rows(doc):                          # --out writes a list, --publish a dict
-              s = doc.get('stations', {})
-              return s.items() if isinstance(s, dict) else [(r.get('key'), r) for r in s]
-          for f in files:
-              for k, v in rows(json.load(open(f, encoding='utf-8'))):
-                  if k:
-                      stations[k] = v          # shard-scoped files: a key never appears twice
-          json.dump({'generated': datetime.now(timezone.utc).isoformat(), 'stations': stations},
-                    open('price-ci/merged.json', 'w', encoding='utf-8'),
-                    ensure_ascii=False, indent=1)
-          print(f'merged {len(stations)} stations from {len(files)} shard files')
-          PY
-
-      - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          pattern: mika
-          path: price-ci
-          merge-multiple: true
-
-      # Mika's rows are merged on top of the Waze shards (the operator beats the crowd). Skipped
-      # when the mika job failed - the Waze layer still publishes, with the previous Mika prices
-      # carried over by publish_prices.py.
-      - name: Merge Mika's prices on top
-        working-directory: price-ci
-        run: |
-          if [ ! -f mika_prices.json ]; then
-            echo "::warning::no Mika artifact from this run - publishing the Waze layer only"
-            exit 0
-          fi
-          set +e
-          python3 mika_prices.py \
-            --from-json mika_prices.json \
-            --merge merged.json \
-            --out mika_prices.json \
-            --publish out \
-            --covered-out ../price-ci/mika_covered.json
-          code=$?
-          if [ "$code" -ne 0 ]; then
-            echo "::warning::Mika merge failed (exit $code) - publishing the Waze layer only"
-          fi
-          exit 0
-
-      - uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: violations
-          path: data
-
-      - name: Build data/prices.json
-        working-directory: price-ci
-        run: |
-          ARG=""
-          if [ "${{ github.event.inputs.allow_shrink }}" = "true" ]; then ARG="--allow-shrink"; fi
-          python3 publish_prices.py --in merged.json --out ../data/prices.json $ARG
-
-      - name: Waze layer status
-        if: always()
-        run: |
-          python3 - <<'PY'
-          import glob, json
-          stopped, checked, priced = [], 0, 0
-          for f in sorted(glob.glob('shards/**/shard-*.json', recursive=True)):
-              d = json.load(open(f, encoding='utf-8'))
-              c = d.get('counts', {})
-              checked += c.get('checked', 0); priced += c.get('with_98', 0)
-              if d.get('stopped'):
-                  stopped.append(f"{f.split('/')[-1]}: {d['stopped']}")
-          print(f'Waze layer: {priced} 98-prices over {checked} stations checked this run')
-          for s in stopped:
-              print(f'  stopped - {s}')
-          if stopped and not priced:
-              print('  -> the IL cluster did not answer; commit carries the previous prices over, so '
-                    'the site is not left empty, and the next run tries again')
-          PY
-
-      - name: Summary
-        if: always()
-        run: |
-          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
-          import glob, json, os
-          from collections import Counter
-          waze = {}
-          canary = []
-          for f in glob.glob('shards/**/shard-*.json', recursive=True):
-              doc = json.load(open(f, encoding='utf-8'))
-              canary = canary or doc.get('canary') or []
-              s = doc.get('stations', {})
-              rows = s.values() if isinstance(s, dict) else s
-              for r in rows:
-                  if isinstance(r, dict) and r.get('key'):
-                      waze[r['key']] = r
-          wp = sum(1 for r in waze.values() if r.get('price98') is not None)
-          cl = {}
-          for r in waze.values():
-              k = r.get('reply_cluster') or 'unknown'
-              cl[k] = cl.get(k, 0) + 1
-          print(f"## Sources on this runner: Waze {wp} prices over {len(waze)} stations, "
-                f"see below for the merged result")
-          print("* backends that answered: " + ', '.join(f'{v}x {k}' for k, v in sorted(cl.items()))
-                + "  (`il` carries the fuel prices; `row` has none and is retried; `none` means no "
-                  "IL connection was available from this runner at all)")
-          replies = Counter(str(r.get('no_price_reply')) for r in waze.values()
-                           if r.get('price98') is None and r.get('not_checked') != 'no waze_id')
-          if replies:
-              print('Waze replies that carried no price: ' + ', '.join(
-                  f'{c}× {txt}' for txt, c in replies.most_common(4)))
-          if canary:
-              print('Canary - stations Waze is known to price, checked against the app by hand: '
-                    + ', '.join(f"{c['name']} 98={c['price98'] if c.get('price98') else '-'}"
-                                f" ({c.get('products', 0)} products, {c.get('attempts')} rounds)"
-                                for c in canary))
-          if wp == 0 and canary and not any(c.get('price98') for c in canary):
-              print("Waze answered, but not one reply in this run came from the IL cluster - the "
-                    "one that carries fuel prices; `row` replies carry the venue and no products "
-                    "at all. Nothing here may be read as \"this station has no 98\": the run "
-                    "needs more attempts (--rounds) or an Israeli egress.")
-          d = json.load(open('data/prices.json', encoding='utf-8'))
-          c = d.get('counts', {})
-          total = with_id = 0
-          for f in glob.glob('data/*.json'):
-              if os.path.basename(f) in ('manifest.json', 'violations.json', 'prices.json'):
-                  continue
-              for s in json.load(open(f, encoding='utf-8')):
-                  total += 1
-                  if s.get('waze_id'):
-                      with_id += 1
-          print(f"## 98 prices: {c.get('with_98', '?')} stations priced")
-          print(f"* venues: {with_id}/{total} stations carry a waze_id")
-          if c.get('from_mika') is not None:
-              print(f"* {c['from_mika']} from Mika (the operator's own published price)")
-          if c.get('carried_over'):
-              print(f"* {c['carried_over']} carried over from the previous file (not read this run)")
-          review = sorted(f"{v['brand']}/{v['name']}" for v in d['stations'].values() if v.get('review'))
-          if review:
-              print(f"* {len(review)} with an unconfirmed station match: {', '.join(review)}")
-          PY
-          cat data/prices.json | head -1 > /dev/null
-
       # Station-database inputs: the brand jobs' matches + the Waze price check run by the
       # pricecheck job. A missing artifact is fine - the builder carries the previous values.
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: violations
+          path: .
+          merge-multiple: true
+
       - uses: actions/download-artifact@v4
         continue-on-error: true
         with:
@@ -631,10 +353,9 @@ jobs:
         run: |
           git config user.name  'price-check[bot]'
           git config user.email '107122576+price-check-bot@users.noreply.github.com'
-          git add data/prices.json price-ci/mika_covered.json data/violations.json
-          git add data/stations.json || true
+          git add data/stations.json data/violations.json
           if git diff --cached --quiet; then echo 'nothing changed'; exit 0; fi
-          MSG="data: refresh stations database + 98 prices (brands, Waze, Mika) [skip ci]"
+          MSG="data: refresh the stations database [skip ci]"
           BODY="$(python3 -c "import json;d=json.load(open('data/stations.json'));print(f\"{len(d)} stations, {sum(1 for r in d if r['got98'])} sell 98, {sum(1 for r in d if r['price'] is not None)} priced, {sum(1 for r in d if r['shabbat_closure'])} Shabbat-closed\")")"
           git commit -m "$MSG" -m "$BODY"
           # a push during the run can move main under us: rebase and retry; if a data file

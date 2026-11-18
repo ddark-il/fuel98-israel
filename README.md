@@ -6,29 +6,26 @@ A simple map + list of fuel stations in Israel that sell **98-octane** petrol (�
 
 Search by name or city, filter by brand, sort by distance from your location, and open any station directly in Waze.
 
-## Prices
+## Prices & the station database
 
-Where a station has a reported 98 price, the site shows it in a white ₪ bubble — in the list, on the map
-card and in the mobile cards. Two sources:
+The site loads one file: **`data/stations.json`** — the station database, rebuilt hourly by
+[`.github/workflows/prices.yml`](.github/workflows/prices.yml). Each row carries the station's name,
+brand, coordinates, venue ids, `got98`, `price` / `price_reported`, `shabbat_closure` and the
+fuel-quality `violation` flag. Prices come from:
 
-| source | where it comes from |
+| source | what it provides |
 |---|---|
-| **Waze** | community reports — drivers report what they paid at that station; read per station by venue id (`price-ci/price_check.py`) |
-| **Mika** | the operator's own published prices for the pumps it runs, scraped from mika.org.il (`price-ci/mika_prices.py`) |
+| the brand sites | the 98 availability (Paz, Sonol, Dor Alon, Mika, Ten) and the Shabbat hours |
+| **Mika** | the operator's own prices for the pumps it runs — they win over a Waze report |
+| **Waze** | community-reported 98 prices; also the only `got98` source for small/independent stations |
 
-Mika's own figure wins over a Waze report, and stations Mika publishes for are not asked of Waze at all.
-The result is `data/prices.json` — one row per station that has a price, keyed by its `waze_id` (or
-`pin:<lat>,<lon>` where it has none), e.g. `{"venues.22806850…": {"98": 9.81, "reported_at": "2026-10-28T05:00:00Z"}}`
-— written hourly by [`.github/workflows/prices.yml`](.github/workflows/prices.yml). `reported_at` is
-the Waze report time, or the Mika scrape time for stations priced from mika.org.il. A station with no
-price is not in the file, and a run that could not read a station keeps its previous price instead of
-dropping it.
+`price` is `null` when the station does not sell 98. A station with no fresh report this run keeps
+its previous price; a Mika station that no longer lists a price is marked `got98: false`. The
+`price_reported` timestamp is the Waze report time, or the Mika scrape time.
 
-Waze serves Israeli fuel prices only from its `-il-` frontend — that data sits behind an Israeli service
-mesh — and a GitHub-hosted runner never gets one (0 of 64 connections, while the same account from an
-Israeli line answered 4/4 with prices in the same minute). Both Israel-only jobs therefore run on the
-self-hosted runner selected by the `WAZE_RUNNER` variable; publishing and committing stay on hosted
-runners.
+The Venue/Waze data lives behind Israel-only frontends, so the Waze price check and the violations
+check run on the self-hosted runner selected by the `WAZE_RUNNER` variable; the brand-site fetches
+and the commit run on GitHub-hosted runners.
 
 ## Data sources
 

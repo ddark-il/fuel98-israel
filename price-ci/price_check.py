@@ -19,7 +19,7 @@ Anonymous Waze session (created on the fly, or reused via --state). No API key, 
 OUTPUT
   --jsonl   one row per station, appended and resumed on re-run (safe to interrupt)
   --out     merged JSON: metadata + every station with its prices
-  index     every station and its prices written to a *directory* as data/prices.json
+  index     every station and its prices written to a *directory* (diagnostics)
             (--publish DIR): { "generated": ..., "stations": { "<file>|<name>": {...} } }
 
 CI

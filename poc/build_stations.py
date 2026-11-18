@@ -215,7 +215,8 @@ def main() -> int:
                 our_ids[w] = {'brand': st0['brand'], 'name': st0['name'],
                               'lat': st0['coordinates']['lat'], 'lon': st0['coordinates']['lon'],
                               'waze_id': w}
-    prices = json.load(open(PRICES, encoding='utf-8')).get('stations', {})
+    prices = (json.load(open(PRICES, encoding='utf-8')).get('stations', {})
+              if os.path.exists(PRICES) else {})
     name_map = {}
     nm_path = os.path.join(HERE, 'name_map_filtered.json')
     if os.path.exists(nm_path):

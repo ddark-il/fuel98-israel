@@ -25,7 +25,7 @@ Exit status: 0 = ok. 1 = the station list failed in a way that looks like a site
 CI job fails loudly instead of publishing an empty file. 4 = the site answered its Immunify360
 bot-protection block (a transient WAF state, observed 2026-11-06 and 2026-11-07: both runs
 recovered on their own hours later); CI warns and continues, so a block costs one Mika refresh
-and not the whole price run - publish_prices.py carries the previous Mika prices over.
+and not the whole station refresh - the previous Mika values are carried over.
 """
 from __future__ import annotations
 
