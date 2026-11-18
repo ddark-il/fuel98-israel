@@ -18,13 +18,15 @@
  * result of a lookup that quietly failed.
  *
  * ⚠ Must run from an Israeli IP: the Ministry API is geo-restricted.
- * Run:  node scripts/check-violations.mjs
+ * Run:  node ci_update/check-violations.mjs
  */
 import { readFileSync, writeFileSync, existsSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
-const DATA = join(dirname(fileURLToPath(import.meta.url)), "..", "fuel98-israel", "data");
+const DATA = dirname(fileURLToPath(import.meta.url));
+const STATION_FILES = ["mika.json", "sonol.json", "paz.json", "doralon.json", "delek.json",
+                       "tapuz.json", "others.json"];
 const OUT = join(dirname(fileURLToPath(import.meta.url)), "violations.json");
 const VIOLATIONS_API = "https://migdal-api.energy-apps.org/api/GetFuelGasStationDataForWeb";
 const REGISTRY_RID = "5537a0ef-3eeb-449c-90c8-51e27564f0cb"; // data.gov.il "gas-station"
@@ -99,8 +101,10 @@ async function fetchRegistry() {
 }
 
 function loadStations() {
-  const manifest = JSON.parse(readFileSync(join(DATA, "manifest.json"), "utf-8"));
-  return manifest.files.flatMap((f) => JSON.parse(readFileSync(join(DATA, f), "utf-8")));
+  return STATION_FILES.flatMap((f) => {
+    const p = join(DATA, f);
+    return existsSync(p) ? JSON.parse(readFileSync(p, "utf-8")) : [];
+  });
 }
 
 const violations = await fetchViolations();
@@ -154,4 +158,4 @@ if (noRegistryRow.length) {
   console.log("  ‼  violations with no registry row — check manually:");
   for (const v of noRegistryRow) console.log(`       ${v.CompanyName} · ${v.Address} · ${v.City} (station #${v.StationNumber})`);
 }
-console.log(`wrote data/violations.json (${flagged.length} flags)`);
+console.log(`wrote ci_update/violations.json (${flagged.length} flags)`);

@@ -107,7 +107,7 @@ jobs:
           echo "node: $NODE ($("$NODE" --version))"
 
       - name: Check the Ministry's substandard-fuel list against our stations
-        run: '"$NODE" scripts/check-violations.mjs'
+        run: '"$NODE" ci_update/check-violations.mjs'
 
       # the licence list is what stations.json marks by ministry_id (works for stations that are
       # not one of our 326 live venues)
@@ -347,11 +347,15 @@ jobs:
         continue-on-error: true
         run: python3 ci_update/build_stations.py
 
+      - name: Regenerate the noscript SEO block
+        continue-on-error: true
+        run: python3 ci_update/build_seo.py
+
       - name: Commit
         run: |
           git config user.name  'price-check[bot]'
           git config user.email '107122576+price-check-bot@users.noreply.github.com'
-          git add ci_update/stations.json ci_update/violations.json
+          git add ci_update/stations.json ci_update/violations.json index.html
           if git diff --cached --quiet; then echo 'nothing changed'; exit 0; fi
           MSG="data: refresh the stations database [skip ci]"
           BODY="$(python3 -c "import json;d=json.load(open('ci_update/stations.json'));print(f\"{len(d)} stations, {sum(1 for r in d if r['got98'])} sell 98, {sum(1 for r in d if r['price'] is not None)} priced, {sum(1 for r in d if r['shabbat_closure'])} Shabbat-closed\")")"

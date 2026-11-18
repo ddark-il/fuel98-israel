@@ -68,6 +68,7 @@ stations by proximity. Entries that fail to match are printed with the reason, s
 ```
 ci_update/                 # everything the hourly pipeline needs, in one folder
   build_stations.py        # Ministry registry + brand lists + matches -> stations.json
+  build_seo.py             # regenerates index.html's <noscript> city block
   price_check_all.py       # Waze's reported 98 price for every collected venue
   mika_update.py           # Mika pages: prices, 98 flag, brand logo, Shabbat hours
   paz_update.py … ten_update.py   # one updater per brand site
@@ -82,9 +83,6 @@ ci_update/                 # everything the hourly pipeline needs, in one folder
   stations.json            # THE SITE DATABASE (rebuilt hourly by CI, committed here)
   violations.json          # fuel-quality flags (rebuilt daily on the IL runner)
 index.html                 # the whole app + a generated <noscript> SEO block
-scripts/
-  build-seo.py             # regenerates index.html's <noscript> block from ci_update/stations.json
-  test-goatcounter-events.mjs
 .github/workflows/prices.yml   # the hourly pipeline (nine jobs -> commit)
 ```
 
@@ -93,7 +91,7 @@ map (Leaflet + OpenStreetMap tiles) and list. Every row carries the brand, coord
 `price`/`price_reported`, `shabbat_closure` and the violation flag, so no other file is read.
 
 For crawlability, `index.html` carries a hidden `<noscript>` block listing every station grouped by
-city. `scripts/build-seo.py` takes each station's city from the Ministry registry's רשות_מקומית and
+city. `ci_update/build_seo.py` takes each station's city from the Ministry registry's רשות_מקומית and
 rewrites the block on demand — offline, deterministic, and finished in well under a second.
 
 **The pipeline.** Nine independent jobs feed one commit: `mika`, `violations`, `pricecheck`,
@@ -108,7 +106,7 @@ Run it locally from the repository root:
 
 ```sh
 python3 ci_update/build_stations.py      # writes ci_update/stations.json
-python3 scripts/build-seo.py             # optional: refresh the noscript block
+python3 ci_update/build_seo.py           # refreshes the noscript block in index.html
 ```
 
 ## License

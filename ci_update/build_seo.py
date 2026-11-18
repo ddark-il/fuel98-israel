@@ -15,20 +15,20 @@ City data is never written to data/*.json and never shown in the UI — it lives
 only inside this generated block. Stations with no official pin nearby are listed
 under "נוספות".
 
-Run:  python3 scripts/build-seo.py      (seconds, not minutes)
+Run:  python3 ci_update/build_seo.py      (seconds, not minutes)
 """
 import json, re, html, math, urllib.request, urllib.parse
 from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent          # fuel98-israel/
-DATA = ROOT / "ci_update"
+DATA = Path(__file__).resolve().parent                 # ci_update/
 INDEX = ROOT / "index.html"
 DISP = {"דורלון": "דור אלון", "שיא אנרגיה": "אחר"}      # display-friendly brand names
 SKIP = {"manifest.json", "violations.json", "prices.json", "stations.json"}
 
 REGISTRY_RID = "5537a0ef-3eeb-449c-90c8-51e27564f0cb"
-REGISTRY_CACHE = Path("/tmp/ministry-registry.json")
+REGISTRY_CACHE = DATA / "registry_cache.json"
 
 # Registry company wording per brand, used to prefer the right pin when several
 # stations sit close together. Brands rename stations constantly, so this only ever
@@ -43,7 +43,7 @@ def norm(c):
     return c.replace("־", " ").replace("–", "-").strip()  # maqaf->space, en-dash->hyphen
 
 def load_registry():
-    """The Ministry registry, from cache when present (see check-violations.mjs)."""
+    """The Ministry registry, from the pipeline cache when present."""
     if REGISTRY_CACHE.exists():
         try:
             recs = json.loads(REGISTRY_CACHE.read_text(encoding="utf-8"))
