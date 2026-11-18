@@ -133,6 +133,7 @@ def main() -> int:
             'slug': rec['slug'], 'brand': rec['brand'],
             'price98': rec['price98'], 'got98': rec['price98'] is not None,
             'shabbat_closure': rec['shabbat_closure'],
+            'modified': rec.get('modified'), 'fetched_at': rec.get('fetched_at'),
             'dist_m': round(cands[0][1], 1) if rec['lat'] is not None else None}
     json.dump(matches, open(os.path.join(HERE, 'mika_matches.json'), 'w', encoding='utf-8'),
               ensure_ascii=False, indent=1)
