@@ -69,6 +69,21 @@ def brand_of(company: str, name: str = '') -> str:
     return 'אחר'
 
 
+def company_brand(company):
+    c = company or ''
+    if 'מיקה' in c:
+        return 'מיקה'
+    if 'דור אלון' in c or 'דורלון' in c:
+        return 'דורלון'
+    if 'סונול' in c:
+        return 'סונול'
+    if 'פז' in c:
+        return 'פז'
+    if 'דלק' in c:
+        return 'דלק'
+    return None
+
+
 def hav(lat1, lon1, lat2, lon2):
     r = 6371000.0
     p1, p2 = math.radians(lat1), math.radians(lat2)
@@ -194,6 +209,39 @@ def apply_tapuz(rows):
             r['listed'] = False
     print(f'tapuz: {len(taps)} brand-list stations, {len(added)} without a ministry row')
     return rows + added
+
+
+def dedupe(rows):
+    """One listing per forecourt: the same brand + same station name within 150 m is the same
+    station entered twice in the Ministry list (e.g. חיפה השיש 34/48). The best row stays
+    listed; the others remain in the database (their licences matter for violations) with
+    listed=False. A shared venue id alone is not enough - a wrong venue match can link two
+    stations kilometres apart.
+    """
+    hidden = 0
+    for i, r in enumerate(rows):
+        if str(r['ministry_id']).startswith('tapuz:') or r.get('listed') is False:
+            continue
+        twins = []
+        for j, o in enumerate(rows):
+            if i == j or o['brand'] != r['brand'] or o['station_name'] != r['station_name']:
+                continue
+            if hav(r['lattiude'], r['longtitude'], o['lattiude'], o['longtitude']) <= 150:
+                twins.append(o)
+        if not twins:
+            continue
+        def score(x):
+            return (0 if x.get('got98') else 1,
+                    0 if x.get('price') is not None else 1,
+                    0 if x.get('listed') is not False else 1,
+                    int(x['ministry_id']) if str(x['ministry_id']).isdigit() else 10**9)
+        best = sorted([r] + twins, key=score)[0]
+        best['listed'] = True
+        if r is not best and r.get('listed') is not False:
+            r['listed'] = False
+            hidden += 1
+    print(f'deduped: {hidden} duplicate listings hidden')
+    return rows
 
 def main() -> int:
     rows = json.load(open(REGISTRY, encoding='utf-8'))
@@ -331,6 +379,7 @@ def main() -> int:
 
     out = []
     stats = {'linked': 0, 'got98': 0, 'priced': 0, 'shabbat': 0, 'viol': 0, 'waze': 0}
+    hit_id_owner = {}
     for r in rows:
         lic = str(r.get('licence'))
         lat, lon = r.get('lat'), r.get('lon')
@@ -356,6 +405,24 @@ def main() -> int:
                     best, best_score = s, score
             if best is not None and best_score > 0:
                 linked = best
+        # the registry company names the operator: if another row at this forecourt belongs to
+        # the brand of the candidate match, that row gets the identity (חיפה השיש 34/48)
+        if linked is not None:
+            my_cb = company_brand(company)
+            if my_cb is not None and my_cb != linked['brand']:
+                my_d = hav(lat, lon, linked['lat'], linked['lon'])
+                for other in rows:
+                    if other is r:
+                        continue
+                    if company_brand(other.get('company')) != linked['brand']:
+                        continue
+                    if hav(lat, lon, other.get('lat', 0), other.get('lon', 0)) > 150:
+                        continue
+                    # the company row wins only if it is the closer row to the station
+                    if hav(other.get('lat', 0), other.get('lon', 0),
+                           linked['lat'], linked['lon']) < my_d:
+                        linked = None
+                        break
         if linked:
             brand = linked['brand']
             # the mapping may know a venue even when our own station has no waze_id
@@ -401,6 +468,30 @@ def main() -> int:
         hit = our_ids.get(venue_id) if venue_id else None
         if hit is None and google_id:
             hit = our_ids.get(google_id)
+        # one row per our-data station, and the row whose registry company names the station's
+        # brand wins over a same-forecourt row of another operator (חיפה השיש 34 vs 48)
+        if hit is not None:
+            my_cb = company_brand(r.get('company'))
+            if hit_id_owner.get(id(hit), lic) != lic:
+                hit = None
+            elif my_cb is not None and my_cb != hit['brand']:
+                my_d = hav(lat, lon, hit['lat'], hit['lon'])
+                better = False
+                for other in rows:
+                    if other is r:
+                        continue
+                    if company_brand(other.get('company')) != hit['brand']:
+                        continue
+                    if hav(lat, lon, other.get('lat', 0), other.get('lon', 0)) > 150:
+                        continue
+                    if hav(other.get('lat', 0), other.get('lon', 0),
+                           hit['lat'], hit['lon']) < my_d:
+                        better = True
+                        break
+                if better:
+                    hit = None
+            if hit is not None:
+                hit_id_owner[id(hit)] = lic
         if hit is not None:
             linked = hit
             brand = hit['brand']
@@ -544,6 +635,7 @@ def main() -> int:
         stats['waze'] += bool(venue_id)
 
     out = apply_tapuz(out)
+    out = dedupe(out)
     json.dump(out, open(OUT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print(f'wrote {OUT}: {len(out)} stations')
     print('  linked to our data:', stats['linked'], '| with a waze_id:', stats['waze'])

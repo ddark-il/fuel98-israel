@@ -74,7 +74,8 @@ def main() -> int:
         title = re.sub(r'<[^>]+>', '', (s.get('title') or {}).get('rendered', '')).strip()
         rec = {'slug': slug, 'title': title, 'brand': cards.get(slug) or mp.page_brand(title),
                'price98': None, 'shabbat_closure': False, 'loaded': False,
-               'http_status': None, 'lat': None, 'lon': None, 'fetched_at': None}
+               'http_status': None, 'lat': None, 'lon': None,
+               'modified': s.get('modified'), 'fetched_at': None}
         status, page, _ = mp.fetch(link)
         rec['http_status'] = status
         rec['fetched_at'] = datetime.now(timezone.utc).isoformat()
@@ -111,6 +112,25 @@ def main() -> int:
         s = _re.sub(r'[^0-9a-zA-Z\u0590-\u05FF ]+', ' ', s or '')
         return {t for t in s.split() if t not in BRAND_WORDS and len(t) > 1}
 
+    try:
+        reg = {str(x['licence']): (x.get('company') or '') for x in mp.load_registry()}
+    except Exception:                                             # noqa: BLE001
+        reg = {}
+
+    def company_brand(c):
+        c = c or ''
+        if 'מיקה' in c:
+            return 'מיקה'
+        if 'דור אלון' in c or 'דורלון' in c:
+            return 'דורלון'
+        if 'סונול' in c:
+            return 'סונול'
+        if 'פז' in c:
+            return 'פז'
+        if 'דלק' in c:
+            return 'דלק'
+        return None
+
     matches = {}
     for rec in out:
         name_part = toks((rec['title'] or '').split(',')[0])
@@ -123,7 +143,9 @@ def main() -> int:
             brand_ok = bool(rec['brand']) and (rec['brand'] == r['brand']
                                               or (rec['brand'] == 'דור אלון' and r['brand'] == 'דורלון'))
             if overlap >= 1 or (d <= 250 and rec['lat'] is not None):
-                score = overlap * 3 + (2 if brand_ok else 0) + (2 if d <= 250 else 0)
+                cb = company_brand(reg.get(str(r['ministry_id'])))
+                score = (overlap * 3 + (2 if brand_ok else 0) + (2 if d <= 250 else 0)
+                         + (3 if cb and cb == rec['brand'] else 0))
                 cands.append((score, d, r))
         if not cands:
             continue
