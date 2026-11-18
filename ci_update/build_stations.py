@@ -459,7 +459,8 @@ def main() -> int:
         elif brand == 'דורלון' and dn:
             got98 = dn.get('got98') is True
         elif brand == 'מיקה' and mk:
-            got98 = mk.get('got98') is True
+            # under no circumstances a Mika station without a published price is a 98 station
+            got98 = mk.get('got98') is True and mk.get('price98') is not None
         elif brand in ('תפוז', 'דלק'):
             got98 = bool(linked or on_98_list)
         else:
@@ -496,6 +497,9 @@ def main() -> int:
         is_other = brand not in ('פז', 'סונול', 'דורלון', 'דלק', 'מיקה', 'תפוז', 'טן')
         if is_other:
             got98 = price_out is not None
+        # a Mika station is only a 98 station when Mika publishes a price for it
+        if brand == 'מיקה' and price_out is None:
+            got98 = False
         # a station that does not sell 98 carries no price at all
         if not got98:
             price_out = None
