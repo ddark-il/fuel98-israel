@@ -412,7 +412,11 @@ def main() -> int:
         price_rep_out = price_rec.get('reported_at') if price_rec else None
         mk = mika.get(lic) or {}
         if mk:
-            brand = {'דור אלון': 'דורלון'}.get(mk.get('brand') or '', mk.get('brand') or brand)
+            # the logo decides the brand only when our own data did not already place the
+            # station under its operator - Mika operates pumps inside Sonol/Dor Alon forecourts,
+            # and a Mika-logo page must not move such a station under מיקה
+            if not linked:
+                brand = {'דור אלון': 'דורלון'}.get(mk.get('brand') or '', mk.get('brand') or brand)
             price_out = mk.get('price98')
             price_rep_out = None
             closed_mk = bool(mk.get('shabbat_closure'))
