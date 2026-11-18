@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Paz updater - like the Mika one, but Paz publishes no prices.
 
-From auto_poc/official/paz.json (the locator: 338 stations, each with a 98 flag and a services
+From ci_update/official/paz.json (the locator: 338 stations, each with a 98 flag and a services
 list) provide only:
   * got98           - the locator's product98 flag
   * shabbat_closure - the services list carries "שומרת/שומרות שבת"
 No price is written for Paz stations.
 
 Matches each Paz station to a database row by coordinate proximity (<= 250 m) and writes
-auto_poc/paz_matches.json {ministry_id: {got98, shabbat_closure, dist_m}}.
+ci_update/paz_matches.json {ministry_id: {got98, shabbat_closure, dist_m}}.
 """
 from __future__ import annotations
 

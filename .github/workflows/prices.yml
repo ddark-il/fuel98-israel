@@ -1,6 +1,6 @@
 name: update
 
-# The hourly data pipeline. Everything feeds one file: data/stations.json (the site database).
+# The hourly data pipeline. Everything feeds one file: ci_update/stations.json (the site database).
 #
 # Gatherers (each uploads an artifact; a failure in one never blocks the others):
 #   mika            - Mika's station pages: operator prices, the 98 flag, the logo brand,
@@ -9,15 +9,15 @@ name: update
 #   pricecheck      - Waze's reported 98 price for every collected venue (Israeli runner)
 #   paz/sonol/doralon/delek - the operator's own station list + its updater
 #   ten             - Ten's station list (no 98 anywhere)
-# commit            - folds all artifacts into data/stations.json with poc/build_stations.py,
-#                     publishes it with poc/publish_site.py, and commits it plus
-#                     data/violations.json. Pages serves the new file with no deploy.
+# commit            - folds all artifacts into ci_update/stations.json with ci_update/build_stations.py,
+#                     publishes it with ci_update/publish_site.py, and commits it plus
+#                     ci_update/violations.json. Pages serves the new file with no deploy.
 # The commit job runs `if: always()`, so one broken gatherer costs that source's refresh, not
 # the whole run; prices with no fresh report carry the previous value over.
 
 on:
-  # No `push` trigger on purpose: the commit job commits data/stations.json and
-  # data/violations.json, and a push-triggered run would chase its own commits.
+  # No `push` trigger on purpose: the commit job commits ci_update/stations.json and
+  # ci_update/violations.json, and a push-triggered run would chase its own commits.
   schedule:
     - cron: '15 * * * *'              # hourly at :15 - GitHub's scheduler is best-effort: a 2-hourly
                                       # cron was delivering runs 30-60 min late and 4-5 h apart, and each
@@ -36,7 +36,7 @@ jobs:
   mika:
     # Mika's station pages: one scrape yields the operator's own prices, the 98 flag, the brand
     # logo and the Shabbat hours, so there is a single step (mika_update.py). ubuntu-latest is fine
-    # - mika.org.il serves everyone (the pin in price-ci/mika_chain.pem covers the broken
+    # - mika.org.il serves everyone (the pin in ci_update/mika_chain.pem covers the broken
     # intermediate it started sending on 2026-11-17).
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -53,15 +53,15 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            price-ci/registry_cache.json
-            price-ci/mika_navpoints_cache.json
+            ci_update/registry_cache.json
+            ci_update/mika_navpoints_cache.json
           key: mika-caches-${{ runner.os }}-${{ github.run_id }}
           restore-keys: mika-caches-${{ runner.os }}-
 
       - name: Mika - station-page flags (brand, 98, Shabbat)
         run: |
           set +e
-          python3 poc/mika_update.py
+          python3 ci_update/mika_update.py
           code=$?
           if [ "$code" -ne 0 ]; then
             echo "::warning::mika_update.py failed (exit $code) - the commit carries the previous Mika matches"
@@ -74,8 +74,8 @@ jobs:
         with:
           name: mika-matches
           path: |
-            poc/mika_matches.json
-            poc/mika_update.json
+            ci_update/mika_matches.json
+            ci_update/mika_update.json
 
   violations:
     # The Ministry's API is geo-restricted, so the check runs from Israel - which is what the
@@ -112,19 +112,19 @@ jobs:
       # the licence list is what stations.json marks by ministry_id (works for stations that are
       # not one of our 326 live venues)
       - name: Violation licences
-        run: '"$NODE" poc/violation_licences.js'
+        run: '"$NODE" ci_update/violation_licences.js'
 
       - uses: actions/upload-artifact@v4
         with:
           name: violations
           path: |
-            data/violations.json
-            poc/violation_licences.json
+            ci_update/violations.json
+            ci_update/violation_licences.json
 
   # ────────────────────────────────────────────────────────────────────────────── commit ──
   # ─────────────────────────────────────────────── station-database gatherers (brand sites + Waze) ──
   # Each brand job fetches the operator's own station list, runs its updater and uploads the
-  # matches; the commit job folds them into data/stations.json - the site's single database.
+  # matches; the commit job folds them into ci_update/stations.json - the site's single database.
   pricecheck:
     # Waze only answers with prices to an IL frontend, so this job uses the Israeli runner.
     runs-on: ${{ fromJSON(vars.WAZE_RUNNER || '["ubuntu-latest"]') }}
@@ -148,12 +148,12 @@ jobs:
           echo "PYTHON=$PY" >> "$GITHUB_ENV"
           echo "python: $PY ($("$PY" --version 2>&1))"
       - name: Price-check every collected venue
-        run: $PYTHON poc/price_check_all.py
+        run: $PYTHON ci_update/price_check_all.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: pricecheck
-          path: poc/price_check.jsonl
+          path: ci_update/price_check.jsonl
 
   paz:
     runs-on: ubuntu-latest
@@ -172,13 +172,13 @@ jobs:
         continue-on-error: true
         run: |
           for i in 1 2 3; do
-            node poc/fetch_official.js paz && break
+            node ci_update/fetch_official.js paz && break
             sleep 20
           done
-      - run: python3 poc/paz_update.py
+      - run: python3 ci_update/paz_update.py
       - uses: actions/upload-artifact@v4
         if: always()
-        with: { name: paz, path: poc/paz_matches.json }
+        with: { name: paz, path: ci_update/paz_matches.json }
 
   sonol:
     runs-on: ubuntu-latest
@@ -197,17 +197,17 @@ jobs:
         continue-on-error: true
         run: |
           for i in 1 2 3; do
-            node poc/fetch_official.js sonol && break
+            node ci_update/fetch_official.js sonol && break
             sleep 20
           done
-      - run: python3 poc/sonol_update.py
+      - run: python3 ci_update/sonol_update.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: sonol
           path: |
-            poc/sonol_matches.json
-            poc/sonol_unmatched.json
+            ci_update/sonol_matches.json
+            ci_update/sonol_unmatched.json
 
   doralon:
     runs-on: ubuntu-latest
@@ -226,17 +226,17 @@ jobs:
         continue-on-error: true
         run: |
           for i in 1 2 3; do
-            node poc/fetch_official.js doralon && break
+            node ci_update/fetch_official.js doralon && break
             sleep 20
           done
-      - run: python3 poc/doralon_update.py
+      - run: python3 ci_update/doralon_update.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: doralon
           path: |
-            poc/doralon_matches.json
-            poc/doralon_unmatched.json
+            ci_update/doralon_matches.json
+            ci_update/doralon_unmatched.json
 
   delek:
     runs-on: ubuntu-latest
@@ -255,17 +255,17 @@ jobs:
         continue-on-error: true
         run: |
           for i in 1 2 3; do
-            node poc/fetch_official.js delek && break
+            node ci_update/fetch_official.js delek && break
             sleep 20
           done
-      - run: python3 poc/delek_update.py
+      - run: python3 ci_update/delek_update.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: delek
           path: |
-            poc/delek_matches.json
-            poc/delek_unmatched.json
+            ci_update/delek_matches.json
+            ci_update/delek_unmatched.json
 
   ten:
     # Ten's API answers with a 403 from GitHub-hosted runners (geo/IP filtered), so this job runs
@@ -292,17 +292,17 @@ jobs:
         continue-on-error: true
         run: |
           for i in 1 2 3; do
-            $PYTHON poc/fetch_ten.py && break
+            $PYTHON ci_update/fetch_ten.py && break
             sleep 20
           done
-      - run: $PYTHON poc/ten_update.py
+      - run: $PYTHON ci_update/ten_update.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ten
           path: |
-            poc/ten_matches.json
-            poc/ten_unmatched.json
+            ci_update/ten_matches.json
+            ci_update/ten_unmatched.json
 
   commit:
     needs: [mika, violations, pricecheck, paz, sonol, doralon, delek, ten]
@@ -337,26 +337,24 @@ jobs:
         run: |
           python3 - <<'PY'
           import sys
-          sys.path.insert(0, 'price-ci')
+          sys.path.insert(0, 'ci_update')
           import mika_prices
           rows = mika_prices.load_registry()
           print(f'registry rows: {len(rows)}')
           PY
 
-      - name: Build data/stations.json (the site database)
+      - name: Build ci_update/stations.json (the site database)
         continue-on-error: true
-        run: |
-          python3 poc/build_stations.py
-          python3 poc/publish_site.py
+        run: python3 ci_update/build_stations.py
 
       - name: Commit
         run: |
           git config user.name  'price-check[bot]'
           git config user.email '107122576+price-check-bot@users.noreply.github.com'
-          git add data/stations.json data/violations.json
+          git add ci_update/stations.json ci_update/violations.json
           if git diff --cached --quiet; then echo 'nothing changed'; exit 0; fi
           MSG="data: refresh the stations database [skip ci]"
-          BODY="$(python3 -c "import json;d=json.load(open('data/stations.json'));print(f\"{len(d)} stations, {sum(1 for r in d if r['got98'])} sell 98, {sum(1 for r in d if r['price'] is not None)} priced, {sum(1 for r in d if r['shabbat_closure'])} Shabbat-closed\")")"
+          BODY="$(python3 -c "import json;d=json.load(open('ci_update/stations.json'));print(f\"{len(d)} stations, {sum(1 for r in d if r['got98'])} sell 98, {sum(1 for r in d if r['price'] is not None)} priced, {sum(1 for r in d if r['shabbat_closure'])} Shabbat-closed\")")"
           git commit -m "$MSG" -m "$BODY"
           # a push during the run can move main under us: rebase and retry; if a data file
           # conflicts, merge preferring the freshly built files (they are the newer truth)

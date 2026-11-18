@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch Ten's (טן) full station list from its website API into auto_poc/official/ten.json.
+"""Fetch Ten's (טן) full station list from its website API into ci_update/official/ten.json.
 
 The site (10ten.co.il) is a React app; its bundle calls
 POST https://10ten.co.il/website_api/website/1.0/generalDeclaration, which returns

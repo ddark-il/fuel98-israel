@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build auto_poc/stations.json: one record per Ministry of Energy station licence.
+"""Build ci_update/stations.json: one record per Ministry of Energy station licence.
 
 Fields (exactly as requested):
     ministry_id, brand, longtitude, lattiude, got98, waze_id, price, price_reported,
@@ -17,7 +17,7 @@ Every non-default value has positive evidence: got98 = the station is one of our
 price exists for its venue, or its name is on a brand's 98-only list; shabbat_closure = that
 brand list says the station is closed on Shabbat. Unknown stays false/null - not guessed.
 
-Run:  python3 auto_poc/build_stations.py
+Run:  python3 ci_update/build_stations.py
 """
 from __future__ import annotations
 
@@ -29,17 +29,14 @@ import re
 import unicodedata
 from datetime import datetime, timezone
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)                                  # .../Delek98
-REPO = (os.path.join(ROOT, 'fuel98-israel') if os.path.isdir(os.path.join(ROOT, 'fuel98-israel'))
-        else ROOT)
-REGISTRY = os.path.join(REPO, 'price-ci', 'registry_cache.json')
-PRICES = os.path.join(REPO, 'data', 'prices.json')
-VIOLATIONS = os.path.join(REPO, 'data', 'violations.json')
-MAP_JSONL = (os.path.join(ROOT, 'price_poc', 'ministry_venues.jsonl')
-             if os.path.exists(os.path.join(ROOT, 'price_poc', 'ministry_venues.jsonl'))
-             else os.path.join(HERE, 'ministry_venues.jsonl'))
+HERE = os.path.dirname(os.path.abspath(__file__))            # ci_update/
+REGISTRY = os.path.join(HERE, 'registry_cache.json')
+VIOLATIONS = os.path.join(HERE, 'violations.json')
+MAP_JSONL = os.path.join(HERE, 'ministry_venues.jsonl')
 OUT = os.path.join(HERE, 'stations.json')
+# the station source lists (the site's brand files) live beside the scripts now
+STATION_FILES = ('mika.json', 'sonol.json', 'paz.json', 'doralon.json', 'delek.json',
+                 'tapuz.json', 'others.json')
 
 BRAND_WORDS = {'פז', 'סונול', 'דור אלון', 'דורלון', 'מיקה', 'דלק', 'תפוז', 'יעד', 'טן',
                'סד"ש', 'רום', 'תחנת'}
@@ -82,9 +79,9 @@ def hav(lat1, lon1, lat2, lon2):
 
 def load_ours():
     out = []
-    for f in glob.glob(os.path.join(REPO, 'data', '*.json')):
-        base = os.path.basename(f)
-        if base in ('manifest.json', 'violations.json', 'prices.json', 'stations.json'):
+    for base in STATION_FILES:
+        f = os.path.join(HERE, base)
+        if not os.path.exists(f):
             continue
         for s in json.load(open(f, encoding='utf-8')):
             out.append({'brand': s['brand'], 'name': s['name'],
@@ -97,8 +94,7 @@ def load_brand_lists():
     """brand -> [(station_name, closed_on_shabbat)] from the brand 98-only lists (Oct 19)."""
     lists = {}
     def lp(name):
-        p = os.path.join(ROOT, name)
-        return p if os.path.exists(p) else os.path.join(HERE, name)
+        return os.path.join(HERE, name)
     sonol = json.load(open(lp('sonol.txt'), encoding='utf-8'))
     lists['סונול'] = [(r.get('שם התחנה', ''),
                        any('שבת' in str(x) for x in (r.get('שירותים') or []))
@@ -143,7 +139,7 @@ def apply_tapuz(rows):
     synthetic id (tapuz:<name>) so it still gets a price.
     """
     taps = []
-    tp = os.path.join(REPO, 'data', 'tapuz.json')
+    tp = os.path.join(HERE, 'tapuz.json')
     if os.path.exists(tp):
         taps = json.load(open(tp, encoding='utf-8'))
     if not taps:
@@ -206,8 +202,9 @@ def main() -> int:
     ours = load_ours()
     by_venue = {s['waze_id']: s for s in ours if s.get('waze_id')}
     our_ids = {}
-    for f in glob.glob(os.path.join(REPO, 'data', '*.json')):
-        if os.path.basename(f) in ('manifest.json', 'violations.json', 'prices.json', 'stations.json'):
+    for base in STATION_FILES:
+        f = os.path.join(HERE, base)
+        if not os.path.exists(f):
             continue
         for st0 in json.load(open(f, encoding='utf-8')):
             w = st0.get('waze_id')
@@ -215,8 +212,7 @@ def main() -> int:
                 our_ids[w] = {'brand': st0['brand'], 'name': st0['name'],
                               'lat': st0['coordinates']['lat'], 'lon': st0['coordinates']['lon'],
                               'waze_id': w}
-    prices = (json.load(open(PRICES, encoding='utf-8')).get('stations', {})
-              if os.path.exists(PRICES) else {})
+    prices = {}
     name_map = {}
     nm_path = os.path.join(HERE, 'name_map_filtered.json')
     if os.path.exists(nm_path):
@@ -245,10 +241,6 @@ def main() -> int:
         except Exception:                                         # noqa: BLE001
             prev_hist = {}
     site_prices = {}
-    if os.path.exists(PRICES):
-        for k, v in json.load(open(PRICES, encoding='utf-8')).get('stations', {}).items():
-            if v.get('98') is not None:
-                site_prices[k] = v
     prev_prices = {}
     prev_doc = os.path.join(HERE, 'stations.json')
     if os.path.exists(prev_doc):
@@ -259,10 +251,6 @@ def main() -> int:
         except Exception:                                         # noqa: BLE001
             prev_prices = {}
     site_prices = {}
-    if os.path.exists(PRICES):
-        for k, v in json.load(open(PRICES, encoding='utf-8')).get('stations', {}).items():
-            if v.get('98') is not None:
-                site_prices[k] = v
     price_map = {}
     pc_path = os.path.join(HERE, 'price_check.jsonl')
     if os.path.exists(pc_path):
@@ -549,8 +537,10 @@ def main() -> int:
     json.dump(out, open(OUT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print(f'wrote {OUT}: {len(out)} stations')
     print('  linked to our data:', stats['linked'], '| with a waze_id:', stats['waze'])
-    print('  got98:', stats['got98'], '| with a price:', stats['priced'])
-    print('  shabbat_closure:', stats['shabbat'], '| violation:', stats['viol'])
+    print('  got98:', sum(1 for r in out if r['got98']),
+          '| with a price:', sum(1 for r in out if r['price'] is not None))
+    print('  shabbat_closure:', sum(1 for r in out if r['shabbat_closure']),
+          '| violation:', sum(1 for r in out if r['violation']))
     return 0
 
 

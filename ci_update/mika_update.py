@@ -9,7 +9,7 @@ For every station page (from the WordPress API):
   * coords     - from the page's map link (resolved/cached)
 
 Then matches each page to a database row by coordinates (<= 250 m) and writes
-auto_poc/mika_matches.json {ministry_id: {brand, price98, got98, shabbat_closure, slug}}.
+ci_update/mika_matches.json {ministry_id: {brand, price98, got98, shabbat_closure, slug}}.
 build_stations.py applies: brand, price, got98 (page has a 98 price), shabbat_closure.
 """
 from __future__ import annotations
@@ -20,10 +20,7 @@ import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REPO = (os.path.join(os.path.dirname(HERE), 'fuel98-israel')
-        if os.path.isdir(os.path.join(os.path.dirname(HERE), 'fuel98-israel'))
-        else os.path.dirname(HERE))
-sys.path.insert(0, os.path.join(REPO, 'price-ci'))
+sys.path.insert(0, HERE)
 import mika_prices as mp                                              # noqa: E402
 
 LIST_API = 'https://mika.org.il/wp-json/wp/v2/station?per_page=100&_fields=id,slug,title,modified,activity-hours'

@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Delek updater - matching only.
+"""Sonol updater - same shape as the Paz one.
 
-Delek's locator publishes NO 98-octane flag, NO prices, and NO Shabbat information (its `hours`
-values are 24/7, 24/5, day/time ranges; none says "closed Saturday"). So unlike Paz/Sonol/Dor
-Alon, this updater contributes no flags: it matches the locator's 241 stations to database rows
-(<= 250 m) and reports them, leaving got98 / price / shabbat_closure to other sources.
+From ci_update/official/sonol.json (the locator: 249 stations, each with a 98 flag and a services
+list) provide only:
+  * got98           - the locator's 98 flag
+  * shabbat_closure - services carry "שומרת שבת"
+No price is written (Sonol publishes no per-station prices).
 
-Writes auto_poc/delek_unmatched.json for the discrepancy backlog.
+Matches each Sonol station to a database row by coordinate proximity (<= 250 m) and writes
+ci_update/sonol_matches.json {ministry_id: {got98, shabbat_closure, dist_m}}.
 """
 from __future__ import annotations
 
@@ -26,9 +28,10 @@ def hav(a, b, c, d):
 
 
 def main() -> int:
-    off = json.load(open(os.path.join(HERE, 'official', 'delek.json'), encoding='utf-8'))
+    off = json.load(open(os.path.join(HERE, 'official', 'sonol.json'), encoding='utf-8'))
     db = json.load(open(os.path.join(HERE, 'stations.json'), encoding='utf-8'))
-    matched, unmatched, matches = 0, [], {}
+    matches, unmatched = {}, []
+    n98 = nshab = 0
     for s in off:
         if s.get('lat') is None:
             continue
@@ -37,29 +40,29 @@ def main() -> int:
             d = hav(s['lat'], s['lon'], r['lattiude'], r['longtitude'])
             if best_d is None or d < best_d:
                 best, best_d = r, d
-        if best is not None and best_d <= 250:
-            hours = (s.get('hours') or '').strip()
-            # Delek's only Shabbat signal: 24/5 or 24/6 (24 hours for 5/6 days -> closed Saturday)
-            shabbat = hours.startswith('24/5') or hours.startswith('24/6')
-            matches[str(best['ministry_id'])] = {'shabbat_closure': shabbat,
-                                                 'dist_m': round(best_d, 1)}
         if best is None or best_d > 250:
             unmatched.append({'name': s.get('name'), 'city': s.get('city'),
                               'address': s.get('address'), 'lat': s.get('lat'), 'lon': s.get('lon'),
+                              'has98': s.get('has98'),
                               'nearest_db': (None if best is None else
                                              {'ministry_id': best['ministry_id'],
                                               'name': best['station_name'],
                                               'brand': best['brand'],
                                               'dist_m': round(best_d, 1)})})
-        else:
-            matched += 1
-    json.dump(matches, open(os.path.join(HERE, 'delek_matches.json'), 'w', encoding='utf-8'),
+            continue
+        services = s.get('services') or []
+        shabbat = any('שבת' in str(x) for x in services)
+        rec = {'got98': s.get('has98') is True, 'shabbat_closure': shabbat,
+               'dist_m': round(best_d, 1)}
+        n98 += rec['got98']
+        nshab += shabbat
+        matches[str(best['ministry_id'])] = rec
+    json.dump(matches, open(os.path.join(HERE, 'sonol_matches.json'), 'w', encoding='utf-8'),
               ensure_ascii=False, indent=1)
-    json.dump(unmatched, open(os.path.join(HERE, 'delek_unmatched.json'), 'w', encoding='utf-8'),
+    json.dump(unmatched, open(os.path.join(HERE, 'sonol_unmatched.json'), 'w', encoding='utf-8'),
               ensure_ascii=False, indent=1)
-    nshab = sum(1 for m in matches.values() if m['shabbat_closure'])
-    print(f'delek stations: {len(off)}, matched: {matched}, unmatched: {len(unmatched)}, '
-          f'shabbat-closed (24/5, 24/6): {nshab}')
+    print(f'sonol stations: {len(off)}, matched: {len(matches)}, unmatched: {len(unmatched)}, '
+          f'with 98: {n98}, shabbat-closed: {nshab}')
     return 0
 
 

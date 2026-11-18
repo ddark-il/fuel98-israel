@@ -548,7 +548,7 @@ body {
 <h3>תחנות דלק 98 בפרדס חנה כרכור</h3>
 <ul><li>סונול — פרדס חנה</li></ul>
 <h3>תחנות דלק 98 בפתח תקווה</h3>
-<ul><li>דור אלון — פתח תקוה בלינסון (ד&quot;ש)</li><li>דלק — מפגש השרון</li><li>מיקה — גיסין</li><li>מיקה — פתח תקווה</li><li>מיקה — צומת גנים</li><li>סונול — גיסין</li><li>סונול — ירקונים</li><li>פז — אצטדיון פתח תקווה</li><li>פז — נווה עוז</li><li>פז — שיאונה</li><li>תפוז — סגולה</li></ul>
+<ul><li>דור אלון — פתח תקוה בלינסון (ד&quot;ש)</li><li>דלק — מפגש השרון</li><li>מיקה — גיסין</li><li>מיקה — סונול מיקה פתח תקווה</li><li>מיקה — צומת גנים</li><li>סונול — גיסין</li><li>סונול — ירקונים</li><li>פז — אצטדיון פתח תקווה</li><li>פז — נווה עוז</li><li>פז — שיאונה</li><li>תפוז — סגולה</li></ul>
 <h3>תחנות דלק 98 בצומת האלה</h3>
 <ul><li>פז — רמת דניה</li></ul>
 <h3>תחנות דלק 98 בצומת חנניה</h3>
@@ -758,9 +758,9 @@ function togglePriceTip(e, el) {
   if (!wasOpen) el.classList.add('open');
 }
 
-// Single source of truth: data/stations.json (the automations rebuild it; prices and flags
+// Single source of truth: ci_update/stations.json (the automations rebuild it; prices and flags
 // live on each row, so there is no manifest / brand files / prices.json / violations.json join).
-fetch('data/stations.json')
+fetch('ci_update/stations.json')
   .then(function(r) { return r.json(); })
   .then(function(rows) {
     stations = rows.filter(function(r) {

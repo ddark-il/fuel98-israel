@@ -8,7 +8,7 @@ Search by name or city, filter by brand, sort by distance from your location, an
 
 ## Prices & the station database
 
-The site loads one file: **`data/stations.json`** — the station database, rebuilt hourly by
+The site loads one file: **`ci_update/stations.json`** — the station database, rebuilt hourly by
 [`.github/workflows/prices.yml`](.github/workflows/prices.yml). Each row carries the station's name,
 brand, coordinates, venue ids, `got98`, `price` / `price_reported`, `shabbat_closure` and the
 fuel-quality `violation` flag. Prices come from:
@@ -54,7 +54,7 @@ The 98-octane station list for each brand comes from the source below. Station *
 
 Stations are cross-checked against the Israeli Ministry of Energy's [substandard-fuel list](https://migdal-webpages.energy-apps.org/fuelGasStation) (stations where off-spec fuel was found in the last 6 months). Any of our stations that appear on it are flagged with a ⚠️ in the app (hover/tap for the fuel type and sampling date). A flag is raised for **any** fuel type — petrol, diesel, or LPG — because 98-octane engines are especially sensitive to bad fuel, so a quality failure anywhere at the station is worth surfacing.
 
-`scripts/check-violations.mjs` rewrites `data/violations.json`; the `violations` job runs it **daily on
+`ci_update/check-violations.mjs` rewrites `ci_update/violations.json`; the `violations` job runs it **daily on
 the Israeli runner** and a hosted job commits the result. It **must run from an Israeli IP** — the
 Ministry API is geo-restricted, so the job refuses to run unless the machine's egress country is `IL`
 (it prints the country and fails loudly otherwise; a silent 403 would look like "no violations").
@@ -66,47 +66,50 @@ stations by proximity. Entries that fail to match are printed with the reason, s
 ## Project structure
 
 ```
-data/
-  manifest.json     # lists the per-brand files + brand→file map
-  paz.json          # one file per brand: [{ brand, name, coordinates:{lat,lon}, waze_id }, …]
-  sonol.json
-  doralon.json
-  mika.json
-  delek.json
-  tapuz.json
-  others.json       # the "אחר" group (יעד & small/independent brands)
-  violations.json   # stations to flag ⚠️ (written by the daily job)
-  prices.json       # reported 98 prices, station id → { "98": 8.59, "reported_at": "…" } (written by the hourly job)
-index.html          # the whole app + a generated <noscript> SEO block (between the seo-noscript markers)
+ci_update/                 # everything the hourly pipeline needs, in one folder
+  build_stations.py        # Ministry registry + brand lists + matches -> stations.json
+  price_check_all.py       # Waze's reported 98 price for every collected venue
+  mika_update.py           # Mika pages: prices, 98 flag, brand logo, Shabbat hours
+  paz_update.py … ten_update.py   # one updater per brand site
+  fetch_official.js / fetch_ten.py # the brand-locator fetch (Playwright/Python)
+  check-violations.mjs     # Ministry substandard-fuel list (IL runner)
+  violation_licences.js    # the licence list the database marks violations by
+  mika_prices.py / price_check.py  # shared clients (Mika pages, Waze products)
+  tapuz.json               # source of truth for the Tapuz station list
+  mika.json, sonol.json, paz.json, doralon.json, delek.json, others.json  # the brand station lists
+  official/                # last fetched brand locator lists (fallback)
+  official_pins.json, ministry_venues.jsonl, remap.jsonl, …             # base station mapping
+  stations.json            # THE SITE DATABASE (rebuilt hourly by CI, committed here)
+  violations.json          # fuel-quality flags (rebuilt daily on the IL runner)
+index.html                 # the whole app + a generated <noscript> SEO block
 scripts/
-  check-violations.mjs           # cross-checks the Ministry substandard-fuel list (run by CI on the IL runner)
-  build-seo.py                   # regenerates index.html's <noscript> SEO block (cities from the Ministry registry)
-price-ci/           # the price pipeline that writes data/prices.json (see "98 prices" above)
-  price_check.py    # Waze: asks per venue, resumable, shardable
-  mika_prices.py    # Mika: scrapes the operator's published prices
-  publish_prices.py # merge + guards → data/prices.json
-  waze_prices.py, waze_live.py, waze_rt_poc.py, tools/pbtext.py   # the Waze client
-.github/workflows/prices.yml       # the hourly/daily jobs
+  build-seo.py             # regenerates index.html's <noscript> block from ci_update/stations.json
+  test-goatcounter-events.mjs
+.github/workflows/prices.yml   # the hourly pipeline (nine jobs -> commit)
 ```
 
-No build step — it's a static site. `index.html` fetches `data/manifest.json`, loads each brand file plus `data/violations.json` and `data/prices.json`, and renders the map (Leaflet + OpenStreetMap tiles) and list.
+No build step — it's a static site. `index.html` fetches `ci_update/stations.json` and renders the
+map (Leaflet + OpenStreetMap tiles) and list. Every row carries the brand, coordinates, `got98`,
+`price`/`price_reported`, `shabbat_closure` and the violation flag, so no other file is read.
 
-For crawlability, `index.html` carries a hidden `<noscript>` block listing every station grouped by city. `scripts/build-seo.py` takes each station's city from the Ministry registry's רשות_מקומית and rewrites the block on demand — offline, deterministic, and finished in well under a second. It is still a manual step, run whenever the station data changes.
+For crawlability, `index.html` carries a hidden `<noscript>` block listing every station grouped by
+city. `scripts/build-seo.py` takes each station's city from the Ministry registry's רשות_מקומית and
+rewrites the block on demand — offline, deterministic, and finished in well under a second.
 
-The **station scrapers and coordinate-verification scripts** (Mika → its own map pins, Delek → official locator, Tapuz/Other → the data.gov.il registry, plus the pin-source planner) live **outside** this repository, in the parent project.
+**The pipeline.** Nine independent jobs feed one commit: `mika`, `violations`, `pricecheck`,
+`paz`, `sonol`, `doralon`, `delek`, `ten` upload artifacts, and `commit` runs
+`ci_update/build_stations.py` and commits `ci_update/stations.json` + `ci_update/violations.json`.
+The Waze price check and the violation check need an Israeli egress and run on the runner named by
+the `WAZE_RUNNER` repository variable; the brand fetches and the commit run on GitHub-hosted
+runners. A failed gatherer costs that source's refresh, not the run: the commit job runs
+`if: always()`, and a station with no fresh price keeps its previous one.
 
-**Maintaining the price pipeline.** Both Israel-only jobs run on the self-hosted runner named by the
-repository variable `WAZE_RUNNER` (an Israeli Mac mini, on 24/7); the publish and commit steps run on
-hosted runners, because the Israeli machine's x86_64 runner cannot execute `/usr/bin/python3` or `git`
-— the CommandLineTools shim is arm64-only, so the jobs discover a working interpreter themselves and
-print which one they picked (installing the `osx-arm64` runner build removes the whole class of trap).
-A run that reads nothing is **red on purpose**: `exit 3` means no IL frontend answered for 30 minutes,
-and `continue-on-error` used to hide exactly that. `publish_prices.py` refuses to write a file with
-fewer than `--min-rows` prices, or one that drops more than half against the committed file
-(`--allow-shrink` overrides, after a deliberate data change). To reproduce locally, run from
-`price-ci/`: `python3 price_check.py --out prices.json` (needs an Israeli line), then
-`python3 mika_prices.py --merge prices.json`, then
-`python3 publish_prices.py --in prices.json --out ../data/prices.json`.
+Run it locally from the repository root:
+
+```sh
+python3 ci_update/build_stations.py      # writes ci_update/stations.json
+python3 scripts/build-seo.py             # optional: refresh the noscript block
+```
 
 ## License
 

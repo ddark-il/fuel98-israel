@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
-"""Dor Alon updater - same shape as Paz/Sonol.
+"""Ten updater - Ten sells no 98 octane, so every matched station is marked got98 = false.
 
-From auto_poc/official/doralon.json (the locator: 270 stations, each with a 98 flag, services and
-opening hours) provide only:
-  * got98           - the locator's 98 flag
-  * shabbat_closure - opening_hours["שבת"] is "סגור"
-No price is written (the locator publishes none).
+Source: ci_update/official/ten.json (76 stations from Ten's website API, with GPS + opening
+hours). No prices are published per station in a usable form.
 
-Matches each Dor Alon station to a database row by coordinate proximity (<= 250 m) and writes
-auto_poc/doralon_matches.json; unmatched stations go to doralon_unmatched.json.
+Matches each Ten station to a database row by coordinate proximity (<= 250 m) and writes
+ci_update/ten_matches.json {ministry_id: {got98: false, dist_m}}; the builder applies it to טן rows.
 """
 from __future__ import annotations
 
@@ -28,10 +25,9 @@ def hav(a, b, c, d):
 
 
 def main() -> int:
-    off = json.load(open(os.path.join(HERE, 'official', 'doralon.json'), encoding='utf-8'))
+    off = json.load(open(os.path.join(HERE, 'official', 'ten.json'), encoding='utf-8'))
     db = json.load(open(os.path.join(HERE, 'stations.json'), encoding='utf-8'))
     matches, unmatched = {}, []
-    n98 = nshab = 0
     for s in off:
         if s.get('lat') is None:
             continue
@@ -43,26 +39,22 @@ def main() -> int:
         if best is None or best_d > 250:
             unmatched.append({'name': s.get('name'), 'address': s.get('address'),
                               'lat': s.get('lat'), 'lon': s.get('lon'),
-                              'has98': s.get('has98'),
                               'nearest_db': (None if best is None else
                                              {'ministry_id': best['ministry_id'],
                                               'name': best['station_name'],
                                               'brand': best['brand'],
                                               'dist_m': round(best_d, 1)})})
-            continue
-        hours = s.get('opening_hours') or {}
-        shabbat = 'סגור' in str(hours.get('שבת') or '')
-        rec = {'got98': s.get('has98') is True, 'shabbat_closure': shabbat,
-               'dist_m': round(best_d, 1)}
-        n98 += rec['got98']
-        nshab += shabbat
-        matches[str(best['ministry_id'])] = rec
-    json.dump(matches, open(os.path.join(HERE, 'doralon_matches.json'), 'w', encoding='utf-8'),
+        else:
+            matches[str(best['ministry_id'])] = {
+                'got98': False, 'shabbat_closure': s.get('shabbat_closed') is True,
+                'dist_m': round(best_d, 1)}
+    json.dump(matches, open(os.path.join(HERE, 'ten_matches.json'), 'w', encoding='utf-8'),
               ensure_ascii=False, indent=1)
-    json.dump(unmatched, open(os.path.join(HERE, 'doralon_unmatched.json'), 'w', encoding='utf-8'),
+    json.dump(unmatched, open(os.path.join(HERE, 'ten_unmatched.json'), 'w', encoding='utf-8'),
               ensure_ascii=False, indent=1)
-    print(f'dor alon stations: {len(off)}, matched: {len(matches)}, unmatched: {len(unmatched)}, '
-          f'with 98: {n98}, shabbat-closed: {nshab}')
+    nshab = sum(1 for m in matches.values() if m.get('shabbat_closure'))
+    print(f'ten stations: {len(off)}, matched: {len(matches)}, unmatched: {len(unmatched)} '
+          f'(all got98=false, shabbat-closed: {nshab})')
     return 0
 
 

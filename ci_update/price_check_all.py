@@ -2,7 +2,7 @@
 """Price-check every venue we collected (waze_id and google_id) through Waze's fuel layer.
 
 For each station with a venue id, ask Waze for the venue's product list and read the 98 price
-(gas_regular98 first, gas_service98 fallback). Writes auto_poc/price_check.jsonl - resumable.
+(gas_regular98 first, gas_service98 fallback). Writes ci_update/price_check.jsonl - resumable.
 
 Rule applied by build_stations.py afterwards: for every brand except תפוז and דלק (whose station
 lists come from representatives), got98 = (a 98 price was reported) and price = that price;
@@ -15,10 +15,7 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)
-REPO = (os.path.join(ROOT, 'fuel98-israel') if os.path.isdir(os.path.join(ROOT, 'fuel98-israel'))
-        else ROOT)
-PRICE_CI = os.path.join(REPO, 'price-ci')
+PRICE_CI = HERE
 os.chdir(PRICE_CI)
 sys.path.insert(0, PRICE_CI)
 import price_check as pc                                              # noqa: E402
@@ -26,8 +23,6 @@ import price_check as pc                                              # noqa: E4
 
 def main() -> int:
     st_path = os.path.join(HERE, 'stations.json')
-    if not os.path.exists(st_path):
-        st_path = os.path.join(REPO, 'data', 'stations.json')
     st_rows = json.load(open(st_path, encoding='utf-8'))
     todo = [r for r in st_rows if r.get('waze_id') or r.get('google_id')]
     out_path = os.path.join(HERE, 'price_check.jsonl')

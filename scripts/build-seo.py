@@ -22,7 +22,7 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent          # fuel98-israel/
-DATA = ROOT / "data"
+DATA = ROOT / "ci_update"
 INDEX = ROOT / "index.html"
 DISP = {"דורלון": "דור אלון", "שיא אנרגיה": "אחר"}      # display-friendly brand names
 SKIP = {"manifest.json", "violations.json", "prices.json", "stations.json"}
