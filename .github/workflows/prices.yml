@@ -125,36 +125,6 @@ jobs:
   # ─────────────────────────────────────────────── station-database gatherers (brand sites + Waze) ──
   # Each brand job fetches the operator's own station list, runs its updater and uploads the
   # matches; the commit job folds them into ci_update/stations.json - the site's single database.
-  pricecheck:
-    # Waze only answers with prices to an IL frontend, so this job uses the Israeli runner.
-    runs-on: ${{ fromJSON(vars.WAZE_RUNNER || '["ubuntu-latest"]') }}
-    timeout-minutes: 90
-    env:
-      WAZE_SESSION_COOKIE: '${{ vars.WAZE_SESSION_COOKIE }}'
-    steps:
-      - uses: actions/checkout@v4
-      - name: Tools on this runner
-        run: |
-          echo "host: $(uname -srm)"
-          PY=""
-          for c in "$(command -v python3 2>/dev/null)" /opt/homebrew/bin/python3 /usr/local/bin/python3 /usr/bin/python3 python3; do
-            [ -n "$c" ] || continue
-            if "$c" -c 'import sys; assert sys.version_info >= (3, 10)' 2>/dev/null; then PY="$c"; break; fi
-          done
-          if [ -z "$PY" ]; then
-            echo "::error::no working python3 >= 3.10 on this runner"
-            exit 1
-          fi
-          echo "PYTHON=$PY" >> "$GITHUB_ENV"
-          echo "python: $PY ($("$PY" --version 2>&1))"
-      - name: Price-check every collected venue
-        run: $PYTHON ci_update/price_check_all.py
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: pricecheck
-          path: ci_update/price_check.jsonl
-
   paz:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -304,19 +274,19 @@ jobs:
             ci_update/ten_matches.json
             ci_update/ten_unmatched.json
 
-  commit:
-    needs: [mika, violations, pricecheck, paz, sonol, doralon, delek, ten]
+  # ────────────────────────────────────────────────────────────── build → price → publish ──
+  build:
+    # The database is built FIRST so the price check sees every station this run discovered
+    # (that is how small/new stations get priced), not last run's list.
+    needs: [mika, violations, paz, sonol, doralon, delek, ten]
     if: always() && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
 
-      # Station-database inputs: the brand jobs' matches + the Waze price check run by the
-      # pricecheck job. A missing artifact is fine - the builder carries the previous values.
       - uses: actions/download-artifact@v4
         continue-on-error: true
         with:
@@ -327,8 +297,8 @@ jobs:
       - uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          pattern: '{paz,sonol,doralon,delek,ten,pricecheck,mika-matches}'
-          path: poc
+          pattern: '{paz,sonol,doralon,delek,ten,mika-matches}'
+          path: ci_update
           merge-multiple: true
 
       # build_stations needs the Ministry registry, which is a gitignored cache in the repo:
@@ -343,6 +313,90 @@ jobs:
           print(f'registry rows: {len(rows)}')
           PY
 
+      - name: Build the station database
+        run: python3 ci_update/build_stations.py
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stations-build
+          path: ci_update/stations.json
+
+  pricecheck:
+    # Waze only answers with prices to an IL frontend, so this job uses the Israeli runner.
+    needs: [build]
+    if: always() && github.ref == 'refs/heads/main'
+    runs-on: ${{ fromJSON(vars.WAZE_RUNNER || '["ubuntu-latest"]') }}
+    timeout-minutes: 90
+    env:
+      WAZE_SESSION_COOKIE: '${{ vars.WAZE_SESSION_COOKIE }}'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tools on this runner
+        run: |
+          echo "host: $(uname -srm)"
+          PY=""
+          for c in "$(command -v python3 2>/dev/null)" /opt/homebrew/bin/python3 /usr/local/bin/python3 /usr/bin/python3 python3; do
+            [ -n "$c" ] || continue
+            if "$c" -c 'import sys; assert sys.version_info >= (3, 10)' 2>/dev/null; then PY="$c"; break; fi
+          done
+          if [ -z "$PY" ]; then
+            echo "::error::no working python3 >= 3.10 on this runner"
+            exit 1
+          fi
+          echo "PYTHON=$PY" >> "$GITHUB_ENV"
+          echo "python: $PY ($("$PY" --version 2>&1))"
+
+      # the database this run just built
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: stations-build
+          path: .
+
+      - name: Price-check every station in the database
+        run: $PYTHON ci_update/price_check_all.py
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pricecheck
+          path: ci_update/price_check.jsonl
+
+  publish:
+    needs: [build, pricecheck]
+    if: always() && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: violations
+          path: .
+          merge-multiple: true
+
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: '{paz,sonol,doralon,delek,ten,pricecheck,mika-matches}'
+          path: ci_update
+          merge-multiple: true
+
+      - name: Ministry registry for the station database
+        run: |
+          python3 - <<'PY'
+          import sys
+          sys.path.insert(0, 'ci_update')
+          import mika_prices
+          rows = mika_prices.load_registry()
+          print(f'registry rows: {len(rows)}')
+          PY
+
+      # rebuild with this run's prices folded in
       - name: Build ci_update/stations.json (the site database)
         continue-on-error: true
         run: python3 ci_update/build_stations.py
@@ -360,8 +414,6 @@ jobs:
           MSG="data: refresh the stations database [skip ci]"
           BODY="$(python3 -c "import json;d=json.load(open('ci_update/stations.json'));print(f\"{len(d)} stations, {sum(1 for r in d if r['got98'])} sell 98, {sum(1 for r in d if r['price'] is not None)} priced, {sum(1 for r in d if r['shabbat_closure'])} Shabbat-closed\")")"
           git commit -m "$MSG" -m "$BODY"
-          # a push during the run can move main under us: rebase and retry; if a data file
-          # conflicts, merge preferring the freshly built files (they are the newer truth)
           for attempt in 1 2 3; do
             if git pull --rebase --autostash origin main 2>/dev/null; then
               if git push 2>/dev/null; then exit 0; fi

@@ -94,9 +94,16 @@ For crawlability, `index.html` carries a hidden `<noscript>` block listing every
 city. `ci_update/build_seo.py` takes each station's city from the Ministry registry's רשות_מקומית and
 rewrites the block on demand — offline, deterministic, and finished in well under a second.
 
-**The pipeline.** Nine independent jobs feed one commit: `mika`, `violations`, `pricecheck`,
-`paz`, `sonol`, `doralon`, `delek`, `ten` upload artifacts, and `commit` runs
-`ci_update/build_stations.py` and commits `ci_update/stations.json` + `ci_update/violations.json`.
+**The pipeline.** Seven gatherers run in parallel (`mika`, `violations`, `paz`, `sonol`,
+`doralon`, `delek`, `ten`), then the chain is serialized so prices cover the stations this run
+discovered:
+
+1. **build** — `ci_update/build_stations.py` folds the gatherers' artifacts into the database;
+2. **pricecheck** — on the Israeli runner, every station in that fresh database is asked of Waze
+   (`ci_update/price_check_all.py`);
+3. **publish** — the database is rebuilt with those prices, the SEO block is regenerated
+   (`ci_update/build_seo.py`), and `ci_update/stations.json` + `ci_update/violations.json` +
+   `index.html` are committed.
 The Waze price check and the violation check need an Israeli egress and run on the runner named by
 the `WAZE_RUNNER` repository variable; the brand fetches and the commit run on GitHub-hosted
 runners. A failed gatherer costs that source's refresh, not the run: the commit job runs
