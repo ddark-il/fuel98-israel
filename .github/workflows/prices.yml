@@ -291,7 +291,7 @@ jobs:
         continue-on-error: true
         with:
           pattern: violations
-          path: .
+          path: ci_update
           merge-multiple: true
 
       - uses: actions/download-artifact@v4
@@ -351,7 +351,7 @@ jobs:
         continue-on-error: true
         with:
           name: stations-build
-          path: .
+          path: ci_update
 
       - name: Price-check every station in the database
         run: $PYTHON ci_update/price_check_all.py
@@ -376,7 +376,7 @@ jobs:
         continue-on-error: true
         with:
           pattern: violations
-          path: .
+          path: ci_update
           merge-multiple: true
 
       - uses: actions/download-artifact@v4
