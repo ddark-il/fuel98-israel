@@ -200,16 +200,6 @@
   "waze_id": "googlePlaces.ChIJ9XG5-N59AhURgm08TANGb_Q"
  },
  {
-  "name": "פתח תקווה",
-  "brand": "מיקה",
-  "coordinates": {
-   "lat": 32.091762,
-   "lon": 34.856639
-  },
-  "pin_source": "registry",
-  "waze_id": "googlePlaces.ChIJgZRjq_5JHRURQUsGq7cekqY"
- },
- {
   "name": "ראשון",
   "brand": "מיקה",
   "coordinates": {
