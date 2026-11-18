@@ -19,9 +19,9 @@ on:
   # No `push` trigger on purpose: the commit job commits ci_update/stations.json and
   # ci_update/violations.json, and a push-triggered run would chase its own commits.
   schedule:
-    - cron: '15 * * * *'              # hourly at :15 - GitHub's scheduler is best-effort: a 2-hourly
-                                      # cron was delivering runs 30-60 min late and 4-5 h apart, and each
-                                      # attempt may land in a cold window, so try every hour
+    - cron: '15 */4 * * *'            # every 4 hours at :15 - the full run (brand fetches, then a
+                                      # full-database price check, then publish) takes ~40 min, and
+                                      # GitHub's scheduler is best-effort; hourly was too optimistic
     - cron: '45 2 * * *'              # 05:45 Israel time - fuel-quality flags (violations job)
   workflow_dispatch: {}
 
