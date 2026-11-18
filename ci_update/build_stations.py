@@ -471,7 +471,9 @@ def main() -> int:
         if brand == 'מיקה' and mk:
             got98 = mk.get('got98') is True
             price_out = mk.get('price98')
-            price_rep_out = None
+            # Mika publishes no report date; the page's modification time is the date the price
+            # was last published there (fallback: when we scraped it)
+            price_rep_out = mk.get('modified') or mk.get('fetched_at')
         elif mk.get('price98') is not None:
             price_out = mk.get('price98')
             price_rep_out = None

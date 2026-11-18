@@ -22,6 +22,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import mika_prices as mp                                              # noqa: E402
+from datetime import datetime, timezone                                 # noqa: E402
 
 LIST_API = 'https://mika.org.il/wp-json/wp/v2/station?per_page=100&_fields=id,slug,title,modified,activity-hours'
 ALL_PAGE = 'https://mika.org.il/%D7%9B%D7%9C-%D7%94%D7%9E%D7%AA%D7%97%D7%9E%D7%99%D7%9D/'
@@ -76,6 +77,7 @@ def main() -> int:
                'http_status': None, 'lat': None, 'lon': None, 'fetched_at': None}
         status, page, _ = mp.fetch(link)
         rec['http_status'] = status
+        rec['fetched_at'] = datetime.now(timezone.utc).isoformat()
         if status == 200:
             rec['loaded'] = True
             prices = mp.parse_prices(page)
