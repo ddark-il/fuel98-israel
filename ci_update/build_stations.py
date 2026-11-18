@@ -580,8 +580,9 @@ def main() -> int:
             # was last published there (fallback: when we scraped it)
             price_rep_out = mk.get('modified') or mk.get('fetched_at')
         elif mk.get('price98') is not None:
+            # Mika prices applied to another operator's station still carry Mika's date
             price_out = mk.get('price98')
-            price_rep_out = None
+            price_rep_out = mk.get('modified') or mk.get('fetched_at')
         elif waze98 is not None:
             price_out = waze98
             price_rep_out = waze.get('price98_updated')
