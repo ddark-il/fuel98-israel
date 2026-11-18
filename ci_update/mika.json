@@ -1,252 +1,242 @@
 [
-  {
-    "name": "אילת",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 29.560773,
-      "lon": 34.957821
-    },
-    "pin_source": "registry",
-    "waze_id": "venues.22937896.229116812.427"
+ {
+  "name": "אילת",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 29.560773,
+   "lon": 34.957821
   },
-  {
-    "name": "הפלד",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 32.02517,
-      "lon": 34.794966
-    },
-    "pin_source": "registry",
-    "waze_id": "venues.22806848.228002947.531014"
+  "pin_source": "registry",
+  "waze_id": "venues.22937896.229116812.427"
+ },
+ {
+  "name": "הפלד",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 32.02517,
+   "lon": 34.794966
   },
-  {
-    "name": "גיסין",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 32.0984816,
-      "lon": 34.8663649
-    },
-    "pin_source": "brand-nav",
-    "waze_id": "venues.22872385.228461706.1780"
+  "pin_source": "registry",
+  "waze_id": "venues.22806848.228002947.531014"
+ },
+ {
+  "name": "גיסין",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 32.0984816,
+   "lon": 34.8663649
   },
-  {
-    "name": "עתידים",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 32.1139947,
-      "lon": 34.8419784
-    },
-    "pin_source": "brand-nav",
-    "waze_id": "venues.22806849.228330635.817"
+  "pin_source": "brand-nav",
+  "waze_id": "venues.22872385.228461706.1780"
+ },
+ {
+  "name": "עתידים",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 32.1139947,
+   "lon": 34.8419784
   },
-  {
-    "name": "רחובות",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.898351,
-      "lon": 34.7869091
-    },
-    "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJD0mut2S3AhURf8OW4zDpma8"
+  "pin_source": "brand-nav",
+  "waze_id": "venues.22806849.228330635.817"
+ },
+ {
+  "name": "רחובות",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 31.898351,
+   "lon": 34.7869091
   },
-  {
-    "name": "אליאן",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.9935184,
-      "lon": 34.7677803
-    },
-    "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJrfkxuYOzAhURSNiR-BJbBr8"
+  "pin_source": "brand-nav",
+  "waze_id": "googlePlaces.ChIJD0mut2S3AhURf8OW4zDpma8"
+ },
+ {
+  "name": "אליאן",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 31.9935184,
+   "lon": 34.7677803
   },
-  {
-    "name": "פריימן",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.975284,
-      "lon": 34.812803
-    },
-    "pin_source": "registry",
-    "waze_id": "googlePlaces.ChIJ0-FCYFG0AhURj88HPob8Bjs"
+  "pin_source": "brand-nav",
+  "waze_id": "googlePlaces.ChIJrfkxuYOzAhURSNiR-BJbBr8"
+ },
+ {
+  "name": "פריימן",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 31.975284,
+   "lon": 34.812803
   },
-  {
-    "name": "וולפסון",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 32.035189,
-      "lon": 34.767947
-    },
-    "pin_source": "registry",
-    "pin_note": "moved 186 m to the official pin (licence 1922, מיקה וולפסון, הלוחמים 1 חולון) — owner ruling 2026-10-12: for Mika the registry pin wins over Mika's own map link, which sits 186 m away (their page says הלוחמים 51, the licence says הלוחמים 1); Waze venue 'מיקה וולפסון' agrees with the official pin (38 m)",
-    "waze_id": "venues.22806848.227871876.502808"
+  "pin_source": "registry",
+  "waze_id": "googlePlaces.ChIJ0-FCYFG0AhURj88HPob8Bjs"
+ },
+ {
+  "name": "וולפסון",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 32.035189,
+   "lon": 34.767947
   },
-  {
-    "name": "טבריה",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 32.7855957,
-      "lon": 35.5397489
-    },
-    "pin_source": "brand-nav",
-    "waze_id": "venues.23265608.232918223.248091"
+  "pin_source": "registry",
+  "pin_note": "moved 186 m to the official pin (licence 1922, מיקה וולפסון, הלוחמים 1 חולון) — owner ruling 2026-10-12: for Mika the registry pin wins over Mika's own map link, which sits 186 m away (their page says הלוחמים 51, the licence says הלוחמים 1); Waze venue 'מיקה וולפסון' agrees with the official pin (38 m)",
+  "waze_id": "venues.22806848.227871876.502808"
+ },
+ {
+  "name": "טבריה",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 32.7855957,
+   "lon": 35.5397489
   },
-  {
-    "name": "חיפה",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 32.8085519,
-      "lon": 35.0596903
-    },
-    "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJsT_e6LewHRURsbV-3jv5c7M"
+  "pin_source": "brand-nav",
+  "waze_id": "venues.23265608.232918223.248091"
+ },
+ {
+  "name": "חיפה",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 32.8085519,
+   "lon": 35.0596903
   },
-  {
-    "name": "כרמיאל",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 32.920662,
-      "lon": 35.313417
-    },
-    "pin_source": "registry",
-    "waze_id": "googlePlaces.ChIJ33ZEf2UxHBUR1-e5Pe8DjaI"
+  "pin_source": "brand-nav",
+  "waze_id": "googlePlaces.ChIJsT_e6LewHRURsbV-3jv5c7M"
+ },
+ {
+  "name": "כרמיאל",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 32.920662,
+   "lon": 35.313417
   },
-  {
-    "name": "מגדל",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 32.8287773,
-      "lon": 35.5117865
-    },
-    "pin_source": "manual",
-    "waze_id": "venues.23265608.232721619.22527"
+  "pin_source": "registry",
+  "waze_id": "googlePlaces.ChIJ33ZEf2UxHBUR1-e5Pe8DjaI"
+ },
+ {
+  "name": "מגדל",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 32.8287773,
+   "lon": 35.5117865
   },
-  {
-    "name": "בית שאן",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 32.498738,
-      "lon": 35.497839
-    },
-    "pin_source": "registry",
-    "waze_id": "venues.23265605.232656050.1242"
+  "pin_source": "manual",
+  "waze_id": "venues.23265608.232721619.22527"
+ },
+ {
+  "name": "בית שאן",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 32.498738,
+   "lon": 35.497839
   },
-  {
-    "name": "מודיעין",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.89031,
-      "lon": 34.967369
-    },
-    "pin_source": "registry",
-    "waze_id": "googlePlaces.ChIJRbDsBsfPAhURV5N9ZyQda0E"
+  "pin_source": "registry",
+  "waze_id": "venues.23265605.232656050.1242"
+ },
+ {
+  "name": "מודיעין",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 31.89031,
+   "lon": 34.967369
   },
-  {
-    "name": "עומר",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.9912662,
-      "lon": 34.770134
-    },
-    "pin_source": "manual",
-    "waze_id": "venues.22806848.227871871.292"
+  "pin_source": "registry",
+  "waze_id": "googlePlaces.ChIJRbDsBsfPAhURV5N9ZyQda0E"
+ },
+ {
+  "name": "עומר",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 31.9912662,
+   "lon": 34.770134
   },
-  {
-    "name": "באר טוביה",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.727304,
-      "lon": 34.750475
-    },
-    "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJcb19X_O9AhUR33dqAI3tpfk"
+  "pin_source": "manual",
+  "waze_id": "venues.22806848.227871871.292"
+ },
+ {
+  "name": "באר טוביה",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 31.727304,
+   "lon": 34.750475
   },
-  {
-    "name": "רום רחובות",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.895664,
-      "lon": 34.7903352
-    },
-    "pin_source": "brand-nav"
+  "pin_source": "brand-nav",
+  "waze_id": "googlePlaces.ChIJcb19X_O9AhUR33dqAI3tpfk"
+ },
+ {
+  "name": "רום רחובות",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 31.895664,
+   "lon": 34.7903352
   },
-  {
-    "name": "הדרי אשקלון",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.673801,
-      "lon": 34.590038
-    },
-    "pin_source": "registry",
-    "waze_id": "googlePlaces.ChIJZX45QwycAhURhdYe-LPqvLE"
+  "pin_source": "brand-nav"
+ },
+ {
+  "name": "הדרי אשקלון",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 31.673801,
+   "lon": 34.590038
   },
-  {
-    "name": "אשקלון",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.662251,
-      "lon": 34.5973233
-    },
-    "pin_source": "manual",
-    "waze_id": "venues.22675773.226757726.23710"
+  "pin_source": "registry",
+  "waze_id": "googlePlaces.ChIJZX45QwycAhURhdYe-LPqvLE"
+ },
+ {
+  "name": "אשקלון",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 31.662251,
+   "lon": 34.5973233
   },
-  {
-    "name": "נתיבות",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.423954,
-      "lon": 34.60046
-    },
-    "pin_source": "brand-nav",
-    "waze_id": "googlePlaces.ChIJ9XG5-N59AhURgm08TANGb_Q"
+  "pin_source": "manual",
+  "waze_id": "venues.22675773.226757726.23710"
+ },
+ {
+  "name": "נתיבות",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 31.423954,
+   "lon": 34.60046
   },
-  {
-    "name": "גן הפעמון",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.7694092,
-      "lon": 35.2240388
-    },
-    "pin_source": "brand-nav",
-    "waze_id": "venues.23068990.230820969.1822"
+  "pin_source": "brand-nav",
+  "waze_id": "googlePlaces.ChIJ9XG5-N59AhURgm08TANGb_Q"
+ },
+ {
+  "name": "פתח תקווה",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 32.091762,
+   "lon": 34.856639
   },
-  {
-    "name": "פתח תקווה",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 32.091762,
-      "lon": 34.856639
-    },
-    "pin_source": "registry",
-    "waze_id": "googlePlaces.ChIJgZRjq_5JHRURQUsGq7cekqY"
+  "pin_source": "registry",
+  "waze_id": "googlePlaces.ChIJgZRjq_5JHRURQUsGq7cekqY"
+ },
+ {
+  "name": "ראשון",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 31.986506,
+   "lon": 34.772124
   },
-  {
-    "name": "ראשון",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.986506,
-      "lon": 34.772124
-    },
-    "pin_source": "registry",
-    "waze_id": "venues.22806848.227871871.27930"
+  "pin_source": "registry",
+  "waze_id": "venues.22806848.227871871.27930"
+ },
+ {
+  "name": "הקידמה אשדוד",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 31.835153,
+   "lon": 34.686938
   },
-  {
-    "name": "הקידמה אשדוד",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 31.835153,
-      "lon": 34.686938
-    },
-    "pin_source": "registry",
-    "waze_id": "googlePlaces.ChIJEYYko0y7AhURv4456wyvd2o"
+  "pin_source": "registry",
+  "waze_id": "googlePlaces.ChIJEYYko0y7AhURv4456wyvd2o"
+ },
+ {
+  "name": "צומת גנים",
+  "brand": "מיקה",
+  "coordinates": {
+   "lat": 32.097083,
+   "lon": 34.90685
   },
-  {
-    "name": "צומת גנים",
-    "brand": "מיקה",
-    "coordinates": {
-      "lat": 32.097083,
-      "lon": 34.90685
-    },
-    "pin_source": "manual",
-    "waze_id": "googlePlaces.ChIJKx-Fi2c3HRURkQU--CsZXh4"
-  }
+  "pin_source": "manual",
+  "waze_id": "googlePlaces.ChIJKx-Fi2c3HRURkQU--CsZXh4"
+ }
 ]
