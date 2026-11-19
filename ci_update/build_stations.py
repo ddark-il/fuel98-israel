@@ -349,6 +349,10 @@ def main() -> int:
     if os.path.exists(pz_path):
         paz = json.load(open(pz_path, encoding='utf-8'))
     mika = {}
+    idf_path = os.path.join(HERE, 'idf_licences.json')
+    idf_licences = set()
+    if os.path.exists(idf_path):
+        idf_licences = {str(x) for x in json.load(open(idf_path, encoding='utf-8')).get('licences', [])}
     mk_path = os.path.join(HERE, 'mika_matches.json')
     if os.path.exists(mk_path):
         mika = json.load(open(mk_path, encoding='utf-8'))
@@ -698,6 +702,7 @@ def main() -> int:
             'violation': lic in viol_lic or lic in viol_extra,
             'violation_fuel': (viol_meta.get(lic) or {}).get('fuel'),
             'violation_sampling': (viol_meta.get(lic) or {}).get('sampling'),
+            'idf': lic in idf_licences,
         }
         out.append(row)
         stats['linked'] += bool(linked)

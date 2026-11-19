@@ -195,6 +195,20 @@ body {
   border: 4px solid transparent; border-top-color: #1a1a2e;
 }
 .shabbat-flag.open .shabbat-tip { display: block; }
+.idf-flag { cursor: pointer; font-size: 13px; position: relative; -webkit-tap-highlight-color: transparent; }
+.idf-flag .idf-tip {
+  display: none; position: absolute; bottom: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e; color: #fff; font-size: 11px; font-weight: 500; line-height: 1.4;
+  padding: 4px 8px; border-radius: 6px; white-space: nowrap;
+  direction: rtl; unicode-bidi: isolate;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25); pointer-events: none; z-index: 700;
+}
+.idf-flag .idf-tip::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 4px solid transparent; border-top-color: #1a1a2e;
+}
+.idf-flag.open .idf-tip { display: block; }
 
 .distance { color: #888; font-size: 13px; }
 
@@ -1016,6 +1030,11 @@ function flagBadge(s) {
            ' onclick="toggleShabbatTip(event, this)">✡<span class="shabbat-tip" role="tooltip">' +
            'תחנה שומרת שבת</span></span>';
   }
+  if (s.idf) {
+    out += ' <span class="idf-flag" role="button" tabindex="0" aria-label="תחנה מקבלת דלקן צה״ל"' +
+           ' onclick="toggleIdfTip(event, this)">🪖<span class="idf-tip" role="tooltip">' +
+           'תחנה מקבלת דלקן צה״ל</span></span>';
+  }
   const v = flagged.get(s.brand + '|' + s.name);
   if (v) {
     const fuel = v.fuelType || 'דלק';
@@ -1088,6 +1107,13 @@ function toggleShabbatTip(e, el) {
   if (!wasOpen) el.classList.add('open');
 }
 
+function toggleIdfTip(e, el) {
+  if (e) e.stopPropagation();
+  var wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.idf-flag.open').forEach(function(b) { b.classList.remove('open'); });
+  if (!wasOpen) el.classList.add('open');
+}
+
 function toggleFuelTip(e, el) {
   if (e) e.stopPropagation();
   var wasOpen = el.classList.contains('open');
@@ -1117,7 +1143,7 @@ fetch('../ci_update/stations.json')
         brand: r.brand, name: r.station_name, ministry_id: r.ministry_id,
         coordinates: { lat: r.lattiude, lon: r.longtitude },
         waze_id: r.waze_id || null, google_id: r.google_id || null,
-        shabbat_closure: !!r.shabbat_closure, violation: !!r.violation,
+        shabbat_closure: !!r.shabbat_closure, violation: !!r.violation, idf: !!r.idf,
         price: r.price95, price_reported: r.price95_reported,
         violation_fuel: r.violation_fuel, violation_sampling: r.violation_sampling
       };
@@ -1486,6 +1512,7 @@ document.getElementById('locateBtn').addEventListener('click', function() {
 document.addEventListener('click', function() {
   document.querySelectorAll('.price-bubble.open').forEach(function(b) { b.classList.remove('open'); });
   document.querySelectorAll('.shabbat-flag.open').forEach(function(b) { b.classList.remove('open'); });
+  document.querySelectorAll('.idf-flag.open').forEach(function(b) { b.classList.remove('open'); });
   document.querySelectorAll('.fuel-flag.open').forEach(function(b) { b.classList.remove('open'); });
 });
 document.addEventListener('keydown', function(e) {
@@ -1498,6 +1525,11 @@ document.addEventListener('keydown', function(e) {
       e.target.classList.contains('shabbat-flag')) {
     e.preventDefault();
     toggleShabbatTip(e, e.target);
+  }
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList &&
+      e.target.classList.contains('idf-flag')) {
+    e.preventDefault();
+    toggleIdfTip(e, e.target);
   }
   if ((e.key === 'Enter' || e.key === ' ') && e.target.classList &&
       e.target.classList.contains('fuel-flag')) {
