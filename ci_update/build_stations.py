@@ -3,7 +3,7 @@
 
 Fields (exactly as requested):
     ministry_id, brand, longtitude, lattiude, got98, waze_id, price, price_reported,
-    updated_at, shabbat_closure, violation
+    price95, price95_reported, updated_at, shabbat_closure, violation
 
 Sources (all local):
   * fuel98-israel/price-ci/registry_cache.json   - the 1,253 Ministry rows
@@ -42,7 +42,7 @@ BRAND_WORDS = {'פז', 'סונול', 'דור אלון', 'דורלון', 'מיק�
                'סד"ש', 'רום', 'תחנת'}
 COMPANY_BRAND = [('פז', 'פז'), ('דלק', 'דלק'), ('סונול', 'סונול'),
                  ('דור אלון', 'דורלון'), ('דור-אלון', 'דורלון'), ('מיקה', 'מיקה'),
-                 ('תפוז', 'תפוז'), ('יעד', 'יעד'), ('טן', 'טן'), ('סד"ש', 'סד"ש'),
+                 ('תפוז', 'תפוז'), ('יעד', 'אחר'), ('טן', 'טן'), ('סד"ש', 'אחר'),
                  ('רון', 'דורלון'), ('אחר', 'אחר')]
 
 
@@ -63,7 +63,7 @@ def brand_of(company: str, name: str = '') -> str:
         if c.startswith(k):
             return v
     n = norm(name)
-    for w in ('פז', 'סונול', 'דור אלון', 'דורלון', 'מיקה', 'דלק', 'תפוז', 'יעד'):
+    for w in ('פז', 'סונול', 'דור אלון', 'דורלון', 'מיקה', 'דלק', 'תפוז'):
         if w in n:
             return 'דורלון' if w in ('דור אלון', 'דורלון') else w
     return 'אחר'
@@ -194,8 +194,8 @@ def apply_tapuz(rows):
                 cand['shabbat_closure'] = True
             used.add(cand['ministry_id'])
         else:
-            rec = {k: None for k in ('price', 'price_reported', 'violation_fuel',
-                                     'violation_sampling')}
+            rec = {k: None for k in ('price', 'price_reported', 'price95', 'price95_reported',
+                                     'violation_fuel', 'violation_sampling')}
             rec.update({
                 'ministry_id': 'tapuz:' + re.sub(r'\s+', '-', name),
                 'station_name': name, 'brand': 'תפוז', 'lattiude': lat, 'longtitude': lon,
@@ -291,6 +291,7 @@ def main() -> int:
     site_prices = {}
     prev_meta = {}
     prev_prices = {}
+    prev_prices95 = {}
     prev_doc = os.path.join(HERE, 'stations.json')
     if os.path.exists(prev_doc):
         try:
@@ -300,8 +301,12 @@ def main() -> int:
                     'price': x.get('price'), 'price_reported': x.get('price_reported')}
                 if x.get('price') is not None:
                     prev_prices[str(x['ministry_id'])] = (x['price'], x.get('price_reported'))
+                if x.get('price95') is not None:
+                    prev_prices95[str(x['ministry_id'])] = (
+                        x['price95'], x.get('price95_reported'))
         except Exception:                                         # noqa: BLE001
             prev_prices = {}
+            prev_prices95 = {}
     site_prices = {}
     price_map = {}
     pc_path = os.path.join(HERE, 'price_check.jsonl')
@@ -382,7 +387,8 @@ def main() -> int:
     now = datetime.now(timezone.utc).isoformat()
 
     out = []
-    stats = {'linked': 0, 'got98': 0, 'priced': 0, 'shabbat': 0, 'viol': 0, 'waze': 0}
+    stats = {'linked': 0, 'got98': 0, 'priced': 0, 'priced95': 0, 'shabbat': 0, 'viol': 0,
+             'waze': 0}
     hit_id_owner = {}
     for r in rows:
         lic = str(r.get('licence'))
@@ -554,6 +560,7 @@ def main() -> int:
         # representative lists for Tapuz/Delek, Waze reports only for the rest.
         waze = price_map.get(lic) or {}
         waze98 = waze.get('price98')
+        waze95 = waze.get('price95')
         if brand == 'טן':
             got98 = False
         elif brand == 'פז' and pz:
@@ -598,6 +605,23 @@ def main() -> int:
             if srec is not None:
                 price_out = srec.get('98')
                 price_rep_out = srec.get('reported_at')
+        # 95: self-service price from Mika's page or Waze's gas_regularself. Independent of 98 -
+        # every station sells 95 - so it is never dropped by the got98 rule below, and it is not
+        # tied to a brand's 98 list. Mika first (the operator prices its own pumps), Waze second,
+        # the previous database last (a run that reports nothing must not blank a live price).
+        if mk.get('price95') is not None:
+            price95_out = mk.get('price95')
+            price95_rep = mk.get('modified') or mk.get('fetched_at')
+        elif waze95 is not None:
+            price95_out = waze95
+            price95_rep = waze.get('price95_updated')
+        else:
+            price95_out = None
+            price95_rep = None
+        if price95_out is None:
+            prev95 = prev_prices95.get(lic)
+            if prev95:
+                price95_out, price95_rep = prev95
         # other (non-network) stations: a carried price is enough - got98 follows the price
         is_other = brand not in ('פז', 'סונול', 'דורלון', 'דלק', 'מיקה', 'תפוז', 'טן')
         if is_other:
@@ -636,6 +660,8 @@ def main() -> int:
             'google_id': google_id,
             'price': price_out,
             'price_reported': price_rep_out,
+            'price95': price95_out,
+            'price95_reported': price95_rep,
             'updated_at': now,
             'shabbat_closure': (shabbat_set if shabbat_set is not None
                                 else (closed if (linked or on_98_list) else False)),
@@ -647,6 +673,7 @@ def main() -> int:
         stats['linked'] += bool(linked)
         stats['got98'] += got98
         stats['priced'] += row['price'] is not None
+        stats['priced95'] += row['price95'] is not None
         stats['shabbat'] += row['shabbat_closure']
         stats['viol'] += row['violation']
         stats['waze'] += bool(venue_id)
@@ -657,7 +684,8 @@ def main() -> int:
     print(f'wrote {OUT}: {len(out)} stations')
     print('  linked to our data:', stats['linked'], '| with a waze_id:', stats['waze'])
     print('  got98:', sum(1 for r in out if r['got98']),
-          '| with a price:', sum(1 for r in out if r['price'] is not None))
+          '| with a price:', sum(1 for r in out if r['price'] is not None),
+          '| with a 95 price:', sum(1 for r in out if r['price95'] is not None))
     print('  shabbat_closure:', sum(1 for r in out if r['shabbat_closure']),
           '| violation:', sum(1 for r in out if r['violation']))
     return 0

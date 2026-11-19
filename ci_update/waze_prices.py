@@ -75,6 +75,21 @@ def best_98(products: dict) -> tuple[str | None, dict | None]:
     return None, None
 
 
+# 95 handling: Waze IL carries self-service (gas_regularself) and full-service (gas_regular) 95.
+# Store the self-service figure - it is the price at the pump and the like-for-like pair with the
+# 98 figure above, which is also self-service. The full-service grade is not a fallback: in the
+# 305-venue sweep of 2026-10-02 every station that reported a full-service 95 also reported a
+# self-service one (46 both, 29 self only, 0 service only), so ignoring it loses no station.
+FUEL_95_ID = 'gas_regularself'
+
+
+def best_95(products: dict) -> tuple[str | None, dict | None]:
+    """(id, entry) for the self-service 95 price, or (None, None)."""
+    if products and FUEL_95_ID in products:
+        return FUEL_95_ID, products[FUEL_95_ID]
+    return None, None
+
+
 def coord(lat: float, lon: float) -> bytes:
     return P.pb_int(101, int(lon * 1e6)) + P.pb_int(102, int(lat * 1e6))
 

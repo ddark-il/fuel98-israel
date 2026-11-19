@@ -2,7 +2,8 @@
 """Price-check every venue we collected (waze_id and google_id) through Waze's fuel layer.
 
 For each station with a venue id, ask Waze for the venue's product list and read the 98 price
-(gas_regular98 first, gas_service98 fallback). Writes ci_update/price_check.jsonl - resumable.
+(gas_regular98 first, gas_service98 fallback) and the self-service 95 price (gas_regularself).
+Writes ci_update/price_check.jsonl - resumable.
 
 Rule applied by build_stations.py afterwards: for every brand except תפוז and דלק (whose station
 lists come from representatives), got98 = (a 98 price was reported) and price = that price;
@@ -48,10 +49,11 @@ def main() -> int:
             rec = {'ministry_id': r['ministry_id'], 'venue_id': vid,
                    'venue_type': 'waze' if vid.startswith('venues.') else 'google',
                    'price98': row.get('price98'), 'price98_updated': row.get('price98_updated'),
+                   'price95': row.get('price95'), 'price95_updated': row.get('price95_updated'),
                    'attempts': row.get('attempts'), 'cluster': row.get('cluster')}
         except Exception as e:                                        # noqa: BLE001
             rec = {'ministry_id': r['ministry_id'], 'venue_id': vid, 'price98': None,
-                   'error': repr(e)[:120]}
+                   'price95': None, 'error': repr(e)[:120]}
         out.write(json.dumps(rec, ensure_ascii=False) + '\n')
         out.flush()
         if i % 50 == 0 or i == len(todo):

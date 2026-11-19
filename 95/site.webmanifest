@@ -1,0 +1,16 @@
+{
+  "name": "תחנות דלק 95",
+  "short_name": "דלק 95",
+  "description": "מאתר תחנות דלק עם בנזין 95 בכל הארץ — רק תחנות שדיווחו מחיר 95",
+  "lang": "he",
+  "dir": "rtl",
+  "start_url": "/95/",
+  "scope": "/95/",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#1a1a2e",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

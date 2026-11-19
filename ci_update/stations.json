@@ -514,7 +514,7 @@
  {
   "ministry_id": "916",
   "station_name": "תל מונד",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.88777982,
   "lattiude": 32.24288793,
   "got98": false,
@@ -531,7 +531,7 @@
  {
   "ministry_id": "917",
   "station_name": "נתניה",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.87183398,
   "lattiude": 32.32084084,
   "got98": false,
@@ -565,7 +565,7 @@
  {
   "ministry_id": "919",
   "station_name": "חשמונאים ת\"א",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.78232829,
   "lattiude": 32.06869808,
   "got98": false,
@@ -582,7 +582,7 @@
  {
   "ministry_id": "920",
   "station_name": "בת ים",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.74460495,
   "lattiude": 32.00941799,
   "got98": false,
@@ -599,7 +599,7 @@
  {
   "ministry_id": "921",
   "station_name": "ספיר ראשלצ",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.74893006,
   "lattiude": 31.99088353,
   "got98": false,
@@ -633,7 +633,7 @@
  {
   "ministry_id": "923",
   "station_name": "נמל אשדוד",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.6603808,
   "lattiude": 31.82618897,
   "got98": false,
@@ -650,7 +650,7 @@
  {
   "ministry_id": "924",
   "station_name": "גבעת ברנר",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.80672743,
   "lattiude": 31.86045893,
   "got98": false,
@@ -667,7 +667,7 @@
  {
   "ministry_id": "925",
   "station_name": "גדרה",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.77141555,
   "lattiude": 31.81711907,
   "got98": false,
@@ -684,7 +684,7 @@
  {
   "ministry_id": "926",
   "station_name": "בצרון",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.75962785,
   "lattiude": 31.79747263,
   "got98": false,
@@ -701,7 +701,7 @@
  {
   "ministry_id": "927",
   "station_name": "תימורים",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.75480411,
   "lattiude": 31.71849089,
   "got98": false,
@@ -735,7 +735,7 @@
  {
   "ministry_id": "931",
   "station_name": "באר שבע- בית החייל",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.77977608,
   "lattiude": 31.24580387,
   "got98": false,
@@ -752,7 +752,7 @@
  {
   "ministry_id": "932",
   "station_name": "באר שבע - טוביהו",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.77981706,
   "lattiude": 31.24602948,
   "got98": false,
@@ -1263,7 +1263,7 @@
  {
   "ministry_id": "1536",
   "station_name": "סגולת חיים",
-  "brand": "יעד",
+  "brand": "אחר",
   "longtitude": 34.889947,
   "lattiude": 32.106151,
   "got98": false,
@@ -2833,7 +2833,7 @@
  {
   "ministry_id": "1854",
   "station_name": "דיזל ליין תלפיות",
-  "brand": "יעד",
+  "brand": "אחר",
   "longtitude": 35.212128,
   "lattiude": 31.751702,
   "got98": false,
@@ -3615,7 +3615,7 @@
  {
   "ministry_id": "1903",
   "station_name": "סדש רמת גן עלית",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.802177,
   "lattiude": 32.082763,
   "got98": false,
@@ -4806,7 +4806,7 @@
  {
   "ministry_id": "1978",
   "station_name": "יהב מכר",
-  "brand": "יעד",
+  "brand": "אחר",
   "longtitude": 35.125496,
   "lattiude": 32.917304,
   "got98": false,
@@ -5282,7 +5282,7 @@
  {
   "ministry_id": "2009",
   "station_name": "בני ברית",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.65203502,
   "lattiude": 31.79624858,
   "got98": false,
@@ -6268,7 +6268,7 @@
  {
   "ministry_id": "2084",
   "station_name": "עפולה",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 35.28002953,
   "lattiude": 32.60250297,
   "got98": false,
@@ -9148,7 +9148,7 @@
  {
   "ministry_id": "2267",
   "station_name": "חדרה",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.91011188,
   "lattiude": 32.44733487,
   "got98": false,
@@ -14192,7 +14192,7 @@
  {
   "ministry_id": "2610",
   "station_name": "לביב אליאן",
-  "brand": "יעד",
+  "brand": "אחר",
   "longtitude": 35.162515,
   "lattiude": 32.808876,
   "got98": false,
@@ -15611,7 +15611,7 @@
  {
   "ministry_id": "2717",
   "station_name": "ראם",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.78978423,
   "lattiude": 31.75992281,
   "got98": false,
@@ -15749,7 +15749,7 @@
  {
   "ministry_id": "2725",
   "station_name": "פתח תקוה",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.88763265,
   "lattiude": 32.09911799,
   "got98": false,
@@ -16175,7 +16175,7 @@
  {
   "ministry_id": "2758",
   "station_name": "יעד-סטאר",
-  "brand": "יעד",
+  "brand": "אחר",
   "longtitude": 35.294444,
   "lattiude": 32.606219,
   "got98": false,
@@ -16466,7 +16466,7 @@
  {
   "ministry_id": "2775",
   "station_name": "כפר יונה",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.91257112,
   "lattiude": 32.32164157,
   "got98": false,
@@ -17456,7 +17456,7 @@
  {
   "ministry_id": "2841",
   "station_name": "בית שמש",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.99514446,
   "lattiude": 31.76072063,
   "got98": false,
@@ -17815,7 +17815,7 @@
  {
   "ministry_id": "2863",
   "station_name": "רמלה",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.88426726,
   "lattiude": 31.93570123,
   "got98": false,
@@ -18552,7 +18552,7 @@
   "longtitude": 35.06683,
   "lattiude": 32.811594,
   "got98": false,
-  "waze_id": "venues.23003464.229838033.518012",
+  "waze_id": null,
   "google_id": "googlePlaces.ChIJ10IPHLKwHRURcT8rrH1yYNw",
   "price": null,
   "price_reported": null,
@@ -19337,7 +19337,7 @@
  {
   "ministry_id": "2970",
   "station_name": "יעד מור רמלה",
-  "brand": "יעד",
+  "brand": "אחר",
   "longtitude": 34.885562,
   "lattiude": 31.93655,
   "got98": false,
@@ -19354,7 +19354,7 @@
  {
   "ministry_id": "2971",
   "station_name": "יעד טל ב\"ש",
-  "brand": "יעד",
+  "brand": "אחר",
   "longtitude": 34.796333,
   "lattiude": 31.236845,
   "got98": false,
@@ -19763,7 +19763,7 @@
  {
   "ministry_id": "2997",
   "station_name": "אשקלון",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.59646871,
   "lattiude": 31.66486317,
   "got98": false,
@@ -20326,7 +20326,7 @@
  {
   "ministry_id": "3036",
   "station_name": "חיפה",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 35.03583624,
   "lattiude": 32.78603962,
   "got98": false,
@@ -20361,7 +20361,7 @@
  {
   "ministry_id": "3042",
   "station_name": "יעד באקה אל גרביה",
-  "brand": "יעד",
+  "brand": "אחר",
   "longtitude": 35.036641,
   "lattiude": 32.424593,
   "got98": false,
@@ -20395,7 +20395,7 @@
  {
   "ministry_id": "3045",
   "station_name": "גלבוע",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 35.26390505,
   "lattiude": 32.56670504,
   "got98": false,
@@ -20939,7 +20939,7 @@
  {
   "ministry_id": "3083",
   "station_name": "יעד יאנוח",
-  "brand": "יעד",
+  "brand": "אחר",
   "longtitude": 35.23961,
   "lattiude": 32.980125,
   "got98": false,
@@ -20956,7 +20956,7 @@
  {
   "ministry_id": "3086",
   "station_name": "כפר סבא",
-  "brand": "סד\"ש",
+  "brand": "אחר",
   "longtitude": 34.92814807,
   "lattiude": 32.17451491,
   "got98": false,

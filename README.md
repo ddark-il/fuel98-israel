@@ -10,18 +10,22 @@ Search by name or city, filter by brand, sort by distance from your location, an
 
 The site loads one file: **`ci_update/stations.json`** — the station database, rebuilt hourly by
 [`.github/workflows/prices.yml`](.github/workflows/prices.yml). Each row carries the station's name,
-brand, coordinates, venue ids, `got98`, `price` / `price_reported`, `shabbat_closure` and the
-fuel-quality `violation` flag. Prices come from:
+brand, coordinates, venue ids, `got98`, the 98 price (`price` / `price_reported`), the self-service
+95 price (`price95` / `price95_reported`), `shabbat_closure` and the fuel-quality `violation` flag.
+Prices come from:
 
 | source | what it provides |
 |---|---|
 | the brand sites | the 98 availability (Paz, Sonol, Dor Alon, Mika, Ten) and the Shabbat hours |
 | **Mika** | the operator's own prices for the pumps it runs — they win over a Waze report |
-| **Waze** | community-reported 98 prices; also the only `got98` source for small/independent stations |
+| **Waze** | community-reported 98 and self-service 95 prices; also the only `got98` source for small/independent stations |
 
-`price` is `null` when the station does not sell 98. A station with no fresh report this run keeps
-its previous price; a Mika station that no longer lists a price is marked `got98: false`. The
-`price_reported` timestamp is the Waze report time, or the Mika scrape time.
+`price` is `null` when the station does not sell 98. `price95` is independent of `got98` — it is
+`null` only when neither Mika nor Waze reported a self-service 95 price for the station, so it also
+exists on rows the site does not list (`got98: false`). A station with no fresh report this run
+keeps its previous price; a Mika station that no longer lists a price is marked `got98: false`. The
+`price_reported` timestamp is the Waze report time or the Mika scrape time; `price95_reported` is
+the same for the 95 price.
 
 The Venue/Waze data lives behind Israel-only frontends, so the Waze price check and the violations
 check run on the self-hosted runner selected by the `WAZE_RUNNER` variable; the brand-site fetches
@@ -68,8 +72,8 @@ stations by proximity. Entries that fail to match are printed with the reason, s
 ```
 ci_update/                 # everything the hourly pipeline needs, in one folder
   build_stations.py        # Ministry registry + brand lists + matches -> stations.json
-  build_seo.py             # regenerates index.html's <noscript> city block
-  price_check_all.py       # Waze's reported 98 price for every collected venue
+  build_seo.py             # regenerates the <noscript> city blocks on both pages
+  price_check_all.py       # Waze's reported 98 and self-service 95 prices per venue
   mika_update.py           # Mika pages: prices, 98 flag, brand logo, Shabbat hours
   paz_update.py … ten_update.py   # one updater per brand site
   fetch_official.js / fetch_ten.py # the brand-locator fetch (Playwright/Python)
@@ -82,17 +86,34 @@ ci_update/                 # everything the hourly pipeline needs, in one folder
   official_pins.json, ministry_venues.jsonl, remap.jsonl, …             # base station mapping
   stations.json            # THE SITE DATABASE (rebuilt hourly by CI, committed here)
   violations.json          # fuel-quality flags (rebuilt daily on the IL runner)
-index.html                 # the whole app + a generated <noscript> SEO block
+index.html                 # the whole app + a generated <noscript> SEO block (98)
+95/index.html              # the same app over the same rows; every identified venue, 95 price where known
+95/site.webmanifest        # the 95 page's PWA manifest (scope /95/)
 .github/workflows/prices.yml   # the hourly pipeline (nine jobs -> commit)
 ```
 
 No build step — it's a static site. `index.html` fetches `ci_update/stations.json` and renders the
 map (Leaflet + OpenStreetMap tiles) and list. Every row carries the brand, coordinates, `got98`,
-`price`/`price_reported`, `shabbat_closure` and the violation flag, so no other file is read.
+the 98 and self-service 95 prices (`price`/`price_reported`, `price95`/`price95_reported`),
+`shabbat_closure` and the violation flag, so no other file is read.
 
 For crawlability, `index.html` carries a hidden `<noscript>` block listing every station grouped by
 city. `ci_update/build_seo.py` takes each station's city from the Ministry registry's רשות_מקומית and
-rewrites the block on demand — offline, deterministic, and finished in well under a second.
+rewrites the block on demand — offline, deterministic, and finished in well under a second. It does
+the same for `95/index.html`, whose block follows that page's station rule.
+
+**The 95 page.** `/95/` is the same map/list/search app over the same `stations.json`, with two
+differences:
+
+* it lists the **seven named networks** (Paz, Sonol, Dor Alon, Delek, Mika, Tapuz, **Ten**) by
+  venue even when nobody reported a price — the cell shows `—` — but **"אחר" (others) only with a
+  reported 95 price**. Independents are often diesel-only truck stops, so an unpriced one is not
+  evidence of a 95 pump. Ten sells no 98, so it has no place on the main page, but its forecourts
+  report 95 like everyone else;
+* **Yaad (יעד) and Sadash (סד"ש) are not separate brands** on the site: `build_stations.py` groups
+  them under `אחר`, which is what the brand filter shows.
+
+The 95 price is the self-service grade, the like-for-like pair with the site's 98 figure.
 
 **The pipeline.** Seven gatherers run in parallel (`mika`, `violations`, `paz`, `sonol`,
 `doralon`, `delek`, `ten`), then the chain is serialized so prices cover the stations this run
@@ -101,9 +122,9 @@ discovered:
 1. **build** — `ci_update/build_stations.py` folds the gatherers' artifacts into the database;
 2. **pricecheck** — on the Israeli runner, every station in that fresh database is asked of Waze
    (`ci_update/price_check_all.py`);
-3. **publish** — the database is rebuilt with those prices, the SEO block is regenerated
+3. **publish** — the database is rebuilt with those prices, the SEO blocks are regenerated
    (`ci_update/build_seo.py`), and `ci_update/stations.json` + `ci_update/violations.json` +
-   `index.html` are committed.
+   `index.html` + `95/index.html` are committed.
 The Waze price check and the violation check need an Israeli egress and run on the runner named by
 the `WAZE_RUNNER` repository variable; the brand fetches and the commit run on GitHub-hosted
 runners. A failed gatherer costs that source's refresh, not the run: the commit job runs
