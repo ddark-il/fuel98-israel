@@ -11,7 +11,8 @@ Search by name or city, filter by brand, sort by distance from your location, an
 The site loads one file: **`ci_update/stations.json`** — the station database, rebuilt hourly by
 [`.github/workflows/prices.yml`](.github/workflows/prices.yml). Each row carries the station's name,
 brand, coordinates, venue ids, `got98`, the 98 price (`price` / `price_reported`), the self-service
-95 price (`price95` / `price95_reported`), `shabbat_closure` and the fuel-quality `violation` flag.
+95 price (`price95` / `price95_reported`), the standard diesel price (`priceDiesel` /
+`priceDiesel_reported`), `shabbat_closure` and the fuel-quality `violation` flag.
 Prices come from:
 
 | source | what it provides |
@@ -73,7 +74,7 @@ stations by proximity. Entries that fail to match are printed with the reason, s
 ci_update/                 # everything the hourly pipeline needs, in one folder
   build_stations.py        # Ministry registry + brand lists + matches -> stations.json
   build_seo.py             # regenerates the <noscript> city blocks on both pages
-  price_check_all.py       # Waze's reported 98 and self-service 95 prices per venue
+  price_check_all.py       # Waze's reported 98, self-service 95 and diesel prices per venue
   match_venues.py          # re-match a station to its Waze venue from the brand's own pin/address
   mika_update.py           # Mika pages: prices, 98 flag, brand logo, Shabbat hours
   paz_update.py … ten_update.py   # one updater per brand site
@@ -90,6 +91,8 @@ ci_update/                 # everything the hourly pipeline needs, in one folder
 index.html                 # the whole app + a generated <noscript> SEO block (98)
 95/index.html              # the same app over the same rows; every identified venue, 95 price where known
 95/site.webmanifest        # the 95 page's PWA manifest (scope /95/)
+diesel/index.html          # the same app for standard diesel (gas_diesel)
+diesel/site.webmanifest    # the diesel page's PWA manifest (scope /diesel/)
 .github/workflows/prices.yml   # the hourly pipeline (nine jobs -> commit)
 ```
 
@@ -101,7 +104,7 @@ the 98 and self-service 95 prices (`price`/`price_reported`, `price95`/`price95_
 For crawlability, `index.html` carries a hidden `<noscript>` block listing every station grouped by
 city. `ci_update/build_seo.py` takes each station's city from the Ministry registry's רשות_מקומית and
 rewrites the block on demand — offline, deterministic, and finished in well under a second. It does
-the same for `95/index.html`, whose block follows that page's station rule.
+the same for `95/index.html` and `diesel/index.html`, whose blocks follow those pages' rules.
 
 **The 95 page.** `/95/` is the same map/list/search app over the same `stations.json`, with two
 differences:
@@ -116,6 +119,10 @@ differences:
 
 The 95 price is the self-service grade, the like-for-like pair with the site's 98 figure.
 
+**The diesel page.** `/diesel/` is the same app for standard diesel (`gas_diesel`, not the attended
+`gas_diesel_service`), with the same showing rule as `/95/`: the seven networks by venue, `אחר` only
+when a diesel price was reported.
+
 **The pipeline.** Seven gatherers run in parallel (`mika`, `violations`, `paz`, `sonol`,
 `doralon`, `delek`, `ten`), then the chain is serialized so prices cover the stations this run
 discovered:
@@ -125,7 +132,7 @@ discovered:
    (`ci_update/price_check_all.py`);
 3. **publish** — the database is rebuilt with those prices, the SEO blocks are regenerated
    (`ci_update/build_seo.py`), and `ci_update/stations.json` + `ci_update/violations.json` +
-   `index.html` + `95/index.html` are committed.
+   `index.html` + `95/index.html` + `diesel/index.html` are committed.
 The Waze price check and the violation check need an Israeli egress and run on the runner named by
 the `WAZE_RUNNER` repository variable; the brand fetches and the commit run on GitHub-hosted
 runners. A failed gatherer costs that source's refresh, not the run: the commit job runs

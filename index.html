@@ -120,6 +120,17 @@ body {
 }
 .brand-btn:active { transform: scale(.95); }
 .brand-btn.active { border-color: #e94560; background: #fef0f3; color: #e94560; font-weight: 600; }
+/* On the main page the bar appears once a brand is picked, not on the landing prompt. */
+.price-filter-bar { display: none; padding: 8px 16px 10px; background: #fff; }
+.price-filter-btn {
+  padding: 7px 16px; border: 2px solid #ddd; border-radius: 20px;
+  background: #fff; cursor: pointer; font-size: 13px; transition: all .2s;
+}
+.price-filter-btn:active { transform: scale(.97); }
+.price-filter-btn.active { border-color: #e94560; background: #fef0f3; color: #e94560; font-weight: 600; }
+@media (max-width: 767px) {
+  .price-filter-bar { text-align: center; }
+}
 
 /* ─── Card List (mobile-first) ─── */
 .content { padding: 12px; max-width: 700px; margin: 0 auto; }
@@ -155,7 +166,20 @@ body {
 .brand-דלק { background: #e3f2fd; color: #1565c0; }
 .brand-תפוז { background: #fff3e0; color: #ef6c00; }
 .brand-אחר { background: #f5f5f5; color: #616161; }
-.fuel-flag { cursor: help; font-size: 13px; }
+.fuel-flag { cursor: pointer; font-size: 13px; position: relative; -webkit-tap-highlight-color: transparent; }
+.fuel-flag .fuel-tip {
+  display: none; position: absolute; bottom: calc(100% + 7px); left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e; color: #fff; font-size: 11px; font-weight: 500; line-height: 1.35;
+  padding: 5px 9px; border-radius: 6px; width: max-content; max-width: min(260px, 78vw);
+  text-align: center; direction: rtl; unicode-bidi: isolate;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25); pointer-events: none; z-index: 700;
+}
+.fuel-flag .fuel-tip::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 4px solid transparent; border-top-color: #1a1a2e;
+}
+.fuel-flag.open .fuel-tip { display: block; }
 .shabbat-flag { cursor: pointer; font-size: 13px; position: relative; -webkit-tap-highlight-color: transparent; }
 .shabbat-flag .shabbat-tip {
   display: none; position: absolute; bottom: calc(100% + 6px); left: 50%;
@@ -356,7 +380,7 @@ body {
 <h3>תחנות דלק 98 בבית דגן</h3>
 <ul><li>דור אלון — בית דגן</li></ul>
 <h3>תחנות דלק 98 בבית שמש</h3>
-<ul><li>פז — בית שמש</li><li>פז — צומת האלה</li><li>פז — שער הגיא</li></ul>
+<ul><li>אחר — בל - זנוח בע&quot;מ</li><li>פז — בית שמש</li><li>פז — צומת האלה</li><li>פז — שער הגיא</li></ul>
 <h3>תחנות דלק 98 בביתן אהרון</h3>
 <ul><li>סונול — ביתן אהרון</li></ul>
 <h3>תחנות דלק 98 בבני ברק</h3>
@@ -621,6 +645,10 @@ body {
   <button class="brand-btn" data-brand="אחר">אחר</button>
 </div>
 
+<div class="price-filter-bar" id="priceFilterBar">
+  <button class="price-filter-btn" id="priceFilterBtn" aria-pressed="false">הצג רק תחנות בנזין 98 עם מחיר מדווח</button>
+</div>
+
 <div id="tableView" class="content">
   <div class="empty-state" id="locatePrompt">
     <div>לחץ כדי לאתר תחנות קרובות</div>
@@ -658,6 +686,8 @@ let flagged = new Map();   // "brand|name" -> Ministry substandard-fuel info
 let userLat = null, userLon = null;
 let currentView = 'table';
 let currentBrand = 'all';
+let pricedOnly = false;   // show only stations with a reported price
+let brandPicked = false;  // the price-filter bar appears after a brand/all click
 let map = null, markers = [], userMarker = null;
 
 // Remap brand names for display
@@ -681,8 +711,12 @@ function flagBadge(s) {
   }
   const v = flagged.get(s.brand + '|' + s.name);
   if (v) {
-    const t = 'דווח על דלק לא תקני (' + v.fuelType + ') — נדגם ' + v.samplingDate + ' · משרד האנרגיה';
-    out += ' <span class="fuel-flag" title="' + t + '">⚠️</span>';
+    const fuel = v.fuelType || 'דלק';
+    const t = fuel + ' לא תקני' + (v.samplingDate ? ' — נדגם ' + v.samplingDate : '') +
+              ' · משרד האנרגיה';
+    out += ' <span class="fuel-flag" role="button" tabindex="0" aria-label="' + escAttr(t) + '"' +
+           ' onclick="toggleFuelTip(event, this)">⚠️' +
+           '<span class="fuel-tip" role="tooltip">' + t + '</span></span>';
   }
   return out;
 }
@@ -742,6 +776,13 @@ function toggleShabbatTip(e, el) {
   if (e) e.stopPropagation();
   var wasOpen = el.classList.contains('open');
   document.querySelectorAll('.shabbat-flag.open').forEach(function(b) { b.classList.remove('open'); });
+  if (!wasOpen) el.classList.add('open');
+}
+
+function toggleFuelTip(e, el) {
+  if (e) e.stopPropagation();
+  var wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.fuel-flag.open').forEach(function(b) { b.classList.remove('open'); });
   if (!wasOpen) el.classList.add('open');
 }
 
@@ -838,6 +879,7 @@ function getFiltered() {
     s.brand.toLowerCase().includes(query) ||
     (cityByKey[displayBrand(s.brand) + ' — ' + s.name] || '').toLowerCase().includes(query)
   );
+  if (pricedOnly) list = list.filter(s => s.price != null);
   if (userLat !== null) {
     list.forEach(s => { s._dist = haversine(userLat, userLon, s.coordinates.lat, s.coordinates.lon); });
     list.sort((a, b) => a._dist - b._dist);
@@ -877,6 +919,13 @@ function bindCounter() {
 }
 
 function render() {
+  const bar = document.getElementById('priceFilterBar');
+  if (bar) bar.style.display = brandPicked ? 'block' : 'none';
+  const pbtn = document.getElementById('priceFilterBtn');
+  if (pbtn) {
+    pbtn.classList.toggle('active', pricedOnly);
+    pbtn.setAttribute('aria-pressed', pricedOnly ? 'true' : 'false');
+  }
   const list = getFiltered();
   if (currentView === 'table') renderTable(list);
   if (currentView === 'map') renderMap(list);
@@ -888,7 +937,8 @@ function renderTable(list) {
   const container = document.getElementById('tableView');
 
   if (shown.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="icon">&#128531;</div>לא נמצאו תחנות</div>';
+    const msg = pricedOnly ? 'לא נמצאו תחנות עם מחיר מדווח' : 'לא נמצאו תחנות';
+    container.innerHTML = '<div class="empty-state"><div class="icon">&#128531;</div>' + msg + '</div>';
     return;
   }
 
@@ -1027,8 +1077,15 @@ document.querySelectorAll('.brand-btn').forEach(btn => {
     document.querySelectorAll('.brand-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentBrand = btn.dataset.brand;
+    brandPicked = true;
     render();
   });
+});
+
+// 10-nearest view: show only stations that actually have a reported price.
+document.getElementById('priceFilterBtn').addEventListener('click', function() {
+  pricedOnly = !pricedOnly;
+  render();
 });
 
 // Search
@@ -1110,6 +1167,7 @@ document.getElementById('locateBtn').addEventListener('click', function() {
 document.addEventListener('click', function() {
   document.querySelectorAll('.price-bubble.open').forEach(function(b) { b.classList.remove('open'); });
   document.querySelectorAll('.shabbat-flag.open').forEach(function(b) { b.classList.remove('open'); });
+  document.querySelectorAll('.fuel-flag.open').forEach(function(b) { b.classList.remove('open'); });
 });
 document.addEventListener('keydown', function(e) {
   if ((e.key === 'Enter' || e.key === ' ') && e.target.classList &&
@@ -1121,6 +1179,11 @@ document.addEventListener('keydown', function(e) {
       e.target.classList.contains('shabbat-flag')) {
     e.preventDefault();
     toggleShabbatTip(e, e.target);
+  }
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList &&
+      e.target.classList.contains('fuel-flag')) {
+    e.preventDefault();
+    toggleFuelTip(e, e.target);
   }
 });
 </script>

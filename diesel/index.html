@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Permissions-Policy" content="geolocation=self">
+
+<title>תחנות דלק סולר (דיזל) בישראל — מפה, מחירים וחיפוש לפי עיר</title>
+<meta name="description" content="מאתר תחנות דלק בישראל עם סולר (דיזל) — כל התחנות המוכרות, מחיר סולר בכל תחנה שדווח בה מחיר, חיפוש לפי עיר, מפה וניווט בוויז. פז, סונול, דור אלון, דלק, מיקה, תפוז, טן ועוד.">
+<link rel="canonical" href="https://delek98.com/diesel/">
+<meta name="theme-color" content="#1a1a2e">
+
+<!-- Open Graph / social sharing (WhatsApp, Facebook, Twitter) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="תחנות דלק סולר">
+<meta property="og:title" content="תחנות דלק סולר (דיזל) בישראל — מפה ומחירים">
+<meta property="og:description" content="מאתר תחנות דלק עם סולר (דיזל) בכל הארץ — כל התחנות המוכרות, ומחיר סולר בכל תחנה שדווח בה מחיר.">
+<meta property="og:url" content="https://delek98.com/diesel/">
+<meta property="og:locale" content="he_IL">
+<meta property="og:image" content="https://delek98.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="תחנות דלק סולר (דיזל) בישראל — מפה ומחירים">
+<meta name="twitter:description" content="מאתר תחנות דלק עם סולר (דיזל) בכל הארץ — כל התחנות המוכרות, ומחיר סולר בכל תחנה שדווח בה מחיר.">
+<meta name="twitter:image" content="https://delek98.com/og-image.png">
+
+<!-- Icons / PWA -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/diesel/site.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="דלק סולר">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "תחנות דלק סולר",
+  "url": "https://delek98.com/diesel/",
+  "inLanguage": "he-IL",
+  "description": "מאתר תחנות דלק עם סולר (דיזל) בכל הארץ — כל התחנות המוכרות, ומחיר סולר בכל תחנה שדווח בה מחיר.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": { "@type": "EntryPoint", "urlTemplate": "https://delek98.com/diesel/?q={search_term_string}" },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "תחנות דלק 98",
+  "url": "https://delek98.com/",
+  "logo": "https://delek98.com/icon-512.png"
+}
+</script>
+
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link rel="preconnect" href="https://tile.openstreetmap.org">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f5f5f5; color: #333;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+/* ─── Tabs ─── */
+.tabs { display: flex; background: #1a1a2e; position: sticky; top: 0; z-index: 100; }
+.tab {
+  flex: 1; padding: 14px; text-align: center;
+  color: #aaa; cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all .2s; font-size: 14px; font-weight: 500;
+  -webkit-user-select: none; user-select: none;
+}
+.tab.active { color: #fff; border-bottom-color: #e94560; }
+.tab:active { background: rgba(255,255,255,.05); }
+
+/* ─── Search ─── */
+.search-bar {
+  padding: 10px 16px; background: #16213e;
+}
+.search-box { position: relative; }
+.search-box input {
+  width: 100%; padding: 10px 14px; padding-right: 36px;
+  border: none; border-radius: 8px;
+  font-size: 15px; direction: rtl;
+  background: rgba(255,255,255,.12); color: #fff;
+}
+.search-box input::placeholder { color: rgba(255,255,255,.5); }
+.search-box input:focus { outline: none; background: rgba(255,255,255,.2); }
+.search-icon {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  color: rgba(255,255,255,.5); font-size: 16px; pointer-events: none;
+}
+
+/* ─── Brand Filters ─── */
+.brand-filters {
+  display: flex; gap: 8px; padding: 10px 16px;
+  background: #fff; border-bottom: 1px solid #e0e0e0;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.brand-filters::-webkit-scrollbar { display: none; }
+.brand-btn {
+  padding: 7px 16px; border: 2px solid #ddd; border-radius: 20px;
+  background: #fff; cursor: pointer; font-size: 13px;
+  transition: all .2s; white-space: nowrap; flex-shrink: 0;
+}
+.brand-btn:active { transform: scale(.95); }
+.brand-btn.active { border-color: #e94560; background: #fef0f3; color: #e94560; font-weight: 600; }
+/* Filter the list - 10 nearest or the full list - to stations with a reported price. */
+.price-filter-bar { display: block; padding: 8px 16px 10px; background: #fff; }
+.price-filter-btn {
+  padding: 7px 16px; border: 2px solid #ddd; border-radius: 20px;
+  background: #fff; cursor: pointer; font-size: 13px; transition: all .2s;
+}
+.price-filter-btn:active { transform: scale(.97); }
+.price-filter-btn.active { border-color: #e94560; background: #fef0f3; color: #e94560; font-weight: 600; }
+@media (max-width: 767px) {
+  .price-filter-bar { text-align: center; }
+}
+
+/* ─── Card List (mobile-first) ─── */
+.content { padding: 12px; max-width: 700px; margin: 0 auto; }
+
+.station-card {
+  background: #fff; border-radius: 12px;
+  padding: 14px 16px; margin-bottom: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  display: flex; align-items: center; gap: 12px;
+  transition: box-shadow .2s;
+}
+.station-card:active { box-shadow: 0 1px 8px rgba(0,0,0,.12); }
+
+.station-rank {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #f0f0f0; color: #666;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0;
+}
+
+.station-info { flex: 1; min-width: 0; }
+.station-name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+.station-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.brand-tag {
+  display: inline-block; padding: 2px 10px; border-radius: 10px;
+  font-size: 11px; font-weight: 600;
+}
+.brand-דור-אלון { background: #e8f5e9; color: #2e7d32; }
+.brand-פז { background: #fff8e1; color: #f9a825; }
+.brand-סונול { background: #ffebee; color: #d32f2f; }
+.brand-מיקה { background: #f3e5f5; color: #9c27b0; }
+.brand-דלק { background: #e3f2fd; color: #1565c0; }
+.brand-תפוז { background: #fff3e0; color: #ef6c00; }
+.brand-טן { background: #e8f2fb; color: #2b70b7; box-shadow: inset 0 0 0 1px #c6dcf1; }
+.brand-אחר { background: #f5f5f5; color: #616161; }
+.fuel-flag { cursor: pointer; font-size: 13px; position: relative; -webkit-tap-highlight-color: transparent; }
+.fuel-flag .fuel-tip {
+  display: none; position: absolute; bottom: calc(100% + 7px); left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e; color: #fff; font-size: 11px; font-weight: 500; line-height: 1.35;
+  padding: 5px 9px; border-radius: 6px; width: max-content; max-width: min(260px, 78vw);
+  text-align: center; direction: rtl; unicode-bidi: isolate;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25); pointer-events: none; z-index: 700;
+}
+.fuel-flag .fuel-tip::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 4px solid transparent; border-top-color: #1a1a2e;
+}
+.fuel-flag.open .fuel-tip { display: block; }
+.shabbat-flag { cursor: pointer; font-size: 13px; position: relative; -webkit-tap-highlight-color: transparent; }
+.shabbat-flag .shabbat-tip {
+  display: none; position: absolute; bottom: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e; color: #fff; font-size: 11px; font-weight: 500; line-height: 1.4;
+  padding: 4px 8px; border-radius: 6px; white-space: nowrap;
+  direction: rtl; unicode-bidi: isolate;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25); pointer-events: none; z-index: 700;
+}
+.shabbat-flag .shabbat-tip::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 4px solid transparent; border-top-color: #1a1a2e;
+}
+.shabbat-flag.open .shabbat-tip { display: block; }
+
+.distance { color: #888; font-size: 13px; }
+
+/* The price bubble: white pill, ₪ then the number. `direction: ltr` + isolate because the page is
+   RTL and "₪ 8.40" would otherwise be reordered to "8.40 ₪". */
+.price-bubble {
+  display: inline-flex; align-items: center; gap: 4px;
+  direction: ltr; unicode-bidi: isolate;
+  background: #fff; color: #1a1a2e;
+  border: 1px solid #e6e6ee; border-radius: 999px;
+  padding: 3px 10px; font-size: 13px; font-weight: 700; line-height: 1.4;
+  box-shadow: 0 1px 3px rgba(26,26,46,.14);
+  white-space: nowrap; flex-shrink: 0;
+}
+.price-bubble .cur { color: #e94560; font-weight: 700; }
+/* Tap/click the bubble to see when the price was reported. */
+.price-bubble { position: relative; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.price-bubble .price-tip {
+  display: none; position: absolute; bottom: calc(100% + 7px); left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e; color: #fff; font-size: 11px; font-weight: 500; line-height: 1.4;
+  padding: 4px 8px; border-radius: 6px; white-space: nowrap;
+  direction: rtl; unicode-bidi: isolate;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25); pointer-events: none; z-index: 700;
+}
+.price-bubble .price-tip::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 4px solid transparent; border-top-color: #1a1a2e;
+}
+.price-bubble.open .price-tip { display: block; }
+.price-none { color: #ddd; }
+
+.waze-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #1a1a2e; text-decoration: none;
+  flex-shrink: 0; transition: transform .15s;
+  overflow: hidden;
+}
+.waze-btn img { width: 28px; height: 28px; }
+.waze-btn:active { transform: scale(.9); }
+
+/* ─── Desktop table ─── */
+.station-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.08); display: none; }
+.station-table th { background: #1a1a2e; color: #fff; padding: 12px 14px; text-align: right; font-size: 13px; }
+.station-table td { padding: 10px 14px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+.station-table tr:hover { background: #f8f8ff; }
+.waze-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: #1a1a2e; text-decoration: none; font-weight: 600; font-size: 13px;
+}
+.waze-link img { width: 20px; height: 20px; }
+.waze-link:hover { text-decoration: underline; }
+
+/* ─── Map ─── */
+#map { height: calc(100vh - 140px); height: calc(100dvh - 140px); width: 100%; display: none; }
+
+/* ─── Map popup — match the card style ─── */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 2px 14px rgba(0,0,0,.18);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.leaflet-popup-content { font-size: 14px; }
+.leaflet-popup-close-button { color: #aaa !important; }
+.leaflet-popup-close-button:hover { color: #1a1a2e !important; }
+
+/* ─── User location marker ─── */
+.user-location-marker {
+  width: 24px; height: 24px; position: relative;
+}
+.user-location-marker::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 24px; height: 24px;
+  background: rgba(66, 133, 244, .15);
+  border-radius: 50%;
+}
+.user-location-marker::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 0; height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-bottom: 16px solid #4285f4;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.3));
+  transform: rotate(0deg);
+  transform-origin: center bottom;
+}
+
+/* ─── Error popup ─── */
+.error-popup {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: #d32f2f; color: #fff;
+  padding: 14px 20px; padding-top: max(14px, env(safe-area-inset-top));
+  box-shadow: 0 4px 12px rgba(0,0,0,.3); z-index: 9999;
+  font-size: 14px; text-align: center;
+  animation: slideDown .3s ease;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+}
+@keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+.error-popup .close-btn {
+  cursor: pointer; font-weight: bold;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(255,255,255,.2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.empty-state { text-align: center; padding: 24px 20px; color: #999; }
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+
+.locate-btn {
+  display: inline-block; margin-top: 16px;
+  padding: 12px 28px; border: none; border-radius: 8px;
+  background: #e94560; color: #fff;
+  font-size: 15px; font-weight: 600; cursor: pointer;
+}
+.locate-btn:active { transform: scale(.96); }
+
+.manual-locate { margin-top: 16px; display: none; }
+.manual-locate input {
+  padding: 10px 14px; border: 2px solid #ddd; border-radius: 8px;
+  font-size: 14px; width: 220px; direction: rtl; text-align: center;
+}
+.manual-locate input:focus { outline: none; border-color: #e94560; }
+.manual-locate button {
+  padding: 10px 18px; border: none; border-radius: 8px;
+  background: #e94560; color: #fff; font-size: 14px; cursor: pointer;
+  margin-top: 8px;
+}
+.or-divider { color: #bbb; margin: 12px 0 4px; font-size: 13px; }
+
+.info-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 28px; }
+.action-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.faq-btn, .report-btn, .check-btn { display: inline-block; padding: 8px 20px; border: 1px solid #ddd; border-radius: 20px; background: #fff; color: #777; font-size: 13px; text-decoration: none; transition: all .2s; }
+.faq-btn:active, .report-btn:active, .check-btn:active { transform: scale(.96); }
+.faq-btn:hover, .report-btn:hover, .check-btn:hover { border-color: #e94560; color: #e94560; }
+
+.github-link { display: block; margin-top: 22px; color: #bbb; transition: color .2s; }
+.github-link:hover { color: #1a1a2e; }
+.github-link svg { width: 26px; height: 26px; vertical-align: middle; }
+
+/* ─── Desktop ─── */
+@media (min-width: 768px) {
+  .content { padding: 20px; max-width: 900px; }
+  .station-card { display: none; }
+  .station-table { display: table; }
+  #map { height: calc(100vh - 148px); }
+}
+</style>
+</head>
+<body>
+<h1 class="visually-hidden">תחנות דלק סולר (דיזל) בישראל — מחירים, חיפוש לפי עיר ומפה</h1>
+<!-- seo-noscript:start -->
+<noscript>
+תחנות דלק סולר (דיזל) בישראל — לפי עיר
+<p>רשימת תחנות הדלק בישראל, מסודרות לפי עיר וחברה, עם מחיר סולר (דיזל) בכל תחנה שדווח בה מחיר.</p>
+<h3>תחנות דלק סולר באבו סנאן</h3>
+<ul><li>סונול — אבו סנאן</li></ul>
+<h3>תחנות דלק סולר באבן יהודה</h3>
+<ul><li>דלק — דרור (אבן יהודה)</li></ul>
+<h3>תחנות דלק סולר באום אלפחם</h3>
+<ul><li>דור אלון — אום אל פאחם</li><li>דור אלון — אום אל פאחם מרכז</li><li>דלק — גל אום אל פחם</li><li>סונול — אום אל פאחם</li></ul>
+<h3>תחנות דלק סולר באופקים</h3>
+<ul><li>דלק — אופקים</li><li>טן — אופקים</li><li>סונול — אופקים</li><li>פז — אופקים</li></ul>
+<h3>תחנות דלק סולר באור יהודה</h3>
+<ul><li>דור אלון — אור יהודה</li><li>דור אלון — אור יהודה צפון</li><li>דלק — מסובים-מפגש חיריה</li><li>סונול — קרן אור יהודה</li><li>פז — סביון</li><li>פז — פז אור יהודה</li></ul>
+<h3>תחנות דלק סולר באור עקיבא</h3>
+<ul><li>טן — אור עקיבה</li><li>פז — אורות</li></ul>
+<h3>תחנות דלק סולר באזור</h3>
+<ul><li>דלק — מובילי גוש דן</li><li>סונול — אזור, משמר השבעה</li><li>פז — צבר</li></ul>
+<h3>תחנות דלק סולר באיכסאל</h3>
+<ul><li>סונול — אכסאל</li></ul>
+<h3>תחנות דלק סולר באילת</h3>
+<ul><li>דור אלון — אילות</li><li>דלק — אילת צוף ים</li><li>דלק — מצפה אילת</li><li>טן — אילת</li><li>מיקה — אילת</li><li>סונול — אילת העיר</li><li>סונול — אלמיג (חוף אלמוג)</li><li>סונול — לירי אילת</li><li>סונול — שדה תעופה רמון</li><li>פז — אדום אילת</li><li>פז — לשם אילת</li></ul>
+<h3>תחנות דלק סולר באלון שבות</h3>
+<ul><li>דלק — גוש עציון</li></ul>
+<h3>תחנות דלק סולר באלישמע</h3>
+<ul><li>פז — אלישמע</li></ul>
+<h3>תחנות דלק סולר באלפי מנשה</h3>
+<ul><li>דור אלון — אלפי מנשה</li><li>פז — טל עופרה</li></ul>
+<h3>תחנות דלק סולר באלקנה</h3>
+<ul><li>דור אלון — אלקנה</li></ul>
+<h3>תחנות דלק סולר באעבלין</h3>
+<ul><li>דור אלון — עיבלין</li></ul>
+<h3>תחנות דלק סולר באפק</h3>
+<ul><li>פז — אפק - חדשה</li></ul>
+<h3>תחנות דלק סולר באריאל</h3>
+<ul><li>טן — אריאל</li><li>סונול — אשל השומרון</li><li>פז — אריאל</li></ul>
+<h3>תחנות דלק סולר באשדוד</h3>
+<ul><li>דור אלון — אשדוד אורט</li><li>דור אלון — אשדוד בית האופרה</li><li>דור אלון — אשדוד ממר&quot;צ</li><li>דור אלון — אשדוד צמר</li><li>דור אלון — אשדוד רום שפר</li><li>דור אלון — אשדוד רום שפר</li><li>דלק — אשדוד בן זקן (סטאר סנטר)</li><li>דלק — אשדוד בני ברית</li><li>דלק — בול אשדוד</li><li>דלק — גל ראשונים אשדוד</li><li>דלק — צ&#x27;ימבליסטה</li><li>דלק — שדה עוזיה</li><li>טן — אשדוד-ג&#x27;מבו</li><li>טן — אשדוד-ע. הנמל</li><li>מיקה — הקידמה אשדוד</li><li>מיקה — מיקה אשדוד</li><li>סונול — אשדוד בני ברית</li><li>סונול — אשדוד צפון</li><li>סונול — סונול אשדוד הסיטי</li><li>סונול — עד הלום</li><li>פז — אשדוד עיר</li><li>פז — בית גבריאל</li><li>פז — הבושם אשדוד</li><li>פז — ניר גלים</li><li>פז — עד הלום</li><li>פז — עזרא גבריאל</li></ul>
+<h3>תחנות דלק סולר באשקלון</h3>
+<ul><li>דור אלון — אשקלון מבואות</li><li>דור אלון — אשקלון עמיצור</li><li>דלק — אשקלון</li><li>דלק — אשקלון אסתר</li><li>טן — אשקלון</li><li>טן — אשקלון דרום</li><li>מיקה — אשקלון</li><li>מיקה — הדרי אשקלון</li><li>סונול — אפרידר אשקלון</li><li>סונול — אשקלון</li><li>סונול — תמרה</li><li>פז — אפרידר</li><li>פז — אקסודוס</li><li>פז — אשקלון גלים</li><li>פז — אשקלון דרום</li><li>פז — אשקלון-דוד</li><li>פז — סילבר</li><li>פז — שמשונים</li></ul>
+<h3>תחנות דלק סולר בבאקה אל גרביה</h3>
+<ul><li>דלק — זמר (יאסין)</li><li>פז — בקעה אל גרביה</li></ul>
+<h3>תחנות דלק סולר בבאר טוביה</h3>
+<ul><li>דור אלון — ניר בנים</li><li>דלק — כנות</li><li>טן — באר טוביה</li><li>מיקה — באר טוביה</li><li>סונול — כנות</li><li>סונול — קסטינה</li><li>תפוז — עד הלום</li></ul>
+<h3>תחנות דלק סולר בבאר יעקב</h3>
+<ul><li>דלק — באר יעקב</li><li>דלק — שוק סיטונאי צריפין</li><li>סונול — באר יעקב</li><li>סונול — שלמה צריפין</li></ul>
+<h3>תחנות דלק סולר בבאר שבע</h3>
+<ul><li>דור אלון — באר שבע העיר העתיקה</li><li>דור אלון — באר שבע הרכבת</li><li>דלק — אשל אברהם (באר שבע)</li><li>דלק — ב&quot;ש שיכון עובדים</li><li>דלק — דלק יגל</li><li>דלק — דלרום</li><li>דלק — עומרים</li><li>דלק — עמק שרה</li><li>דלק — קאנטרי ב&quot;ש</li><li>דלק — קאנטרי ב&quot;ש</li><li>דלק — תחנה מרכזית באר שבע</li><li>טן — עמק שרה</li><li>סונול — אספלט דרום</li><li>סונול — בן גוריון</li><li>סונול — הדס</li><li>סונול — מצדה</li><li>סונול — מתקן דבסול (מכתשים)</li><li>סונול — נחל ב&quot;ש</li><li>פז — אצטדיון ב&quot;ש</li><li>פז — באר שבע צפון</li><li>פז — באר שבע-מרכז</li><li>פז — הנשיאים</li><li>פז — כרמי מרכז הנגב</li><li>פז — מבואות ב&quot;ש</li><li>פז — נאות מדבר</li><li>פז — עמק שרה</li><li>פז — פז בר</li><li>פז — קריית הממשלה</li><li>תפוז — באר שבע</li></ul>
+<h3>תחנות דלק סולר בבוקעתא</h3>
+<ul><li>סונול — בוקעתא</li></ul>
+<h3>תחנות דלק סולר בביר אל מכסור</h3>
+<ul><li>פז — ביר אל מכסור</li><li>פז — נטופה</li></ul>
+<h3>תחנות דלק סולר בבית אריה</h3>
+<ul><li>דלק — רננית (בית אריה)</li></ul>
+<h3>תחנות דלק סולר בבית ג&#x27;אן</h3>
+<ul><li>סונול — בית ג&#x27;אן</li></ul>
+<h3>תחנות דלק סולר בבית דגן</h3>
+<ul><li>דור אלון — בית דגן</li></ul>
+<h3>תחנות דלק סולר בבית הערבה</h3>
+<ul><li>דלק — צומת לידו - בית הערבה</li></ul>
+<h3>תחנות דלק סולר בבית שאן</h3>
+<ul><li>דלק — אספסת (בית שאן)</li><li>טן — בית שאן</li><li>מיקה — בית שאן</li><li>סונול — בית שאן</li><li>פז — בית שאן</li></ul>
+<h3>תחנות דלק סולר בבית שמש</h3>
+<ul><li>סונול — (ידידיה) בית שמש</li><li>פז — בית שמש</li><li>פז — בית שמש הצומת</li><li>פז — צומת האלה</li><li>פז — שער הגיא</li></ul>
+<h3>תחנות דלק סולר בביתן אהרון</h3>
+<ul><li>סונול — ביתן אהרון</li></ul>
+<h3>תחנות דלק סולר בביתר</h3>
+<ul><li>דלק — מבוא ביתר</li><li>סונול — יער בית&quot;ר</li></ul>
+<h3>תחנות דלק סולר בבני ברק</h3>
+<ul><li>דור אלון — בני ברק ארגמן</li><li>דור אלון — בני ברק האיצטדיון</li><li>דור אלון — בני ברק ז&#x27;בוטינסקי</li><li>דלק — אמיר בני ברק</li><li>דלק — בני ברק</li><li>סונול — בני ברק</li><li>פז — אילון בני ברק</li><li>פז — יציב</li></ul>
+<h3>תחנות דלק סולר בבני ציון</h3>
+<ul><li>דור אלון — בני ציון</li></ul>
+<h3>תחנות דלק סולר בבני שמעון</h3>
+<ul><li>דור אלון — דבירה</li><li>דור אלון — להב</li><li>דור אלון — תדהר</li><li>דלק — תל שוקת</li><li>תפוז — משמר הנגב- רהט</li></ul>
+<h3>תחנות דלק סולר בבנימינה</h3>
+<ul><li>דור אלון — בנימינה מערב</li><li>דור אלון — בנימינה מערב</li><li>סונול — מפגש עדה</li><li>פז — בנימינה</li><li>פז — יסמין</li></ul>
+<h3>תחנות דלק סולר בבעינה</h3>
+<ul><li>פז — בעינה</li></ul>
+<h3>תחנות דלק סולר בבקעת בית הכרם</h3>
+<ul><li>דלק — אחיהוד (צליל החורש)</li><li>דלק — שג&#x27;ור-דיר אל אסאד</li></ul>
+<h3>תחנות דלק סולר בבת ים</h3>
+<ul><li>דור אלון — בת ים</li><li>דור אלון — בת ים הילי</li><li>סונול — קוממיות</li><li>פז — דוד בת - ים</li></ul>
+<h3>תחנות דלק סולר בבת-חפר</h3>
+<ul><li>פז — בת-חפר</li></ul>
+<h3>תחנות דלק סולר בג&#x27;דיידה מכר</h3>
+<ul><li>פז — ג&#x27;דיידה</li></ul>
+<h3>תחנות דלק סולר בג&#x27;יש</h3>
+<ul><li>פז — גוש חלב</li></ul>
+<h3>תחנות דלק סולר בג&#x27;לג&#x27;וליה</h3>
+<ul><li>דלק — חורשים</li></ul>
+<h3>תחנות דלק סולר בג&#x27;ת</h3>
+<ul><li>דור אלון — ג&#x27;ת</li></ul>
+<h3>תחנות דלק סולר בגבעת ברנר</h3>
+<ul><li>פז — נויה</li></ul>
+<h3>תחנות דלק סולר בגבעת זאב</h3>
+<ul><li>דלק — גבעונים</li><li>דלק — גבעת זאב</li></ul>
+<h3>תחנות דלק סולר בגבעת שמואל</h3>
+<ul><li>דלק — אופטר גבעת שמואל</li><li>פז — אורלי גהה</li></ul>
+<h3>תחנות דלק סולר בגבעתיים</h3>
+<ul><li>פז — אלוף שדה</li></ul>
+<h3>תחנות דלק סולר בגדרה</h3>
+<ul><li>דלק — גדרה דרום</li><li>סונול — הבילויים גדרה</li><li>פז — פז גדרה</li></ul>
+<h3>תחנות דלק סולר בגולן</h3>
+<ul><li>דלק — אליעד</li><li>דלק — רמות</li></ul>
+<h3>תחנות דלק סולר בגזר</h3>
+<ul><li>מיקה — מיקה בית חשמונאי</li></ul>
+<h3>תחנות דלק סולר בגילת</h3>
+<ul><li>דלק — גילת</li></ul>
+<h3>תחנות דלק סולר בגליל עליון</h3>
+<ul><li>דור אלון — גן הצפון</li><li>דור אלון — עמיעד</li><li>דור אלון — צומת הגומא</li></ul>
+<h3>תחנות דלק סולר בגליל תחתון</h3>
+<ul><li>סונול — שדה עמודים</li></ul>
+<h3>תחנות דלק סולר בגן יבנה</h3>
+<ul><li>דור אלון — גן יבנה</li><li>דלק — גן יבנה</li></ul>
+<h3>תחנות דלק סולר בגן רווה</h3>
+<ul><li>דור אלון — גאליה</li><li>דלק — בית חנן</li><li>סונול — בית עובד</li></ul>
+<h3>תחנות דלק סולר בגרנות הגליל</h3>
+<ul><li>פז — גרנות הגליל</li></ul>
+<h3>תחנות דלק סולר בדאלית אלכרמל</h3>
+<ul><li>דור אלון — דלית אל כרמל</li></ul>
+<h3>תחנות דלק סולר בדברת</h3>
+<ul><li>דלק — דברת</li></ul>
+<h3>תחנות דלק סולר בדימונה</h3>
+<ul><li>דור אלון — צומת דימונה</li><li>דלק — דימונה</li><li>טן — דימונה</li><li>סונול — דימונה</li><li>פז — דימונה</li></ul>
+<h3>תחנות דלק סולר בדיר חנא</h3>
+<ul><li>סונול — דיר חנא</li></ul>
+<h3>תחנות דלק סולר בדלית אל כרמל</h3>
+<ul><li>דלק — דלית אל כרמל</li></ul>
+<h3>תחנות דלק סולר בדרום השרון</h3>
+<ul><li>דור אלון — ניר אליהו</li><li>דור אלון — שדי חמד</li><li>דלק — מגשימים</li><li>דלק — נווה ימין (מפגש השלום)</li></ul>
+<h3>תחנות דלק סולר בהגליל העליון</h3>
+<ul><li>דלק — מחניים</li><li>סונול — סונול שדה אליעזר</li></ul>
+<h3>תחנות דלק סולר בהגליל התחתון</h3>
+<ul><li>דלק — צומת גולני דרום</li><li>דלק — צומת גולני צפון</li></ul>
+<h3>תחנות דלק סולר בהוד השרון</h3>
+<ul><li>דלק — הוד השרון</li><li>דלק — הוד תדלוק</li><li>דלק — רמתיים</li><li>סונול — רמתיים</li><li>פז — הוד השרון</li></ul>
+<h3>תחנות דלק סולר בהיוגב</h3>
+<ul><li>פז — היוגב</li></ul>
+<h3>תחנות דלק סולר בהרצליה</h3>
+<ul><li>דלק — גלילות</li><li>דלק — נווה עמל (הרצליה)</li><li>דלק — שבעת הכוכבים</li><li>סונול — אילוש</li><li>פז — אשל הרצליה</li><li>פז — הרצליה עיר</li><li>פז — רונית</li></ul>
+<h3>תחנות דלק סולר בזכרון יעקב</h3>
+<ul><li>דור אלון — זכרון יעקב</li><li>דור אלון — זכרון יעקב אור זכרון</li><li>דלק — זכרון יעקב</li><li>דלק — מחלף זכרון</li><li>סונול — זכרון יעקב</li></ul>
+<h3>תחנות דלק סולר בזרזיר</h3>
+<ul><li>דור אלון — שימרון</li><li>דלק — גל זרזיר</li></ul>
+<h3>תחנות דלק סולר בחבל איילות</h3>
+<ul><li>סונול — יוטבתה</li></ul>
+<h3>תחנות דלק סולר בחבל יבנה</h3>
+<ul><li>דור אלון — בני דרום</li></ul>
+<h3>תחנות דלק סולר בחבל מודיעין</h3>
+<ul><li>דור אלון — כפר טרומן</li></ul>
+<h3>תחנות דלק סולר בחגור</h3>
+<ul><li>פז — חגור</li></ul>
+<h3>תחנות דלק סולר בחדרה</h3>
+<ul><li>דור אלון — חדרה מזרח</li><li>דור אלון — חדרה עוקף חדרה</li><li>דור אלון — חדרה פארק חדרה</li><li>דור אלון — סופר פרונט חדרה</li><li>דלק — אדגו (חדרה)</li><li>דלק — ירמלובסקי</li><li>דלק — מפגש אולגה</li><li>דלק — עוקף חדרה</li><li>טן — חדרה</li><li>סונול — חדרה - ענבר</li><li>סונול — חדרה בית אליעזר (גיא)</li><li>סונול — חדרה גני טובה</li><li>סונול — חדרה העיר</li><li>סונול — חדרה צה&quot;ל</li><li>סונול — מול חוף (חדרה, אמירי גן)</li><li>סונול — קיסריה</li><li>פז — חדרה</li></ul>
+<h3>תחנות דלק סולר בחולון</h3>
+<ul><li>דור אלון — חולון דרך השבעה</li><li>דור אלון — חולון הסדן</li><li>דלק — היובל</li><li>דלק — הכישור</li><li>דלק — הצבי - חולון</li><li>דלק — מרכבות האש</li><li>דלק — שעריי חולון</li><li>טן — חולון</li><li>מיקה — הפלד</li><li>מיקה — וולפסון</li><li>סונול — המלאכה</li><li>סונול — המרכבה</li><li>פז — הסיירים</li><li>פז — חולון</li><li>פז — מויאל</li><li>פז — קריית שרת</li></ul>
+<h3>תחנות דלק סולר בחוף אשקלון</h3>
+<ul><li>דור אלון — ברכיה</li><li>דור אלון — דור-אלון חמד</li><li>דור אלון — משען</li><li>דלק — דניאל חוף אשקלון</li><li>דלק — מבקיעים</li><li>סונול — בית שקמה</li><li>סונול — יד מרדכי</li><li>תפוז — מבקיעים</li></ul>
+<h3>תחנות דלק סולר בחוף השרון</h3>
+<ul><li>דלק — שפיים</li><li>דלק — תל יצחק</li></ul>
+<h3>תחנות דלק סולר בחורה</h3>
+<ul><li>סונול — חורה</li></ul>
+<h3>תחנות דלק סולר בחורפיש</h3>
+<ul><li>דלק — גל חורפיש</li><li>סונול — חורפיש</li></ul>
+<h3>תחנות דלק סולר בחיפה</h3>
+<ul><li>דור אלון — חיפה גרנד קניון</li><li>דור אלון — חיפה העצמאות</li><li>דור אלון — חיפה השיש</li><li>דור אלון — חיפה חוף שמן</li><li>דור אלון — חיפה יוליוס סימון</li><li>דור אלון — חיפה עוקף קריות</li><li>דור אלון — חיפה פרויד</li><li>דור אלון — חיפה שד&#x27; ההסתדרות</li><li>דור אלון — חיפה שערי חיפה</li><li>דור אלון — מנהרות הכרמל</li><li>דלק — אלדור</li><li>דלק — המפרץ</li><li>דלק — הקישון</li><li>דלק — חלוצי התעשייה</li><li>דלק — חרמש</li><li>דלק — מבואות חיפה</li><li>דלק — מול המפרץ</li><li>דלק — מצה</li><li>דלק — מת&quot;מ (חיפה)</li><li>דלק — פארק הרכב</li><li>דלק — צ&#x27;ק פוסט</li><li>דלק — קרית חיים</li><li>דלק — שד&#x27; הנשיא חיפה</li><li>טן — חוף שמן</li><li>טן — חלוצי התעשיה</li><li>טן — צ&#x27;ק פוסט</li><li>מיקה — חיפה</li><li>סונול — בר יהודה (גשר פז)</li><li>סונול — דניה</li><li>סונול — הדר</li><li>סונול — ורדיה</li><li>סונול — חיפה-אופיר</li><li>סונול — נווה שאנן</li><li>סונול — פינת בת גלים</li><li>סונול — קישון, חיפה</li><li>סונול — קרית חיים</li><li>סונול — שער העליה</li><li>סונול — תחבורת חיפה</li><li>סונול — תלתן - מפרץ חיפה</li><li>פז — אורלי</li><li>פז — בת גלים</li><li>פז — הדר כרמל</li><li>פז — הר הכרמל</li><li>פז — חוף הכרמל</li><li>פז — חיפה מזרח</li><li>פז — יזרעאליה</li><li>פז — לב המפרץ</li><li>פז — סטלה מאריס</li><li>פז — עוז בת גלים</li><li>פז — קייט ונופש</li><li>פז — רוממה</li><li>תפוז — אורנית</li><li>תפוז — חיפה</li></ul>
+<h3>תחנות דלק סולר בחצור הגלילית</h3>
+<ul><li>דור אלון — חצור הגלילית</li><li>דלק — חצור הגלילית</li></ul>
+<h3>תחנות דלק סולר בחריש</h3>
+<ul><li>דור אלון — חריש</li></ul>
+<h3>תחנות דלק סולר בטבריה</h3>
+<ul><li>דור אלון — טבריה תחנה מרכזית</li><li>דלק — גל טבריה</li><li>דלק — טבריה</li><li>דלק — טבריה ארזים</li><li>טן — טבריה</li><li>מיקה — טבריה</li><li>סונול — טבריה</li><li>סונול — טבריה עלית</li><li>פז — טבריה עילית</li><li>פז — טבריה עיר</li><li>פז — מצפה גולן</li><li>פז — עוז טבריה</li></ul>
+<h3>תחנות דלק סולר בטורעאן</h3>
+<ul><li>סונול — צומת גולני</li></ul>
+<h3>תחנות דלק סולר בטייבה</h3>
+<ul><li>דור אלון — טייבה</li><li>דלק — גל טייבה</li><li>דלק — טייבה</li><li>סונול — טייבה</li><li>פז — שער השרון</li></ul>
+<h3>תחנות דלק סולר בטירה</h3>
+<ul><li>דלק — גל טירה</li><li>פז — טירה</li></ul>
+<h3>תחנות דלק סולר בטירת הכרמל</h3>
+<ul><li>דור אלון — טירת הכרמל</li><li>דלק — טירת הכרמל</li><li>פז — טירת הכרמל</li></ul>
+<h3>תחנות דלק סולר ביאנוח</h3>
+<ul><li>דלק — ינוח</li></ul>
+<h3>תחנות דלק סולר ביבנה</h3>
+<ul><li>דור אלון — יבנה מתנ&quot;ח</li><li>דור אלון — יבנה שער יבנה</li><li>דלק — יבנה</li><li>טן — יבנה</li><li>פז — יבנה המיסב</li><li>פז — רשף יבנה</li></ul>
+<h3>תחנות דלק סולר ביבניאל</h3>
+<ul><li>דור אלון — יבנאל</li><li>סונול — גולד אלומות</li></ul>
+<h3>תחנות דלק סולר ביהוד</h3>
+<ul><li>דור אלון — יהוד</li><li>דלק — יהוד</li><li>טן — יהוד</li><li>פז — יהוד</li></ul>
+<h3>תחנות דלק סולר ביואב</h3>
+<ul><li>דלק — בית גוברין</li><li>דלק — מסמיה</li></ul>
+<h3>תחנות דלק סולר ביובלים</h3>
+<ul><li>דור אלון — צומת יובלים</li></ul>
+<h3>תחנות דלק סולר ביוקנעם</h3>
+<ul><li>דור אלון — הזורע</li><li>דור אלון — יקנעם</li><li>דור אלון — יקנעם</li><li>דלק — גל יוקנעם</li><li>סונול — עוקף יוקנעם</li><li>פז — יוקנעם</li></ul>
+<h3>תחנות דלק סולר ביסוד המעלה</h3>
+<ul><li>סונול — יסוד המעלה</li></ul>
+<h3>תחנות דלק סולר ביפיע</h3>
+<ul><li>דור אלון — יפיע</li><li>סונול — יפיע</li><li>פז — ביר אל אמיר</li></ul>
+<h3>תחנות דלק סולר בירוחם</h3>
+<ul><li>סונול — ירוחם</li></ul>
+<h3>תחנות דלק סולר בירושלים</h3>
+<ul><li>דור אלון — ירושלים גינות סחרוב</li><li>דור אלון — ירושלים הבירה</li><li>דור אלון — ירושלים עטרות</li><li>דור אלון — ירושלים קדמה</li><li>דור אלון — ירושלים רמת רחל</li><li>דור אלון — ירושלים תלפיות</li><li>דלק — גבעה צרפתית</li><li>דלק — הסדנא</li><li>דלק — הר תמיר</li><li>דלק — מצפה אורנים</li><li>דלק — נווה יעקב (ירושלים)</li><li>דלק — ניות</li><li>דלק — עיר שלם</li><li>דלק — צומת אורה</li><li>דלק — תלפיות מזרח</li><li>טן — ירושלים</li><li>טן — עטרות</li><li>סונול — גן הפעמון</li><li>סונול — הר נוף</li><li>סונול — סונול מלחה</li><li>סונול — סמדר</li><li>סונול — רמות אלון</li><li>סונול — שייח ג&#x27;ראח</li><li>סונול — שער דרום - ירושלים</li><li>סונול — תלפיות</li><li>פז — אלנבי</li><li>פז — בית חנינה</li><li>פז — בקעה</li><li>פז — בר-כוכבא</li><li>פז — גבעת שאול</li><li>פז — גילה</li><li>פז — דרך המנהרות</li><li>פז — המלך דוד</li><li>פז — העשור</li><li>פז — כנפי נשרים</li><li>פז — מאה שערים</li><li>פז — מנדלבאום</li><li>פז — נווה יעקב</li><li>פז — פסגת זאב</li><li>פז — קרית מנחם</li><li>פז — רוקפלר</li><li>פז — רמות</li><li>פז — רמות אשכול</li><li>פז — תחנת מוזיאון ירושלים</li><li>פז — תלפיות</li></ul>
+<h3>תחנות דלק סולר בירכא</h3>
+<ul><li>דור אלון — ירכא</li><li>סונול — ירכא</li><li>פז — ירכא</li></ul>
+<h3>תחנות דלק סולר בכאוכב</h3>
+<ul><li>סונול — כאוכב</li></ul>
+<h3>תחנות דלק סולר בכבול</h3>
+<ul><li>סונול — כבול</li></ul>
+<h3>תחנות דלק סולר בכוכוב יאיר</h3>
+<ul><li>פז — כוכב יאיר</li></ul>
+<h3>תחנות דלק סולר בכפר איכסל</h3>
+<ul><li>פז — איכסאל</li></ul>
+<h3>תחנות דלק סולר בכפר ויתקין</h3>
+<ul><li>פז — חופית</li></ul>
+<h3>תחנות דלק סולר בכפר יאסיף</h3>
+<ul><li>פז — כפר יאסיף</li></ul>
+<h3>תחנות דלק סולר בכפר יונה</h3>
+<ul><li>דור אלון — כפר יונה</li><li>סונול — כפר יונה</li></ul>
+<h3>תחנות דלק סולר בכפר יסיף</h3>
+<ul><li>דלק — כפר יאסיף</li></ul>
+<h3>תחנות דלק סולר בכפר כנא</h3>
+<ul><li>סונול — המשתלה בית חי</li></ul>
+<h3>תחנות דלק סולר בכפר לימן</h3>
+<ul><li>פז — סולם צור</li></ul>
+<h3>תחנות דלק סולר בכפר מנדא</h3>
+<ul><li>סונול — כפר מנדא</li><li>פז — מנדא</li></ul>
+<h3>תחנות דלק סולר בכפר סבא</h3>
+<ul><li>דור אלון — כפר סבא</li><li>דור אלון — כפר סבא מזרח</li><li>דלק — ביסקוויט כפר סבא</li><li>דלק — דורון</li><li>טן — כ&quot;ס מזרח</li><li>טן — כ&quot;ס שרונה</li><li>סונול — כפר סבא</li><li>סונול — כפר סבא מזרח</li><li>סונול — כפר סבא צפון</li><li>סונול — צומת רעננה הברוש</li><li>פז — אצטדיון כפר סבא</li><li>פז — כפר סבא מזרח</li><li>פז — שרונים</li></ul>
+<h3>תחנות דלק סולר בכפר קאסם</h3>
+<ul><li>דלק — כפר קאסם - השלום</li><li>דלק — מינואט</li><li>סונול — כפר קאסם</li><li>פז — ראש העין אפק</li></ul>
+<h3>תחנות דלק סולר בכפר קמא</h3>
+<ul><li>סונול — כפר קמא</li></ul>
+<h3>תחנות דלק סולר בכפר קרע</h3>
+<ul><li>דלק — כפר קרע</li><li>פז — גיא-עירון</li></ul>
+<h3>תחנות דלק סולר בכפר תבור</h3>
+<ul><li>סונול — כוכב התבור (צומת גזית)</li><li>פז — כפר תבור</li></ul>
+<h3>תחנות דלק סולר בכרמיאל</h3>
+<ul><li>דור אלון — כרמיאל</li><li>דלק — גל כרמיאל</li><li>דלק — כרמיאל</li><li>מיקה — כרמיאל</li><li>סונול — כרמיאל א.ת.</li><li>סונול — כרמיאל סונול 85</li><li>סונול — שרותי כרמיאל</li><li>פז — כרמיאל</li><li>פז — כרמיאל מערב</li></ul>
+<h3>תחנות דלק סולר בלב הגליל</h3>
+<ul><li>דלק — דלקנית סכנין א.ש. ודלקים</li></ul>
+<h3>תחנות דלק סולר בלב השרון</h3>
+<ul><li>דלק — הנצח תל מונד</li></ul>
+<h3>תחנות דלק סולר בלהבים</h3>
+<ul><li>דור אלון — להבים</li></ul>
+<h3>תחנות דלק סולר בלוד</h3>
+<ul><li>דור אלון — לוד</li><li>סונול — שער לוד</li><li>פז — לוד ויסוצקי</li><li>פז — לוד יוספטל</li></ul>
+<h3>תחנות דלק סולר בלכיש</h3>
+<ul><li>דור אלון — יד נתן</li><li>דלק — מנוחה</li></ul>
+<h3>תחנות דלק סולר במבוא העמקים</h3>
+<ul><li>סונול — כפר כנא</li></ul>
+<h3>תחנות דלק סולר במבוא מודיעין</h3>
+<ul><li>סונול — שילת</li></ul>
+<h3>תחנות דלק סולר במבשרת ציון</h3>
+<ul><li>דלק — קסטל</li><li>סונול — מעוז ציון</li><li>פז — מבשרת ירושלים</li></ul>
+<h3>תחנות דלק סולר במג&#x27;אר</h3>
+<ul><li>פז — מראר</li></ul>
+<h3>תחנות דלק סולר במג&#x27;דל כרום</h3>
+<ul><li>פז — בית הכרם</li><li>פז — מג&#x27;דל כרום</li></ul>
+<h3>תחנות דלק סולר במג&#x27;דל שמס</h3>
+<ul><li>דלק — טווינס דלקים</li><li>סונול — פסגת חרמון</li></ul>
+<h3>תחנות דלק סולר במגאר</h3>
+<ul><li>דור אלון — מרר בלעוס</li></ul>
+<h3>תחנות דלק סולר במגדל</h3>
+<ul><li>מיקה — מגדל</li><li>סונול — מגדל (צ.המנגו)</li><li>פז — מפגש ארבל</li></ul>
+<h3>תחנות דלק סולר במגדל העמק</h3>
+<ul><li>דור אלון — מגדל העמק</li><li>דלק — מגדל העמק</li><li>טן — מגדל העמק</li><li>סונול — מפגש בלפור (מגדל העמק)</li><li>סונול — קיבוץ שריד</li><li>פז — מגדל העמק</li></ul>
+<h3>תחנות דלק סולר במגדל כרום</h3>
+<ul><li>דור אלון — בקעת בית הכרם (מג&#x27;דל כרום)</li><li>דור אלון — גילון</li></ul>
+<h3>תחנות דלק סולר במגדל תפן</h3>
+<ul><li>דור אלון — תפן</li><li>דלק — תפן</li></ul>
+<h3>תחנות דלק סולר במגידו</h3>
+<ul><li>דור אלון — גבעת עוז</li><li>דלק — מגידו</li><li>סונול — שער הכרמל</li></ul>
+<h3>תחנות דלק סולר במגילות</h3>
+<ul><li>סונול — אלמוג</li></ul>
+<h3>תחנות דלק סולר במודיעין</h3>
+<ul><li>דור אלון — מודיעין</li><li>דלק — מודיעין ארז</li><li>דלק — מודיעין מערב</li><li>מיקה — מודיעין</li><li>פז — מודיעין הראל דרך צור</li><li>פז — מודיעין ליגד</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית אל בטוף</h3>
+<ul><li>טן — רומת אל הייב</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית אשכול</h3>
+<ul><li>דור אלון — אורים</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית באר טוביה</h3>
+<ul><li>טן — ראם</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית בוסתאן אל מארג</h3>
+<ul><li>דור אלון — נין</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית בוסתאן אל מרג&#x27;</h3>
+<ul><li>דלק — נין התבור</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית בקעת הירדן</h3>
+<ul><li>דלק — מפגש הבקעה</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית גזר</h3>
+<ul><li>דור אלון — נען מזרח (מדרום לצפון)</li><li>דור אלון — נען מערב(מצפון לדרום)</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית גלבוע</h3>
+<ul><li>דור אלון — בית השיטה</li><li>דור אלון — גני חוגה</li><li>דור אלון — יזרעאל</li><li>דלק — ביכורה (שדי תרומות)</li><li>דלק — גן נר</li><li>דלק — ניר דוד</li><li>דלק — שדה נחום</li><li>סונול — בית אלפא</li><li>סונול — עין חרוד גלבוע</li><li>סונול — שדי תרומות</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית גליל תחתון</h3>
+<ul><li>דור אלון — בית קשת</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית הגלבוע</h3>
+<ul><li>טן — ניר יפה</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית זבולון</h3>
+<ul><li>סונול — כפר חסידים</li><li>סונול — קיבוץ יגור</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית חבל מודיעין</h3>
+<ul><li>טן — בארות יצחק</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית חוף הכרמל</h3>
+<ul><li>דור אלון — עין כרמל</li><li>דור אלון — צומת עופר</li><li>דלק — בת שלמה</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית חוף השרון</h3>
+<ul><li>דור אלון — תל יצחק</li><li>טן — בית יהושע</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית יואב</h3>
+<ul><li>סונול — סונול חמי יואב</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית לב השרון</h3>
+<ul><li>דור אלון — בני דרור</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית לכיש</h3>
+<ul><li>דור אלון — נהורה</li><li>פז — פז השקמה</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית מבואות החרמון</h3>
+<ul><li>סונול — משמר הירדן</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית מבואות חרמון</h3>
+<ul><li>דלק — כחל</li><li>פז — צומת כח</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית מטה אשר</h3>
+<ul><li>דור אלון — גשר הזיו</li><li>דור אלון — יסעור</li><li>דלק — טמרה חדשה</li><li>דלק — מפגש צביקה (צומת כברי)</li><li>דלק — סער</li><li>דלק — עין המפרץ</li><li>דלק — קבוץ איילון</li><li>טן — בית העמק</li><li>סונול — מפגש מכר</li><li>סונול — מפגש נעמן</li><li>סונול — רגבה</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית מטה יהודה</h3>
+<ul><li>דור אלון — בית שמש</li><li>דור אלון — טל שחר</li><li>דור אלון — יסודות</li><li>דור אלון — לטרון</li><li>דור אלון — פתחיה</li><li>דלק — נחשון</li><li>דלק — פארק צרעה</li><li>דלק — פונדק הרים / נווה אילן</li><li>סונול — הנשיא</li><li>סונול — זכריה</li><li>סונול — צומת שמשון</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית מנשה</h3>
+<ul><li>סונול — מאור</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית משמר השרוון</h3>
+<ul><li>דור אלון — משמר השרון</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית עמק הירדן</h3>
+<ul><li>דור אלון — אלומות</li><li>פז — צמח</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית עמק חפר</h3>
+<ul><li>טן — עמק חפר</li><li>סונול — עמק חפר</li><li>פז — זך רופין</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית עמק יזרעאל</h3>
+<ul><li>דור אלון — מזרע</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית ערבה תיכונה</h3>
+<ul><li>דור אלון — צוקים</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית קריית ענבים</h3>
+<ul><li>דור אלון — קרית ענבים</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית רמת נגב</h3>
+<ul><li>דלק — קדש ברנע</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית שער הנגב</h3>
+<ul><li>דור אלון — כפר עזה</li></ul>
+<h3>תחנות דלק סולר במועצה אזורית שפיר</h3>
+<ul><li>טן — פלוגות זבדיאל</li><li>סונול — משואות יצחק</li></ul>
+<h3>תחנות דלק סולר במורן</h3>
+<ul><li>דור אלון — מורן</li></ul>
+<h3>תחנות דלק סולר במזכרת בתיה</h3>
+<ul><li>דלק — מזכרת בתיה</li><li>פז — מזכרת בתיה</li></ul>
+<h3>תחנות דלק סולר במטה אשר</h3>
+<ul><li>סונול — פארק בר לב</li><li>פז — ראש הנקרה</li></ul>
+<h3>תחנות דלק סולר במטה בנימין</h3>
+<ul><li>דלק — מעבר מכמש</li></ul>
+<h3>תחנות דלק סולר במטה יהודה</h3>
+<ul><li>דור אלון — דור אלון קרית ענבים</li></ul>
+<h3>תחנות דלק סולר במטולה</h3>
+<ul><li>סונול — מטולה</li></ul>
+<h3>תחנות דלק סולר במירון</h3>
+<ul><li>דלק — מירון</li></ul>
+<h3>תחנות דלק סולר במיתר</h3>
+<ul><li>דלק — אברהם מיתר</li></ul>
+<h3>תחנות דלק סולר במכר גדידה</h3>
+<ul><li>פז — מכר</li></ul>
+<h3>תחנות דלק סולר במנשה</h3>
+<ul><li>דור אלון — להבות חביבה</li><li>דור אלון — מגל מזרח (מדרום לצפון)</li><li>דור אלון — מגל מערב (מצפון לדרום)</li><li>דור אלון — מענית</li><li>דלק — מצר</li><li>סונול — גן שמואל</li><li>סונול — עירון</li></ul>
+<h3>תחנות דלק סולר במסילת ציון</h3>
+<ul><li>פז — מסילת ציון</li></ul>
+<h3>תחנות דלק סולר במסעדה</h3>
+<ul><li>סונול — מסעדה חוצות חרמון</li></ul>
+<h3>תחנות דלק סולר במעיליה</h3>
+<ul><li>דור אלון — מעלות (מעיליא)</li><li>דלק — מעיליה - מונפורט</li><li>סונול — מעיליא</li></ul>
+<h3>תחנות דלק סולר במעלה אדומים</h3>
+<ul><li>דור אלון — מעלה אדומים נופי סלע</li><li>דלק — מישור אדומים</li><li>סונול — כפר אדומים</li><li>פז — מישור אדומים</li><li>פז — מעלה אדומים</li></ul>
+<h3>תחנות דלק סולר במעלה אפרים</h3>
+<ul><li>סונול — מעלה אפריים</li></ul>
+<h3>תחנות דלק סולר במעלות תרשיחא</h3>
+<ul><li>דור אלון — מעלות העיר</li><li>טן — מעלות</li><li>פז — מעלות</li></ul>
+<h3>תחנות דלק סולר במצפה אבי&quot;ב</h3>
+<ul><li>פז — מצפה אביב</li></ul>
+<h3>תחנות דלק סולר במצפה נטופה</h3>
+<ul><li>פז — מצפה טורען</li></ul>
+<h3>תחנות דלק סולר במצפה רמון</h3>
+<ul><li>דור אלון — מצפה רמון</li><li>דלק — מצפה רמון</li><li>סונול — מצפה רמון</li><li>פז — עבדת</li></ul>
+<h3>תחנות דלק סולר במרחבים</h3>
+<ul><li>תפוז — מבועים</li></ul>
+<h3>תחנות דלק סולר במשהד</h3>
+<ul><li>דור אלון — ציפורית</li></ul>
+<h3>תחנות דלק סולר בנאות חובב</h3>
+<ul><li>דלק — נאות חובב</li></ul>
+<h3>תחנות דלק סולר בנגבה</h3>
+<ul><li>דור אלון — נגבה</li></ul>
+<h3>תחנות דלק סולר בנהריה</h3>
+<ul><li>דור אלון — נהריה</li><li>דלק — געתון (נהריה)</li><li>דלק — חוף הדקל (נהריה)</li><li>סונול — נהריה</li><li>פז — נהריה</li><li>פז — נהריה לוחמי הגטאות.</li></ul>
+<h3>תחנות דלק סולר בנוף הגליל</h3>
+<ul><li>דור אלון — נצרת העיר</li><li>דלק — הר יונה</li><li>דלק — נצרת האיצטדיון</li><li>דלק — סיכת רוזנפלד</li><li>טן — נצרת</li><li>סונול — הר-נצרת</li><li>סונול — נוף הגליל</li><li>סונול — נצרת - העיר</li><li>סונול — נצרת בוסתן 1</li><li>פז — נצרת עילית</li><li>פז — עוקף נצרת</li><li>פז — עץ הזית</li></ul>
+<h3>תחנות דלק סולר בנורדיה</h3>
+<ul><li>פז — בית יצחק</li><li>פז — נורדיה</li></ul>
+<h3>תחנות דלק סולר בנחל שורק</h3>
+<ul><li>דור אלון — בני ראם</li><li>דלק — יד בנימין</li></ul>
+<h3>תחנות דלק סולר בניר יפה</h3>
+<ul><li>פז — תענכים</li></ul>
+<h3>תחנות דלק סולר בנס ציונה</h3>
+<ul><li>דור אלון — נס ציונה</li><li>דלק — נס ציונה</li><li>סונול — פאואר סנטר נס ציונה</li></ul>
+<h3>תחנות דלק סולר בנצרת</h3>
+<ul><li>דלק — רמזי</li><li>סונול — נצרת - מבואות</li><li>פז — מבואות נצרת</li></ul>
+<h3>תחנות דלק סולר בנשר</h3>
+<ul><li>דלק — תל חנן</li><li>טן — תל-חנן</li><li>פז — חוואסה</li><li>פז — צומת הנשרים</li></ul>
+<h3>תחנות דלק סולר בנתב&quot;ג</h3>
+<ul><li>דלק — נתב&quot;ג</li></ul>
+<h3>תחנות דלק סולר בנתיבות</h3>
+<ul><li>דלק — נתיבות</li><li>טן — נתיבות</li><li>מיקה — נתיבות</li><li>סונול — נתיבות</li><li>פז — נתיבות</li><li>תפוז — נתיבות</li></ul>
+<h3>תחנות דלק סולר בנתניה</h3>
+<ul><li>דור אלון — דור אלון קרית השרון נתניה</li><li>דור אלון — נתניה מקסיקו</li><li>דלק — אסוך - נתניה</li><li>דלק — ברכת חנון (הגביש)</li><li>דלק — גל נתניה</li><li>דלק — הקדר</li><li>דלק — השחר נתניה</li><li>דלק — פולג</li><li>טן — קניון הדרים</li><li>סונול — לב היהלום</li><li>סונול — מפגש אמיתי</li><li>סונול — נתניה מרכז</li><li>סונול — פולג גיבורי ישראל</li><li>פז — יהלום-גשר הארי</li><li>פז — מכון הרשוי</li><li>פז — נתניה-עיר</li><li>פז — עזנת</li><li>פז — צומת נתניה</li><li>תפוז — נתניה</li></ul>
+<h3>תחנות דלק סולר בסג&#x27;ור</h3>
+<ul><li>טן — סג&#x27;ור</li></ul>
+<h3>תחנות דלק סולר בסכנין</h3>
+<ul><li>פז — סכנין מזרח</li></ul>
+<h3>תחנות דלק סולר בסלמה</h3>
+<ul><li>טן — סלמה</li></ul>
+<h3>תחנות דלק סולר בעארה ערערה</h3>
+<ul><li>דור אלון — ערערה מרכז</li></ul>
+<h3>תחנות דלק סולר בעוספיא</h3>
+<ul><li>דלק — דלק מבואות דליה</li><li>סונול — עוספיא</li></ul>
+<h3>תחנות דלק סולר בעוספיה</h3>
+<ul><li>פז — עוספיה</li></ul>
+<h3>תחנות דלק סולר בעטרות</h3>
+<ul><li>סונול — קלנדיה</li></ul>
+<h3>תחנות דלק סולר בעילבון</h3>
+<ul><li>טן — עילבון</li></ul>
+<h3>תחנות דלק סולר בעילוט</h3>
+<ul><li>סונול — עילוט</li></ul>
+<h3>תחנות דלק סולר בעין הבשור</h3>
+<ul><li>פז — אשכול</li></ul>
+<h3>תחנות דלק סולר בעין חצבה</h3>
+<ul><li>פז — עין חצבה</li></ul>
+<h3>תחנות דלק סולר בעין יהב</h3>
+<ul><li>דלק — עין יהב</li></ul>
+<h3>תחנות דלק סולר בעכו</h3>
+<ul><li>דור אלון — עכו</li><li>דלק — ארגמן (עכו)</li><li>דלק — גל-עכו גלי חוף</li><li>דלק — נווה ספיר</li><li>סונול — עכו</li><li>פז — עכו עיר</li><li>פז — עכו צפון</li></ul>
+<h3>תחנות דלק סולר בעלי</h3>
+<ul><li>סונול — מפגש עלי</li></ul>
+<h3>תחנות דלק סולר בעמיעוז</h3>
+<ul><li>פז — עמיעוז</li></ul>
+<h3>תחנות דלק סולר בעמק הירדן</h3>
+<ul><li>דור אלון — חוקוק</li><li>דלק — אפיקים</li><li>דלק — גינוסר</li></ul>
+<h3>תחנות דלק סולר בעמק חפר</h3>
+<ul><li>דלק — עמק חפר (אולניק)</li><li>פז — פז כפר ויתקין</li></ul>
+<h3>תחנות דלק סולר בעמק יזרעאל</h3>
+<ul><li>דלק — אלונים</li><li>דלק — בית לחם הגלילית</li><li>דלק — נהלל</li><li>סונול — ביר אל מכסור</li></ul>
+<h3>תחנות דלק סולר בעמק לוד</h3>
+<ul><li>סונול — צפריה</li></ul>
+<h3>תחנות דלק סולר בעפולה</h3>
+<ul><li>דור אלון — עפולה קניון</li><li>דלק — יוקלר עפולה</li><li>דלק — עפולה העמקים</li><li>טן — כביש הסרגל עפולה</li><li>טן — עפולה</li><li>סונול — מפגש העמק</li><li>סונול — עמק יזרעאל (צומת יזרעאל)</li><li>סונול — עפולה א.ת. מזרח</li><li>סונול — עפולה מרכז</li><li>סונול — עפולה עילית</li><li>פז — און עפולה</li><li>פז — עפולה עיר</li><li>תפוז — עפולה</li></ul>
+<h3>תחנות דלק סולר בערד</h3>
+<ul><li>דור אלון — ערד</li><li>דור אלון — ערד שילה</li><li>דלק — מעלה ערד</li><li>טן — ערד</li><li>סונול — ערד (נווה שלום)</li></ul>
+<h3>תחנות דלק סולר בערערה</h3>
+<ul><li>דלק — קציר</li><li>סונול — ערערה</li></ul>
+<h3>תחנות דלק סולר בעתלית</h3>
+<ul><li>סונול — עתלית</li><li>פז — מבוא עתלית</li><li>פז — עתלית</li></ul>
+<h3>תחנות דלק סולר בפקיעין</h3>
+<ul><li>פז — פקיעין</li></ul>
+<h3>תחנות דלק סולר בפרדס חנה כרכור</h3>
+<ul><li>דור אלון — מגד הדרים</li><li>דור אלון — עין שמר</li><li>דור אלון — פרדס חנה</li><li>טן — פרדס חנה</li><li>סונול — פרדס חנה</li><li>פז — כרכור</li><li>פז — פרדס חנה</li></ul>
+<h3>תחנות דלק סולר בפתח תקווה</h3>
+<ul><li>דור אלון — פתח תקוה בלינסון (ד&quot;ש)</li><li>דור אלון — פתח תקוה הסיבים</li><li>דור אלון — פתח תקוה סגולה</li><li>דור אלון — פתח תקוה רד&quot;ק</li><li>דור אלון — פתח תקווה פארק דניב</li><li>דלק — אם המושבות</li><li>דלק — הסיבים</li><li>דלק — מפגש השרון</li><li>דלק — סגולה</li><li>דלק — קניאל פתח תקוה</li><li>דלק — שנקר</li><li>טן — פתח תקווה גיסין</li><li>טן — פתח תקווה הסיבים</li><li>מיקה — גיסין</li><li>מיקה — צומת גנים</li><li>סונול — גיסין</li><li>סונול — ירקונים</li><li>סונול — נחלים</li><li>סונול — סגולה פתח תקווה</li><li>סונול — סונול מיקה פתח תקווה</li><li>פז — אצטדיון פתח תקווה</li><li>פז — אצטדיון פתח תקווה</li><li>פז — געש</li><li>פז — נווה עוז</li><li>פז — עין ורד</li><li>פז — פ&quot;ת עיר</li><li>פז — פ&quot;ת צפון</li><li>פז — שיאונה</li><li>תפוז — סגולה</li></ul>
+<h3>תחנות דלק סולר בצומת בית קמה</h3>
+<ul><li>פז — בית-קמה</li></ul>
+<h3>תחנות דלק סולר בצומת האלה</h3>
+<ul><li>פז — רמת דניה</li></ul>
+<h3>תחנות דלק סולר בצומת שוקת</h3>
+<ul><li>פז — שוקת</li></ul>
+<h3>תחנות דלק סולר בצפת</h3>
+<ul><li>דור אלון — צפת מצפה הימים</li><li>דלק — שערי העיר צפת</li><li>טן — צפת</li><li>סונול — צפת</li><li>סונול — צפת - לב העיר</li><li>פז — צפת</li></ul>
+<h3>תחנות דלק סולר בקבוצת יבנה</h3>
+<ul><li>דור אלון — קבוצת יבנה</li></ul>
+<h3>תחנות דלק סולר בקדומים</h3>
+<ul><li>סונול — קדומים</li></ul>
+<h3>תחנות דלק סולר בקדימה צורן</h3>
+<ul><li>פז — קדימה</li></ul>
+<h3>תחנות דלק סולר בקיבוץ יפעת</h3>
+<ul><li>פז — יפעת</li></ul>
+<h3>תחנות דלק סולר בקיסריה</h3>
+<ul><li>פז — קיסריה</li></ul>
+<h3>תחנות דלק סולר בקלאנסווה</h3>
+<ul><li>דלק — ניצני עוז</li></ul>
+<h3>תחנות דלק סולר בקלנסוואה</h3>
+<ul><li>סונול — קלאנסווה</li></ul>
+<h3>תחנות דלק סולר בקצרין</h3>
+<ul><li>דלק — קצרין</li><li>טן — טן קצרין</li><li>סונול — קצרין</li><li>פז — קצרין</li></ul>
+<h3>תחנות דלק סולר בקריית אונו</h3>
+<ul><li>פז — קריית אונו</li></ul>
+<h3>תחנות דלק סולר בקריית אתא</h3>
+<ul><li>דור אלון — קרית אתא</li><li>דור אלון — קרית אתא מרכז</li><li>דור אלון — שער הצפון</li><li>דלק — קרית אתא</li><li>טן — קריית אתא</li><li>סונול — מבואות אתא</li><li>סונול — קרית אתא</li><li>פז — קריית אתא</li></ul>
+<h3>תחנות דלק סולר בקריית ביאליק</h3>
+<ul><li>טן — קריית ביאליק</li><li>מיקה — מיקה קריית ביאליק</li><li>סונול — קריון</li><li>פז — ק. ביאליק</li></ul>
+<h3>תחנות דלק סולר בקריית גת</h3>
+<ul><li>דור אלון — קרית גת</li><li>דור אלון — קרית גת הבנים</li><li>דלק — קרית גת</li><li>טן — קריית גת</li><li>סונול — סונול יענקלה</li><li>סונול — פלוגות</li><li>פז — קריית גת</li></ul>
+<h3>תחנות דלק סולר בקריית חיים</h3>
+<ul><li>פז — הדגן ק.חיים</li></ul>
+<h3>תחנות דלק סולר בקריית טבעון</h3>
+<ul><li>פז — טבעון</li></ul>
+<h3>תחנות דלק סולר בקריית ים</h3>
+<ul><li>סונול — קרית ים</li></ul>
+<h3>תחנות דלק סולר בקריית מוצקין</h3>
+<ul><li>פז — כורדני</li></ul>
+<h3>תחנות דלק סולר בקריית מלאכי</h3>
+<ul><li>דלק — קרית מלאכי</li><li>פז — ברורים</li><li>פז — צומת ראם</li><li>פז — קריית מלאכי</li></ul>
+<h3>תחנות דלק סולר בקריית עקרון</h3>
+<ul><li>דור אלון — קרית עקרון בילו סנטר עורקים</li><li>דלק — קרית עקרון</li><li>טן — עקרון</li><li>סונול — בילו רחובות</li><li>פז — קרית עקרון</li></ul>
+<h3>תחנות דלק סולר בקריית שמונה</h3>
+<ul><li>דלק — קרית שמונה</li><li>טן — קריית שמונה</li><li>סונול — קרית שמונה - גליל עליון</li><li>סונול — קרית שמונה מרכז צבי</li><li>פז — קרית שמונה</li></ul>
+<h3>תחנות דלק סולר בקרני שומרון</h3>
+<ul><li>דור אלון — קרני שומרון</li><li>פז — פנינת השומרון</li></ul>
+<h3>תחנות דלק סולר בראמה</h3>
+<ul><li>דלק — צומת ראמה</li></ul>
+<h3>תחנות דלק סולר בראש העין</h3>
+<ul><li>דור אלון — עינת</li><li>דור אלון — ראש העין</li><li>טן — ראש העין</li><li>סונול — אבן העזר</li></ul>
+<h3>תחנות דלק סולר בראש פינה</h3>
+<ul><li>דלק — ראש פינה</li><li>טן — ראש פינה</li><li>סונול — ראש פינה (כוכב הצפון)</li><li>פז — ראש פינה</li></ul>
+<h3>תחנות דלק סולר בראשון לציון</h3>
+<ul><li>דור אלון — צריפין</li><li>דור אלון — ראשל&quot;צ מזרח</li><li>דור אלון — ראשל&quot;צ משמר</li><li>דור אלון — ראשל&quot;צ שפירא</li><li>דלק — דקל הזהב</li><li>דלק — ימית (ראשל&quot;צ)</li><li>דלק — מבואות ראשון</li><li>דלק — שערי ראשון</li><li>טן — ראשון לציון</li><li>טן — ראשון מערב</li><li>טן — ראשון רחוב לזרוב</li><li>מיקה — אליאן</li><li>מיקה — מיקה יהונתן</li><li>מיקה — עומר</li><li>מיקה — פריימן</li><li>מיקה — ראשון</li><li>סונול — דנה</li><li>סונול — סונול ים-ראשון</li><li>סונול — עטרת</li><li>סונול — עמי</li><li>סונול — ראשון לציון (ברניצקי)</li><li>סונול — ראשון לציון האצ&quot;ל</li><li>סונול — ראשל&quot;צ - שלי</li><li>פז — אביאל (סופרלנד)</li><li>פז — גילי</li><li>פז — היונה</li><li>פז — מנחם</li><li>פז — מערב ראשון</li><li>פז — נחלת יהודה</li><li>פז — עוז ראשון לציון</li></ul>
+<h3>תחנות דלק סולר ברחובות</h3>
+<ul><li>דור אלון — רחובות פארק המדע</li><li>דלק — קרית משה</li><li>דלק — רחובות פרנס</li><li>דלק — שעריים</li><li>טן — רחובות</li><li>מיקה — רחובות</li><li>סונול — סונול מיקה רחובות</li><li>סונול — סתריה</li><li>סונול — רום רחובות</li><li>סונול — רחובות דרך יבנה</li><li>סונול — רחובות קרית המדע</li><li>פז — פז &quot;משה&quot;</li><li>פז — רמה רחובות</li></ul>
+<h3>תחנות דלק סולר בריינה</h3>
+<ul><li>דור אלון — מבואות נצרת</li><li>סונול — ריינה</li></ul>
+<h3>תחנות דלק סולר ברמלה</h3>
+<ul><li>דור אלון — נתב&quot;ג</li><li>דור אלון — רמלה דוכיפת</li><li>דלק — קפלן</li><li>דלק — רמלה פוליבה</li><li>דלק — רמלה קלאוזנר</li><li>טן — רמלה</li><li>טן — רמלה מרלוג</li><li>סונול — יינה רמלה</li><li>סונול — סונול הבנים</li><li>סונול — פרייס רמלה (העיר רמלה)</li><li>פז — בית מור</li><li>פז — עוקף רמלה</li><li>פז — קו אופ רמלה</li><li>פז — רמלה גדולה</li><li>פז — רמלה קטנה</li></ul>
+<h3>תחנות דלק סולר ברמת גן</h3>
+<ul><li>דור אלון — צומת מסובים</li><li>דור אלון — רמת גן אבא הלל</li><li>דלק — יזראמקס</li><li>דלק — תל השומר</li><li>סונול — מכבים</li><li>פז — עוז רמת גן</li><li>פז — עלית רמת גן</li><li>פז — רמה רמת גן</li></ul>
+<h3>תחנות דלק סולר ברמת השרון</h3>
+<ul><li>דור אלון — רמת השרון</li><li>דלק — רמת השרון</li><li>סונול — החוף</li><li>פז — טופז</li></ul>
+<h3>תחנות דלק סולר ברמת חובב</h3>
+<ul><li>פז — רמת חובב</li></ul>
+<h3>תחנות דלק סולר ברמת ישי</h3>
+<ul><li>דלק — רמת ישי</li><li>דלק — רמת ישי ביליה</li><li>סונול — רמת ישי</li></ul>
+<h3>תחנות דלק סולר ברמת נגב</h3>
+<ul><li>דלק — משאבים</li></ul>
+<h3>תחנות דלק סולר ברעננה</h3>
+<ul><li>דור אלון — רעננה רננים</li><li>דור אלון — רעננה רקפת</li><li>דלק — התמר</li><li>דלק — כפר בתיה</li><li>דלק — מעייני שמחה</li><li>סונול — הצור</li><li>פז — הנופר</li></ul>
+<h3>תחנות דלק סולר בשגב שלום</h3>
+<ul><li>דור אלון — שגב שלום</li></ul>
+<h3>תחנות דלק סולר בשדה בוקר</h3>
+<ul><li>דלק — שדה בוקר</li></ul>
+<h3>תחנות דלק סולר בשדות נגב</h3>
+<ul><li>סונול — שובה</li></ul>
+<h3>תחנות דלק סולר בשדרות</h3>
+<ul><li>דור אלון — גבים</li><li>דלק — ניר עם</li><li>דלק — תלמי הנגב</li><li>טן — שדרות</li><li>סונול — שדרות</li><li>פז — שדרות</li><li>תפוז — שדרות הרכבת</li></ul>
+<h3>תחנות דלק סולר בשורש</h3>
+<ul><li>פז — שואבה</li></ul>
+<h3>תחנות דלק סולר בשלומי</h3>
+<ul><li>דלק — גל שלומי</li></ul>
+<h3>תחנות דלק סולר בשער הנגב</h3>
+<ul><li>דלק — ברור חייל</li></ul>
+<h3>תחנות דלק סולר בשפיר</h3>
+<ul><li>דלק — עוזה</li></ul>
+<h3>תחנות דלק סולר בשפרעם</h3>
+<ul><li>דור אלון — שפרעם</li><li>דור אלון — שפרעם נאדר</li><li>סונול — צומת עדי</li><li>סונול — שפרעם</li><li>פז — שפרעם דרום</li><li>פז — שפרעם עיר</li></ul>
+<h3>תחנות דלק סולר בשרונים</h3>
+<ul><li>דור אלון — געש צומת ספרים</li><li>דור אלון — געש קוסמוס</li><li>דור אלון — יקום</li></ul>
+<h3>תחנות דלק סולר בתל אביב  יפו</h3>
+<ul><li>דור אלון — שונצינו דור-אלון</li><li>מיקה — עתידים</li><li>סונול — יגאל אלון</li></ul>
+<h3>תחנות דלק סולר בתל אביב יפו</h3>
+<ul><li>דור אלון — תל אביב דיזינגוף</li><li>דור אלון — תל אביב דרך נמיר</li><li>דור אלון — תל אביב דרך שלמה</li><li>דור אלון — תל אביב המסגר</li><li>דור אלון — תל אביב כיכר אתרים</li><li>דלק — גיבורי ישראל</li><li>דלק — פרבר</li><li>דלק — רוקח</li><li>דלק — רמת אביב</li><li>טן — זטלר</li><li>סונול — איילון</li><li>סונול — גני התערוכה</li><li>סונול — יפו המזרקה</li><li>סונול — יפו טלאל</li><li>סונול — מגדל סונול</li><li>סונול — מעיא</li><li>סונול — מרכזים</li><li>סונול — משגב</li><li>סונול — רחוב אילת, ת&quot;א</li><li>פז — אבו כביר</li><li>פז — גרוזנברג</li><li>פז — הירקון</li><li>פז — השלום</li><li>פז — התקווה</li><li>פז — זיו-און הטייסים</li><li>פז — טל הגשר</li><li>פז — ירמיהו</li><li>פז — נאות אביב</li><li>פז — נוה צדק</li><li>פז — סלמה</li><li>פז — פז גן</li><li>פז — פז ל&#x27;</li><li>פז — קיבוץ גלויות</li><li>פז — רשף ת&quot;א</li><li>פז — שדרות בן צבי</li></ul>
+<h3>תחנות דלק סולר בתל חנן</h3>
+<ul><li>סונול — תל-חנן</li></ul>
+<h3>תחנות דלק סולר בתל מונד</h3>
+<ul><li>דור אלון — תל מונד</li></ul>
+<h3>תחנות דלק סולר בתל שבע</h3>
+<ul><li>פז — תל שבע</li></ul>
+<h3>תחנות דלק סולר בתמר</h3>
+<ul><li>דלק — גל-צומת הערבה</li><li>דלק — נווה זוהר</li><li>סונול — עין בוקק</li></ul>
+<h3>תחנות דלק סולר בתמרה</h3>
+<ul><li>דלק — תמרה</li><li>סונול — מבואות תמרה</li><li>סונול — מפגש תמרה 70</li><li>פז — תמרה</li></ul>
+<h3>תחנות דלק סולר בתנובות</h3>
+<ul><li>פז — תנובות</li></ul>
+</noscript>
+<!-- seo-noscript:end -->
+
+<div class="tabs">
+  <div class="tab active" data-view="table">רשימה</div>
+  <div class="tab" data-view="map">מפה</div>
+</div>
+
+<div class="search-bar">
+  <div class="search-box">
+    <span class="search-icon">&#128269;</span>
+    <input type="text" id="searchInput" placeholder="חיפוש תחנה או עיר...">
+  </div>
+</div>
+
+<div class="brand-filters">
+  <button class="brand-btn active" data-brand="all">הכל</button>
+  <button class="brand-btn" data-brand="פז">פז</button>
+  <button class="brand-btn" data-brand="דורלון">דור אלון</button>
+  <button class="brand-btn" data-brand="דלק">דלק</button>
+  <button class="brand-btn" data-brand="סונול">סונול</button>
+  <button class="brand-btn" data-brand="מיקה">מיקה</button>
+  <button class="brand-btn" data-brand="תפוז">תפוז</button>
+  <button class="brand-btn" data-brand="טן">טן</button>
+  <button class="brand-btn" data-brand="אחר">אחר</button>
+</div>
+
+<div class="price-filter-bar" id="priceFilterBar">
+  <button class="price-filter-btn" id="priceFilterBtn" aria-pressed="false">הצג רק תחנות סולר עם מחיר מדווח</button>
+</div>
+
+<div id="tableView" class="content">
+  <div class="empty-state" id="locatePrompt">
+    <div>לחץ כדי לאתר תחנות קרובות</div>
+    <button class="locate-btn" id="locateBtn">אתר את מיקומי</button>
+    <div class="or-divider">או הזן עיר/כתובת</div>
+    <div class="manual-locate" id="manualLocate" style="display:block">
+      <input type="text" id="manualCity" placeholder="לדוגמה: תל אביב">
+      <br>
+      <button id="manualLocateBtn">חפש</button>
+    </div>
+    <div class="info-actions">
+      <div class="action-row">
+        <a class="check-btn" href="/95/">בנזין 95</a>
+        <a class="check-btn" href="/">בנזין 98</a>
+      </div>
+      <div class="action-row">
+        <a class="check-btn" href="/check/">איזה דלק הרכב צריך?</a>
+        <a class="faq-btn" href="/faq/">שאלות נפוצות</a>
+      </div>
+      <a class="report-btn" href="https://github.com/ddark-il/fuel98-israel/issues/new/choose" target="_blank" rel="noopener">דווח על טעות</a>
+    </div>
+    <a class="github-link" href="https://github.com/ddark-il/fuel98-israel" target="_blank" rel="noopener" title="קוד המקור ב-GitHub" aria-label="GitHub">
+      <svg viewBox="0 0 16 16" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    </a>
+  </div>
+</div>
+
+<div id="map"></div>
+
+<!-- Waze icon as inline SVG data URI -->
+<script>
+const WAZE_ICON_WHITE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M13.218 0C9.915 0 6.835 1.49 4.723 4.148c-1.515 1.913-2.31 4.272-2.31 6.706v1.739c0 .894-.62 1.738-1.862 1.813-.298.025-.547.224-.547.522-.05.82.82 2.31 2.012 3.502.82.844 1.788 1.515 2.832 2.036a3 3 0 0 0 2.955 3.528 2.966 2.966 0 0 0 2.931-2.385h2.509c.323 1.689 2.086 2.856 3.974 2.21 1.64-.546 2.36-2.409 1.763-3.924a12.84 12.84 0 0 0 1.838-1.465 10.73 10.73 0 0 0 3.18-7.65c0-2.882-1.118-5.589-3.155-7.625A10.899 10.899 0 0 0 13.218 0zm0 1.217c2.558 0 4.967.994 6.78 2.807a9.525 9.525 0 0 1 2.807 6.78A9.526 9.526 0 0 1 20 17.585a9.647 9.647 0 0 1-6.78 2.807h-2.46a3.008 3.008 0 0 0-2.93-2.41 3.03 3.03 0 0 0-2.534 1.367v.024a8.945 8.945 0 0 1-2.41-1.788c-.844-.844-1.316-1.614-1.515-2.11a2.858 2.858 0 0 0 1.441-.846 2.959 2.959 0 0 0 .795-2.036v-1.789c0-2.11.696-4.197 2.012-5.861 1.863-2.385 4.62-3.726 7.6-3.726zm-2.41 5.986a1.192 1.192 0 0 0-1.191 1.192 1.192 1.192 0 0 0 1.192 1.193A1.192 1.192 0 0 0 12 8.395a1.192 1.192 0 0 0-1.192-1.192zm7.204 0a1.192 1.192 0 0 0-1.192 1.192 1.192 1.192 0 0 0 1.192 1.193 1.192 1.192 0 0 0 1.192-1.193 1.192 1.192 0 0 0-1.192-1.192zm-7.377 4.769a.596.596 0 0 0-.546.845 4.813 4.813 0 0 0 4.346 2.757 4.77 4.77 0 0 0 4.347-2.757.596.596 0 0 0-.547-.845h-.025a.561.561 0 0 0-.521.348 3.59 3.59 0 0 1-3.254 2.061 3.591 3.591 0 0 1-3.254-2.061.64.64 0 0 0-.546-.348z"/></svg>');
+const WAZE_ICON_BLUE = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#1a1a2e"><path d="M13.218 0C9.915 0 6.835 1.49 4.723 4.148c-1.515 1.913-2.31 4.272-2.31 6.706v1.739c0 .894-.62 1.738-1.862 1.813-.298.025-.547.224-.547.522-.05.82.82 2.31 2.012 3.502.82.844 1.788 1.515 2.832 2.036a3 3 0 0 0 2.955 3.528 2.966 2.966 0 0 0 2.931-2.385h2.509c.323 1.689 2.086 2.856 3.974 2.21 1.64-.546 2.36-2.409 1.763-3.924a12.84 12.84 0 0 0 1.838-1.465 10.73 10.73 0 0 0 3.18-7.65c0-2.882-1.118-5.589-3.155-7.625A10.899 10.899 0 0 0 13.218 0zm0 1.217c2.558 0 4.967.994 6.78 2.807a9.525 9.525 0 0 1 2.807 6.78A9.526 9.526 0 0 1 20 17.585a9.647 9.647 0 0 1-6.78 2.807h-2.46a3.008 3.008 0 0 0-2.93-2.41 3.03 3.03 0 0 0-2.534 1.367v.024a8.945 8.945 0 0 1-2.41-1.788c-.844-.844-1.316-1.614-1.515-2.11a2.858 2.858 0 0 0 1.441-.846 2.959 2.959 0 0 0 .795-2.036v-1.789c0-2.11.696-4.197 2.012-5.861 1.863-2.385 4.62-3.726 7.6-3.726zm-2.41 5.986a1.192 1.192 0 0 0-1.191 1.192 1.192 1.192 0 0 0 1.192 1.193A1.192 1.192 0 0 0 12 8.395a1.192 1.192 0 0 0-1.192-1.192zm7.204 0a1.192 1.192 0 0 0-1.192 1.192 1.192 1.192 0 0 0 1.192 1.193 1.192 1.192 0 0 0 1.192-1.193 1.192 1.192 0 0 0-1.192-1.192zm-7.377 4.769a.596.596 0 0 0-.546.845 4.813 4.813 0 0 0 4.346 2.757 4.77 4.77 0 0 0 4.347-2.757.596.596 0 0 0-.547-.845h-.025a.561.561 0 0 0-.521.348 3.59 3.59 0 0 1-3.254 2.061 3.591 3.591 0 0 1-3.254-2.061.64.64 0 0 0-.546-.348z"/></svg>');
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+let stations = [];
+let flagged = new Map();   // "brand|name" -> Ministry substandard-fuel info
+let userLat = null, userLon = null;
+let currentView = 'table';
+let currentBrand = 'all';
+let pricedOnly = false;   // 10-nearest view: only stations with a reported price
+let map = null, markers = [], userMarker = null;
+
+// Remap brand names for display
+function displayBrand(brand) {
+  if (brand === 'דורלון') return 'דור אלון';
+  return brand;
+}
+
+function brandClass(brand) {
+  if (brand === 'דורלון') return 'דור-אלון';
+  return brand;
+}
+
+// Fuel-quality flag — stations on the Ministry of Energy substandard-fuel list
+function flagBadge(s) {
+  let out = '';
+  if (s.shabbat_closure) {
+    out += ' <span class="shabbat-flag" role="button" tabindex="0" aria-label="תחנה שומרת שבת"' +
+           ' onclick="toggleShabbatTip(event, this)">✡<span class="shabbat-tip" role="tooltip">' +
+           'תחנה שומרת שבת</span></span>';
+  }
+  const v = flagged.get(s.brand + '|' + s.name);
+  if (v) {
+    const fuel = v.fuelType || 'דלק';
+    const t = fuel + ' לא תקני' + (v.samplingDate ? ' — נדגם ' + v.samplingDate : '') +
+              ' · משרד האנרגיה';
+    out += ' <span class="fuel-flag" role="button" tabindex="0" aria-label="' + escAttr(t) + '"' +
+           ' onclick="toggleFuelTip(event, this)">⚠️' +
+           '<span class="fuel-tip" role="tooltip">' + t + '</span></span>';
+  }
+  return out;
+}
+
+// Networks whose forecourts are listed whether or not a diesel price has been reported. Everything
+// else ("אחר": independents, Yaad, Sadash) is listed only with a reported price - many of them are
+// diesel-only truck stops, so an unpriced one is not evidence of a diesel pump.
+var NETWORKS = { 'פז': 1, 'דורלון': 1, 'דלק': 1, 'סונול': 1, 'מיקה': 1, 'תפוז': 1, 'טן': 1 };
+// Diesel prices from the station rows: each row carries `priceDiesel` and `priceDiesel_reported`, and the
+// lookup keys are the venue id / pin, so a station resolves its own price without a distance join.
+// Pins are matched on 6 decimals so a float that stringifies differently ("31.986506" vs
+// "31.986506000000002") cannot silently detach a price from its station.
+var prices = {};
+// No file-level timestamp: every row carries its own report date. Kept as a null fallback so the
+// tooltip code below has one place to look.
+var pricesGenerated = null;
+// Pins are keyed at 6 decimals; the unrounded form is accepted too.
+function pinKeys(lat, lon) {
+  return ['pin:' + Number(lat).toFixed(6) + ',' + Number(lon).toFixed(6),
+          'pin:' + Number(lat) + ',' + Number(lon)];
+}
+function priceRecord(s) {
+  if (!s.coordinates) return null;
+  if (s.waze_id && prices[s.waze_id]) return prices[s.waze_id];
+  var keys = pinKeys(s.coordinates.lat, s.coordinates.lon);
+  for (var i = 0; i < keys.length; i++) if (prices[keys[i]]) return prices[keys[i]];
+  return null;
+}
+function priceOf(s) {
+  var rec = priceRecord(s);
+  if (!rec) return null;
+  var v = (rec['diesel'] != null) ? rec['diesel'] : (typeof rec === 'number' ? rec : null);
+  return (typeof v === 'number' && isFinite(v)) ? v : null;
+}
+// Per-station report time: Waze's epoch-ms timestamp, or Mika's ISO scrape/modified date.
+function fmtDate(iso) {
+  var d = new Date(iso);
+  if (isNaN(d.getTime())) return '';
+  var p = function(n) { return (n < 10 ? '0' : '') + n; };
+  return p(d.getDate()) + '.' + p(d.getMonth() + 1) + '.' + d.getFullYear();
+}
+function priceBubble(s) {
+  var p = priceOf(s);
+  if (p === null) return '';
+  var rec = priceRecord(s);
+  var when = (rec && (rec.reported_at || rec.updated)) || pricesGenerated || '';
+  var dm = fmtDate(when);
+  var tip = dm
+    ? '<span class="price-tip" role="tooltip">תאריך דיווח: ' + dm + '</span>'
+    : '';
+  return '<span class="price-bubble' + (tip ? ' has-tip' : '') + '"' +
+         (tip ? ' tabindex="0" role="button" aria-label="מחיר סולר — הצג תאריך דיווח"' : '') +
+         (tip ? ' onclick="togglePriceTip(event, this)"' : '') +
+         ' title="מחיר סולר אחרון שדווח (₪ לליטר)">' +
+         '<span class="cur">₪</span>' + p.toFixed(2) + tip + '</span>';
+}
+// Toggle the report-date tooltip; stopPropagation keeps a click inside a map popup from closing it.
+function toggleShabbatTip(e, el) {
+  if (e) e.stopPropagation();
+  var wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.shabbat-flag.open').forEach(function(b) { b.classList.remove('open'); });
+  if (!wasOpen) el.classList.add('open');
+}
+
+function toggleFuelTip(e, el) {
+  if (e) e.stopPropagation();
+  var wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.fuel-flag.open').forEach(function(b) { b.classList.remove('open'); });
+  if (!wasOpen) el.classList.add('open');
+}
+
+function togglePriceTip(e, el) {
+  if (e) e.stopPropagation();
+  var wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.price-bubble.open').forEach(function(b) { b.classList.remove('open'); });
+  if (!wasOpen) el.classList.add('open');
+}
+
+// Single source of truth: ci_update/stations.json (the automations rebuild it; prices and flags
+// live on each row, so there is no manifest / brand files / prices.json / violations.json join).
+fetch('../ci_update/stations.json')
+  .then(function(r) { return r.json(); })
+  .then(function(rows) {
+    stations = rows.filter(function(r) {
+      // A known network is listed even without a report; an independent ("אחר") only with one.
+      return (r.waze_id || r.google_id) && r.listed !== false &&
+             r.lattiude != null && r.longtitude != null &&
+             (NETWORKS[r.brand] || r.priceDiesel != null);
+    }).map(function(r) {
+      return {
+        brand: r.brand, name: r.station_name, ministry_id: r.ministry_id,
+        coordinates: { lat: r.lattiude, lon: r.longtitude },
+        waze_id: r.waze_id || null, google_id: r.google_id || null,
+        shabbat_closure: !!r.shabbat_closure, violation: !!r.violation,
+        price: r.priceDiesel, price_reported: r.priceDiesel_reported,
+        violation_fuel: r.violation_fuel, violation_sampling: r.violation_sampling
+      };
+    });
+    stations.forEach(function(s) {
+      if (s.price != null) {
+        // a price with no stored report date still gets a tooltip - the placeholder date keeps
+        // the "תאריך דיווח" bubble available for every price
+        var rec = { 'diesel': s.price, reported_at: s.price_reported || '2000-01-01T00:00:00Z' };
+        if (s.waze_id) prices[s.waze_id] = rec;
+        pinKeys(s.coordinates.lat, s.coordinates.lon).forEach(function(k) { prices[k] = rec; });
+      }
+      if (s.violation) {
+        flagged.set(s.brand + '|' + s.name, {
+          fuelType: s.violation_fuel || '', samplingDate: s.violation_sampling || ''
+        });
+      }
+    });
+    // Nothing loaded at all (a broken fetch / empty database): say so instead of leaving the
+    // locate prompt stuck on "מאתר..." when the local search finds nothing.
+    if (!stations.length) {
+      document.getElementById('tableView').innerHTML =
+        '<div class="empty-state"><div class="icon">&#8987;</div>' +
+        'לא נטענו תחנות — הנתונים מתעדכנים אוטומטית.</div>';
+      return;
+    }
+    buildCityIndex();
+    // honor a ?q= search term (shareable search links + JSON-LD SearchAction)
+    var q = new URLSearchParams(location.search).get('q');
+    if (q) { document.getElementById('searchInput').value = q; render(); }
+  });
+
+// requestLocation is handled inline in the locate button click handler
+// to ensure Safari iOS recognizes the user gesture context
+
+function showError(msg) {
+  const div = document.createElement('div');
+  div.className = 'error-popup';
+  div.innerHTML = `<span class="close-btn" onclick="this.parentElement.remove()">&#10005;</span><span>${msg}</span>`;
+  document.body.appendChild(div);
+  setTimeout(() => div.remove(), 6000);
+}
+
+function haversine(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+// City lookup for search — the city isn't in the station data, it lives only in
+// the <noscript> SEO block: <h3>תחנות דלק סולר ב{city}</h3><ul><li>{brand} — {name}</li>…
+var cityByKey = {};
+function buildCityIndex() {
+  var ns = document.querySelector('noscript');
+  if (!ns) return;
+  var doc = new DOMParser().parseFromString(ns.textContent, 'text/html');
+  var pfx = 'תחנות דלק סולר ב';
+  doc.querySelectorAll('h3').forEach(function(h3) {
+    var t = (h3.textContent || '').trim();
+    if (t.indexOf(pfx) !== 0) return;            // skip the "נוספות" (no-city) section
+    var city = t.slice(pfx.length);
+    var ul = h3.nextElementSibling;
+    if (!ul || ul.tagName !== 'UL') return;
+    ul.querySelectorAll('li').forEach(function(li) {
+      cityByKey[(li.textContent || '').trim()] = city;
+    });
+  });
+}
+
+function getFiltered() {
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+  let list = [...stations];
+  if (currentBrand !== 'all') list = list.filter(s => s.brand === currentBrand);
+  if (query) list = list.filter(s =>
+    s.name.toLowerCase().includes(query) ||
+    displayBrand(s.brand).toLowerCase().includes(query) ||
+    s.brand.toLowerCase().includes(query) ||
+    (cityByKey[displayBrand(s.brand) + ' — ' + s.name] || '').toLowerCase().includes(query)
+  );
+  if (pricedOnly) list = list.filter(s => s.price != null);
+  if (userLat !== null) {
+    list.forEach(s => { s._dist = haversine(userLat, userLon, s.coordinates.lat, s.coordinates.lon); });
+    list.sort((a, b) => a._dist - b._dist);
+  }
+  return list;
+}
+
+function formatDist(km) {
+  if (km < 1) return `${Math.round(km * 1000)} מ'`;
+  return `${km.toFixed(1)} ק"מ`;
+}
+
+// Navigation target: the Waze venue when we know its id — Waze then routes to its own entrance
+// and the link survives the venue being moved/redrawn. Without an id we navigate to our own
+// coordinate pin (a dropped pin), which is acceptable: the pin is venue-verified.
+function wazeUrl(s) {
+  const { lat, lon } = s.coordinates;
+  const ll = `ll=${lat},${lon}`;
+  return s.waze_id
+    ? `https://waze.com/ul?to=place.${encodeURIComponent(s.waze_id)}&${ll}&navigate=yes`
+    : `https://waze.com/ul?${ll}&navigate=yes`;
+}
+
+// GoatCounter events: one path per station so clicks can be counted per station. The path is the
+// event name and must not start with '/', hence the `diesel-` prefix; `waze_id` is unique, and the
+// coordinate pin is the fallback for the stations without a venue id.
+const escAttr = v => String(v).replace(/[&<>"']/g, c =>
+  ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+function wazeEventAttrs(s) {
+  const id = s.waze_id || `pin-${s.coordinates.lat}-${s.coordinates.lon}`;
+  return `data-goatcounter-click="diesel-${escAttr(id)}"` +
+         ` data-goatcounter-title="${escAttr(s.brand + ' ' + s.name)}"` +
+         ' data-goatcounter-no-session="1"';
+}
+function bindCounter() {
+  if (window.goatcounter && typeof goatcounter.bind_events === 'function') goatcounter.bind_events();
+}
+
+function render() {
+  const pbtn = document.getElementById('priceFilterBtn');
+  if (pbtn) {
+    pbtn.classList.toggle('active', pricedOnly);
+    pbtn.setAttribute('aria-pressed', pricedOnly ? 'true' : 'false');
+  }
+  const list = getFiltered();
+  if (currentView === 'table') renderTable(list);
+  if (currentView === 'map') renderMap(list);
+  bindCounter();
+}
+
+function renderTable(list) {
+  const shown = list.slice(0, userLat !== null ? 10 : list.length);
+  const container = document.getElementById('tableView');
+
+  if (shown.length === 0) {
+    const msg = pricedOnly ? 'לא נמצאו תחנות עם מחיר מדווח' : 'לא נמצאו תחנות';
+    container.innerHTML = '<div class="empty-state"><div class="icon">&#128531;</div>' + msg + '</div>';
+    return;
+  }
+
+  // Mobile cards
+  let cards = '';
+  shown.forEach((s, i) => {
+    const brand = displayBrand(s.brand);
+    cards += `
+    <div class="station-card">
+      <div class="station-rank">${i + 1}</div>
+      <div class="station-info">
+        <div class="station-name">${s.name}${flagBadge(s)}</div>
+        <div class="station-meta">
+          <span class="brand-tag brand-${brandClass(s.brand)}">${brand}</span>
+          ${s._dist != null ? `<span class="distance">${formatDist(s._dist)}</span>` : ''}
+        </div>
+      </div>
+      ${priceBubble(s) || '<span class="price-none">—</span>'}
+      <a class="waze-btn" href="${wazeUrl(s)}" target="_blank" title="נווט ב-Waze" ${wazeEventAttrs(s)}><img src="${WAZE_ICON_WHITE}" alt="Waze"></a>
+    </div>`;
+  });
+
+  // Desktop table
+  let table = `<table class="station-table">
+    <thead><tr>
+      <th>#</th><th>תחנה</th><th>חברה</th>
+      ${userLat !== null ? '<th>מרחק</th>' : ''}
+      <th>מחיר</th>
+      <th>ניווט</th>
+    </tr></thead><tbody>`;
+  shown.forEach((s, i) => {
+    const brand = displayBrand(s.brand);
+    table += `<tr>
+      <td>${i + 1}</td>
+      <td>${s.name}${flagBadge(s)}</td>
+      <td><span class="brand-tag brand-${brandClass(s.brand)}">${brand}</span></td>
+      ${userLat !== null ? `<td class="distance">${formatDist(s._dist)}</td>` : ''}
+      <td class="price-cell">${priceBubble(s) || '<span class="price-none">—</span>'}</td>
+      <td><a class="waze-link" href="${wazeUrl(s)}" target="_blank" ${wazeEventAttrs(s)}><img src="${WAZE_ICON_BLUE}" alt="Waze"> Waze</a></td>
+    </tr>`;
+  });
+  table += '</tbody></table>';
+
+  container.innerHTML = cards + table;
+}
+
+// Map
+const brandColors = {
+  'פז': '#f9a825', 'דורלון': '#2e7d32', 'סונול': '#d32f2f', 'מיקה': '#d500f9',
+  'דלק': '#1565c0', 'תפוז': '#ef6c00', 'טן': '#2b70b7', 'אחר': '#616161'
+};
+
+function renderMap(list) {
+  const mapEl = document.getElementById('map');
+  mapEl.style.display = 'block';
+  document.getElementById('tableView').style.display = 'none';
+
+  if (!map) {
+    const center = userLat !== null ? [userLat, userLon] : [31.8, 34.8];
+    map = L.map('map', { zoomControl: false }).setView(center, userLat !== null ? 12 : 8);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    if (userLat !== null) {
+      const arrowIcon = L.divIcon({
+        className: '',
+        html: `<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="15" fill="rgba(66,133,244,.15)" stroke="rgba(66,133,244,.3)" stroke-width="1"/>
+          <path d="M16 6 L22 22 L16 18 L10 22 Z" fill="#4285f4" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
+      });
+      userMarker = L.marker([userLat, userLon], { icon: arrowIcon, zIndexOffset: 1000 })
+        .addTo(map).bindPopup('המיקום שלך');
+    }
+  }
+
+  markers.forEach(m => map.removeLayer(m));
+  markers = [];
+
+  list.forEach(s => {
+    const color = brandColors[s.brand] || '#666';
+    const brand = displayBrand(s.brand);
+    const marker = L.circleMarker([s.coordinates.lat, s.coordinates.lon], {
+      radius: 8, fillColor: color, fillOpacity: .9, color: '#fff', weight: 2
+    }).addTo(map);
+
+    const distStr = s._dist ? `<br><span style="color:#888">${formatDist(s._dist)}</span>` : '';
+    marker.bindPopup(`
+      <div style="text-align:right;font-size:14px;min-width:140px">
+        <b>${s.name}${flagBadge(s)}</b><br>
+        <span style="display:flex;align-items:center;gap:6px;margin:4px 0;flex-wrap:wrap">
+          <span class="brand-tag brand-${brandClass(s.brand)}" style="display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px">${brand}</span>
+          ${priceBubble(s)}
+        </span>
+        ${distStr}
+        <br><a href="${wazeUrl(s)}" target="_blank" ${wazeEventAttrs(s)}
+          style="display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:6px 14px;background:#1a1a2e;color:#fff;border-radius:6px;text-decoration:none;font-size:13px">
+          <img src="${WAZE_ICON_WHITE}" width="16" height="16" alt=""> נווט ב-Waze</a>
+      </div>
+    `);
+    marker.on('popupopen', bindCounter);
+    markers.push(marker);
+  });
+
+  if (userLat !== null) {
+    map.setView([userLat, userLon], 13);
+  } else if (markers.length > 0) {
+    const group = L.featureGroup(markers);
+    map.fitBounds(group.getBounds().pad(0.1));
+  }
+
+  setTimeout(() => map.invalidateSize(), 100);
+}
+
+// Tabs
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentView = tab.dataset.view;
+    if (currentView === 'table') {
+      document.getElementById('map').style.display = 'none';
+      document.getElementById('tableView').style.display = 'block';
+    }
+    render();
+  });
+});
+
+// Brand filters
+document.querySelectorAll('.brand-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.brand-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentBrand = btn.dataset.brand;
+    render();
+  });
+});
+
+// 10-nearest view: show only stations that actually have a reported price.
+document.getElementById('priceFilterBtn').addEventListener('click', function() {
+  pricedOnly = !pricedOnly;
+  render();
+});
+
+// Search
+document.getElementById('searchInput').addEventListener('input', () => render());
+
+// Manual city/address locate — resolved from our own data, no geocoding service.
+// Cities come from the SEO block index (buildCityIndex); a match on station name or
+// brand works too. The location is the centroid of the matching stations, which is
+// exactly the area the user is about to see anyway.
+function centroidOf(list) {
+  var lat = 0, lon = 0;
+  list.forEach(function(s) { lat += s.coordinates.lat; lon += s.coordinates.lon; });
+  return [lat / list.length, lon / list.length];
+}
+function resolveLocally(q) {
+  var needle = q.toLowerCase();
+  var byCity = stations.filter(function(s) {
+    var c = cityByKey[displayBrand(s.brand) + ' — ' + s.name];
+    return c && c.toLowerCase().indexOf(needle) !== -1;
+  });
+  if (byCity.length) return centroidOf(byCity);
+  var byText = stations.filter(function(s) {
+    return s.name.toLowerCase().indexOf(needle) !== -1 ||
+           displayBrand(s.brand).toLowerCase().indexOf(needle) !== -1 ||
+           s.brand.toLowerCase().indexOf(needle) !== -1;
+  });
+  return byText.length ? centroidOf(byText) : null;
+}
+
+document.getElementById('manualLocateBtn').addEventListener('click', function() {
+  var city = document.getElementById('manualCity').value.trim();
+  if (!city) return;
+  var prompt = document.getElementById('locatePrompt');
+  if (prompt) prompt.innerHTML = '<div style="padding:24px 0;font-size:15px">מאתר...</div>';
+  var loc = resolveLocally(city);
+  if (loc) {
+    userLat = loc[0];
+    userLon = loc[1];
+    render();
+  } else {
+    showError('לא נמצאה כתובת');
+  }
+});
+
+document.getElementById('manualCity').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') document.getElementById('manualLocateBtn').click();
+});
+
+// Locate button (GPS)
+document.getElementById('locateBtn').addEventListener('click', function() {
+  var prompt = document.getElementById('locatePrompt');
+  if (prompt) prompt.innerHTML = '<div style="padding:24px 0;font-size:15px">מאתר את מיקומך...</div>';
+
+  if (!navigator.geolocation) {
+    showError('הדפדפן לא תומך בשירותי מיקום');
+    render();
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    function(pos) {
+      userLat = pos.coords.latitude;
+      userLon = pos.coords.longitude;
+      render();
+    },
+    function(err) {
+      if (err.code === 1) {
+        showError('לא ניתנה הרשאת מיקום — הזן עיר או כתובת');
+      } else {
+        showError('לא ניתן לאתר מיקום — הזן עיר או כתובת');
+      }
+      render();
+    },
+    { enableHighAccuracy: false, timeout: 30000, maximumAge: 60000 }
+  );
+});
+
+// Close the price / Shabbat tooltips on an outside click; keyboard users toggle with Enter/Space.
+document.addEventListener('click', function() {
+  document.querySelectorAll('.price-bubble.open').forEach(function(b) { b.classList.remove('open'); });
+  document.querySelectorAll('.shabbat-flag.open').forEach(function(b) { b.classList.remove('open'); });
+  document.querySelectorAll('.fuel-flag.open').forEach(function(b) { b.classList.remove('open'); });
+});
+document.addEventListener('keydown', function(e) {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList &&
+      e.target.classList.contains('price-bubble')) {
+    e.preventDefault();
+    togglePriceTip(e, e.target);
+  }
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList &&
+      e.target.classList.contains('shabbat-flag')) {
+    e.preventDefault();
+    toggleShabbatTip(e, e.target);
+  }
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList &&
+      e.target.classList.contains('fuel-flag')) {
+    e.preventDefault();
+    toggleFuelTip(e, e.target);
+  }
+});
+</script>
+<script data-goatcounter="https://ddark-il.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

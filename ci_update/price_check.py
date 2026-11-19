@@ -442,6 +442,8 @@ class PriceChecker:
                'products': {}, 'prices': {}, 'price98': None, 'price98_id': None,
                'price98_label': None, 'price98_updated': None, 'price98_by': None,
                'price95': None, 'price95_id': None, 'price95_updated': None, 'price95_by': None,
+               'priceDiesel': None, 'priceDiesel_id': None, 'priceDiesel_updated': None,
+               'priceDiesel_by': None,
                'updated': None, 'updated_by': None}
         # A Waze-native id (venues.*) is a venue in its own right: ask for it directly. The
         # search returns the Google-backed view for these sites, and pairing a foreign result id
@@ -483,6 +485,12 @@ class PriceChecker:
                 upd95 = entry95['last_updated'] or 0
                 row.update({'price95': entry95['price'], 'price95_id': pid95,
                             'price95_updated': upd95, 'price95_by': entry95['updated_by']})
+            pidD, entryD = wp.best_diesel(prods)
+            if pidD:
+                updD = entryD['last_updated'] or 0
+                row.update({'priceDiesel': entryD['price'], 'priceDiesel_id': pidD,
+                            'priceDiesel_updated': updD,
+                            'priceDiesel_by': entryD['updated_by']})
             row['updated'] = max((v['last_updated'] or 0 for v in prods.values()), default=None)
             row['updated_by'] = next((v['updated_by'] for v in prods.values() if v['updated_by']),
                                      None)

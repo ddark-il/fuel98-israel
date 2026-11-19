@@ -5,6 +5,7 @@ Both pages are the same app over ci_update/stations.json, so both blocks come fr
 deterministic pass: the 98 page keeps the 98 sellers (`got98`); the 95 page keeps every
 station whose venue is identified (`waze_id` or `google_id`) — Ten included — but the
 "אחר" bucket only with a reported 95 price (independents are often diesel-only truck stops).
+The diesel page uses the same venue rule with `priceDiesel`.
 
 City of each station comes from the **Ministry of Energy's own station registry**
 (data.gov.il "gas-station"): every public station carries WGS84 coordinates and its
@@ -126,6 +127,7 @@ def load_stations():
         return [{"brand": r["brand"], "name": r["station_name"],
                  "coordinates": {"lat": r["lattiude"], "lon": r["longtitude"]},
                  "got98": r.get("got98") is True, "price95": r.get("price95"),
+                 "priceDiesel": r.get("priceDiesel"),
                  "venue": bool(r.get("waze_id") or r.get("google_id")),
                  "listed": r.get("listed") is not False}
                 for r in rows if r.get("lattiude") is not None and r.get("longtitude") is not None]
@@ -134,7 +136,8 @@ def load_stations():
         if f.name in SKIP:
             continue
         for r in json.loads(f.read_text(encoding="utf-8")):
-            r.update({"got98": True, "price95": None, "venue": True, "listed": True})
+            r.update({"got98": True, "price95": None, "priceDiesel": None, "venue": True,
+                      "listed": True})
             out.append(r)
     return out
 
@@ -148,11 +151,16 @@ PAGES = (
      "intro": "רשימת תחנות הדלק בישראל, מסודרות לפי עיר וחברה, עם מחיר בנזין 95 (אוקטן 95) בכל תחנה שדווח בה מחיר.",
      "pick": lambda r: (r["venue"] and r["listed"]
                         and (r["brand"] in NETWORK_BRANDS or r["price95"] is not None))},
+    {"num": "סולר", "path": ROOT / "diesel" / "index.html",
+     "h2": "תחנות דלק סולר (דיזל) בישראל — לפי עיר",
+     "intro": "רשימת תחנות הדלק בישראל, מסודרות לפי עיר וחברה, עם מחיר סולר (דיזל) בכל תחנה שדווח בה מחיר.",
+     "pick": lambda r: (r["venue"] and r["listed"]
+                        and (r["brand"] in NETWORK_BRANDS or r["priceDiesel"] is not None))},
 )
 
-def build_block(by_city, no_city, num, intro):
+def build_block(by_city, no_city, num, intro, h2=None):
     p = ["<noscript>",
-         f"<h2>תחנות דלק {num} (בנזין {num}) בישראל — לפי עיר</h2>",
+         h2 or f"<h2>תחנות דלק {num} (בנזין {num}) בישראל — לפי עיר</h2>",
          f"<p>{intro}</p>"]
     for city in sorted(by_city):
         p.append(f"<h3>תחנות דלק {num} ב{html.escape(city)}</h3>")
@@ -190,7 +198,8 @@ def main():
             (by_city[city] if city else no_city).append(entry)
             print(f"[{page['num']} {i}/{len(picked)}] {s['name']} -> {city or '(no city)'}",
                   flush=True)
-        write_page(page["path"], build_block(by_city, no_city, page["num"], page["intro"]))
+        write_page(page["path"],
+                   build_block(by_city, no_city, page["num"], page["intro"], page.get("h2")))
         print(f"\n{page['path'].relative_to(ROOT)}: {len(picked)} stations, "
               f"{len(by_city)} cities ({len(no_city)} without city)")
     print("\nDONE")
