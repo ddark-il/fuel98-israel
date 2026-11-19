@@ -120,8 +120,8 @@ body {
 }
 .brand-btn:active { transform: scale(.95); }
 .brand-btn.active { border-color: #e94560; background: #fef0f3; color: #e94560; font-weight: 600; }
-/* Filter the list - 10 nearest or the full list - to stations with a reported price. */
-.price-filter-bar { display: block; padding: 8px 16px 10px; background: #fff; }
+/* Hidden only on the initial locate prompt; any rendered list shows it. */
+.price-filter-bar { display: none; padding: 8px 16px 10px; background: #fff; }
 .price-filter-btn {
   padding: 7px 16px; border: 2px solid #ddd; border-radius: 20px;
   background: #fff; cursor: pointer; font-size: 13px; transition: all .2s;
@@ -1243,6 +1243,8 @@ function bindCounter() {
 }
 
 function render() {
+  const bar = document.getElementById('priceFilterBar');
+  if (bar) bar.style.display = 'block';
   const pbtn = document.getElementById('priceFilterBtn');
   if (pbtn) {
     pbtn.classList.toggle('active', pricedOnly);
