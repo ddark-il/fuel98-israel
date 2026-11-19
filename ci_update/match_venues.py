@@ -158,11 +158,14 @@ def choose(cands, brand, official_rec, station_name):
     for v in cands:
         if not v.get('venue_id'):
             continue
-        if not (has_alias(v.get('brand'), aliases) or has_alias(v.get('name'), aliases)):
+        if re.search(r'charge|charging|טעינה|\bev\b|עמדת',
+                     f"{v.get('name')} {v.get('brand')}", re.I):
+            continue                       # an EV charger is not the fuel venue
+        vname = str(v.get('name') or '')
+        if any(has_alias(vname, [o]) for o in others) and not has_alias(vname, aliases):
+            continue                       # the venue's name is another network's station
+        if not (has_alias(v.get('brand'), aliases) or has_alias(vname, aliases)):
             continue                       # the venue must name this brand
-        if any(has_alias(v.get('brand'), [o]) or has_alias(v.get('name'), [o]) for o in others) \
-                and not (has_alias(v.get('brand'), aliases) or has_alias(v.get('name'), aliases)):
-            continue                       # ... and not a different network
         if v['dist'] > MAX_DIST:
             continue
         a_score, a_tokens, a_nums = addr_score((official_rec or {}).get('address', ''), v)
@@ -172,6 +175,22 @@ def choose(cands, brand, official_rec, station_name):
         return None
     scored.sort(key=lambda t: (-t[1], -t[4], t[0]['dist']))
     return scored[0]
+
+
+def current_ok(mapping_row, brand):
+    """The current venue is already this brand, not an EV charger, and close: leave it alone.
+
+    A pass that re-picks every station would also "improve" a good venue (Paz אשקelon דוד,
+    32 m) into a generic same-brand venue 118 m away. Only a missing/other-brand/EV/remote
+    venue is worth re-matching.
+    """
+    m = mapping_row or {}
+    name = str(m.get('venue_name') or '')
+    if not m.get('matched') or not name:
+        return False
+    if re.search(r'charge|charging|טעינה|\bev\b|עמדת', name, re.I):
+        return False
+    return has_alias(name, BRANDS[brand]['aliases'])
 
 
 def suspect(mapping_row, station):
@@ -194,6 +213,7 @@ def main():
     ap.add_argument('--brand', required=True, choices=sorted(BRANDS))
     ap.add_argument('--apply', action='store_true', help='write the mapping and stations.json')
     ap.add_argument('--suspect-only', action='store_true', help='only rows with a missing/other-brand venue')
+    ap.add_argument('--recheck-ok', action='store_true', help='also re-pick venues that already look right')
     ap.add_argument('--limit', type=int, default=0)
     ap.add_argument('--licences', default='', help='comma-separated licence numbers')
     ap.add_argument('--sleep', type=float, default=0.15)
@@ -215,6 +235,8 @@ def main():
             continue
         st = rows[lic]
         if a.suspect_only and not suspect(mapping.get(lic) or {}, st):
+            continue
+        if not a.recheck_ok and current_ok(mapping.get(lic) or {}, a.brand):
             continue
         todo.append((lic, pin, st))
     if a.licences:
