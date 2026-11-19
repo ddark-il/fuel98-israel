@@ -352,6 +352,7 @@ def main() -> int:
     mk_path = os.path.join(HERE, 'mika_matches.json')
     if os.path.exists(mk_path):
         mika = json.load(open(mk_path, encoding='utf-8'))
+    mika_unavailable = not mika        # the list endpoint was blocked / wrote no matches
     google_resolve = {}
     gr_path = os.path.join(HERE, 'google_resolve.json')
     if os.path.exists(gr_path):
@@ -521,7 +522,11 @@ def main() -> int:
         mk = mika.get(lic) or {}
         # a Mika page that did not load (bot block, 503) is not "Mika has no price": carry the
         # previous row's values instead of wiping the station's price and 98 flag
-        mk_blocked = bool(mk) and mk.get('loaded') is False
+        # A blocked/absent Mika source is not "no 98": carry the previous row for the station.
+        # (A Mika station is only a 98 station when Mika publishes a price, so without this the
+        # whole Mika network drops off the 98 page on a 503.)
+        mk_blocked = ((bool(mk) and mk.get('loaded') is False)
+                      or (mika_unavailable and brand == 'מיקה'))
         if mk_blocked:
             mk = {}
         if mk:

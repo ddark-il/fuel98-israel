@@ -21,6 +21,7 @@ import json
 import os
 import re
 import sys
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -55,8 +56,25 @@ def hav(a, b, c, d):
 
 
 def main() -> int:
-    st, body, _ = mp.fetch(LIST_API)
-    stations = json.loads(body) if st == 200 else []
+    # The list endpoint intermittently answers 503; treating that as "0 stations" wipes every
+    # Mika 98 station from the database (2026-11-19), so retry with a backoff and, if it still
+    # fails, exit as a soft block without overwriting mika_matches.json.
+    stations, st = [], 0
+    for delay in (0, 5, 30, 90, 180):
+        if delay:
+            time.sleep(delay)
+        st, body, _ = mp.fetch(LIST_API)
+        if st == 200:
+            try:
+                stations = json.loads(body)
+            except Exception:                                     # noqa: BLE001
+                stations = []
+        if stations:
+            break
+    if not stations:
+        print(f'Mika station list unavailable (HTTP {st}) - leaving the previous matches',
+              flush=True)
+        return 4
     print(f'{len(stations)} Mika stations', flush=True)
     st, allpage, _ = mp.fetch(ALL_PAGE)
     # slug -> brand logo from the card that links to it
@@ -84,7 +102,9 @@ def main() -> int:
         status, page, _ = mp.fetch(link)
         rec['http_status'] = status
         rec['fetched_at'] = datetime.now(timezone.utc).isoformat()
-        if status == 200:
+        blocked = status == 200 and ('just a moment' in page[:2000].lower()
+                                     or 'imunify' in page[:2000].lower())
+        if status == 200 and not blocked:
             rec['loaded'] = True
             prices = mp.parse_prices(page)
             rec['price98'] = (prices.get('98') or {}).get('price')
@@ -102,7 +122,8 @@ def main() -> int:
                 except Exception:                                     # noqa: BLE001
                     pass
         else:
-            # page not loading: no price, not 98
+            # page not loading (or a bot challenge): no price, not 98; build_stations carries
+            # the previous row for this licence instead of treating it as a real removal
             rec['price98'] = None
             rec['price95'] = None
             rec['priceDiesel'] = None
