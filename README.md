@@ -74,6 +74,7 @@ ci_update/                 # everything the hourly pipeline needs, in one folder
   build_stations.py        # Ministry registry + brand lists + matches -> stations.json
   build_seo.py             # regenerates the <noscript> city blocks on both pages
   price_check_all.py       # Waze's reported 98 and self-service 95 prices per venue
+  match_venues.py          # re-match a station to its Waze venue from the brand's own pin/address
   mika_update.py           # Mika pages: prices, 98 flag, brand logo, Shabbat hours
   paz_update.py … ten_update.py   # one updater per brand site
   fetch_official.js / fetch_ten.py # the brand-locator fetch (Playwright/Python)
