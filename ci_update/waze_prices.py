@@ -90,6 +90,18 @@ def best_95(products: dict) -> tuple[str | None, dict | None]:
     return None, None
 
 
+# Diesel: gas_diesel is the standard grade, gas_diesel_service the attended one. The diesel page
+# uses the standard grade, the same like-for-like choice as the self-service 95 figure.
+FUEL_DIESEL_ID = 'gas_diesel'
+
+
+def best_diesel(products: dict) -> tuple[str | None, dict | None]:
+    """(id, entry) for the standard diesel price, or (None, None)."""
+    if products and FUEL_DIESEL_ID in products:
+        return FUEL_DIESEL_ID, products[FUEL_DIESEL_ID]
+    return None, None
+
+
 def coord(lat: float, lon: float) -> bytes:
     return P.pb_int(101, int(lon * 1e6)) + P.pb_int(102, int(lat * 1e6))
 

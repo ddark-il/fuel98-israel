@@ -1,0 +1,16 @@
+{
+  "name": "תחנות דלק סולר",
+  "short_name": "סולר",
+  "description": "מאתר תחנות דלק עם סולר (דיזל) בכל הארץ — כל התחנות המוכרות, מחיר סולר בכל תחנה שדווח בה מחיר",
+  "lang": "he",
+  "dir": "rtl",
+  "start_url": "/diesel/",
+  "scope": "/diesel/",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#1a1a2e",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

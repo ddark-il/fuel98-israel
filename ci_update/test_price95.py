@@ -45,5 +45,34 @@ class Mika95(unittest.TestCase):
         self.assertEqual(prices['95_service']['price'], 7.75)
 
 
+class WazeDiesel(unittest.TestCase):
+    def test_picks_the_standard_grade(self):
+        prods = {'gas_diesel': {'price': 7.10, 'last_updated': 1, 'updated_by': 'a'},
+                 'gas_diesel_service': {'price': 7.40, 'last_updated': 2, 'updated_by': 'b'}}
+        pid, entry = wp.best_diesel(prods)
+        self.assertEqual(pid, 'gas_diesel')
+        self.assertEqual(entry['price'], 7.10)
+
+    def test_serviced_only_has_no_diesel(self):
+        self.assertEqual(wp.best_diesel({'gas_diesel_service': {'price': 7.40}}), (None, None))
+
+    def test_no_products(self):
+        self.assertEqual(wp.best_diesel({}), (None, None))
+
+
+class MikaDiesel(unittest.TestCase):
+    def test_plain_diesel_is_standard(self):
+        html = ('<li><span class="sub-title">סולר</span>'
+                '<span class="value">7.10 ₪</span></li>')
+        self.assertEqual(mp.parse_prices(html)['diesel']['price'], 7.10)
+
+    def test_serviced_diesel_is_not_price_diesel(self):
+        html = ('<li><span class="sub-title">סולר שרות</span>'
+                '<span class="value">7.40 ₪</span></li>')
+        prices = mp.parse_prices(html)
+        self.assertNotIn('diesel', prices)
+        self.assertEqual(prices['diesel_service']['price'], 7.40)
+
+
 if __name__ == '__main__':
     unittest.main()

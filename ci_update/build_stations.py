@@ -3,7 +3,8 @@
 
 Fields (exactly as requested):
     ministry_id, brand, longtitude, lattiude, got98, waze_id, price, price_reported,
-    price95, price95_reported, updated_at, shabbat_closure, violation
+    price95, price95_reported, priceDiesel, priceDiesel_reported, updated_at,
+    shabbat_closure, violation
 
 Sources (all local):
   * fuel98-israel/price-ci/registry_cache.json   - the 1,253 Ministry rows
@@ -195,6 +196,7 @@ def apply_tapuz(rows):
             used.add(cand['ministry_id'])
         else:
             rec = {k: None for k in ('price', 'price_reported', 'price95', 'price95_reported',
+                                     'priceDiesel', 'priceDiesel_reported',
                                      'violation_fuel', 'violation_sampling')}
             rec.update({
                 'ministry_id': 'tapuz:' + re.sub(r'\s+', '-', name),
@@ -292,6 +294,7 @@ def main() -> int:
     prev_meta = {}
     prev_prices = {}
     prev_prices95 = {}
+    prev_pricesDiesel = {}
     prev_doc = os.path.join(HERE, 'stations.json')
     if os.path.exists(prev_doc):
         try:
@@ -304,9 +307,13 @@ def main() -> int:
                 if x.get('price95') is not None:
                     prev_prices95[str(x['ministry_id'])] = (
                         x['price95'], x.get('price95_reported'))
+                if x.get('priceDiesel') is not None:
+                    prev_pricesDiesel[str(x['ministry_id'])] = (
+                        x['priceDiesel'], x.get('priceDiesel_reported'))
         except Exception:                                         # noqa: BLE001
             prev_prices = {}
             prev_prices95 = {}
+            prev_pricesDiesel = {}
     site_prices = {}
     price_map = {}
     pc_path = os.path.join(HERE, 'price_check.jsonl')
@@ -387,8 +394,8 @@ def main() -> int:
     now = datetime.now(timezone.utc).isoformat()
 
     out = []
-    stats = {'linked': 0, 'got98': 0, 'priced': 0, 'priced95': 0, 'shabbat': 0, 'viol': 0,
-             'waze': 0}
+    stats = {'linked': 0, 'got98': 0, 'priced': 0, 'priced95': 0, 'pricedDiesel': 0,
+             'shabbat': 0, 'viol': 0, 'waze': 0}
     hit_id_owner = {}
     for r in rows:
         lic = str(r.get('licence'))
@@ -561,6 +568,7 @@ def main() -> int:
         waze = price_map.get(lic) or {}
         waze98 = waze.get('price98')
         waze95 = waze.get('price95')
+        wazeDiesel = waze.get('priceDiesel')
         if brand == 'טן':
             got98 = False
         elif brand == 'פז' and pz:
@@ -622,6 +630,21 @@ def main() -> int:
             prev95 = prev_prices95.get(lic)
             if prev95:
                 price95_out, price95_rep = prev95
+        # Diesel: same rules as 95 - Mika's own price first, then Waze's gas_diesel, then the
+        # previous database. It is independent of got98.
+        if mk.get('priceDiesel') is not None:
+            priceDiesel_out = mk.get('priceDiesel')
+            priceDiesel_rep = mk.get('modified') or mk.get('fetched_at')
+        elif wazeDiesel is not None:
+            priceDiesel_out = wazeDiesel
+            priceDiesel_rep = waze.get('priceDiesel_updated')
+        else:
+            priceDiesel_out = None
+            priceDiesel_rep = None
+        if priceDiesel_out is None:
+            prevD = prev_pricesDiesel.get(lic)
+            if prevD:
+                priceDiesel_out, priceDiesel_rep = prevD
         # other (non-network) stations: a carried price is enough - got98 follows the price
         is_other = brand not in ('פז', 'סונול', 'דורלון', 'דלק', 'מיקה', 'תפוז', 'טן')
         if is_other:
@@ -662,6 +685,8 @@ def main() -> int:
             'price_reported': price_rep_out,
             'price95': price95_out,
             'price95_reported': price95_rep,
+            'priceDiesel': priceDiesel_out,
+            'priceDiesel_reported': priceDiesel_rep,
             'updated_at': now,
             'shabbat_closure': (shabbat_set if shabbat_set is not None
                                 else (closed if (linked or on_98_list) else False)),
@@ -674,6 +699,7 @@ def main() -> int:
         stats['got98'] += got98
         stats['priced'] += row['price'] is not None
         stats['priced95'] += row['price95'] is not None
+        stats['pricedDiesel'] += row['priceDiesel'] is not None
         stats['shabbat'] += row['shabbat_closure']
         stats['viol'] += row['violation']
         stats['waze'] += bool(venue_id)
@@ -685,7 +711,8 @@ def main() -> int:
     print('  linked to our data:', stats['linked'], '| with a waze_id:', stats['waze'])
     print('  got98:', sum(1 for r in out if r['got98']),
           '| with a price:', sum(1 for r in out if r['price'] is not None),
-          '| with a 95 price:', sum(1 for r in out if r['price95'] is not None))
+          '| with a 95 price:', sum(1 for r in out if r['price95'] is not None),
+          '| with a diesel price:', sum(1 for r in out if r['priceDiesel'] is not None))
     print('  shabbat_closure:', sum(1 for r in out if r['shabbat_closure']),
           '| violation:', sum(1 for r in out if r['violation']))
     return 0

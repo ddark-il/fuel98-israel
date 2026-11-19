@@ -7,11 +7,12 @@ For every station page (from the WordPress API):
   * shabbat    - `activity-hours` term 16 ("שומרת שבת") or the page text says so
   * price98    - parsed from the page's fuel list; missing / page not loading -> none
   * price95    - the operator's self-service 95 price from the same list (בנזין 95)
+  * priceDiesel- the operator's standard diesel price from the same list (סולר)
   * coords     - from the page's map link (resolved/cached)
 
 Then matches each page to a database row by coordinates (<= 250 m) and writes
-ci_update/mika_matches.json {ministry_id: {brand, price98, price95, got98, shabbat_closure,
-slug}}.
+ci_update/mika_matches.json {ministry_id: {brand, price98, price95, priceDiesel, got98,
+shabbat_closure, slug}}.
 build_stations.py applies: brand, price, price95, got98 (page has a 98 price), shabbat_closure.
 """
 from __future__ import annotations
@@ -76,7 +77,8 @@ def main() -> int:
         link = f'https://mika.org.il/station/{slug}'
         title = _html.unescape(re.sub(r'<[^>]+>', '', (s.get('title') or {}).get('rendered', '')).strip())
         rec = {'slug': slug, 'title': title, 'brand': cards.get(slug) or mp.page_brand(title),
-               'price98': None, 'price95': None, 'shabbat_closure': False, 'loaded': False,
+               'price98': None, 'price95': None, 'priceDiesel': None,
+               'shabbat_closure': False, 'loaded': False,
                'http_status': None, 'lat': None, 'lon': None,
                'modified': s.get('modified'), 'fetched_at': None}
         status, page, _ = mp.fetch(link)
@@ -89,6 +91,7 @@ def main() -> int:
             # Mika's plain "בנזין 95" is the self-service grade (the serviced one is parsed as
             # 95_service), so this is the like-for-like pair with Waze's gas_regularself.
             rec['price95'] = (prices.get('95') or {}).get('price')
+            rec['priceDiesel'] = (prices.get('diesel') or {}).get('price')
             hours_ids = s.get('activity-hours') or []
             rec['shabbat_closure'] = (16 in hours_ids) or ('שומרת שבת' in page)
             mm = mp.MAP_RE.search(page)
@@ -102,6 +105,7 @@ def main() -> int:
             # page not loading: no price, not 98
             rec['price98'] = None
             rec['price95'] = None
+            rec['priceDiesel'] = None
             rec['shabbat_closure'] = False
         out.append(rec)
         if i % 10 == 0 or i == len(stations):
@@ -172,7 +176,7 @@ def main() -> int:
         matches[str(r['ministry_id'])] = {
             'slug': rec['slug'], 'brand': rec['brand'],
             'price98': rec['price98'], 'got98': rec['price98'] is not None,
-            'price95': rec['price95'],
+            'price95': rec['price95'], 'priceDiesel': rec['priceDiesel'],
             'shabbat_closure': rec['shabbat_closure'],
             'loaded': rec.get('loaded'), 'http_status': rec.get('http_status'),
             'modified': rec.get('modified'), 'fetched_at': rec.get('fetched_at'),
