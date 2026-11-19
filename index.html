@@ -120,6 +120,14 @@ body {
 }
 .brand-btn:active { transform: scale(.95); }
 .brand-btn.active { border-color: #e94560; background: #fef0f3; color: #e94560; font-weight: 600; }
+/* Shown only in the 10-nearest ("find my location") view: hide stations with no reported price. */
+.price-filter-bar { display: none; padding: 8px 16px 10px; background: #fff; }
+.price-filter-btn {
+  padding: 7px 16px; border: 2px solid #ddd; border-radius: 20px;
+  background: #fff; cursor: pointer; font-size: 13px; transition: all .2s;
+}
+.price-filter-btn:active { transform: scale(.97); }
+.price-filter-btn.active { border-color: #e94560; background: #fef0f3; color: #e94560; font-weight: 600; }
 
 /* ─── Card List (mobile-first) ─── */
 .content { padding: 12px; max-width: 700px; margin: 0 auto; }
@@ -640,6 +648,10 @@ body {
   <button class="brand-btn" data-brand="אחר">אחר</button>
 </div>
 
+<div class="price-filter-bar" id="priceFilterBar">
+  <button class="price-filter-btn" id="priceFilterBtn" aria-pressed="false">הצג רק תחנות עם מחיר מדווח</button>
+</div>
+
 <div id="tableView" class="content">
   <div class="empty-state" id="locatePrompt">
     <div>לחץ כדי לאתר תחנות קרובות</div>
@@ -677,6 +689,7 @@ let flagged = new Map();   // "brand|name" -> Ministry substandard-fuel info
 let userLat = null, userLon = null;
 let currentView = 'table';
 let currentBrand = 'all';
+let pricedOnly = false;   // 10-nearest view: only stations with a reported price
 let map = null, markers = [], userMarker = null;
 
 // Remap brand names for display
@@ -868,6 +881,7 @@ function getFiltered() {
     s.brand.toLowerCase().includes(query) ||
     (cityByKey[displayBrand(s.brand) + ' — ' + s.name] || '').toLowerCase().includes(query)
   );
+  if (pricedOnly) list = list.filter(s => s.price != null);
   if (userLat !== null) {
     list.forEach(s => { s._dist = haversine(userLat, userLon, s.coordinates.lat, s.coordinates.lon); });
     list.sort((a, b) => a._dist - b._dist);
@@ -907,6 +921,14 @@ function bindCounter() {
 }
 
 function render() {
+  // The price filter only makes sense in the 10-nearest view.
+  const bar = document.getElementById('priceFilterBar');
+  if (bar) bar.style.display = userLat !== null ? 'block' : 'none';
+  const pbtn = document.getElementById('priceFilterBtn');
+  if (pbtn) {
+    pbtn.classList.toggle('active', pricedOnly);
+    pbtn.setAttribute('aria-pressed', pricedOnly ? 'true' : 'false');
+  }
   const list = getFiltered();
   if (currentView === 'table') renderTable(list);
   if (currentView === 'map') renderMap(list);
@@ -918,7 +940,9 @@ function renderTable(list) {
   const container = document.getElementById('tableView');
 
   if (shown.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="icon">&#128531;</div>לא נמצאו תחנות</div>';
+    const msg = (pricedOnly && userLat !== null)
+      ? 'לא נמצאו תחנות עם מחיר מדווח בקרבתך' : 'לא נמצאו תחנות';
+    container.innerHTML = '<div class="empty-state"><div class="icon">&#128531;</div>' + msg + '</div>';
     return;
   }
 
@@ -1059,6 +1083,12 @@ document.querySelectorAll('.brand-btn').forEach(btn => {
     currentBrand = btn.dataset.brand;
     render();
   });
+});
+
+// 10-nearest view: show only stations that actually have a reported price.
+document.getElementById('priceFilterBtn').addEventListener('click', function() {
+  pricedOnly = !pricedOnly;
+  render();
 });
 
 // Search
