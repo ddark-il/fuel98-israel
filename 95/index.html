@@ -120,6 +120,17 @@ body {
 }
 .brand-btn:active { transform: scale(.95); }
 .brand-btn.active { border-color: #e94560; background: #fef0f3; color: #e94560; font-weight: 600; }
+/* Shown only in the 10-nearest ("find my location") view: hide stations with no reported price. */
+.price-filter-bar { display: none; padding: 8px 16px 10px; background: #fff; }
+.price-filter-btn {
+  padding: 7px 16px; border: 2px solid #ddd; border-radius: 20px;
+  background: #fff; cursor: pointer; font-size: 13px; transition: all .2s;
+}
+.price-filter-btn:active { transform: scale(.97); }
+.price-filter-btn.active { border-color: #e94560; background: #fef0f3; color: #e94560; font-weight: 600; }
+@media (max-width: 767px) {
+  .price-filter-bar { text-align: center; }
+}
 
 /* ─── Card List (mobile-first) ─── */
 .content { padding: 12px; max-width: 700px; margin: 0 auto; }
@@ -156,7 +167,20 @@ body {
 .brand-תפוז { background: #fff3e0; color: #ef6c00; }
 .brand-טן { background: #e8f2fb; color: #2b70b7; box-shadow: inset 0 0 0 1px #c6dcf1; }
 .brand-אחר { background: #f5f5f5; color: #616161; }
-.fuel-flag { cursor: help; font-size: 13px; }
+.fuel-flag { cursor: pointer; font-size: 13px; position: relative; -webkit-tap-highlight-color: transparent; }
+.fuel-flag .fuel-tip {
+  display: none; position: absolute; bottom: calc(100% + 7px); left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e; color: #fff; font-size: 11px; font-weight: 500; line-height: 1.35;
+  padding: 5px 9px; border-radius: 6px; width: max-content; max-width: min(260px, 78vw);
+  text-align: center; direction: rtl; unicode-bidi: isolate;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25); pointer-events: none; z-index: 700;
+}
+.fuel-flag .fuel-tip::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 4px solid transparent; border-top-color: #1a1a2e;
+}
+.fuel-flag.open .fuel-tip { display: block; }
 .shabbat-flag { cursor: pointer; font-size: 13px; position: relative; -webkit-tap-highlight-color: transparent; }
 .shabbat-flag .shabbat-tip {
   display: none; position: absolute; bottom: calc(100% + 6px); left: 50%;
@@ -517,7 +541,7 @@ body {
 <h3>תחנות דלק 95 ביהוד</h3>
 <ul><li>דור אלון — יהוד</li><li>דלק — יהוד</li><li>טן — יהוד</li><li>פז — יהוד</li></ul>
 <h3>תחנות דלק 95 ביואב</h3>
-<ul><li>דלק — בית גוברין</li><li>דלק — מסמיה</li></ul>
+<ul><li>אחר — ראם</li><li>דלק — בית גוברין</li><li>דלק — מסמיה</li></ul>
 <h3>תחנות דלק 95 ביובלים</h3>
 <ul><li>דור אלון — צומת יובלים</li></ul>
 <h3>תחנות דלק 95 ביוקנעם</h3>
@@ -529,7 +553,7 @@ body {
 <h3>תחנות דלק 95 בירוחם</h3>
 <ul><li>סונול — ירוחם</li></ul>
 <h3>תחנות דלק 95 בירושלים</h3>
-<ul><li>דור אלון — ירושלים גינות סחרוב</li><li>דור אלון — ירושלים הבירה</li><li>דור אלון — ירושלים עטרות</li><li>דור אלון — ירושלים קדמה</li><li>דור אלון — ירושלים רמת רחל</li><li>דור אלון — ירושלים תלפיות</li><li>דלק — גבעה צרפתית</li><li>דלק — הסדנא</li><li>דלק — הר תמיר</li><li>דלק — מצפה אורנים</li><li>דלק — נווה יעקב (ירושלים)</li><li>דלק — ניות</li><li>דלק — עיר שלם</li><li>דלק — צומת אורה</li><li>דלק — תלפיות מזרח</li><li>טן — ירושלים</li><li>טן — עטרות</li><li>סונול — גן הפעמון</li><li>סונול — הר נוף</li><li>סונול — סונול מלחה</li><li>סונול — סמדר</li><li>סונול — רמות אלון</li><li>סונול — שייח ג&#x27;ראח</li><li>סונול — שער דרום - ירושלים</li><li>סונול — תלפיות</li><li>פז — אלנבי</li><li>פז — בית חנינה</li><li>פז — בקעה</li><li>פז — בר-כוכבא</li><li>פז — גבעת שאול</li><li>פז — גילה</li><li>פז — דרך המנהרות</li><li>פז — המלך דוד</li><li>פז — העשור</li><li>פז — כנפי נשרים</li><li>פז — מאה שערים</li><li>פז — מנדלבאום</li><li>פז — פסגת זאב</li><li>פז — קרית מנחם</li><li>פז — רוקפלר</li><li>פז — רמות</li><li>פז — רמות אשכול</li><li>פז — תחנת מוזיאון ירושלים</li><li>פז — תלפיות</li></ul>
+<ul><li>דור אלון — ירושלים גינות סחרוב</li><li>דור אלון — ירושלים הבירה</li><li>דור אלון — ירושלים עטרות</li><li>דור אלון — ירושלים קדמה</li><li>דור אלון — ירושלים רמת רחל</li><li>דור אלון — ירושלים תלפיות</li><li>דלק — גבעה צרפתית</li><li>דלק — הסדנא</li><li>דלק — הר תמיר</li><li>דלק — מצפה אורנים</li><li>דלק — נווה יעקב (ירושלים)</li><li>דלק — ניות</li><li>דלק — עיר שלם</li><li>דלק — צומת אורה</li><li>דלק — תלפיות מזרח</li><li>טן — ירושלים</li><li>טן — עטרות</li><li>סונול — גן הפעמון</li><li>סונול — הר נוף</li><li>סונול — סונול מלחה</li><li>סונול — סמדר</li><li>סונול — רמות אלון</li><li>סונול — שייח ג&#x27;ראח</li><li>סונול — שער דרום - ירושלים</li><li>סונול — תלפיות</li><li>פז — אלנבי</li><li>פז — בית חנינה</li><li>פז — בקעה</li><li>פז — בר-כוכבא</li><li>פז — גבעת שאול</li><li>פז — גילה</li><li>פז — דרך המנהרות</li><li>פז — המלך דוד</li><li>פז — העשור</li><li>פז — כנפי נשרים</li><li>פז — מאה שערים</li><li>פז — מנדלבאום</li><li>פז — נווה יעקב</li><li>פז — פסגת זאב</li><li>פז — קרית מנחם</li><li>פז — רוקפלר</li><li>פז — רמות</li><li>פז — רמות אשכול</li><li>פז — תחנת מוזיאון ירושלים</li><li>פז — תלפיות</li></ul>
 <h3>תחנות דלק 95 בירכא</h3>
 <ul><li>דור אלון — ירכא</li><li>סונול — ירכא</li><li>פז — ירכא</li></ul>
 <h3>תחנות דלק 95 בכאוכב</h3>
@@ -619,7 +643,7 @@ body {
 <h3>תחנות דלק 95 במועצה אזורית גזר</h3>
 <ul><li>דור אלון — נען מזרח (מדרום לצפון)</li><li>דור אלון — נען מערב(מצפון לדרום)</li></ul>
 <h3>תחנות דלק 95 במועצה אזורית גלבוע</h3>
-<ul><li>דור אלון — בית השיטה</li><li>דור אלון — גני חוגה</li><li>דור אלון — יזרעאל</li><li>דלק — ביכורה (שדי תרומות)</li><li>דלק — ניר דוד</li><li>דלק — שדה נחום</li><li>סונול — בית אלפא</li><li>סונול — עין חרוד גלבוע</li><li>סונול — שדי תרומות</li></ul>
+<ul><li>דור אלון — בית השיטה</li><li>דור אלון — גני חוגה</li><li>דור אלון — יזרעאל</li><li>דלק — ביכורה (שדי תרומות)</li><li>דלק — גן נר</li><li>דלק — ניר דוד</li><li>דלק — שדה נחום</li><li>סונול — בית אלפא</li><li>סונול — עין חרוד גלבוע</li><li>סונול — שדי תרומות</li></ul>
 <h3>תחנות דלק 95 במועצה אזורית גליל תחתון</h3>
 <ul><li>דור אלון — בית קשת</li></ul>
 <h3>תחנות דלק 95 במועצה אזורית הגלבוע</h3>
@@ -723,7 +747,7 @@ body {
 <h3>תחנות דלק 95 בניר יפה</h3>
 <ul><li>פז — תענכים</li></ul>
 <h3>תחנות דלק 95 בנס ציונה</h3>
-<ul><li>דור אלון — נס ציונה</li><li>דלק — נס ציונה</li><li>סונול — פאואר סנטר נס ציונה</li></ul>
+<ul><li>אחר — יעד יובל נס ציונה</li><li>דור אלון — נס ציונה</li><li>דלק — נס ציונה</li><li>סונול — פאואר סנטר נס ציונה</li></ul>
 <h3>תחנות דלק 95 בנצרת</h3>
 <ul><li>דלק — רמזי</li><li>סונול — נצרת - מבואות</li><li>פז — מבואות נצרת</li></ul>
 <h3>תחנות דלק 95 בנשר</h3>
@@ -758,6 +782,8 @@ body {
 <ul><li>פז — עין חצבה</li></ul>
 <h3>תחנות דלק 95 בעין יהב</h3>
 <ul><li>דלק — עין יהב</li></ul>
+<h3>תחנות דלק 95 בעירון - ואדי ערה</h3>
+<ul><li>אחר — דלק זלפה</li></ul>
 <h3>תחנות דלק 95 בעכו</h3>
 <ul><li>דור אלון — עכו</li><li>דלק — ארגמן (עכו)</li><li>דלק — גל-עכו גלי חוף</li><li>דלק — נווה ספיר</li><li>סונול — עכו</li><li>פז — עכו עיר</li><li>פז — עכו צפון</li></ul>
 <h3>תחנות דלק 95 בעלי</h3>
@@ -819,7 +845,7 @@ body {
 <h3>תחנות דלק 95 בקריית ביאליק</h3>
 <ul><li>טן — קריית ביאליק</li><li>מיקה — מיקה קריית ביאליק</li><li>סונול — קריון</li><li>פז — ק. ביאליק</li></ul>
 <h3>תחנות דלק 95 בקריית גת</h3>
-<ul><li>דור אלון — קרית גת</li><li>דור אלון — קרית גת הבנים</li><li>דלק — קרית גת</li><li>טן — קריית גת</li><li>סונול — סונול יענקלה</li><li>סונול — פלוגות</li><li>פז — קריית גת</li></ul>
+<ul><li>אחר — אורות קריית גת</li><li>דור אלון — קרית גת</li><li>דור אלון — קרית גת הבנים</li><li>דלק — קרית גת</li><li>טן — קריית גת</li><li>סונול — סונול יענקלה</li><li>סונול — פלוגות</li><li>פז — קריית גת</li></ul>
 <h3>תחנות דלק 95 בקריית חיים</h3>
 <ul><li>פז — הדגן ק.חיים</li></ul>
 <h3>תחנות דלק 95 בקריית טבעון</h3>
@@ -835,11 +861,11 @@ body {
 <h3>תחנות דלק 95 בקריית שמונה</h3>
 <ul><li>דלק — קרית שמונה</li><li>טן — קריית שמונה</li><li>סונול — קרית שמונה - גליל עליון</li><li>סונול — קרית שמונה מרכז צבי</li><li>פז — קרית שמונה</li></ul>
 <h3>תחנות דלק 95 בקרני שומרון</h3>
-<ul><li>פז — פנינת השומרון</li></ul>
+<ul><li>דור אלון — קרני שומרון</li><li>פז — פנינת השומרון</li></ul>
 <h3>תחנות דלק 95 בראמה</h3>
 <ul><li>דלק — צומת ראמה</li></ul>
 <h3>תחנות דלק 95 בראש העין</h3>
-<ul><li>דור אלון — עינת</li><li>טן — ראש העין</li><li>סונול — אבן העזר</li></ul>
+<ul><li>דור אלון — עינת</li><li>דור אלון — ראש העין</li><li>טן — ראש העין</li><li>סונול — אבן העזר</li></ul>
 <h3>תחנות דלק 95 בראש פינה</h3>
 <ul><li>דלק — ראש פינה</li><li>טן — ראש פינה</li><li>סונול — ראש פינה (כוכב הצפון)</li><li>פז — ראש פינה</li></ul>
 <h3>תחנות דלק 95 בראשון לציון</h3>
@@ -861,11 +887,13 @@ body {
 <h3>תחנות דלק 95 ברמת נגב</h3>
 <ul><li>דלק — משאבים</li></ul>
 <h3>תחנות דלק 95 ברעננה</h3>
-<ul><li>דור אלון — רעננה רננים</li><li>דור אלון — רעננה רקפת</li><li>דלק — התמר</li><li>דלק — כפר בתיה</li><li>דלק — מעייני שמחה</li><li>סונול — הצור</li><li>פז — הנופר</li></ul>
+<ul><li>אחר — תחנת דלק היצירה בע&quot;מ (יעד)</li><li>דור אלון — רעננה רננים</li><li>דור אלון — רעננה רקפת</li><li>דלק — התמר</li><li>דלק — כפר בתיה</li><li>דלק — מעייני שמחה</li><li>סונול — הצור</li><li>פז — הנופר</li></ul>
 <h3>תחנות דלק 95 בשגב שלום</h3>
 <ul><li>דור אלון — שגב שלום</li></ul>
 <h3>תחנות דלק 95 בשדה בוקר</h3>
 <ul><li>דלק — שדה בוקר</li></ul>
+<h3>תחנות דלק 95 בשדות דן</h3>
+<ul><li>אחר — רשת תאומים</li></ul>
 <h3>תחנות דלק 95 בשדות נגב</h3>
 <ul><li>סונול — שובה</li></ul>
 <h3>תחנות דלק 95 בשדרות</h3>
@@ -881,7 +909,7 @@ body {
 <h3>תחנות דלק 95 בשפרעם</h3>
 <ul><li>דור אלון — שפרעם</li><li>דור אלון — שפרעם נאדר</li><li>סונול — צומת עדי</li><li>סונול — שפרעם</li><li>פז — שפרעם דרום</li><li>פז — שפרעם עיר</li></ul>
 <h3>תחנות דלק 95 בשרונים</h3>
-<ul><li>דור אלון — יקום</li></ul>
+<ul><li>דור אלון — געש צומת ספרים</li><li>דור אלון — געש קוסמוס</li><li>דור אלון — יקום</li></ul>
 <h3>תחנות דלק 95 בתל אביב  יפו</h3>
 <ul><li>דור אלון — שונצינו דור-אלון</li><li>מיקה — עתידים</li><li>סונול — יגאל אלון</li></ul>
 <h3>תחנות דלק 95 בתל אביב יפו</h3>
@@ -889,7 +917,7 @@ body {
 <h3>תחנות דלק 95 בתל חנן</h3>
 <ul><li>סונול — תל-חנן</li></ul>
 <h3>תחנות דלק 95 בתל מונד</h3>
-<ul><li>דור אלון — תל מונד</li></ul>
+<ul><li>אחר — תל מונד</li><li>דור אלון — תל מונד</li></ul>
 <h3>תחנות דלק 95 בתל שבע</h3>
 <ul><li>פז — תל שבע</li></ul>
 <h3>תחנות דלק 95 בתמר</h3>
@@ -925,6 +953,10 @@ body {
   <button class="brand-btn" data-brand="אחר">אחר</button>
 </div>
 
+<div class="price-filter-bar" id="priceFilterBar">
+  <button class="price-filter-btn" id="priceFilterBtn" aria-pressed="false">הצג רק תחנות עם מחיר מדווח</button>
+</div>
+
 <div id="tableView" class="content">
   <div class="empty-state" id="locatePrompt">
     <div>לחץ כדי לאתר תחנות קרובות</div>
@@ -937,8 +969,10 @@ body {
     </div>
     <div class="info-actions">
       <div class="action-row">
-        <a class="check-btn" href="/check/">איזה דלק הרכב צריך?</a>
         <a class="check-btn" href="/">בנזין 98</a>
+      </div>
+      <div class="action-row">
+        <a class="check-btn" href="/check/">איזה דלק הרכב צריך?</a>
         <a class="faq-btn" href="/faq/">שאלות נפוצות</a>
       </div>
       <a class="report-btn" href="https://github.com/ddark-il/fuel98-israel/issues/new/choose" target="_blank" rel="noopener">דווח על טעות</a>
@@ -963,6 +997,7 @@ let flagged = new Map();   // "brand|name" -> Ministry substandard-fuel info
 let userLat = null, userLon = null;
 let currentView = 'table';
 let currentBrand = 'all';
+let pricedOnly = false;   // 10-nearest view: only stations with a reported price
 let map = null, markers = [], userMarker = null;
 
 // Remap brand names for display
@@ -986,8 +1021,12 @@ function flagBadge(s) {
   }
   const v = flagged.get(s.brand + '|' + s.name);
   if (v) {
-    const t = 'דווח על דלק לא תקני (' + v.fuelType + ') — נדגם ' + v.samplingDate + ' · משרד האנרגיה';
-    out += ' <span class="fuel-flag" title="' + t + '">⚠️</span>';
+    const fuel = v.fuelType || 'דלק';
+    const t = fuel + ' לא תקני' + (v.samplingDate ? ' — נדגם ' + v.samplingDate : '') +
+              ' · משרד האנרגיה';
+    out += ' <span class="fuel-flag" role="button" tabindex="0" aria-label="' + escAttr(t) + '"' +
+           ' onclick="toggleFuelTip(event, this)">⚠️' +
+           '<span class="fuel-tip" role="tooltip">' + t + '</span></span>';
   }
   return out;
 }
@@ -1049,6 +1088,13 @@ function toggleShabbatTip(e, el) {
   if (e) e.stopPropagation();
   var wasOpen = el.classList.contains('open');
   document.querySelectorAll('.shabbat-flag.open').forEach(function(b) { b.classList.remove('open'); });
+  if (!wasOpen) el.classList.add('open');
+}
+
+function toggleFuelTip(e, el) {
+  if (e) e.stopPropagation();
+  var wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.fuel-flag.open').forEach(function(b) { b.classList.remove('open'); });
   if (!wasOpen) el.classList.add('open');
 }
 
@@ -1156,6 +1202,7 @@ function getFiltered() {
     s.brand.toLowerCase().includes(query) ||
     (cityByKey[displayBrand(s.brand) + ' — ' + s.name] || '').toLowerCase().includes(query)
   );
+  if (pricedOnly) list = list.filter(s => s.price != null);
   if (userLat !== null) {
     list.forEach(s => { s._dist = haversine(userLat, userLon, s.coordinates.lat, s.coordinates.lon); });
     list.sort((a, b) => a._dist - b._dist);
@@ -1195,6 +1242,14 @@ function bindCounter() {
 }
 
 function render() {
+  // The price filter only makes sense in the 10-nearest view.
+  const bar = document.getElementById('priceFilterBar');
+  if (bar) bar.style.display = userLat !== null ? 'block' : 'none';
+  const pbtn = document.getElementById('priceFilterBtn');
+  if (pbtn) {
+    pbtn.classList.toggle('active', pricedOnly);
+    pbtn.setAttribute('aria-pressed', pricedOnly ? 'true' : 'false');
+  }
   const list = getFiltered();
   if (currentView === 'table') renderTable(list);
   if (currentView === 'map') renderMap(list);
@@ -1206,7 +1261,9 @@ function renderTable(list) {
   const container = document.getElementById('tableView');
 
   if (shown.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="icon">&#128531;</div>לא נמצאו תחנות</div>';
+    const msg = (pricedOnly && userLat !== null)
+      ? 'לא נמצאו תחנות עם מחיר מדווח בקרבתך' : 'לא נמצאו תחנות';
+    container.innerHTML = '<div class="empty-state"><div class="icon">&#128531;</div>' + msg + '</div>';
     return;
   }
 
@@ -1349,6 +1406,12 @@ document.querySelectorAll('.brand-btn').forEach(btn => {
   });
 });
 
+// 10-nearest view: show only stations that actually have a reported price.
+document.getElementById('priceFilterBtn').addEventListener('click', function() {
+  pricedOnly = !pricedOnly;
+  render();
+});
+
 // Search
 document.getElementById('searchInput').addEventListener('input', () => render());
 
@@ -1428,6 +1491,7 @@ document.getElementById('locateBtn').addEventListener('click', function() {
 document.addEventListener('click', function() {
   document.querySelectorAll('.price-bubble.open').forEach(function(b) { b.classList.remove('open'); });
   document.querySelectorAll('.shabbat-flag.open').forEach(function(b) { b.classList.remove('open'); });
+  document.querySelectorAll('.fuel-flag.open').forEach(function(b) { b.classList.remove('open'); });
 });
 document.addEventListener('keydown', function(e) {
   if ((e.key === 'Enter' || e.key === ' ') && e.target.classList &&
@@ -1439,6 +1503,11 @@ document.addEventListener('keydown', function(e) {
       e.target.classList.contains('shabbat-flag')) {
     e.preventDefault();
     toggleShabbatTip(e, e.target);
+  }
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList &&
+      e.target.classList.contains('fuel-flag')) {
+    e.preventDefault();
+    toggleFuelTip(e, e.target);
   }
 });
 </script>
