@@ -409,17 +409,30 @@ jobs:
         run: |
           git config user.name  'price-check[bot]'
           git config user.email '107122576+price-check-bot@users.noreply.github.com'
+          python3 ci_update/normalize_stations.py
           git add ci_update/stations.json ci_update/violations.json index.html 95/index.html diesel/index.html
           if git diff --cached --quiet; then echo 'nothing changed'; exit 0; fi
           MSG="data: refresh the stations database [skip ci]"
           BODY="$(python3 -c "import json;d=json.load(open('ci_update/stations.json'));print(f\"{len(d)} stations, {sum(1 for r in d if r['got98'])} sell 98, {sum(1 for r in d if r['price'] is not None)} priced, {sum(1 for r in d if r.get('price95') is not None)} with 95, {sum(1 for r in d if r['shabbat_closure'])} Shabbat-closed\")")"
           git commit -m "$MSG" -m "$BODY"
+          # A concurrent run's data commit can be merged line-by-line and pair got98 from one
+          # version with price from the other (בל - זנוח, 2026-11-19). Re-apply the invariant
+          # after every pull/merge, before pushing.
+          normalise() {
+            python3 ci_update/normalize_stations.py
+            if ! git diff --quiet -- ci_update/stations.json; then
+              git add ci_update/stations.json
+              git commit -m "data: keep the 98 flag and price consistent [skip ci]"
+            fi
+          }
           for attempt in 1 2 3; do
             if git pull --rebase --autostash origin main 2>/dev/null; then
+              normalise
               if git push 2>/dev/null; then exit 0; fi
             else
               git rebase --abort 2>/dev/null || true
               if git merge --no-edit -X ours origin/main 2>/dev/null; then
+                normalise
                 if git push 2>/dev/null; then exit 0; fi
               else
                 git merge --abort 2>/dev/null || true
