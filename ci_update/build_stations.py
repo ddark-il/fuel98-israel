@@ -353,6 +353,9 @@ def main() -> int:
     idf_licences = set()
     if os.path.exists(idf_path):
         idf_licences = {str(x) for x in json.load(open(idf_path, encoding='utf-8')).get('licences', [])}
+    sonol_idf_path = os.path.join(HERE, 'idf_sonol.json')
+    if os.path.exists(sonol_idf_path):
+        idf_licences |= {str(x) for x in json.load(open(sonol_idf_path, encoding='utf-8')).get('licences', [])}
     mk_path = os.path.join(HERE, 'mika_matches.json')
     if os.path.exists(mk_path):
         mika = json.load(open(mk_path, encoding='utf-8'))

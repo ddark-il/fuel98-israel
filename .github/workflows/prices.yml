@@ -313,6 +313,9 @@ jobs:
           print(f'registry rows: {len(rows)}')
           PY
 
+      - name: Refresh the Sonol IDF list
+        run: python3 ci_update/sonol_idf.py
+
       - name: Build the station database
         run: python3 ci_update/build_stations.py
 
@@ -396,6 +399,9 @@ jobs:
           print(f'registry rows: {len(rows)}')
           PY
 
+      - name: Refresh the Sonol IDF list
+        run: python3 ci_update/sonol_idf.py
+
       # rebuild with this run's prices folded in
       - name: Build ci_update/stations.json (the site database)
         continue-on-error: true
@@ -410,7 +416,7 @@ jobs:
           git config user.name  'price-check[bot]'
           git config user.email '107122576+price-check-bot@users.noreply.github.com'
           python3 ci_update/normalize_stations.py
-          git add ci_update/stations.json ci_update/violations.json index.html 95/index.html diesel/index.html
+          git add ci_update/stations.json ci_update/idf_sonol.json ci_update/violations.json index.html 95/index.html diesel/index.html
           if git diff --cached --quiet; then echo 'nothing changed'; exit 0; fi
           MSG="data: refresh the stations database [skip ci]"
           BODY="$(python3 -c "import json;d=json.load(open('ci_update/stations.json'));print(f\"{len(d)} stations, {sum(1 for r in d if r['got98'])} sell 98, {sum(1 for r in d if r['price'] is not None)} priced, {sum(1 for r in d if r.get('price95') is not None)} with 95, {sum(1 for r in d if r['shabbat_closure'])} Shabbat-closed\")")"

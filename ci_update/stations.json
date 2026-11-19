@@ -1428,7 +1428,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "1308",
@@ -1582,7 +1582,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "1527",
@@ -4867,7 +4867,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "1912",
@@ -8036,7 +8036,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2080",
@@ -9074,7 +9074,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2132",
@@ -9317,7 +9317,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2145",
@@ -9405,7 +9405,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2149",
@@ -9493,7 +9493,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2153",
@@ -9515,7 +9515,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2154",
@@ -9647,7 +9647,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2160",
@@ -10329,7 +10329,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2193",
@@ -10594,7 +10594,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2206",
@@ -10924,7 +10924,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": true
+  "idf": false
  },
  {
   "ministry_id": "2221",
@@ -10990,7 +10990,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2225",
@@ -11078,7 +11078,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2230",
@@ -11782,7 +11782,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2265",
@@ -11804,7 +11804,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2266",
@@ -11914,7 +11914,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2272",
@@ -12024,7 +12024,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2278",
@@ -12486,7 +12486,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": true
+  "idf": false
  },
  {
   "ministry_id": "2304",
@@ -12684,7 +12684,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2314",
@@ -12882,7 +12882,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2325",
@@ -13014,7 +13014,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2331",
@@ -13080,7 +13080,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2334",
@@ -14137,7 +14137,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2389",
@@ -14292,7 +14292,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2396",
@@ -16719,7 +16719,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2516",
@@ -17557,7 +17557,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2560",
@@ -18043,7 +18043,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": true
+  "idf": false
  },
  {
   "ministry_id": "2585",
@@ -18131,7 +18131,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2595",
@@ -19014,7 +19014,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2651",
@@ -21688,7 +21688,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2796",
@@ -22439,7 +22439,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "2834",
@@ -25642,7 +25642,7 @@
   "violation_fuel": null,
   "violation_sampling": null,
   "listed": false,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "3002",
@@ -25796,7 +25796,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "3010",
@@ -26127,7 +26127,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "3029",
@@ -27272,7 +27272,7 @@
   "violation": false,
   "violation_fuel": null,
   "violation_sampling": null,
-  "idf": false
+  "idf": true
  },
  {
   "ministry_id": "3097",
