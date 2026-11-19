@@ -120,7 +120,7 @@ body {
 }
 .brand-btn:active { transform: scale(.95); }
 .brand-btn.active { border-color: #e94560; background: #fef0f3; color: #e94560; font-weight: 600; }
-/* On the main page the bar appears once a brand is picked, not on the landing prompt. */
+/* On the main page the bar is hidden only on the initial locate prompt; any list shows it. */
 .price-filter-bar { display: none; padding: 8px 16px 10px; background: #fff; }
 .price-filter-btn {
   padding: 7px 16px; border: 2px solid #ddd; border-radius: 20px;
@@ -687,7 +687,6 @@ let userLat = null, userLon = null;
 let currentView = 'table';
 let currentBrand = 'all';
 let pricedOnly = false;   // show only stations with a reported price
-let brandPicked = false;  // the price-filter bar appears after a brand/all click
 let map = null, markers = [], userMarker = null;
 
 // Remap brand names for display
@@ -920,7 +919,7 @@ function bindCounter() {
 
 function render() {
   const bar = document.getElementById('priceFilterBar');
-  if (bar) bar.style.display = brandPicked ? 'block' : 'none';
+  if (bar) bar.style.display = 'block';
   const pbtn = document.getElementById('priceFilterBtn');
   if (pbtn) {
     pbtn.classList.toggle('active', pricedOnly);
@@ -1077,7 +1076,6 @@ document.querySelectorAll('.brand-btn').forEach(btn => {
     document.querySelectorAll('.brand-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentBrand = btn.dataset.brand;
-    brandPicked = true;
     render();
   });
 });
