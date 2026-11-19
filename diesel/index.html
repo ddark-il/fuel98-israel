@@ -120,7 +120,7 @@ body {
 }
 .brand-btn:active { transform: scale(.95); }
 .brand-btn.active { border-color: #e94560; background: #fef0f3; color: #e94560; font-weight: 600; }
-/* Shown only in the 10-nearest ("find my location") view: hide stations with no reported price. */
+/* Hidden only on the initial locate prompt; any rendered list shows it. */
 .price-filter-bar { display: none; padding: 8px 16px 10px; background: #fff; }
 .price-filter-btn {
   padding: 7px 16px; border: 2px solid #ddd; border-radius: 20px;
@@ -946,7 +946,7 @@ body {
 </div>
 
 <div class="price-filter-bar" id="priceFilterBar">
-  <button class="price-filter-btn" id="priceFilterBtn" aria-pressed="false">הצג רק תחנות עם מחיר מדווח</button>
+  <button class="price-filter-btn" id="priceFilterBtn" aria-pressed="false">הצג רק תחנות סולר עם מחיר מדווח</button>
 </div>
 
 <div id="tableView" class="content">
@@ -1235,9 +1235,8 @@ function bindCounter() {
 }
 
 function render() {
-  // The price filter only makes sense in the 10-nearest view.
   const bar = document.getElementById('priceFilterBar');
-  if (bar) bar.style.display = userLat !== null ? 'block' : 'none';
+  if (bar) bar.style.display = 'block';
   const pbtn = document.getElementById('priceFilterBtn');
   if (pbtn) {
     pbtn.classList.toggle('active', pricedOnly);
@@ -1254,8 +1253,7 @@ function renderTable(list) {
   const container = document.getElementById('tableView');
 
   if (shown.length === 0) {
-    const msg = (pricedOnly && userLat !== null)
-      ? 'לא נמצאו תחנות עם מחיר מדווח בקרבתך' : 'לא נמצאו תחנות';
+    const msg = pricedOnly ? 'לא נמצאו תחנות עם מחיר מדווח' : 'לא נמצאו תחנות';
     container.innerHTML = '<div class="empty-state"><div class="icon">&#128531;</div>' + msg + '</div>';
     return;
   }
