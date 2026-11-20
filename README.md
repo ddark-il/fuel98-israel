@@ -1,6 +1,7 @@
 # תחנות דלק 98 — Fuel98 Israel
 
 A simple map + list of fuel stations in Israel that sell **98-octane** petrol (בנזין 98 / Super 98).
+The same station database powers the **95** (`/95/`) and **standard diesel** (`/diesel/`) pages.
 
 🔗 **Live:** https://delek98.com/
 
@@ -8,18 +9,19 @@ Search by name or city, filter by brand, sort by distance from your location, an
 
 ## Prices & the station database
 
-The site loads one file: **`ci_update/stations.json`** — the station database, rebuilt hourly by
-[`.github/workflows/prices.yml`](.github/workflows/prices.yml). Each row carries the station's name,
-brand, coordinates, venue ids, `got98`, the 98 price (`price` / `price_reported`), the self-service
-95 price (`price95` / `price95_reported`), the standard diesel price (`priceDiesel` /
-`priceDiesel_reported`), `shabbat_closure` and the fuel-quality `violation` flag.
+The site loads one file: **`ci_update/stations.json`** — the station database, rebuilt every 4
+hours by [`.github/workflows/prices.yml`](.github/workflows/prices.yml). Each row carries the
+station's name, brand, coordinates, venue ids, `got98`, the 98 price (`price` / `price_reported`),
+the self-service 95 price (`price95` / `price95_reported`), the standard diesel price (`priceDiesel` /
+`priceDiesel_reported`), `shabbat_closure`, the fuel-quality `violation` flag and the IDF-card
+`idf` flag.
 Prices come from:
 
 | source | what it provides |
 |---|---|
 | the brand sites | the 98 availability (Paz, Sonol, Dor Alon, Mika, Ten) and the Shabbat hours |
 | **Mika** | the operator's own prices for the pumps it runs — they win over a Waze report |
-| **Waze** | community-reported 98 and self-service 95 prices; also the only `got98` source for small/independent stations |
+| **Waze** | community-reported 98, self-service 95 and standard diesel prices; also the only `got98` source for small/independent stations |
 
 `price` is `null` when the station does not sell 98. `price95` is independent of `got98` — it is
 `null` only when neither Mika nor Waze reported a self-service 95 price for the station, so it also
@@ -68,15 +70,41 @@ to the same Ministry's station registry for a WGS84 coordinate, and that coordin
 stations by proximity. Entries that fail to match are printed with the reason, so an empty
 `violations.json` can never be the result of a lookup that quietly failed.
 
+## IDF fuel card 🪖
+
+**394 stations** carry `idf: true` — the forecourt accepts the IDF fuel card (דלקן צה״לי). The
+`/95/` and `/diesel/` pages show a 🪖 next to the station name; hovering/tapping it shows the
+tooltip **תחנה מקבלת דלקן צה״ל**. The 98 page does not show the badge.
+
+The flag has two sources:
+
+* **Delek — IDF workbook dated 1.12.21, Delek sheet only.** The Sonol sheet in that workbook is
+  ignored. 190 Delek licences were matched (exact names, address matches and owner-confirmed rows)
+  and live in `ci_update/idf_licences.json`. The workbook is from 2021, so this side can lag.
+* **Sonol — the live list** at
+  [sonol.co.il/gas-stations/sonol_idf/](https://www.sonol.co.il/gas-stations/sonol_idf/).
+  `ci_update/sonol_idf.py` reads the server-rendered table (no browser) and joins by Sonol's stable
+  station number (`idf_sonol_numbers.json`), not by station name: 223 rows, 206 mapped rows
+  (**204 unique stations**, one forecourt appears under two numbers), 17 unmatched. The result is
+  `ci_update/idf_sonol.json`.
+
+`build_stations.py` unions the two sets. The Sonol refresh runs in both the build and publish jobs
+before the database build, and the publish job commits the refreshed `idf_sonol.json`. If the
+Sonol page is unreachable the previous file stays in place, so a fetch failure cannot silently
+remove flags; a new station number is reported as unmatched and needs a mapping entry. The current
+17 unmatched are stations not present under Sonol in our data or brand-changed (e.g. בית חורון,
+דבוריה, עין גב, שונצינו).
+
 ## Project structure
 
 ```
-ci_update/                 # everything the hourly pipeline needs, in one folder
+ci_update/                 # everything the 4-hourly pipeline needs, in one folder
   build_stations.py        # Ministry registry + brand lists + matches -> stations.json
-  build_seo.py             # regenerates the <noscript> city blocks on both pages
+  build_seo.py             # regenerates the <noscript> city blocks on all three pages
   price_check_all.py       # Waze's reported 98, self-service 95 and diesel prices per venue
   match_venues.py          # re-match a station to its Waze venue from the brand's own pin/address
   mika_update.py           # Mika pages: prices, 98 flag, brand logo, Shabbat hours
+  sonol_idf.py             # Sonol's live IDF fuel-card list -> idf_sonol.json
   paz_update.py … ten_update.py   # one updater per brand site
   fetch_official.js / fetch_ten.py # the brand-locator fetch (Playwright/Python)
   check-violations.mjs     # Ministry substandard-fuel list (IL runner)
@@ -86,20 +114,23 @@ ci_update/                 # everything the hourly pipeline needs, in one folder
   mika.json, sonol.json, paz.json, doralon.json, delek.json, others.json  # the brand station lists
   official/                # last fetched brand locator lists (fallback)
   official_pins.json, ministry_venues.jsonl, remap.jsonl, …             # base station mapping
-  stations.json            # THE SITE DATABASE (rebuilt hourly by CI, committed here)
+  stations.json            # THE SITE DATABASE (rebuilt every 4 hours by CI, committed here)
   violations.json          # fuel-quality flags (rebuilt daily on the IL runner)
+  idf_licences.json        # IDF Delek-sheet licences (the Sonol sheet is not used)
+  idf_sonol_numbers.json   # Sonol station number -> our licence
+  idf_sonol.json           # generated Sonol IDF list (rebuilt by CI)
 index.html                 # the whole app + a generated <noscript> SEO block (98)
-95/index.html              # the same app over the same rows; every identified venue, 95 price where known
+95/index.html              # the same app; networks by venue, אחרים only with a reported 95 price
 95/site.webmanifest        # the 95 page's PWA manifest (scope /95/)
 diesel/index.html          # the same app for standard diesel (gas_diesel)
 diesel/site.webmanifest    # the diesel page's PWA manifest (scope /diesel/)
-.github/workflows/prices.yml   # the hourly pipeline (nine jobs -> commit)
+.github/workflows/prices.yml   # the 4-hourly pipeline (ten jobs -> commit)
 ```
 
 No build step — it's a static site. `index.html` fetches `ci_update/stations.json` and renders the
 map (Leaflet + OpenStreetMap tiles) and list. Every row carries the brand, coordinates, `got98`,
-the 98 and self-service 95 prices (`price`/`price_reported`, `price95`/`price95_reported`),
-`shabbat_closure` and the violation flag, so no other file is read.
+the 98, self-service 95 and standard diesel prices, `shabbat_closure`, the violation flag and the
+IDF-card flag, so no other file is read.
 
 For crawlability, `index.html` carries a hidden `<noscript>` block listing every station grouped by
 city. `ci_update/build_seo.py` takes each station's city from the Ministry registry's רשות_מקומית and
@@ -123,20 +154,25 @@ The 95 price is the self-service grade, the like-for-like pair with the site's 9
 `gas_diesel_service`), with the same showing rule as `/95/`: the seven networks by venue, `אחר` only
 when a diesel price was reported.
 
+The pages share the app but use distinct accents: **98 red** (`#e94560`), **95 green** (`#2e7d32`)
+and **diesel blue** (`#1565c0`). The IDF 🪖 badge is shown on the 95 and diesel pages.
+
 **The pipeline.** Seven gatherers run in parallel (`mika`, `violations`, `paz`, `sonol`,
 `doralon`, `delek`, `ten`), then the chain is serialized so prices cover the stations this run
 discovered:
 
-1. **build** — `ci_update/build_stations.py` folds the gatherers' artifacts into the database;
+1. **build** — `ci_update/sonol_idf.py` refreshes the Sonol IDF list, then
+   `ci_update/build_stations.py` folds the gatherers' artifacts into the database;
 2. **pricecheck** — on the Israeli runner, every station in that fresh database is asked of Waze
    (`ci_update/price_check_all.py`);
 3. **publish** — the database is rebuilt with those prices, the SEO blocks are regenerated
    (`ci_update/build_seo.py`), and `ci_update/stations.json` + `ci_update/violations.json` +
-   `index.html` + `95/index.html` + `diesel/index.html` are committed.
+   `ci_update/idf_sonol.json` + `index.html` + `95/index.html` + `diesel/index.html` are committed.
 The Waze price check and the violation check need an Israeli egress and run on the runner named by
 the `WAZE_RUNNER` repository variable; the brand fetches and the commit run on GitHub-hosted
 runners. A failed gatherer costs that source's refresh, not the run: the commit job runs
-`if: always()`, and a station with no fresh price keeps its previous one.
+`if: always()`, and a station with no fresh price keeps its previous one. A failed Sonol IDF fetch
+likewise keeps the previous `idf_sonol.json`.
 
 Run it locally from the repository root:
 
